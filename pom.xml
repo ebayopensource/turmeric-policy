@@ -13,7 +13,7 @@
   <parent>
     <groupId>org.ebayopensource.turmeric</groupId>
     <artifactId>turmeric-project</artifactId>
-    <version>0.9.0-Beta-RC3</version>
+    <version>0.9.0-Beta</version>
     <relativePath>../turmeric-project/pom.xml</relativePath>
   </parent>
   <groupId>org.ebayopensource.turmeric.policy</groupId>
@@ -25,9 +25,9 @@
     <developerConnection>scm:svn:http://www.ebayopensource.org/svn/turmeric/soa-platform/trunk/policy</developerConnection>
   </scm>
   <properties>
-  	<turmeric-runtime-version>0.9.0-Beta-RC3</turmeric-runtime-version>
-  	<turmeric-security-version>0.9.0.2-Beta-SNAPSHOT</turmeric-security-version>
-  	<turmeric-monitoring-version>0.9.0-Beta-RC3</turmeric-monitoring-version>
+  	<turmeric-runtime-version>0.9.0-Beta</turmeric-runtime-version>
+  	<turmeric-security-version>0.9.0.5-Beta-SNAPSHOT</turmeric-security-version>
+  	<turmeric-monitoring-version>0.9.0-Beta</turmeric-monitoring-version>
   </properties>
   <build>
     <plugins>
