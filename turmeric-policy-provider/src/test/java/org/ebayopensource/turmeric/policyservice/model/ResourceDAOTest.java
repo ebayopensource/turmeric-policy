@@ -30,10 +30,12 @@ public class ResourceDAOTest extends AbstractJPATest {
 	private Resource rs1;
 	private Resource rs2;
 	private Resource rs3;
+	private Resource rs4;
 
 	private Operation op1;
 	private Operation op2;
 	private Operation op3;
+	private Operation op4;
 
 	private static final String OBJECT_TYPE = "OBJECT";
 	private static final String URL_TYPE = "URL";
@@ -54,10 +56,13 @@ public class ResourceDAOTest extends AbstractJPATest {
 				"resource_description_2");
 		rs3 = new Resource(OBJECT_TYPE, "resource_name_3",
 				"resource_description_3");
+		rs4 = new Resource(SERVICE_TYPE, "resource_name_4", "resource_desicription_4");
+		
 
 		op1 = new Operation("operation_name_1", "op_description_1");
 		op2 = new Operation("operation_name_2", "op_description_2");
 		op3 = new Operation("operation_name_3", "op_description_3");
+		op4 = new Operation("operation_name_4", "op_description_4");
 	}
 
 	@Test
@@ -150,6 +155,23 @@ public class ResourceDAOTest extends AbstractJPATest {
 				rs1.getResourceName(), op2.getOperationName(), GENERIC_TYPE);
 		assertNotNull(operation);
 		assertEquals("operation_name_2", operation.getOperationName());
+	}
+	
+	@Test
+	public void findOperationByNameServiceTypetest() throws Exception {
+
+		Set<Operation> operations = new HashSet<Operation>();
+		operations.add(op1);
+		operations.add(op2);
+		operations.add(op4);
+
+		rs4.addOperations(operations);
+
+		resourceDAO.persistResource(rs4);
+		Operation operation = resourceDAO.findOperationByName(
+				rs4.getResourceName(), op4.getOperationName(), SERVICE_TYPE);
+		assertNotNull(operation);
+		assertEquals("operation_name_4", operation.getOperationName());
 	}
 
 	@Test
