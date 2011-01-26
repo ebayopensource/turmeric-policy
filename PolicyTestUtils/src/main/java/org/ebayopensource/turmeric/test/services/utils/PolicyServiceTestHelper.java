@@ -1099,7 +1099,8 @@ public class PolicyServiceTestHelper {
 				if (str.length > 2) {
 				    int operationIndex = 2;
 				    Operation op = null;
-					while (str.length < operationIndex ) {
+				    int length = str.length;
+					while (operationIndex < str.length) {
 						Long operationId = createOpertionForResource(str[0],str[1], str[operationIndex++]);
 						op = new Operation();
 						op.setOperationId(operationId);

@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.ebayopensource.turmeric.security.v1.services.CreatePolicyRequest;
+import org.ebayopensource.turmeric.security.v1.services.CreatePolicyResponse;
 import org.ebayopensource.turmeric.security.v1.services.EffectType;
 import org.ebayopensource.turmeric.security.v1.services.Policy;
 
@@ -123,8 +125,10 @@ public class PolicyDataModelHelper {
 		
 		if(effect!=null && effect.equals("RL") && (condition==null && condition.equals("")))
 		   throw new Exception("Condition should not be empty or Null when policyType is RL");
-	    Policy p = null;
-	    p = helper.constructPolicy(type, policyName, policyDesc, resourceMap, globalSubjectDomainList, subjectInclusionList, subjectGroupInclusion, subjectExclusionList, subjectGroupExclusion, duration, rolloverperiod, effect, condition, isActive);
+	    
+//	    CreatePolicyRequest policyRequest = helper.constructPolicyRequest(type, policyName, policyDesc, resourceMap, globalSubjectDomainList, subjectInclusionList, subjectGroupInclusion, subjectExclusionList, subjectGroupExclusion, duration, rolloverperiod, effect, condition, isActive, null, null );
+//	    CreatePolicyResponse resp = helper.createPolicy(policyRequest);
+		Policy p = helper.constructPolicy(type, policyName, policyDesc, resourceMap, globalSubjectDomainList, subjectInclusionList, subjectGroupInclusion, subjectExclusionList, subjectGroupExclusion, duration, rolloverperiod, effect, condition, isActive);
 	    
 	    return p;
 
