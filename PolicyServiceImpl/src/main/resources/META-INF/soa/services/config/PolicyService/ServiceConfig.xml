@@ -49,6 +49,10 @@ PolicyService:updateSubjectGroups:updateSubjectGroupsRequest/subjectGroups/Subje
 PolicyService:updateSubjectGroups:updateSubjectGroupsRequest/subjectGroups@SubjectGroupName;  
 PolicyService:updatePolicy:updatePolicyRequest/policy@PolicyName; 
 PolicyService:updatePolicy:updatePolicyRequest/policy@PolicyId; 
+PolicyService:disablePolicy:disablePolicyRequest/policyKey/policyName; 
+PolicyService:disablePolicy:disablePolicyRequest/policyKey/policyId;
+PolicyService:enablePolicy:enablePolicyRequest/policyKey/policyName; 
+PolicyService:enablePolicy:enablePolicyRequest/policyKey/policyId;
 PolicyService:deletePolicy:deletePolicyRequest/policyKey/policyName; 
 PolicyService:deletePolicy:deletePolicyRequest/policyKey/policyId;
 							</option>
