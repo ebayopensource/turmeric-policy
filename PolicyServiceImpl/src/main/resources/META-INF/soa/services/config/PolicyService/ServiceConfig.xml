@@ -38,7 +38,7 @@
 		   				<class-name>org.ebayopensource.turmeric.services.authorizationservice.impl.handler.AuthorizationHandler</class-name>		   				 
 		   			</handler>
 <!--	 Note: by default this is not enabled for the Open Source implementation, Adopters should configure this as necessary. 		   			-->
-<!--
+
  		   			<handler name="ObjectAuthorizationHandler"> 
 		   				<class-name>org.ebayopensource.turmeric.services.authorizationservice.impl.handler.ObjectAuthorizationHandler</class-name>
 		   				<options>
@@ -47,15 +47,15 @@ PolicyService:deleteSubjectGroups:deleteSubjectGroupsRequest/subjectGroupKey/sub
 PolicyService:deleteSubjectGroups:deleteSubjectGroupsRequest/subjectGroupKey/subjectGroupId; 
 PolicyService:updateSubjectGroups:updateSubjectGroupsRequest/subjectGroups/SubjectMatch/AttributeValue;
 PolicyService:updateSubjectGroups:updateSubjectGroupsRequest/subjectGroups@SubjectGroupName;  
-PolicyService:updatePolicy:updatePolicyRequest/policy@policyName; 
-PolicyService:updatePolicy:updatePolicyRequest/policy@policyId; 
+PolicyService:updatePolicy:updatePolicyRequest/policy@PolicyName; 
+PolicyService:updatePolicy:updatePolicyRequest/policy@PolicyId; 
 PolicyService:deletePolicy:deletePolicyRequest/policyKey/policyName; 
 PolicyService:deletePolicy:deletePolicyRequest/policyKey/policyId;
 							</option>
 							<option name="skip-on-local">true</option>
 	      				</options> 
 		   			</handler>
--->
+
 	   			</chain>
 	   		</request-handlers>
 		</pipeline-config>
