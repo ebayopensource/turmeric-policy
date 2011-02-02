@@ -26,8 +26,9 @@
   </scm>
   <properties>
   	<turmeric-runtime-version>0.9.0-Beta</turmeric-runtime-version>
-  	<turmeric-security-version>0.9.0.5-Beta-SNAPSHOT</turmeric-security-version>
-  	<turmeric-monitoring-version>0.9.0-Beta</turmeric-monitoring-version>
+  	<turmeric-security-version>0.9.1.0-SNAPSHOT</turmeric-security-version>
+  	<turmeric-monitoring-version>0.9.1.0-SNAPSHOT</turmeric-monitoring-version>
+        <turmeric-jpa-utils-version>0.9.1.0-SNAPSHOT</turmeric-jpa-utils-version>
   </properties>
   <build>
     <plugins>
