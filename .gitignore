@@ -2,3 +2,9 @@
 .project
 .settings
 .classpath
+gen-src
+ConfigRoot
+temp*.xml
+gen-meta-src
+build
+
