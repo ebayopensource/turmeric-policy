@@ -24,7 +24,7 @@
 	<modules>
 		<module>GroupMembershipService</module>
 		<module>GroupMembershipServiceConsumer</module>
-		<module>PolicyProviderInterface</module>
+		<module>PolicyProvider</module>
 		<module>GroupMembershipServiceImpl</module>
 		<module>PolicyService</module>
 		<module>PolicyServiceConsumer</module>
