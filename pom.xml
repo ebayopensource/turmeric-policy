@@ -14,6 +14,7 @@
 	</parent>
 	<groupId>org.ebayopensource.turmeric.policy</groupId>
 	<artifactId>turmeric-policy-parent</artifactId>
+        <version>0.9.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
         <properties>
 		<turmeric-runtime-version>0.9.1.0-SNAPSHOT</turmeric-runtime-version>
@@ -31,5 +32,6 @@
 		<module>PolicyErrorLibrary</module>
 		<module>turmeric-policy-provider</module>
 		<module>PolicyTestUtils</module>
+                <module>PolicyTests</module>
 	</modules>
 </project>
