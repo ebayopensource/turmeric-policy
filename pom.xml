@@ -31,7 +31,6 @@
 		<module>PolicyServiceImpl</module>
 		<module>PolicyErrorLibrary</module>
 		<module>turmeric-policy-provider</module>
-		<module>PolicyTestUtils</module>
-                <module>PolicyTests</module>
+                <module>integration-tests</module>
 	</modules>
 </project>
