@@ -191,8 +191,6 @@ public class SubjectDAOImpl extends AbstractDAO implements SubjectDAO {
 		result.setApplyToAll(jpaSubjectGroup.getApplyToAll());
 		result.setDescription(jpaSubjectGroup.getDescription());
 
-		PolicyServiceUtils.setSubjectGroupId(result, jpaSubjectGroup.getId());
-
 		AuditInfo auditInfo = jpaSubjectGroup.getAuditInfo();
 		result.setCreatedBy(auditInfo.getCreatedBy());
 		result.setLastModifiedBy(auditInfo.getUpdatedBy());
