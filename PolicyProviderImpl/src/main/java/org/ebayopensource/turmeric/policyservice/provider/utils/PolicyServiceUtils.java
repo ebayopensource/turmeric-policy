@@ -9,18 +9,13 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.policyservice.provider.utils;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import oasis.names.tc.xacml._2_0.policy.schema.os.AttributeValueType;
-import oasis.names.tc.xacml._2_0.policy.schema.os.SubjectAttributeDesignatorType;
 import oasis.names.tc.xacml._2_0.policy.schema.os.SubjectMatchType;
 
 import org.ebayopensource.turmeric.runtime.common.impl.utils.LogManager;
-import org.ebayopensource.turmeric.security.v1.services.Subject;
 import org.ebayopensource.turmeric.security.v1.services.SubjectGroup;
 
 
