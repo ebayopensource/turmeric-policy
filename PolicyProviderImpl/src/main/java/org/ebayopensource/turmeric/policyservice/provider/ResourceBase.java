@@ -333,30 +333,63 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 				final XMLGregorianCalendar startDate,
 				final XMLGregorianCalendar endDate)
 				throws PolicyFinderException {
-            List<EntityHistory> entityHistory = new ArrayList<EntityHistory>();
-            
-            Long resourceId = resourceKey.getResourceId();
-            if (resourceId == null) {
-                org.ebayopensource.turmeric.policyservice.model.Resource resource = 
-                    resourceDAO.findResourceByName(resourceKey.getResourceName());
-                if (resource != null) {
-                    resourceId = resource.getId();
-                }
-            }
-            
-            if (resourceId != null) {
-                List<AuditHistory> auditHistory = resourceDAO.getResourceHistory(
-                                resourceId.longValue(), 
-                                startDate.toGregorianCalendar().getTime(), 
-                                endDate.toGregorianCalendar().getTime());
-                
-                for (AuditHistory entry : auditHistory) {
-                    entityHistory.add(AuditHistory.convert(entry));
-                }
-            }
-            
-            return entityHistory;
+     
+			String resourceType = resourceKey.getResourceType();
+			if (resourceType != null) {
+				return getAuditHistoryByResourceType(startDate, endDate,
+						resourceType);
+			}
+
+			return getAuditHistoryByIdOrName(resourceKey, startDate, endDate);
         }
+		
+		private List<EntityHistory> getAuditHistoryByResourceType(
+				XMLGregorianCalendar startDate, XMLGregorianCalendar endDate, String resourceType) {
+			List<EntityHistory> entityHistory = new ArrayList<EntityHistory>();
+			List<org.ebayopensource.turmeric.policyservice.model.Resource> allResources= resourceDAO.findResourceByType(resourceType);
+			
+			for (org.ebayopensource.turmeric.policyservice.model.Resource resource : allResources) {
+				
+				List<AuditHistory> auditHistory = resourceDAO.getResourceHistory(
+						resource.getId().longValue(), 
+			            startDate.toGregorianCalendar().getTime(), 
+			            endDate.toGregorianCalendar().getTime());            		
+			    
+				for (AuditHistory entry : auditHistory) {
+			        entityHistory.add(AuditHistory.convert(entry));
+			    }
+			}
+			
+			return entityHistory;
+		}
+		
+		private List<EntityHistory> getAuditHistoryByIdOrName(
+				ResourceKey resourceKey, XMLGregorianCalendar startDate,
+				XMLGregorianCalendar endDate) {
+		       List<EntityHistory> entityHistory = new ArrayList<EntityHistory>();
+	            
+	            Long resourceId = resourceKey.getResourceId();
+	            if (resourceId == null) {
+	                org.ebayopensource.turmeric.policyservice.model.Resource resource = 
+	                    resourceDAO.findResourceByName(resourceKey.getResourceName());
+	                if (resource != null) {
+	                    resourceId = resource.getId();
+	                }
+	            }
+	            
+	            if (resourceId != null) {
+	                List<AuditHistory> auditHistory = resourceDAO.getResourceHistory(
+	                                resourceId.longValue(), 
+	                                startDate.toGregorianCalendar().getTime(), 
+	                                endDate.toGregorianCalendar().getTime());
+	                
+	                for (AuditHistory entry : auditHistory) {
+	                    entityHistory.add(AuditHistory.convert(entry));
+	                }
+	            }
+	            
+	            return entityHistory;			
+		}
 
 		@Override
 		public List<EntityHistory> getAuditHistory(
@@ -364,31 +397,73 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 				final XMLGregorianCalendar startDate,
 				final XMLGregorianCalendar endDate)
 				throws PolicyFinderException {
-            List<EntityHistory> entityHistory = new ArrayList<EntityHistory>();
-            
-            Long operationId = operationKey.getOperationId();
-            if (operationId == null) {
-                org.ebayopensource.turmeric.policyservice.model.Operation operation = 
-                    resourceDAO.findOperationByName(operationKey.getResourceName(), operationKey.getOperationName(),operationKey.getResourceType());
-                if (operation != null) {
-                	operationId = operation.getId();
-                }
-            }
-            
-            if (operationId != null) {
-                List<AuditHistory> auditHistory = resourceDAO.getOperationHistory(
-                                operationId.longValue(), 
-                                startDate.toGregorianCalendar().getTime(), 
-                                endDate.toGregorianCalendar().getTime());
-                
-                for (AuditHistory entry : auditHistory) {
-                    entityHistory.add(AuditHistory.convert(entry));
-                }
-            }
-            
-            return entityHistory;
+           
+			String resourceType = operationKey.getResourceType();
+			if (resourceType != null) {
+				return getAuditHistoryByOperationType(startDate, endDate,
+						resourceType);
+			}
+
+			return getAuditHistoryByIdOrName(operationKey, startDate, endDate);
         }
 		
+		private List<EntityHistory> getAuditHistoryByOperationType(
+				XMLGregorianCalendar startDate, XMLGregorianCalendar endDate, String operationType) {
+			List<EntityHistory> entityHistory = new ArrayList<EntityHistory>();
+			List<org.ebayopensource.turmeric.policyservice.model.Resource> allResources= resourceDAO.findResourceByType(resourceType);
+			List<org.ebayopensource.turmeric.policyservice.model.Operation> allOperations = new ArrayList<org.ebayopensource.turmeric.policyservice.model.Operation>();
+			for (org.ebayopensource.turmeric.policyservice.model.Resource resource : allResources) {
+				List<org.ebayopensource.turmeric.policyservice.model.Operation> operations = new ArrayList<org.ebayopensource.turmeric.policyservice.model.Operation>(resourceDAO.findOperationByResourceId(resource.getId().longValue()));	
+				allOperations.addAll(operations);
+			}
+						
+			for (org.ebayopensource.turmeric.policyservice.model.Operation operation : allOperations) {
+				
+				List<AuditHistory> auditHistory = resourceDAO.getOperationHistory(
+						operation.getId().longValue(), 
+			            startDate.toGregorianCalendar().getTime(), 
+			            endDate.toGregorianCalendar().getTime());            		
+			    
+				for (AuditHistory entry : auditHistory) {
+			        entityHistory.add(AuditHistory.convert(entry));
+			    }
+			}
+			
+			return entityHistory;
+		}
+		
+		
+		private List<EntityHistory> getAuditHistoryByIdOrName(
+				OperationKey operationKey, XMLGregorianCalendar startDate,
+				XMLGregorianCalendar endDate) {
+			 List<EntityHistory> entityHistory = new ArrayList<EntityHistory>();
+	            
+	            Long operationId = operationKey.getOperationId();
+	            if (operationId == null) {
+	                org.ebayopensource.turmeric.policyservice.model.Operation operation = 
+	                    resourceDAO.findOperationByName(operationKey.getResourceName(), operationKey.getOperationName(),operationKey.getResourceType());
+	                if (operation != null) {
+	                	operationId = operation.getId();
+	                }
+	            }
+	            
+	            if (operationId != null) {
+	                List<AuditHistory> auditHistory = resourceDAO.getOperationHistory(
+	                                operationId.longValue(), 
+	                                startDate.toGregorianCalendar().getTime(), 
+	                                endDate.toGregorianCalendar().getTime());
+	                
+	                for (AuditHistory entry : auditHistory) {
+	                    entityHistory.add(AuditHistory.convert(entry));
+	                }
+	            }
+	            
+	            return entityHistory;
+		}
+		       
+		       
+		       
+		       
 		public void audit(final ResourceKey resourceKey,
 				final String operationType, final SubjectKey loginSubject)
 				throws PolicyFinderException {

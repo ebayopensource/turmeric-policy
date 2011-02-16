@@ -227,8 +227,9 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 				throws PolicyFinderException {
 			Set<Subject> result = new HashSet<Subject>();
 
-			List<BasicAuth> externalSubjects = subjectDAO.findExternalSubjects();
-			
+			List<BasicAuth> externalSubjects = subjectDAO
+					.findExternalSubjects();
+
 			if (externalSubjects != null) {
 				for (BasicAuth basicAuth : externalSubjects) {
 					result.add(SubjectDAOImpl.convert(basicAuth));
@@ -236,7 +237,7 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 			}
 
 			return result;
-			
+
 		}
 
 		@Override
@@ -454,6 +455,18 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 				SubjectGroupKey subjectGroupKey,
 				XMLGregorianCalendar startDate, XMLGregorianCalendar endDate)
 				throws PolicyFinderException {
+			String subjectGroupType = subjectGroupKey.getSubjectType();
+			if (subjectGroupType != null) {
+				return getAuditHistoryBySubjectGroupType(startDate, endDate,
+						subjectGroupType);
+			}
+
+			return getAuditHistoryByIdOrName(subjectGroupKey, startDate, endDate);
+		}
+		
+		private List<EntityHistory> getAuditHistoryByIdOrName(
+				SubjectGroupKey subjectGroupKey, XMLGregorianCalendar startDate,
+				XMLGregorianCalendar endDate) {
 			List<EntityHistory> entityHistory = new ArrayList<EntityHistory>();
 
 			Long subjectGroupId = subjectGroupKey.getSubjectGroupId();
@@ -477,13 +490,68 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 				}
 			}
 
+			return entityHistory;	
+		}
+
+		private List<EntityHistory> getAuditHistoryBySubjectGroupType(
+				XMLGregorianCalendar startDate, XMLGregorianCalendar endDate, String subjectGroupType) {
+			List<EntityHistory> entityHistory = new ArrayList<EntityHistory>();
+			List<org.ebayopensource.turmeric.policyservice.model.SubjectGroup> allSubjectGroups= subjectDAO.findSubjectGroupByType(subjectGroupType);
+			
+			for (org.ebayopensource.turmeric.policyservice.model.SubjectGroup subjectGroup : allSubjectGroups) {
+				
+				List<AuditHistory> auditHistory = subjectDAO.getSubjectGroupHistory(
+						subjectGroup.getId().longValue(), 
+			            startDate.toGregorianCalendar().getTime(), 
+			            endDate.toGregorianCalendar().getTime());            		
+			    
+				for (AuditHistory entry : auditHistory) {
+			        entityHistory.add(AuditHistory.convert(entry));
+			    }
+			}
+			
 			return entityHistory;
 		}
+		
 
 		@Override
 		public List<EntityHistory> getAuditHistory(SubjectKey subjectKey,
 				XMLGregorianCalendar startDate, XMLGregorianCalendar endDate)
 				throws PolicyFinderException {
+
+			String subjectType = subjectKey.getSubjectType();
+			if (subjectType != null) {
+				return getAuditHistoryBySubjectType(startDate, endDate,
+						subjectType);
+			}
+
+			return getAuditHistoryByIdOrName(subjectKey, startDate, endDate);
+
+		}
+		
+		private List<EntityHistory> getAuditHistoryBySubjectType(
+				XMLGregorianCalendar startDate, XMLGregorianCalendar endDate, String subjectType) {
+			List<EntityHistory> entityHistory = new ArrayList<EntityHistory>();
+			List<org.ebayopensource.turmeric.policyservice.model.Subject> allSubjects= subjectDAO.findSubjectByType(subjectType);
+			
+			for (org.ebayopensource.turmeric.policyservice.model.Subject subject : allSubjects) {
+				
+				List<AuditHistory> auditHistory = subjectDAO.getSubjectHistory(
+						subject.getId().longValue(), 
+			            startDate.toGregorianCalendar().getTime(), 
+			            endDate.toGregorianCalendar().getTime());            		
+			    
+				for (AuditHistory entry : auditHistory) {
+			        entityHistory.add(AuditHistory.convert(entry));
+			    }
+			}
+			
+			return entityHistory;
+		}
+		
+		private List<EntityHistory> getAuditHistoryByIdOrName(
+				SubjectKey subjectKey, XMLGregorianCalendar startDate,
+				XMLGregorianCalendar endDate) {
 			List<EntityHistory> entityHistory = new ArrayList<EntityHistory>();
 
 			Long subjectId = subjectKey.getSubjectId();
@@ -507,6 +575,7 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 			}
 
 			return entityHistory;
+
 		}
 
 		@Override
