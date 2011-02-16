@@ -75,7 +75,7 @@ import org.ebayopensource.turmeric.services.policyservice.provider.config.Policy
 		
 		// add exclusion subjects
 		Map<Long, Subject> exclusionSubjects = m_builderObject.getExclusionSubjects();
-		populateSubjectIds(exclusionSubjects, true);
+		populateSubjectIds(exclusionSubjects, false);
 		addSubjectsToPolicy(new ArrayList<Subject>(exclusionSubjects.values()));
 		
 		// add global subject types
