@@ -701,8 +701,6 @@ class BasePolicyServiceImpl
 		throws ServiceException, PolicyProviderException 
 	{
 		final int maxSubjectGroupNameLength = 128;
-		validateName(subjectGroup.getSubjectGroupName(), maxSubjectGroupNameLength);
-		
 			
 		if (subjectGroup.getSubjectGroupCalculator() != null && 
 				subjectGroup.getSubjectGroupCalculator().trim().length() > 256)
