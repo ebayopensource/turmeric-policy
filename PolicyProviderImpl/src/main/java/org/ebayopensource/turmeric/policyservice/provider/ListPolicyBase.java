@@ -206,9 +206,6 @@ public abstract class ListPolicyBase  implements PolicyTypeProvider {
                                 policy.getPolicyId(), policy.getPolicyName(),
                                 "Failed to update policy", ex);
             }
-            finally {
-                AuditContext.clear();
-            }
         }
     
         @Override

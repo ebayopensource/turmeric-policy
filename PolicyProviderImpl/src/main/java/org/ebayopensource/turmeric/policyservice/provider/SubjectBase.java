@@ -372,10 +372,8 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 				throw new PolicyUpdateException(Category.SUBJECTGROUP,
 						subjectType, null, subjectGroup.getSubjectGroupName(),
 						"Failed to update subject group", ex);
-			} finally {
-				AuditContext.clear();
-			}
-
+			} 
+ 
 		}
 
 		@Override
