@@ -168,6 +168,12 @@ public class PolicyDAOImpl extends AbstractDAO implements PolicyDAO {
         return getResultList(AuditHistory.class, "category", Category.POLICY.name(), 
                         "entityId", policyId, "auditInfo.createdOn", start, end);
     }
+    
+    @Override
+    public List<AuditHistory> getPolicyHistory(String policyType, Date start, Date end) {
+        return getResultList(AuditHistory.class, "category", Category.POLICY.name(), 
+                        "entityType", policyType, "auditInfo.createdOn", start, end);
+    }
 
     @Override
     public void audit(PolicyKey policyKey, String operationType, SubjectKey loginSubject) {

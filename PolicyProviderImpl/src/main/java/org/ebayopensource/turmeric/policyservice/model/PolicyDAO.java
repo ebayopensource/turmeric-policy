@@ -50,6 +50,8 @@ public interface PolicyDAO {
 
     public List<AuditHistory> getPolicyHistory(long policyId, Date start, Date end);
 
+    public List<AuditHistory> getPolicyHistory(String policyType, Date start, Date end);
+
     public List<Policy> findPolicyByExclusionSubjectId(Long subjectId, String policyType);
 
     public List<Policy> findPolicyByExclusionSubjectGroupId(Long subjGrpId, String policyType);

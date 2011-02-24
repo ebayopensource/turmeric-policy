@@ -47,6 +47,9 @@ public interface ResourceDAO {
 
     List<AuditHistory> getResourceHistory(long resourceId, Date start, Date end);
 
+    List<AuditHistory> getResourceHistory(String resourceType, Date start, Date end);
+
     List<AuditHistory> getOperationHistory(long operationId, Date start, Date end);
 
+    List<AuditHistory> getOperationHistory(String resourceType, Date start, Date end);
 }

@@ -48,7 +48,11 @@ public interface SubjectDAO {
 
     List<AuditHistory> getSubjectHistory(long subjectId, Date begin, Date end);
 
+    List<AuditHistory> getSubjectHistory(String subjectType, Date begin, Date end);
+
     List<AuditHistory> getSubjectGroupHistory(long subjectGroupId, Date begin, Date end);
+
+    List<AuditHistory> getSubjectGroupHistory(String subjectType, Date begin, Date end);
 
     void audit(SubjectKey subjectKey, String operationType,
 			SubjectKey loginSubject);

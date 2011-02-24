@@ -453,10 +453,10 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 				SubjectGroupKey subjectGroupKey,
 				XMLGregorianCalendar startDate, XMLGregorianCalendar endDate)
 				throws PolicyFinderException {
-			String subjectGroupType = subjectGroupKey.getSubjectType();
-			if (subjectGroupType != null) {
+			String subjectType = subjectGroupKey.getSubjectType();
+			if (subjectType != null) {
 				return getAuditHistoryBySubjectGroupType(startDate, endDate,
-						subjectGroupType);
+						subjectType);
 			}
 
 			return getAuditHistoryByIdOrName(subjectGroupKey, startDate, endDate);
@@ -492,22 +492,17 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 		}
 
 		private List<EntityHistory> getAuditHistoryBySubjectGroupType(
-				XMLGregorianCalendar startDate, XMLGregorianCalendar endDate, String subjectGroupType) {
+				XMLGregorianCalendar startDate, XMLGregorianCalendar endDate, String subjectType) {
 			List<EntityHistory> entityHistory = new ArrayList<EntityHistory>();
-			List<org.ebayopensource.turmeric.policyservice.model.SubjectGroup> allSubjectGroups= subjectDAO.findSubjectGroupByType(subjectGroupType);
 			
-			for (org.ebayopensource.turmeric.policyservice.model.SubjectGroup subjectGroup : allSubjectGroups) {
-				
-				List<AuditHistory> auditHistory = subjectDAO.getSubjectGroupHistory(
-						subjectGroup.getId().longValue(), 
-			            startDate.toGregorianCalendar().getTime(), 
-			            endDate.toGregorianCalendar().getTime());            		
-			    
-				for (AuditHistory entry : auditHistory) {
-			        entityHistory.add(AuditHistory.convert(entry));
-			    }
-			}
-			
+			List<AuditHistory> auditHistory = subjectDAO.getSubjectGroupHistory(
+					subjectType, 
+		            startDate.toGregorianCalendar().getTime(), 
+		            endDate.toGregorianCalendar().getTime());            		
+		    
+			for (AuditHistory entry : auditHistory) {
+		        entityHistory.add(AuditHistory.convert(entry));
+		    }
 			return entityHistory;
 		}
 		
@@ -530,20 +525,15 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 		private List<EntityHistory> getAuditHistoryBySubjectType(
 				XMLGregorianCalendar startDate, XMLGregorianCalendar endDate, String subjectType) {
 			List<EntityHistory> entityHistory = new ArrayList<EntityHistory>();
-			List<org.ebayopensource.turmeric.policyservice.model.Subject> allSubjects= subjectDAO.findSubjectByType(subjectType);
-			
-			for (org.ebayopensource.turmeric.policyservice.model.Subject subject : allSubjects) {
-				
-				List<AuditHistory> auditHistory = subjectDAO.getSubjectHistory(
-						subject.getId().longValue(), 
-			            startDate.toGregorianCalendar().getTime(), 
-			            endDate.toGregorianCalendar().getTime());            		
-			    
-				for (AuditHistory entry : auditHistory) {
-			        entityHistory.add(AuditHistory.convert(entry));
-			    }
-			}
-			
+			List<AuditHistory> auditHistory = subjectDAO.getSubjectHistory(
+					subjectType,
+		            startDate.toGregorianCalendar().getTime(), 
+		            endDate.toGregorianCalendar().getTime());            		
+		    
+			for (AuditHistory entry : auditHistory) {
+		        entityHistory.add(AuditHistory.convert(entry));
+		    }
+
 			return entityHistory;
 		}
 		

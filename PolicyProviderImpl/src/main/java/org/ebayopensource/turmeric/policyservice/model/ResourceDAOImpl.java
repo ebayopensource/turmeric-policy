@@ -180,9 +180,21 @@ public class ResourceDAOImpl extends AbstractDAO implements ResourceDAO {
     }
 
     @Override
+    public List<AuditHistory> getResourceHistory(String resourceType, Date start, Date end) {
+        return getResultList(AuditHistory.class, "category", Category.RESOURCE.name(), 
+                        "entityType", resourceType, "auditInfo.createdOn", start, end);
+    }
+    
+    @Override
     public List<AuditHistory> getOperationHistory(long operationId, Date start, Date end) {
         return getResultList(AuditHistory.class, "category", Category.OPERATION.name(), 
                         "entityId", operationId, "auditInfo.createdOn", start, end);
+    }
+    
+    @Override
+    public List<AuditHistory> getOperationHistory(String resourceType, Date start, Date end) {
+        return getResultList(AuditHistory.class, "category", Category.OPERATION.name(), 
+                        "entityType", resourceType, "auditInfo.createdOn", start, end);
     }
     
     @Override

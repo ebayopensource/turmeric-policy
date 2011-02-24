@@ -346,19 +346,14 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 		private List<EntityHistory> getAuditHistoryByResourceType(
 				XMLGregorianCalendar startDate, XMLGregorianCalendar endDate, String resourceType) {
 			List<EntityHistory> entityHistory = new ArrayList<EntityHistory>();
-			List<org.ebayopensource.turmeric.policyservice.model.Resource> allResources= resourceDAO.findResourceByType(resourceType);
-			
-			for (org.ebayopensource.turmeric.policyservice.model.Resource resource : allResources) {
-				
-				List<AuditHistory> auditHistory = resourceDAO.getResourceHistory(
-						resource.getId().longValue(), 
-			            startDate.toGregorianCalendar().getTime(), 
-			            endDate.toGregorianCalendar().getTime());            		
-			    
-				for (AuditHistory entry : auditHistory) {
-			        entityHistory.add(AuditHistory.convert(entry));
-			    }
-			}
+			List<AuditHistory> auditHistory = resourceDAO.getResourceHistory(
+					resourceType, 
+		            startDate.toGregorianCalendar().getTime(), 
+		            endDate.toGregorianCalendar().getTime());            		
+		    
+			for (AuditHistory entry : auditHistory) {
+		        entityHistory.add(AuditHistory.convert(entry));
+		    }
 			
 			return entityHistory;
 		}
@@ -410,24 +405,24 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 		private List<EntityHistory> getAuditHistoryByOperationType(
 				XMLGregorianCalendar startDate, XMLGregorianCalendar endDate, String operationType) {
 			List<EntityHistory> entityHistory = new ArrayList<EntityHistory>();
-			List<org.ebayopensource.turmeric.policyservice.model.Resource> allResources= resourceDAO.findResourceByType(resourceType);
-			List<org.ebayopensource.turmeric.policyservice.model.Operation> allOperations = new ArrayList<org.ebayopensource.turmeric.policyservice.model.Operation>();
-			for (org.ebayopensource.turmeric.policyservice.model.Resource resource : allResources) {
-				List<org.ebayopensource.turmeric.policyservice.model.Operation> operations = new ArrayList<org.ebayopensource.turmeric.policyservice.model.Operation>(resourceDAO.findOperationByResourceId(resource.getId().longValue()));	
-				allOperations.addAll(operations);
-			}
-						
-			for (org.ebayopensource.turmeric.policyservice.model.Operation operation : allOperations) {
+//			List<org.ebayopensource.turmeric.policyservice.model.Resource> allResources= resourceDAO.findResourceByType(resourceType);
+//			List<org.ebayopensource.turmeric.policyservice.model.Operation> allOperations = new ArrayList<org.ebayopensource.turmeric.policyservice.model.Operation>();
+//			for (org.ebayopensource.turmeric.policyservice.model.Resource resource : allResources) {
+//				List<org.ebayopensource.turmeric.policyservice.model.Operation> operations = new ArrayList<org.ebayopensource.turmeric.policyservice.model.Operation>(resourceDAO.findOperationByResourceId(resource.getId().longValue()));	
+//				allOperations.addAll(operations);
+//			}
+//						
+//			for (org.ebayopensource.turmeric.policyservice.model.Operation operation : allOperations) {
 				
 				List<AuditHistory> auditHistory = resourceDAO.getOperationHistory(
-						operation.getId().longValue(), 
+						resourceType, 
 			            startDate.toGregorianCalendar().getTime(), 
 			            endDate.toGregorianCalendar().getTime());            		
 			    
 				for (AuditHistory entry : auditHistory) {
 			        entityHistory.add(AuditHistory.convert(entry));
 			    }
-			}
+//			}
 			
 			return entityHistory;
 		}

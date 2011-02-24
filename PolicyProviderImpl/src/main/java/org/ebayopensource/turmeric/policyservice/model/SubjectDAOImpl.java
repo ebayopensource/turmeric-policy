@@ -117,6 +117,14 @@ public class SubjectDAOImpl extends AbstractDAO implements SubjectDAO {
 	}
 
 	@Override
+	public List<AuditHistory> getSubjectHistory(String subjectType, Date start,
+			Date end) {
+		return getResultList(AuditHistory.class, "category",
+				Category.SUBJECT.name(), "entityType", subjectType,
+				"auditInfo.createdOn", start, end);
+	}
+	
+	@Override
 	public List<AuditHistory> getSubjectGroupHistory(long subjectId,
 			Date start, Date end) {
 		return getResultList(AuditHistory.class, "category",
@@ -124,6 +132,14 @@ public class SubjectDAOImpl extends AbstractDAO implements SubjectDAO {
 				"auditInfo.createdOn", start, end);
 	}
 
+	@Override
+	public List<AuditHistory> getSubjectGroupHistory(String subjectType,
+			Date start, Date end) {
+		return getResultList(AuditHistory.class, "category",
+				Category.SUBJECTGROUP.name(), "entityType", subjectType,
+				"auditInfo.createdOn", start, end);
+	}
+	
 	@Override
 	public void audit(SubjectKey subjectKey, String operationType,
 			SubjectKey loginSubject) {

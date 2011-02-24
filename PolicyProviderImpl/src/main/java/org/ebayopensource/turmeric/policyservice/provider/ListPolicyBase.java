@@ -923,21 +923,16 @@ public abstract class ListPolicyBase  implements PolicyTypeProvider {
 		private List<EntityHistory> getAuditHistoryByPolicyType(
 				XMLGregorianCalendar startDate, XMLGregorianCalendar endDate, String policyType) {
 			List<EntityHistory> entityHistory = new ArrayList<EntityHistory>();
-			List<org.ebayopensource.turmeric.policyservice.model.Policy> allPolicies = policyDAO.findAllByType(policyType);
-			
-			for (org.ebayopensource.turmeric.policyservice.model.Policy policy : allPolicies) {
-				
-				List<AuditHistory> auditHistory = policyDAO.getPolicyHistory(
-						policy.getId().longValue(), 
-			            startDate.toGregorianCalendar().getTime(), 
-			            endDate.toGregorianCalendar().getTime());            		
-			    for (AuditHistory entry : auditHistory) {
-			        entityHistory.add(AuditHistory.convert(entry));
-			    }
-			}
-			
+			List<AuditHistory> auditHistory = policyDAO.getPolicyHistory(
+    				policyType, 
+		            startDate.toGregorianCalendar().getTime(), 
+		            endDate.toGregorianCalendar().getTime());            		
+		    for (AuditHistory entry : auditHistory) {
+		        entityHistory.add(AuditHistory.convert(entry));
+		    }
+ 
 			return entityHistory;
-		}
+ 		}
         
         @Override
         public void audit(PolicyKey policyKey, String operationType, SubjectKey loginSubject)
