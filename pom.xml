@@ -32,7 +32,6 @@
 		<module>PolicyProvider</module>
 		<module>GroupMembershipServiceImpl</module>
 		<module>PolicyService</module>
-                <module>PolicyCommon</module>
 		<module>PolicyServiceConsumer</module>
 		<module>PolicyServiceImpl</module>
 		<module>PolicyErrorLibrary</module>
