@@ -55,12 +55,12 @@
 		<dependency>
 			<groupId>org.ebayopensource.turmeric.security</groupId>
 			<artifactId>turmeric-security-provider</artifactId>
-			<version>${project.version}</version>
+			<version>${turmeric-security-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.ebayopensource.turmeric.security</groupId>
 			<artifactId>SecurityCommon</artifactId>
-			<version>${project.version}</version>
+			<version>${turmeric-security-version}</version>
 		</dependency>
 
 		<dependency>

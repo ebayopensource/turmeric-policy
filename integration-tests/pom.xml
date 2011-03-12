@@ -17,6 +17,17 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>PolicyTestUtils</module>
-                <module>PolicyTests</module>
 	</modules>
+  <profiles>
+    <profile>
+       <id>policytests</id>
+       <activation>
+	  <activeByDefault>true</activeByDefault>
+       </activation>
+       <modules>
+                <module>PolicyTests</module>
+       </modules>
+    </profile>
+  </profiles>
+
 </project>

@@ -19,6 +19,7 @@
 		<turmeric-runtime-version>1.0.0-Beta</turmeric-runtime-version>
 		<turmeric-monitoring-version>1.0.0-Alpha</turmeric-monitoring-version>
 		<turmeric-jpa-utils-version>1.0.0-Beta</turmeric-jpa-utils-version>
+		<turmeric-security-version>1.0.0-Beta</turmeric-security-version>
         </properties>
 
         <scm>
@@ -36,16 +37,6 @@
 		<module>PolicyServiceImpl</module>
 		<module>PolicyErrorLibrary</module>
 		<module>PolicyProviderImpl</module>
+                <module>integration-tests</module>
 	</modules>
-  <profiles>
-    <profile>
-       <id>policytests</id>
-       <activation>
-	  <activeByDefault>true</activeByDefault>
-       </activation>
-       <modules>
-           <module>integration-tests</module>
-       </modules>
-    </profile>
-  </profiles>
 </project>
