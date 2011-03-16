@@ -17,7 +17,7 @@
 	<packaging>pom</packaging>
         <properties>
 		<turmeric-runtime-version>1.0.0.1-SNAPSHOT</turmeric-runtime-version>
-		<turmeric-monitoring-version>1.0.0-Beta</turmeric-monitoring-version>
+		<turmeric-monitoring-version>1.0.0-Alpha</turmeric-monitoring-version>
 		<turmeric-jpa-utils-version>1.0.0-Beta</turmeric-jpa-utils-version>
 		<turmeric-security-version>1.0.0-Beta</turmeric-security-version>
         </properties>
