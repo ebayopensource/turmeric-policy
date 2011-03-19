@@ -38,5 +38,6 @@
 		<module>PolicyErrorLibrary</module>
 		<module>PolicyProviderImpl</module>
                 <module>integration-tests</module>
+		<module>PolicyAdminUI</module>
 	</modules>
 </project>
