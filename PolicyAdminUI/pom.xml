@@ -16,7 +16,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>org.ebayopensource.turmeric.policy</groupId>
-	<artifactId>admin-ui</artifactId>
+	<artifactId>policyadminui</artifactId>
 	<name>Turmeric Policy Admin UI</name>
 	<packaging>war</packaging>
 	<properties>
@@ -161,8 +161,7 @@
         	<groupId>com.google.gwt</groupId>
         	<artifactId>gwt-dev</artifactId>
         	<version>${gwt.version}</version>
-        	<type>jar</type>
-        	<scope>compile</scope>
+        	<scope>provided</scope>
 		</dependency> 
 		<dependency>
 			<groupId>junit</groupId>
