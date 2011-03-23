@@ -1,0 +1,27 @@
+<assembly>
+	<id>bin</id>
+	<formats>
+		<format>dir</format>
+		<format>zip</format>
+		<format>tar.gz</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<fileSets>
+		<fileSet>
+			<directory>src/main/</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>**</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>/war</outputDirectory>
+			<unpack>false</unpack>
+			<includes>
+				<include>*:war</include>
+			</includes>
+		</dependencySet>
+	</dependencySets>
+</assembly>
