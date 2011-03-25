@@ -25,7 +25,9 @@ import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.Policy
 import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
 
+import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.CheckboxCell;
+import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.dom.client.Element;
@@ -43,6 +45,7 @@ import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -72,6 +75,10 @@ public class PolicySummaryView extends AbstractGenericView implements
 	private ScrollPanel scrollPanel;
 	private Display contentView;
 
+	private static interface GetValue<C> {
+	    C getValue(GenericPolicy policy);
+	}
+	
 	/**
 	 * PolicySearchWidget
 	 * 
@@ -454,7 +461,8 @@ public class PolicySummaryView extends AbstractGenericView implements
 		/*
 		 * columns
 		 */
-		TextColumn<GenericPolicy> policyNameCol;
+		TextColumn<GenericPolicy> policyNameCol_old;
+		Column<GenericPolicy, String> policyNameCol;
 
 		/**
 		 * EnablePermissionCheckboxCell
@@ -699,7 +707,21 @@ public class PolicySummaryView extends AbstractGenericView implements
 			summaryGrid.addStyleName("policy-content");
 			mainPanel.add(summaryGrid);
 		}
+		
+		
 
+		private <C> Column<GenericPolicy, C> createCell(Cell<C> cell,final GetValue<C> getter,
+				FieldUpdater<GenericPolicy, C> fieldUpdater) {
+				        Column<GenericPolicy, C> column = new Column<GenericPolicy, C>(cell) {
+
+				        @Override
+				        public C getValue(GenericPolicy object) {
+				            return getter.getValue(object);
+				        }
+				    };
+				    column.setFieldUpdater(fieldUpdater);
+				    return column;
+		}
 		
 		private void initTableColumns(final SelectionModel<GenericPolicy> selectionModel, 
 				ListHandler<GenericPolicy> sortHandler ) {
@@ -731,35 +753,38 @@ public class PolicySummaryView extends AbstractGenericView implements
 			
 			cellTable.addColumn(checkColumn, "All");
 
-			// policy name
-			policyNameCol = new TextColumn<GenericPolicy>() {
+			
+			// ClickableTextCell.
+			ClickableTextCell policyNameColClickable = new ClickableTextCell();
+			policyNameCol =  createCell(policyNameColClickable, new GetValue<String>(){
 				public String getValue(GenericPolicy policy) {
-					if (policy == null)
-						return null;
-					return policy.getName();
-				}
-			};
-		
+	                return "CLICK ME -" + policy.getName();
+	            }
+	        }, new FieldUpdater<GenericPolicy, String>() {
+	            public void update(int index, GenericPolicy policy, String value) {
+	                Window.alert("Go to Edit page...." + policy.getName());
+	            }
+	        });
+			
 			policyNameCol.setSortable(true);
 			sortHandler.setComparator(policyNameCol,
-		        new Comparator<GenericPolicy>() {
-		          public int compare(GenericPolicy o1, GenericPolicy o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
+			        new Comparator<GenericPolicy>() {
+			          public int compare(GenericPolicy o1, GenericPolicy o2) {
+			            if (o1 == o2) {
+			              return 0;
+			            }
 
-		            // Compare the name columns.
-		            if (o1 != null) {
-		              return (o2 != null) ? o1.getName().compareToIgnoreCase(o2.getName()) : 1;
-		            }
-		            return -1;
-		          }
-	        });
-
-	//		cellTable.getColumnSortList().push(policyNameCol);
-			cellTable.addColumn(policyNameCol,
-						PolicyAdminUIUtil.policyAdminConstants.policyName());
+			            // Compare the name columns.
+			            if (o1 != null) {
+			              return (o2 != null) ? o1.getName().compareToIgnoreCase(o2.getName()) : 1;
+			            }
+			            return -1;
+			          }
+		        });
 			
+			//		cellTable.getColumnSortList().push(policyNameCol);
+
+			cellTable.addColumn(policyNameCol, PolicyAdminUIUtil.policyAdminConstants.policyName());
 			// policy type
 			TextColumn<GenericPolicy> policyTypeCol = new TextColumn<GenericPolicy>() {
 				public String getValue(GenericPolicy policy) {
