@@ -124,7 +124,7 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 		void setPermittedActions(GenericPolicy policy,
 				List<UserAction> permittedActions);
 
-		HasClickHandlers getActionButton();
+		HasClickHandlers getActionButtonAbove();
 
 		void setSelectedType(String type);
 
@@ -296,16 +296,16 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 			}
 		});
 
-		this.view.getActionButton().addClickHandler(new ClickHandler() {
+		this.view.getActionButtonAbove().addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				Map<GenericPolicy, UserAction> pending = view
 						.getPendingActions();
 
-				if (pending == null)
+				if (pending.isEmpty()){
 					return;
-				if (pending.size() == 0)
-					return;
+				}
+				
 
 				// Things that can be pending:
 				// 1. editing/viewing a SINGLE policy
