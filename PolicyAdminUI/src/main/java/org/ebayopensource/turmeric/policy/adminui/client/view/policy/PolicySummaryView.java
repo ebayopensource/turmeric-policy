@@ -25,18 +25,18 @@ import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.Policy
 import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
 
+
 import com.google.gwt.cell.client.Cell;
-import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasChangeHandlers;
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
@@ -44,7 +44,6 @@ import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -60,7 +59,6 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
@@ -461,7 +459,7 @@ public class PolicySummaryView extends AbstractGenericView implements
 		/*
 		 * columns
 		 */
-		TextColumn<GenericPolicy> policyNameCol_old;
+		
 		Column<GenericPolicy, String> policyNameCol;
 
 		/**
@@ -667,6 +665,7 @@ public class PolicySummaryView extends AbstractGenericView implements
 			};
 
 			cellTable = new CellTable<GenericPolicy>(keyProvider);
+			
 			dataProvider = new ListDataProvider<GenericPolicy>();
 			dataProvider.addDataDisplay(cellTable);
 
@@ -718,6 +717,14 @@ public class PolicySummaryView extends AbstractGenericView implements
 				        public C getValue(GenericPolicy object) {
 				            return getter.getValue(object);
 				        }
+				       
+				        @Override
+		                public void render(Cell.Context context, GenericPolicy object, SafeHtmlBuilder sb) 
+		                {
+		                    sb.appendHtmlConstant("<a href='javascript:void(0);'>");
+		                    super.render(context, object, sb);
+		                    sb.appendHtmlConstant("</a>");
+		                } 
 				    };
 				    column.setFieldUpdater(fieldUpdater);
 				    return column;
@@ -758,14 +765,15 @@ public class PolicySummaryView extends AbstractGenericView implements
 			ClickableTextCell policyNameColClickable = new ClickableTextCell();
 			policyNameCol =  createCell(policyNameColClickable, new GetValue<String>(){
 				public String getValue(GenericPolicy policy) {
-	                return "CLICK ME -" + policy.getName();
+	                return policy.getName() ; 
 	            }
 	        }, new FieldUpdater<GenericPolicy, String>() {
 	            public void update(int index, GenericPolicy policy, String value) {
-	                Window.alert("Go to Edit page...." + policy.getName());
+	                pendingActions.clear();
+	                pendingActions.put(policy, UserAction.POLICY_EDIT);
+	                actionButtonAbove.fireEvent(new ClickEvent(){});
 	            }
 	        });
-			
 			policyNameCol.setSortable(true);
 			sortHandler.setComparator(policyNameCol,
 			        new Comparator<GenericPolicy>() {
@@ -785,6 +793,8 @@ public class PolicySummaryView extends AbstractGenericView implements
 			//		cellTable.getColumnSortList().push(policyNameCol);
 
 			cellTable.addColumn(policyNameCol, PolicyAdminUIUtil.policyAdminConstants.policyName());
+		
+			
 			// policy type
 			TextColumn<GenericPolicy> policyTypeCol = new TextColumn<GenericPolicy>() {
 				public String getValue(GenericPolicy policy) {
