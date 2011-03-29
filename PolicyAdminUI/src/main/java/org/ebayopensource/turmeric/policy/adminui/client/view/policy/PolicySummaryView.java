@@ -13,18 +13,16 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.Display;
+import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
-
 
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.ClickableTextCell;
@@ -36,7 +34,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasChangeHandlers;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
@@ -44,7 +41,6 @@ import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -444,12 +440,12 @@ public class PolicySummaryView extends AbstractGenericView implements
 		PolicySearchWidget searchWidget;
 		
 		/*
-		 * GWT clone not supported yet 
+		 * GWT clone not supported yet. So just one action row implemented now
 		 * http://code.google.com/p/google-web-toolkit/issues/detail?id=5068#c1
 		 */
-		ListBox actionComboAbove = new ListBox();
+		ListBox actionCombo = new ListBox();
 		
-		PushButton actionButtonAbove = new PushButton(
+		PushButton actionButton = new PushButton(
 				PolicyAdminUIUtil.constants.apply());
 		
 		final Map<GenericPolicy, UserAction> pendingActions = new HashMap<GenericPolicy, UserAction>();
@@ -463,7 +459,7 @@ public class PolicySummaryView extends AbstractGenericView implements
 		Column<GenericPolicy, String> policyNameCol;
 
 		/**
-		 * EnablePermissionCheckboxCell
+		 * ActionPermissionCheckboxCell
 		 * 
 		 */
 		public class ActionPermissionCheckboxCell extends
@@ -592,11 +588,10 @@ public class PolicySummaryView extends AbstractGenericView implements
 			
 			// Attach a column sort handler to the ListDataProvider to sort the
 			// list.
-			ListHandler<GenericPolicy> sortHandler = new ListHandler<GenericPolicy>(
+			ListHandler<GenericPolicy> sortHandler = new ListHandler<GenericPolicy>( 
 					list){
 				@Override
 				public void onColumnSort(ColumnSortEvent event) {
-					// TODO Auto-generated method stub
 					super.onColumnSort(event);
 					cellTable.redraw();
 				}
@@ -642,7 +637,7 @@ public class PolicySummaryView extends AbstractGenericView implements
 			mainPanel.clear();
 			updateCombo();
 
-			actionButtonAbove.setEnabled(false);
+			actionButton.setEnabled(false);
 			// top part of contentPanel is a disclosure panel with a search
 			// feature
 			searchWidget = new PolicySearchWidget();
@@ -674,11 +669,11 @@ public class PolicySummaryView extends AbstractGenericView implements
 			 * ends table section
 			 */
 
-			actionComboAbove.addChangeHandler(new ChangeHandler() {
+			actionCombo.addChangeHandler(new ChangeHandler() {
 				public void onChange(ChangeEvent paramChangeEvent) {
 					pendingActions.clear();
 					setPolicies(dataProvider.getList());
-					actionButtonAbove.setEnabled(pendingActions.size()>0);
+					actionButton.setEnabled(pendingActions.size()>0);
 				}
 			});
 			
@@ -690,8 +685,8 @@ public class PolicySummaryView extends AbstractGenericView implements
 			
 						
 			FlexTable actionTableAbove = new FlexTable();
-			actionTableAbove.setWidget(0, 0, actionComboAbove);
-			actionTableAbove.setWidget(0, 1, actionButtonAbove);
+			actionTableAbove.setWidget(0, 0, actionCombo);
+			actionTableAbove.setWidget(0, 1, actionButton);
 			actionTableAbove.setWidget(0, 2, pagerAbove);
 			actionTableAbove.getCellFormatter().setWidth(0,2,"600px");
 			actionTableAbove.getCellFormatter().setHorizontalAlignment(0,2,HasAlignment.ALIGN_RIGHT);
@@ -736,7 +731,7 @@ public class PolicySummaryView extends AbstractGenericView implements
            //checkbox column 
 			Column<GenericPolicy, GenericPolicy> checkColumn = new Column<GenericPolicy, GenericPolicy>(
                     new ActionPermissionCheckboxCell(UserAction.valueOf(
-                    		this.actionComboAbove.getValue(this.actionComboAbove.getSelectedIndex())),
+                    		this.actionCombo.getValue(this.actionCombo.getSelectedIndex())),
                     		pendingActions, permittedActions)) {
                 public GenericPolicy getValue(GenericPolicy group) {
                    return group;
@@ -749,10 +744,10 @@ public class PolicySummaryView extends AbstractGenericView implements
                     }else {
                         // Called when the user clicks on a checkbox.
                     	pendingActions.put(arg1, UserAction.valueOf(
-                        		actionComboAbove.getValue(actionComboAbove.getSelectedIndex())));
+                        		actionCombo.getValue(actionCombo.getSelectedIndex())));
                     }
                     
-                    actionButtonAbove.setEnabled(pendingActions.size()>0);
+                    actionButton.setEnabled(pendingActions.size()>0);
                                       
                     cellTable.redraw();
                 }
@@ -761,9 +756,10 @@ public class PolicySummaryView extends AbstractGenericView implements
 			cellTable.addColumn(checkColumn, "All");
 
 			
-			// ClickableTextCell.
-			ClickableTextCell policyNameColClickable = new ClickableTextCell();
-			policyNameCol =  createCell(policyNameColClickable, new GetValue<String>(){
+			// policyName.
+			ClickableTextCell policyNameCellClickable = new ClickableTextCell();
+			
+			policyNameCol =  createCell(policyNameCellClickable, new GetValue<String>(){
 				public String getValue(GenericPolicy policy) {
 	                return policy.getName() ; 
 	            }
@@ -771,7 +767,9 @@ public class PolicySummaryView extends AbstractGenericView implements
 	            public void update(int index, GenericPolicy policy, String value) {
 	                pendingActions.clear();
 	                pendingActions.put(policy, UserAction.POLICY_EDIT);
-	                actionButtonAbove.fireEvent(new ClickEvent(){});
+	                actionButton.fireEvent(new ClickEvent(){});
+	                pendingActions.clear();
+
 	            }
 	        });
 			policyNameCol.setSortable(true);
@@ -790,10 +788,10 @@ public class PolicySummaryView extends AbstractGenericView implements
 			          }
 		        });
 			
-			//		cellTable.getColumnSortList().push(policyNameCol);
-
+			
 			cellTable.addColumn(policyNameCol, PolicyAdminUIUtil.policyAdminConstants.policyName());
-		
+			cellTable.getColumnSortList().push(policyNameCol);
+			
 			
 			// policy type
 			TextColumn<GenericPolicy> policyTypeCol = new TextColumn<GenericPolicy>() {
@@ -925,22 +923,19 @@ public class PolicySummaryView extends AbstractGenericView implements
 		}
 
 		public HasClickHandlers getActionButtonAbove() {
-			return actionButtonAbove;
+			return actionButton;
 		}
-	
-		public String getActionComboAbove() {
-			return actionComboAbove.getValue(actionComboAbove.getSelectedIndex());
-		}
+
 		
 		private void updateCombo() {
-			actionComboAbove.clear();
-			actionComboAbove
+			actionCombo.clear();
+			actionCombo
 					.addItem(PolicyAdminUIUtil.policyAdminConstants.enable(), UserAction.POLICY_ENABLE.toString());
-			actionComboAbove.addItem(PolicyAdminUIUtil.policyAdminConstants
+			actionCombo.addItem(PolicyAdminUIUtil.policyAdminConstants
 					.disable(), UserAction.POLICY_DISABLE.toString());
-			actionComboAbove
+			actionCombo
 					.addItem(PolicyAdminUIUtil.policyAdminConstants.delete(), UserAction.POLICY_DELETE.toString());
-			actionComboAbove
+			actionCombo
 					.addItem(PolicyAdminUIUtil.policyAdminConstants.export(), UserAction.POLICY_EXPORT.toString());
 		}
 
