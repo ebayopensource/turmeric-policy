@@ -183,14 +183,14 @@ public class SubjectGroupSummaryPresenter extends AbstractGenericPresenter {
 
                             service.deleteSubjectGroups(keys, new AsyncCallback<DeleteSubjectGroupResponse>() {
 
-                                @Override
+                                
                                 public void onSuccess(DeleteSubjectGroupResponse result) {
                                     //                              fetchGroups(view.isSearchCriteriaEnabled(), view.getSelectedType(), view.getSearchTerm());
                                     removeGroups(groups, keys);
                                     view.setGroups(groups);
                                 }
 
-                                @Override
+                                
                                 public void onFailure(Throwable arg) {
                                 	if (arg.getLocalizedMessage().contains("500")) {
             							view.error(PolicyAdminUIUtil.messages

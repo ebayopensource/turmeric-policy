@@ -9,7 +9,6 @@
 package org.ebayopensource.turmeric.policy.adminui.client.presenter.policy;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,34 +18,31 @@ import java.util.Map;
 
 import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.SupportedService;
-import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken;
+import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicyImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Operation;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.OperationKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnforcementService;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnforcementService.VerifyAccessResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyType;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.QueryCondition;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ResourceKey;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ResourceType;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroupKey;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectKey;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectType;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnforcementService.VerifyAccessResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.DeletePolicyResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.DisablePolicyResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.EnablePolicyResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetPoliciesResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetResourcesResponse;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyType;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.QueryCondition;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.QueryCondition.ActivePoliciesOnlyValue;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.QueryCondition.EffectValue;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ResourceKey;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ResourceType;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroupKey;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectKey;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectType;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter;
 import org.ebayopensource.turmeric.policy.adminui.client.shared.AppUser;
 import org.ebayopensource.turmeric.policy.adminui.client.util.PolicyKeysUtil;
@@ -59,15 +55,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasChangeHandlers;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.text.client.IntegerParser;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasWidgets;
 
 public class PolicySummaryPresenter extends AbstractGenericPresenter {
 
@@ -255,7 +248,7 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 				});
 
 		this.view.getSearchButton().addClickHandler(new ClickHandler() {
-			
+
 			public void onClick(ClickEvent event) {
 				if (PolicySummaryPresenter.this.view.isPolicyCriteriaEnabled()) {
 					fetchPolicyTypes();
@@ -302,10 +295,9 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 				Map<GenericPolicy, UserAction> pending = view
 						.getPendingActions();
 
-				if (pending.isEmpty()){
+				if (pending.isEmpty()) {
 					return;
 				}
-				
 
 				// Things that can be pending:
 				// 1. editing/viewing a SINGLE policy
@@ -313,6 +305,8 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 				// 2. deleting multiple policies
 				// or
 				// 3. enabling/disabling multiple policies
+				// 4. export. must be in bulk
+				boolean performExportAction = false;
 
 				for (Map.Entry<GenericPolicy, UserAction> entry : pending
 						.entrySet()) {
@@ -430,7 +424,8 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 
 									public void onSuccess(
 											DeletePolicyResponse result) {
-										((Button)view.getSearchButton()).click();
+										((Button) view.getSearchButton())
+												.click();
 									}
 
 									public void onFailure(Throwable arg) {
@@ -445,14 +440,43 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 										}
 									}
 								});
-						
+
 						break;
 					}
 					case POLICY_EXPORT: {
-						// TODO
+						//all entry keys must be exported in one bulk
+						performExportAction = true;
 						break;
+						
 					}
 					}
+					
+				}
+				
+				if(performExportAction){
+					GWT.log("EXPORT POLICY:");
+
+					StringBuffer downloadUrl = new StringBuffer();
+					downloadUrl.append("/xprtPlc?");
+					
+					int i = 0;
+					for (Map.Entry<GenericPolicy, UserAction> entry : pending.entrySet()) {
+						downloadUrl.append(entry.getKey().getId() + "&");
+						
+						i++;
+						if(i == pending.entrySet().size()){
+							//all entries are same type
+							downloadUrl.append(entry.getKey().getType()+ "&");
+							//user & pass
+							AppUser user = AppUser.getUser();
+							downloadUrl.append(user.getUsername() + "&");
+							downloadUrl.append(user.getPassword());
+						}
+					}
+
+					Window.open(downloadUrl.toString(), "_blank", "");
+
+					performExportAction = false;
 				}
 			}
 		});
@@ -582,8 +606,8 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 									.serverError(PolicyAdminUIUtil.policyAdminConstants
 											.genericErrorMessage()));
 						} else {
-							view.error(PolicyAdminUIUtil.messages.serverError(arg
-									.getLocalizedMessage()));
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(arg.getLocalizedMessage()));
 						}
 					}
 
@@ -611,8 +635,8 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 									.serverError(PolicyAdminUIUtil.policyAdminConstants
 											.genericErrorMessage()));
 						} else {
-							view.error(PolicyAdminUIUtil.messages.serverError(arg
-									.getLocalizedMessage()));
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(arg.getLocalizedMessage()));
 						}
 					}
 
@@ -676,8 +700,8 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 									.serverError(PolicyAdminUIUtil.policyAdminConstants
 											.genericErrorMessage()));
 						} else {
-							view.error(PolicyAdminUIUtil.messages.serverError(arg
-									.getLocalizedMessage()));
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(arg.getLocalizedMessage()));
 						}
 					}
 
@@ -712,8 +736,8 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 									.serverError(PolicyAdminUIUtil.policyAdminConstants
 											.genericErrorMessage()));
 						} else {
-							view.error(PolicyAdminUIUtil.messages.serverError(arg
-									.getLocalizedMessage()));
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(arg.getLocalizedMessage()));
 						}
 					}
 
@@ -785,8 +809,8 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 									.serverError(PolicyAdminUIUtil.policyAdminConstants
 											.genericErrorMessage()));
 						} else {
-							view.error(PolicyAdminUIUtil.messages.serverError(arg
-									.getLocalizedMessage()));
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(arg.getLocalizedMessage()));
 						}
 					}
 
@@ -813,8 +837,8 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 									.serverError(PolicyAdminUIUtil.policyAdminConstants
 											.genericErrorMessage()));
 						} else {
-							view.error(PolicyAdminUIUtil.messages.serverError(arg
-									.getLocalizedMessage()));
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(arg.getLocalizedMessage()));
 						}
 					}
 
@@ -836,8 +860,8 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 									.serverError(PolicyAdminUIUtil.policyAdminConstants
 											.genericErrorMessage()));
 						} else {
-							view.error(PolicyAdminUIUtil.messages.serverError(arg
-									.getLocalizedMessage()));
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(arg.getLocalizedMessage()));
 						}
 					}
 
@@ -908,23 +932,23 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 									.serverError(PolicyAdminUIUtil.policyAdminConstants
 											.genericErrorMessage()));
 						} else {
-							view.error(PolicyAdminUIUtil.messages.serverError(arg
-									.getLocalizedMessage()));
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(arg.getLocalizedMessage()));
 						}
 					}
 
 					public void onSuccess(VerifyAccessResponse response) {
 						// System.err.println("Response = "+(!response.isErrored())+" for PES for action="+action+" on  policy "+policy.getName());
-						boolean authorized = Boolean.valueOf(!response.isErrored());
-						if(!authorized){
+						boolean authorized = Boolean.valueOf(!response
+								.isErrored());
+						if (!authorized) {
 							// try the second call, for the SuperAdmin Policy
 							fetchSuperAdminAccess(action, policy, callback);
-						}else{
+						} else {
 							callback.onSuccess(Boolean.valueOf(!response
 									.isErrored()));
 						}
-						
-						
+
 					}
 				});
 
@@ -932,8 +956,8 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 
 	private void fetchSuperAdminAccess(final UserAction action,
 			final GenericPolicy policy, final AsyncCallback<Boolean> callback) {
-//		System.err.println("Doing the SuperAdmin call");
-		
+		// System.err.println("Doing the SuperAdmin call");
+
 		PolicyEnforcementService enforcementService = (PolicyEnforcementService) serviceMap
 				.get(SupportedService.POLICY_ENFORCEMENT_SERVICE);
 		if (enforcementService == null)
@@ -947,16 +971,16 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 		String opName = null;
 		Long opId = null;
 		switch (action) {
-			case POLICY_DELETE: {
-				opName = PolicyEnforcementService.POLICY_DELETE_OPERATION_NAME;
-				opId = policy.getId();
-				break;
-			}
-			case POLICY_EDIT: {
-				opName = PolicyEnforcementService.POLICY_EDIT_OPERATION_NAME;
-				opId = policy.getId();
-				break;
-			}
+		case POLICY_DELETE: {
+			opName = PolicyEnforcementService.POLICY_DELETE_OPERATION_NAME;
+			opId = policy.getId();
+			break;
+		}
+		case POLICY_EDIT: {
+			opName = PolicyEnforcementService.POLICY_EDIT_OPERATION_NAME;
+			opId = policy.getId();
+			break;
+		}
 		}
 
 		// TODO - are credentials necessary?
@@ -964,7 +988,7 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 		credentials.put("X-TURMERIC-SECURITY-PASSWORD", AppUser.getUser()
 				.getPassword());
 		OperationKey opKey = new OperationKey();
-		
+
 		opKey.setResourceName(resName);
 		opKey.setOperationName(opName);
 		opKey.setOperationId(opId);
@@ -975,7 +999,7 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 		List<String[]> subjectTypes = Collections.singletonList(subjectType);
 		List<String> accessControlObject = new ArrayList<String>();
 		accessControlObject.add("?");
-		
+
 		enforcementService.verify(opKey, policyTypes, credentials,
 				subjectTypes, null, accessControlObject, null,
 				new AsyncCallback<VerifyAccessResponse>() {
@@ -986,8 +1010,8 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 									.serverError(PolicyAdminUIUtil.policyAdminConstants
 											.genericErrorMessage()));
 						} else {
-							view.error(PolicyAdminUIUtil.messages.serverError(arg
-									.getLocalizedMessage()));
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(arg.getLocalizedMessage()));
 						}
 					}
 

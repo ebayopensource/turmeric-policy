@@ -497,59 +497,56 @@ public class PolicySummaryView extends AbstractGenericView implements
 					// render appropriately
 					boolean isEnabled = value.getEnabled();
 					switch (action) {
-					case POLICY_ENABLE: {
-						// this is the enable checkbox, and the policy is
-						// already enabled, render as disabled
-						if (isEnabled) {
-							isChecked = false;
-							isDisabled = true;
-
-						} else {
-							// policy is not already enabled, decide whether to
-							// render as checked or not
-							// based on if there is a pending action to enable
-							// it
-							isDisabled = false;
-							isChecked = (pending != null
-									&& pending.equals(action) ? true : false);
+						case POLICY_ENABLE: {
+							// this is the enable checkbox, and the policy is
+							// already enabled, render as disabled
+							if (isEnabled) {
+								isChecked = false;
+								isDisabled = true;
+	
+							} else {
+								// policy is not already enabled, decide whether to
+								// render as checked or not
+								// based on if there is a pending action to enable
+								// it
+								isDisabled = false;
+								isChecked = (pending != null
+										&& pending.equals(action) ? true : false);
+							}
+							break;
 						}
-						break;
-					}
-					case POLICY_DISABLE: {
-						// if this is the disable checkbox, and the policy is
-						// already disabled, render as disabled
-						if (!isEnabled) {
-							isChecked = false;
-							isDisabled = true;
-						} else {
-							// the policy is not already disabled, decide
-							// whether to render it as checked or not
-							// based on if there is a pending action to disable
-							// it
-							isDisabled = false;
-							isChecked = (pending != null
-									&& pending.equals(action) ? true : false);
+						case POLICY_DISABLE: {
+							// if this is the disable checkbox, and the policy is
+							// already disabled, render as disabled
+							if (!isEnabled) {
+								isChecked = false;
+								isDisabled = true;
+							} else {
+								// the policy is not already disabled, decide
+								// whether to render it as checked or not
+								// based on if there is a pending action to disable
+								// it
+								isDisabled = false;
+								isChecked = (pending != null
+										&& pending.equals(action) ? true : false);
+							}
+							break;
 						}
-						break;
-					}
-					case POLICY_DELETE: {
-						// this is the enable checkbox, and the policy is
-						// enabled, it cannot be deleted
-						if (isEnabled) {
-							isChecked = false;
-							isDisabled = true;
-
-						} else {
-							// policy is disabled, decide whether to
-							// render as checked or not
-							// based on if there is a pending action to enable
-							// it
-							isDisabled = false;
-							isChecked = (pending != null
-									&& pending.equals(action) ? true : false);
+						case POLICY_DELETE: {
+							// this is the delete checkbox, and the policy is
+							// enabled, it cannot be deleted
+								isDisabled = false;
+								isChecked = (pending != null
+										&& pending.equals(action) ? true : false);
+							break;
 						}
-						break;
-					}
+						case POLICY_EXPORT: {
+								
+								isDisabled = false;
+								isChecked = (pending != null
+										&& pending.equals(action) ? true : false);
+								break;
+						}
 					}
 				} else {
 					// the user is not permitted to perform the enable or
@@ -686,6 +683,7 @@ public class PolicySummaryView extends AbstractGenericView implements
 						
 			FlexTable actionTableAbove = new FlexTable();
 			actionTableAbove.setWidget(0, 0, actionCombo);
+
 			actionTableAbove.setWidget(0, 1, actionButton);
 			actionTableAbove.setWidget(0, 2, pagerAbove);
 			actionTableAbove.getCellFormatter().setWidth(0,2,"600px");
