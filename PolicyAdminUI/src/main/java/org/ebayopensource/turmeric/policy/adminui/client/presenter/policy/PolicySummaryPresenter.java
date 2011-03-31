@@ -457,7 +457,7 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 					GWT.log("EXPORT POLICY:");
 
 					StringBuffer downloadUrl = new StringBuffer();
-					downloadUrl.append("/xprtPlc?");
+					downloadUrl.append("/xprtPlc/policy?");
 					
 					int i = 0;
 					for (Map.Entry<GenericPolicy, UserAction> entry : pending.entrySet()) {

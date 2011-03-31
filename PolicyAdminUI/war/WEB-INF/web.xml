@@ -47,8 +47,11 @@
      	<servlet-name>PlcExportServlet</servlet-name>  
      	<servlet-class>org.ebayopensource.turmeric.policy.adminui.server.PlcExportServlet</servlet-class>
      	<init-param>
-       		<param-name>myPrefix</param-name><param-value>/xprtPlc</param-value>
-      </init-param>  
+       		<param-name>expPolicyPrefix</param-name><param-value>/xprtPlc/policy</param-value>
+      	</init-param>  
+      	<init-param>
+       		<param-name>expSGPrefix</param-name><param-value>/xprtPlc/sg</param-value>
+      	</init-param>
       <init-param>
         <param-name>PolicyServiceURL</param-name><param-value>https://localhost:8443/security/PolicyServiceV1</param-value>
       </init-param>
@@ -56,8 +59,10 @@
     
     <servlet-mapping>  
 	     <servlet-name>PlcExportServlet</servlet-name>  
-	     <url-pattern>/xprtPlc</url-pattern>  
+	     <url-pattern>/xprtPlc/policy</url-pattern>
+	     <url-pattern>/xprtPlc/sg</url-pattern>    
     </servlet-mapping>  
+ 
  
   <!--Proxy for the PolicyEnforcementService -->
   <servlet>

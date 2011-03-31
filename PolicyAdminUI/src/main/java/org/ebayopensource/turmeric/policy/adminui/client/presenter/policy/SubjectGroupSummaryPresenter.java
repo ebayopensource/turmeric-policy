@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.SupportedService;
@@ -44,11 +45,13 @@ import org.ebayopensource.turmeric.policy.adminui.client.shared.AppUser;
 import org.ebayopensource.turmeric.policy.adminui.client.util.PolicyKeysUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.PolicyPageTemplateDisplay;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
@@ -204,6 +207,30 @@ public class SubjectGroupSummaryPresenter extends AbstractGenericPresenter {
                             });
                         }
                         break;
+		            }
+		            
+		            case SUBJECT_GROUP_EXPORT: {
+		            	GWT.log("EXPORT SG:");
+
+						StringBuffer downloadUrl = new StringBuffer();
+						downloadUrl.append("/xprtPlc/sg?");
+						
+						int i = 0;
+						for (Entry<SubjectGroup, UserAction> entry : pending.entrySet()) {
+							downloadUrl.append(entry.getKey().getId() + "&");
+							
+							i++;
+							if(i == pending.entrySet().size()){
+								//all entries are same type
+								downloadUrl.append(entry.getKey().getType()+ "&");
+								//user & pass
+								AppUser user = AppUser.getUser();
+								downloadUrl.append(user.getUsername() + "&");
+								downloadUrl.append(user.getPassword());
+							}
+						}
+						Window.open(downloadUrl.toString(), "_blank", "");
+		            	break;
 		            }
 		        }
 		    }
@@ -481,6 +508,26 @@ public class SubjectGroupSummaryPresenter extends AbstractGenericPresenter {
                 view.setPermittedActions(group, actions);
             }
 	    });
+	    fetchAccess(UserAction.SUBJECT_GROUP_EXPORT, group, new AsyncCallback<Boolean>() {
+	        public void onFailure(Throwable arg) {
+	        	if (arg.getLocalizedMessage().contains("500")) {
+					view.error(PolicyAdminUIUtil.messages
+							.serverError(PolicyAdminUIUtil.policyAdminConstants
+									.genericErrorMessage()));
+				} else {
+					view.error(PolicyAdminUIUtil.messages.serverError(arg
+							.getLocalizedMessage()));
+				}
+	        }
+	        public void onSuccess(Boolean allowed) {
+	            if (allowed.booleanValue())
+	                actions.add(UserAction.SUBJECT_GROUP_EXPORT);
+	            else
+	                actions.remove(UserAction.SUBJECT_GROUP_EXPORT);
+
+                view.setPermittedActions(group, actions);
+            }
+	    });
 	}
 	
 	
@@ -513,6 +560,7 @@ public class SubjectGroupSummaryPresenter extends AbstractGenericPresenter {
 	            opName = group.getId().toString();
 	            break;
 	        }
+	        
 	    }
 	    
 	    //TODO - are credentials necessary?
@@ -586,6 +634,11 @@ public class SubjectGroupSummaryPresenter extends AbstractGenericPresenter {
 	            break;
 	        }
 	        case SUBJECT_GROUP_EDIT: {
+	        	opName = PolicyEnforcementService.SUBJECT_GROUP_OPERATION_NAME;
+	        	opId = group.getId();
+	            break;
+	        }
+	        case SUBJECT_GROUP_EXPORT: {
 	        	opName = PolicyEnforcementService.SUBJECT_GROUP_OPERATION_NAME;
 	        	opId = group.getId();
 	            break;

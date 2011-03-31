@@ -586,36 +586,7 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 		}
 		
 		
-		
-		private void updateButton(UserAction action) {
-			String str = PolicyAdminUIUtil.constants.apply();
-			if (action == null)
-				actionButton.setEnabled(false);
-			else {
-				switch (action) {
-				case SUBJECT_GROUP_VIEW: {
-					str = PolicyAdminUIUtil.policyAdminConstants.view();
-					actionButton.setEnabled(true);
-					break;
-				}
-				case SUBJECT_GROUP_EDIT: {
-					str = PolicyAdminUIUtil.policyAdminConstants.edit();
-					actionButton.setEnabled(true);
-					break;
-				}
-				case SUBJECT_GROUP_DELETE: {
-					str = PolicyAdminUIUtil.policyAdminConstants.delete();
-					actionButton.setEnabled(true);
-					break;
-				}
-				default: {
-					actionButton.setEnabled(false);
-				}
-				}
-			}
-			actionButton.setText(str);
-		}
-
+	
 		public Map<SubjectGroup, UserAction> getPendingActions() {
 			return new HashMap<SubjectGroup, UserAction>(pendingActions);
 		}
