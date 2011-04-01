@@ -306,146 +306,191 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 				// or
 				// 3. enabling/disabling multiple policies
 				// 4. export. must be in bulk
-				boolean performExportAction = false;
-
-				for (Map.Entry<GenericPolicy, UserAction> entry : pending
+				if(!pending.isEmpty()){
+					UserAction action = null;
+					//all action should be same
+					for (Map.Entry<GenericPolicy, UserAction> entry : pending
 						.entrySet()) {
-					final GenericPolicy p = entry.getKey();
-					switch (entry.getValue()) {
+						action = entry.getValue();
+						break;
+					}
+					switch (action) {
 					case POLICY_VIEW: {
-						HistoryToken token = makeToken(
-								PolicyController.PRESENTER_ID,
-								PolicyViewPresenter.PRESENTER_ID, null);
-						token.addValue(HistoryToken.SELECTED_POLICY_TOKEN_ID,
-								String.valueOf(entry.getKey().getId()));
-						token.addValue(HistoryToken.SELECTED_POLICY_TOKEN_TYPE,
-								String.valueOf(entry.getKey().getType()));
-						History.newItem(token.toString(), true);
+						GWT.log("VIEW POLICY:");
+
+						for (Map.Entry<GenericPolicy, UserAction> entry : pending
+								.entrySet()) {
+							HistoryToken token = makeToken(
+									PolicyController.PRESENTER_ID,
+									PolicyViewPresenter.PRESENTER_ID, null);
+							token.addValue(HistoryToken.SELECTED_POLICY_TOKEN_ID,
+									String.valueOf(entry.getKey().getId()));
+							token.addValue(HistoryToken.SELECTED_POLICY_TOKEN_TYPE,
+									String.valueOf(entry.getKey().getType()));
+							History.newItem(token.toString(), true);
+						}
 						break;
 					}
 					case POLICY_EDIT: {
 						GWT.log("EDIT POLICY:");
-						// TODO improve this, do not HRDCODE
-						String policyType = String.valueOf(entry.getKey()
-								.getType());
-						String subPresenter = null;
-
-						if ("BLACKLIST".equals(policyType)) {
-							subPresenter = BLPolicyEditPresenter.PRESENTER_ID;
-						} else if ("WHITELIST".equals(policyType)) {
-							subPresenter = WLPolicyEditPresenter.PRESENTER_ID;
-						} else if ("AUTHZ".equals(policyType)) {
-							subPresenter = AUTHZPolicyEditPresenter.PRESENTER_ID;
-						} else if ("RL".equals(policyType)) {
-							subPresenter = RLPolicyEditPresenter.PRESENTER_ID;
+						for (Map.Entry<GenericPolicy, UserAction> entry : pending
+								.entrySet()) {
+							// TODO improve this, do not HRDCODE
+							String policyType = String.valueOf(entry.getKey()
+									.getType());
+							String subPresenter = null;
+	
+							if ("BLACKLIST".equals(policyType)) {
+								subPresenter = BLPolicyEditPresenter.PRESENTER_ID;
+							} else if ("WHITELIST".equals(policyType)) {
+								subPresenter = WLPolicyEditPresenter.PRESENTER_ID;
+							} else if ("AUTHZ".equals(policyType)) {
+								subPresenter = AUTHZPolicyEditPresenter.PRESENTER_ID;
+							} else if ("RL".equals(policyType)) {
+								subPresenter = RLPolicyEditPresenter.PRESENTER_ID;
+							}
+							HistoryToken token = makeToken(
+									PolicyController.PRESENTER_ID, subPresenter,
+									null);
+							token.addValue(HistoryToken.SELECTED_POLICY_TOKEN_ID,
+									String.valueOf(entry.getKey().getId()));
+							token.addValue(HistoryToken.SELECTED_POLICY_TOKEN_TYPE,
+									String.valueOf(entry.getKey().getType()));
+	
+							History.newItem(token.toString(), true);
 						}
-						HistoryToken token = makeToken(
-								PolicyController.PRESENTER_ID, subPresenter,
-								null);
-						token.addValue(HistoryToken.SELECTED_POLICY_TOKEN_ID,
-								String.valueOf(entry.getKey().getId()));
-						token.addValue(HistoryToken.SELECTED_POLICY_TOKEN_TYPE,
-								String.valueOf(entry.getKey().getType()));
-
-						History.newItem(token.toString(), true);
 						break;
 					}
 					case POLICY_ENABLE: {
-						final PolicyKey key = new PolicyKey();
-						key.setId(entry.getKey().getId());
-						key.setName(entry.getKey().getName());
-						key.setType(entry.getKey().getType());
-						GWT.log("Updating status for :"
-								+ entry.getKey().getType() + " - "
-								+ entry.getKey().getName());
-						service.enablePolicy(key,
-								new AsyncCallback<EnablePolicyResponse>() {
-									public void onFailure(Throwable arg) {
-										if (arg.getLocalizedMessage().contains(
-												"500")) {
-											view.error(PolicyAdminUIUtil.messages
-													.serverError(PolicyAdminUIUtil.policyAdminConstants
-															.genericErrorMessage()));
-										} else {
-											view.error(PolicyAdminUIUtil.messages.serverError(arg
-													.getLocalizedMessage()));
+						for (Map.Entry<GenericPolicy, UserAction> entry : pending
+								.entrySet()) {
+							final GenericPolicy p = entry.getKey();
+							final PolicyKey key = new PolicyKey();
+							key.setId(entry.getKey().getId());
+							key.setName(entry.getKey().getName());
+							key.setType(entry.getKey().getType());
+							GWT.log("Updating status for :"
+									+ entry.getKey().getType() + " - "
+									+ entry.getKey().getName());
+							service.enablePolicy(key,
+									new AsyncCallback<EnablePolicyResponse>() {
+										public void onFailure(Throwable arg) {
+											if (arg.getLocalizedMessage().contains(
+													"500")) {
+												view.error(PolicyAdminUIUtil.messages
+														.serverError(PolicyAdminUIUtil.policyAdminConstants
+																.genericErrorMessage()));
+											} else {
+												view.error(PolicyAdminUIUtil.messages.serverError(arg
+														.getLocalizedMessage()));
+											}
+											GWT.log("ERROR - Enabling fails");
 										}
-										GWT.log("ERROR - Enabling fails");
-									}
-
-									public void onSuccess(
-											EnablePolicyResponse result) {
-										((GenericPolicyImpl) p)
-												.setEnabled(true);
-										view.setPolicies(policies);
-									}
-								});
+	
+										public void onSuccess(
+												EnablePolicyResponse result) {
+											((GenericPolicyImpl) p)
+													.setEnabled(true);
+											view.setPolicies(policies);
+										}
+									});
+						}
 						break;
 					}
 					case POLICY_DISABLE: {
-						final PolicyKey key = new PolicyKey();
-						key.setId(entry.getKey().getId());
-						key.setName(entry.getKey().getName());
-						key.setType(entry.getKey().getType());
-						GWT.log("Updating status for :"
-								+ entry.getKey().getType() + " - "
-								+ entry.getKey().getName());
-						service.disablePolicy(key,
-								new AsyncCallback<DisablePolicyResponse>() {
-									public void onFailure(Throwable arg) {
-										if (arg.getLocalizedMessage().contains(
-												"500")) {
-											view.error(PolicyAdminUIUtil.messages
-													.serverError(PolicyAdminUIUtil.policyAdminConstants
-															.genericErrorMessage()));
-										} else {
-											view.error(PolicyAdminUIUtil.messages.serverError(arg
-													.getLocalizedMessage()));
+						for (Map.Entry<GenericPolicy, UserAction> entry : pending
+								.entrySet()) {
+							final GenericPolicy p = entry.getKey();
+							final PolicyKey key = new PolicyKey();
+							key.setId(entry.getKey().getId());
+							key.setName(entry.getKey().getName());
+							key.setType(entry.getKey().getType());
+							GWT.log("Updating status for :"
+									+ entry.getKey().getType() + " - "
+									+ entry.getKey().getName());
+							service.disablePolicy(key,
+									new AsyncCallback<DisablePolicyResponse>() {
+										public void onFailure(Throwable arg) {
+											if (arg.getLocalizedMessage().contains(
+													"500")) {
+												view.error(PolicyAdminUIUtil.messages
+														.serverError(PolicyAdminUIUtil.policyAdminConstants
+																.genericErrorMessage()));
+											} else {
+												view.error(PolicyAdminUIUtil.messages.serverError(arg
+														.getLocalizedMessage()));
+											}
 										}
-									}
-
-									public void onSuccess(
-											DisablePolicyResponse result) {
-										((GenericPolicyImpl) p)
-												.setEnabled(false);
-										view.setPolicies(policies);
-									}
-								});
+	
+										public void onSuccess(
+												DisablePolicyResponse result) {
+											((GenericPolicyImpl) p)
+													.setEnabled(false);
+											view.setPolicies(policies);
+										}
+									});
+						}
 						break;
 					}
 					case POLICY_DELETE: {
-						final PolicyKey key = new PolicyKey();
-						key.setType(entry.getKey().getType());
-						key.setName(entry.getKey().getName());
-						key.setId(entry.getKey().getId());
-
-						service.deletePolicy(key,
-								new AsyncCallback<DeletePolicyResponse>() {
-
-									public void onSuccess(
-											DeletePolicyResponse result) {
-										((Button) view.getSearchButton())
-												.click();
-									}
-
-									public void onFailure(Throwable arg) {
-										if (arg.getLocalizedMessage().contains(
-												"500")) {
-											view.error(PolicyAdminUIUtil.messages
-													.serverError(PolicyAdminUIUtil.policyAdminConstants
-															.genericErrorMessage()));
-										} else {
-											view.error(PolicyAdminUIUtil.messages.serverError(arg
-													.getLocalizedMessage()));
+						
+						if(Window.confirm(PolicyAdminUIUtil.policyAdminConstants
+								.deleteSelected())){
+							
+							for (Map.Entry<GenericPolicy, UserAction> entry : pending
+									.entrySet()) {
+							final PolicyKey key = new PolicyKey();
+							key.setType(entry.getKey().getType());
+							key.setName(entry.getKey().getName());
+							key.setId(entry.getKey().getId());
+	
+							service.deletePolicy(key,
+									new AsyncCallback<DeletePolicyResponse>() {
+	
+										public void onSuccess(
+												DeletePolicyResponse result) {
+											((Button) view.getSearchButton())
+													.click();
 										}
-									}
-								});
-
+	
+										public void onFailure(Throwable arg) {
+											if (arg.getLocalizedMessage().contains(
+													"500")) {
+												view.error(PolicyAdminUIUtil.messages
+														.serverError(PolicyAdminUIUtil.policyAdminConstants
+																.genericErrorMessage()));
+											} else {
+												view.error(PolicyAdminUIUtil.messages.serverError(arg
+														.getLocalizedMessage()));
+											}
+										}
+									});
+							}
+						}
+						
 						break;
 					}
 					case POLICY_EXPORT: {
-						//all entry keys must be exported in one bulk
-						performExportAction = true;
+						GWT.log("EXPORT POLICY:");
+						StringBuffer downloadUrl = new StringBuffer();
+						downloadUrl.append("/xprtPlc/policy?");
+						
+						int i = 0;
+						for (Map.Entry<GenericPolicy, UserAction> entry : pending.entrySet()) {
+							downloadUrl.append(entry.getKey().getId() + "&");
+							
+							i++;
+							if(i == pending.entrySet().size()){
+								//all entries are same type
+								downloadUrl.append(entry.getKey().getType()+ "&");
+								//user & pass
+								AppUser user = AppUser.getUser();
+								downloadUrl.append(user.getUsername() + "&");
+								downloadUrl.append(user.getPassword());
+							}
+						}
+
+						Window.open(downloadUrl.toString(), "_blank", "");
 						break;
 						
 					}
@@ -453,31 +498,6 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 					
 				}
 				
-				if(performExportAction){
-					GWT.log("EXPORT POLICY:");
-
-					StringBuffer downloadUrl = new StringBuffer();
-					downloadUrl.append("/xprtPlc/policy?");
-					
-					int i = 0;
-					for (Map.Entry<GenericPolicy, UserAction> entry : pending.entrySet()) {
-						downloadUrl.append(entry.getKey().getId() + "&");
-						
-						i++;
-						if(i == pending.entrySet().size()){
-							//all entries are same type
-							downloadUrl.append(entry.getKey().getType()+ "&");
-							//user & pass
-							AppUser user = AppUser.getUser();
-							downloadUrl.append(user.getUsername() + "&");
-							downloadUrl.append(user.getPassword());
-						}
-					}
-
-					Window.open(downloadUrl.toString(), "_blank", "");
-
-					performExportAction = false;
-				}
 			}
 		});
 	}

@@ -304,6 +304,9 @@ public interface PolicyAdminConstants extends Constants {
 
     @DefaultStringValue("Comments")
     public String ehCommentsColumn();
+    
+    @DefaultStringValue("Delete selected items?")
+    public String deleteSelected();
 
     /*
      * Generic Error message. This message should never be shown  unless 

@@ -161,52 +161,54 @@ public class SubjectGroupSummaryPresenter extends AbstractGenericPresenter {
 		                break;
 		            }
 		            case SUBJECT_GROUP_DELETE: {
-		              
-                        final List<SubjectGroupKey> keys= new ArrayList<SubjectGroupKey>();
-                        Iterator<SubjectGroup> itor = pending.keySet().iterator();
-                        SubjectGroup groupError = null;
-                        while (itor.hasNext() && groupError == null) {
-                            SubjectGroup sg = itor.next();
-
-                            if (sg.getPolicies() != null && sg.getPolicies().size() > 0)
-                                groupError = sg;
-                            else {
-
-                                SubjectGroupKey key = new SubjectGroupKey();
-                                key.setType(sg.getType());
-                                key.setName(sg.getName());
-                                key.setId(sg.getId());
-                                keys.add(key);
-                            }
-                        }
-
-                        if (groupError != null)
-                            view.error(PolicyAdminUIUtil.policyAdminConstants.deleteSubjetGroupInvalid());
-                        else {
-
-                            service.deleteSubjectGroups(keys, new AsyncCallback<DeleteSubjectGroupResponse>() {
-
-                                
-                                public void onSuccess(DeleteSubjectGroupResponse result) {
-                                    //                              fetchGroups(view.isSearchCriteriaEnabled(), view.getSelectedType(), view.getSearchTerm());
-                                    removeGroups(groups, keys);
-                                    view.setGroups(groups);
-                                }
-
-                                
-                                public void onFailure(Throwable arg) {
-                                	if (arg.getLocalizedMessage().contains("500")) {
-            							view.error(PolicyAdminUIUtil.messages
-            									.serverError(PolicyAdminUIUtil.policyAdminConstants
-            											.genericErrorMessage()));
-            						} else {
-            							view.error(PolicyAdminUIUtil.messages.serverError(arg
-            									.getLocalizedMessage()));
-            						}
-                                }
-                            });
-                        }
-                        break;
+		            	if(Window.confirm(PolicyAdminUIUtil.policyAdminConstants
+								.deleteSelected())){
+	                        final List<SubjectGroupKey> keys= new ArrayList<SubjectGroupKey>();
+	                        Iterator<SubjectGroup> itor = pending.keySet().iterator();
+	                        SubjectGroup groupError = null;
+	                        while (itor.hasNext() && groupError == null) {
+	                            SubjectGroup sg = itor.next();
+	
+	                            if (sg.getPolicies() != null && sg.getPolicies().size() > 0)
+	                                groupError = sg;
+	                            else {
+	
+	                                SubjectGroupKey key = new SubjectGroupKey();
+	                                key.setType(sg.getType());
+	                                key.setName(sg.getName());
+	                                key.setId(sg.getId());
+	                                keys.add(key);
+	                            }
+	                        }
+	
+	                        if (groupError != null)
+	                            view.error(PolicyAdminUIUtil.policyAdminConstants.deleteSubjetGroupInvalid());
+	                        else {
+	
+	                            service.deleteSubjectGroups(keys, new AsyncCallback<DeleteSubjectGroupResponse>() {
+	
+	                                
+	                                public void onSuccess(DeleteSubjectGroupResponse result) {
+	                                    //                              fetchGroups(view.isSearchCriteriaEnabled(), view.getSelectedType(), view.getSearchTerm());
+	                                    removeGroups(groups, keys);
+	                                    view.setGroups(groups);
+	                                }
+	
+	                                
+	                                public void onFailure(Throwable arg) {
+	                                	if (arg.getLocalizedMessage().contains("500")) {
+	            							view.error(PolicyAdminUIUtil.messages
+	            									.serverError(PolicyAdminUIUtil.policyAdminConstants
+	            											.genericErrorMessage()));
+	            						} else {
+	            							view.error(PolicyAdminUIUtil.messages.serverError(arg
+	            									.getLocalizedMessage()));
+	            						}
+	                                }
+	                            });
+	                        }
+		            	}
+	                    break;
 		            }
 		            
 		            case SUBJECT_GROUP_EXPORT: {

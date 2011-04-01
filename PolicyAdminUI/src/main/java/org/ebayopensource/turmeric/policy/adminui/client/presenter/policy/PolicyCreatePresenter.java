@@ -72,6 +72,7 @@ import com.google.gwt.event.logical.shared.HasOpenHandlers;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasValue;
@@ -472,20 +473,23 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 							return;
 						} else {
-							for (PolicySubjectAssignment assignment : view
-									.getSubjectContentView()
-									.getSelectedSubjectAssignments()) {
-								subjectAssignments.remove(assignment);
-								subjectTypes.add(assignment.getSubjectType());
+							if(Window.confirm(PolicyAdminUIUtil.policyAdminConstants
+									.deleteSelected())){
+								for (PolicySubjectAssignment assignment : view
+										.getSubjectContentView()
+										.getSelectedSubjectAssignments()) {
+									subjectAssignments.remove(assignment);
+									subjectTypes.add(assignment.getSubjectType());
+								}
+								view.getSubjectContentView()
+										.getSelectedSubjectAssignments().clear();
+	
+								view.getSubjectContentView().setAssignments(
+										subjectAssignments);
+								// add back in the subject type as being available
+								view.getSubjectContentView()
+										.setAvailableSubjectTypes(subjectTypes);
 							}
-							view.getSubjectContentView()
-									.getSelectedSubjectAssignments().clear();
-
-							view.getSubjectContentView().setAssignments(
-									subjectAssignments);
-							// add back in the subject type as being available
-							view.getSubjectContentView()
-									.setAvailableSubjectTypes(subjectTypes);
 						}
 					}
 				});
@@ -902,24 +906,25 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 								.size() == 0) {
 							return;
 						} else {
-
-							for (Resource selectedAssignment : view
-									.getResourceContentView().getSelections()) {
-								resourceAssignments.remove(selectedAssignment);
-
-								assignedUniqueResources
-										.remove(selectedAssignment
-												.getResourceType()
-												+ selectedAssignment
-														.getResourceName());
-
+							if(Window.confirm(PolicyAdminUIUtil.policyAdminConstants
+									.deleteSelected())){
+								for (Resource selectedAssignment : view
+										.getResourceContentView().getSelections()) {
+									resourceAssignments.remove(selectedAssignment);
+	
+									assignedUniqueResources
+											.remove(selectedAssignment
+													.getResourceType()
+													+ selectedAssignment
+															.getResourceName());
+	
+								}
+								view.getResourceContentView().getSelections()
+										.clear();
+								view.getResourceContentView().setAssignments(
+										resourceAssignments);
 							}
-							view.getResourceContentView().getSelections()
-									.clear();
-							view.getResourceContentView().setAssignments(
-									resourceAssignments);
 						}
-
 					}
 				});
 
@@ -1319,12 +1324,10 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		service.findSubjects(query,
 				new AsyncCallback<PolicyQueryService.FindSubjectsResponse>() {
 
-					@Override
 					public void onSuccess(FindSubjectsResponse result) {
 						allSubjects = new ArrayList<Subject>(result.getSubjects());
 					}
 
-					@Override
 					public void onFailure(Throwable arg) {
 						if (arg.getLocalizedMessage().contains("500")) {
 							view.error(PolicyAdminUIUtil.messages
@@ -1346,12 +1349,10 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		service.findSubjectGroups(query,
 				new AsyncCallback<PolicyQueryService.FindSubjectGroupsResponse>() {
 
-					@Override
 					public void onSuccess(FindSubjectGroupsResponse result) {
 						allSubjectGroups = new ArrayList<SubjectGroup>(result.getGroups());
 					}
 
-					@Override
 					public void onFailure(Throwable arg) {
 						if (arg.getLocalizedMessage().contains("500")) {
 							view.error(PolicyAdminUIUtil.messages
