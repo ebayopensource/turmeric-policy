@@ -64,9 +64,11 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 	private ScrollPanel scrollPanel;
 	private FlowPanel mainPanel;
 	private Display contentView;
+
 	private static interface GetValue<C> {
-	    C getValue(SubjectGroup sg);
+		C getValue(SubjectGroup sg);
 	}
+
 	/**
 	 * SubjectSearchWidget
 	 * 
@@ -117,11 +119,12 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 			radioPanel.add(policyCriteriaButton);
 
 			typeLabel = new Label(
-					PolicyAdminUIUtil.policyAdminConstants.subjectType() );
+					PolicyAdminUIUtil.policyAdminConstants.subjectType());
 			nameLabel = new Label(
 					PolicyAdminUIUtil.policyAdminConstants.subjectGroupName());
 			typeBox = new ListBox(false);
-			searchButton = new Button(PolicyAdminUIUtil.policyAdminConstants.search());
+			searchButton = new Button(
+					PolicyAdminUIUtil.policyAdminConstants.search());
 			searchBox = new TextBox();
 			grid.setWidget(0, 0, radioPanel);
 			grid.setWidget(1, 0, typeLabel);
@@ -129,7 +132,6 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 			grid.setWidget(1, 2, nameLabel);
 			grid.setWidget(1, 3, searchBox);
 			grid.setWidget(1, 4, searchButton);
-			
 
 			mainPanel.add(grid);
 			initWidget(mainPanel);
@@ -216,12 +218,21 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 		DisclosurePanel searchPanel;
 		SubjectSearchWidget searchWidget;
 		ListDataProvider<SubjectGroup> dataProvider;
-		PushButton actionButton = new PushButton(PolicyAdminUIUtil.constants.apply());
+		PushButton actionButton = new PushButton(
+				PolicyAdminUIUtil.constants.apply());
 		final Map<SubjectGroup, UserAction> pendingActions = new HashMap<SubjectGroup, UserAction>();
 		Map<SubjectGroup, List<UserAction>> permittedActions = new HashMap<SubjectGroup, List<UserAction>>();
-
 		ListBox actionCombo = new ListBox();
-		
+
+		/*
+		 * Columns
+		 */
+		Column<SubjectGroup, String> sgNameCol = null;
+		TextColumn<SubjectGroup> groupTypeCol = null;
+		TextColumn<SubjectGroup> groupCreatedByCol = null;
+		TextColumn<SubjectGroup> groupModifiedByCol = null;
+		Column<SubjectGroup, Date> groupModifiedDateCol = null;
+
 		public ContentView() {
 			mainPanel = new FlowPanel();
 			initWidget(mainPanel);
@@ -232,34 +243,231 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 			cellTable.setRowCount(0);
 			int i = 0;
 			while (cellTable.getColumnCount() != 0) {
-				cellTable.removeColumn(i);	
-			};
-			
-			List<SubjectGroup> list;
-			if (groups == null){
-				list = Collections.emptyList();
+				cellTable.removeColumn(i);
 			}
-			else{
+			;
+
+			final List<SubjectGroup> list;
+			if (groups == null) {
+				list = Collections.emptyList();
+			} else {
 				list = groups;
 			}
-			
-			// Attach a column sort handler to the ListDataProvider to sort the
-			// list.
-			ListHandler<SubjectGroup> sortHandler = new ListHandler<SubjectGroup>( 
-					list){
+
+			ListHandler<SubjectGroup> sortHandler = new ListHandler<SubjectGroup>(
+					list) {
+				@SuppressWarnings({ "rawtypes", "unchecked" })
 				@Override
 				public void onColumnSort(ColumnSortEvent event) {
-					super.onColumnSort(event);
+
+					if (sgNameCol.hashCode() == event.getColumn().hashCode()) {
+						// name sorting
+						Comparator nameAscComp = new Comparator<SubjectGroup>() {
+							public int compare(SubjectGroup o1, SubjectGroup o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the name columns.
+								if (o1 != null) {
+									return (o2 != null) ? o1.getName()
+											.compareToIgnoreCase(o2.getName())
+											: 1;
+								}
+								return -1;
+							}
+						};
+						Comparator nameDescComp = new Comparator<SubjectGroup>() {
+							public int compare(SubjectGroup o1, SubjectGroup o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the name columns.
+								if (o1 != null) {
+									return (o1 != null) ? o2.getName()
+											.compareToIgnoreCase(o1.getName())
+											: 1;
+								}
+								return -1;
+							}
+						};
+
+						if (event.isSortAscending()) {
+							Collections.sort(list, nameDescComp);
+						} else {
+							Collections.sort(list, nameAscComp);
+						}
+					} else if (groupTypeCol.hashCode() == event.getColumn()
+							.hashCode()) {
+						// type sorting
+						Comparator typeAscComp = new Comparator<SubjectGroup>() {
+							public int compare(SubjectGroup o1, SubjectGroup o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the name columns.
+								if (o1 != null) {
+									return (o2 != null) ? o1.getType()
+											.compareToIgnoreCase(o2.getType())
+											: 1;
+								}
+								return -1;
+							}
+						};
+						Comparator typeDescComp = new Comparator<SubjectGroup>() {
+							public int compare(SubjectGroup o1, SubjectGroup o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the name columns.
+								if (o1 != null) {
+									return (o1 != null) ? o2.getType()
+											.compareToIgnoreCase(o1.getType())
+											: 1;
+								}
+								return -1;
+							}
+						};
+
+						if (event.isSortAscending()) {
+							Collections.sort(list, typeDescComp);
+						} else {
+							Collections.sort(list, typeAscComp);
+						}
+
+					} else if (groupCreatedByCol.hashCode() == event
+							.getColumn().hashCode()) {
+						// creator sorting
+						Comparator creatorAscComp = new Comparator<SubjectGroup>() {
+							public int compare(SubjectGroup o1, SubjectGroup o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the name columns.
+								if (o1 != null) {
+									return (o2 != null) ? o1.getCreatedBy()
+											.compareToIgnoreCase(
+													o2.getCreatedBy()) : 1;
+								}
+								return -1;
+							}
+						};
+						Comparator creatorDescComp = new Comparator<SubjectGroup>() {
+							public int compare(SubjectGroup o1, SubjectGroup o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the name columns.
+								if (o1 != null) {
+									return (o1 != null) ? o2.getCreatedBy()
+											.compareToIgnoreCase(
+													o1.getCreatedBy()) : 1;
+								}
+								return -1;
+							}
+						};
+
+						if (event.isSortAscending()) {
+							Collections.sort(list, creatorDescComp);
+						} else {
+							Collections.sort(list, creatorAscComp);
+						}
+
+					} else if (groupModifiedByCol.hashCode() == event
+							.getColumn().hashCode()) {
+						// creator sorting
+						Comparator modifierAscComp = new Comparator<SubjectGroup>() {
+							public int compare(SubjectGroup o1, SubjectGroup o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the name columns.
+								if (o1 != null) {
+									return (o2 != null) ? o1
+											.getLastModifiedBy()
+											.compareToIgnoreCase(
+													o2.getLastModifiedBy()) : 1;
+								}
+								return -1;
+							}
+						};
+						Comparator modifierDescComp = new Comparator<SubjectGroup>() {
+							public int compare(SubjectGroup o1, SubjectGroup o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the name columns.
+								if (o1 != null) {
+									return (o1 != null) ? o2
+											.getLastModifiedBy()
+											.compareToIgnoreCase(
+													o1.getLastModifiedBy()) : 1;
+								}
+								return -1;
+							}
+						};
+
+						if (event.isSortAscending()) {
+							Collections.sort(list, modifierDescComp);
+						} else {
+							Collections.sort(list, modifierAscComp);
+						}
+
+					} else if (groupModifiedDateCol.hashCode() == event
+							.getColumn().hashCode()) {
+						
+						
+						// creator sorting
+						Comparator timeAscComp = new Comparator<SubjectGroup>() {
+							public int compare(SubjectGroup o1, SubjectGroup o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the time columns.
+								if (o1 != null) {
+									return (o2 != null) ? o1
+											.getLastModifiedTime()
+											.compareTo(o2.getLastModifiedTime()) : 1;
+								}
+								return -1;
+							}
+						};
+						Comparator timeDescComp = new Comparator<SubjectGroup>() {
+							public int compare(SubjectGroup o1, SubjectGroup o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the time columns.
+								if (o1 != null) {
+									return (o1 != null) ? o2
+											.getLastModifiedTime()
+											.compareTo(
+													o1.getLastModifiedTime()) : 1;
+								}
+								return -1;
+							}
+						};
+
+						if (event.isSortAscending()) {
+							Collections.sort(list, timeDescComp);
+						} else {
+							Collections.sort(list, timeAscComp);
+						}
+
+					}
+
+					//
+					dataProvider.setList(list);
+					dataProvider.refresh();
 					cellTable.redraw();
 				}
 			};
-			
+
 			dataProvider.setList(list);
 			final SelectionModel<SubjectGroup> selectionModel = new MultiSelectionModel<SubjectGroup>(
 					keyProvider);
-			
-			initTableColumns(selectionModel, sortHandler);	
-			
+
+			initTableColumns(selectionModel, sortHandler);
+
 			dataProvider.refresh();
 		}
 
@@ -279,7 +487,6 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 			if (cellTable != null)
 				cellTable.redraw();
 		}
-
 
 		public void activate() {
 			// do nothing for now
@@ -302,9 +509,9 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 			// bottom part of panel is a table with search results
 			Grid summaryGrid = new Grid(3, 1);
 			summaryGrid.setStyleName("sggrid");
-		
+
 			/*
-			 * Table section	    
+			 * Table section
 			 */
 			keyProvider = new ProvidesKey<SubjectGroup>() {
 				public Object getKey(SubjectGroup group) {
@@ -314,30 +521,30 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 			cellTable = new CellTable<SubjectGroup>(keyProvider);
 			dataProvider = new ListDataProvider<SubjectGroup>();
 			dataProvider.addDataDisplay(cellTable);
+
 			/*
 			 * ends table section
 			 */
-			
+
 			actionCombo.addChangeHandler(new ChangeHandler() {
 				public void onChange(ChangeEvent paramChangeEvent) {
 					pendingActions.clear();
 					setGroups(dataProvider.getList());
-					actionButton.setEnabled(pendingActions.size()>0);
+					actionButton.setEnabled(pendingActions.size() > 0);
 				}
 			});
-			
+
 			SimplePager pager = new SimplePager();
 			pager.setDisplay(cellTable);
 
-			
 			FlexTable actionTable = new FlexTable();
 			actionTable.setWidget(0, 0, actionCombo);
 			actionTable.setWidget(0, 1, actionButton);
 			actionTable.setWidget(0, 2, pager);
-			actionTable.getCellFormatter().setWidth(0,2,"800px");
-			actionTable.getCellFormatter().setHorizontalAlignment(0,2,HasAlignment.ALIGN_RIGHT);
-			
-			
+			actionTable.getCellFormatter().setWidth(0, 2, "800px");
+			actionTable.getCellFormatter().setHorizontalAlignment(0, 2,
+					HasAlignment.ALIGN_RIGHT);
+
 			summaryGrid.setWidget(0, 0, actionTable);
 			summaryGrid.setWidget(1, 0, cellTable);
 
@@ -347,133 +554,108 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 			summaryGrid.addStyleName("sg-content");
 			mainPanel.add(summaryGrid);
 		}
-		
-		
-				
+
 		private void updateCombo() {
 			actionCombo.clear();
-			actionCombo.addItem(PolicyAdminUIUtil.policyAdminConstants
-					.delete(), UserAction.SUBJECT_GROUP_DELETE.toString());
-			actionCombo
-					.addItem(PolicyAdminUIUtil.policyAdminConstants.export(), UserAction.SUBJECT_GROUP_EXPORT.toString());
-			
+			actionCombo.addItem(
+					PolicyAdminUIUtil.policyAdminConstants.delete(),
+					UserAction.SUBJECT_GROUP_DELETE.toString());
+			actionCombo.addItem(
+					PolicyAdminUIUtil.policyAdminConstants.export(),
+					UserAction.SUBJECT_GROUP_EXPORT.toString());
+
 		}
 
-		private <C> Column<SubjectGroup, C> createCell(Cell<C> cell,final GetValue<C> getter,
+		private <C> Column<SubjectGroup, C> createCell(Cell<C> cell,
+				final GetValue<C> getter,
 				FieldUpdater<SubjectGroup, C> fieldUpdater) {
-				        Column<SubjectGroup, C> column = new Column<SubjectGroup, C>(cell) {
+			Column<SubjectGroup, C> column = new Column<SubjectGroup, C>(cell) {
 
-				        @Override
-				        public C getValue(SubjectGroup object) {
-				            return getter.getValue(object);
-				        }
-				       
-				        @Override
-		                public void render(Cell.Context context, SubjectGroup object, SafeHtmlBuilder sb) 
-		                {
-		                    sb.appendHtmlConstant("<a href='javascript:void(0);'>");
-		                    super.render(context, object, sb);
-		                    sb.appendHtmlConstant("</a>");
-		                } 
-				    };
-				    column.setFieldUpdater(fieldUpdater);
-				    return column;
+				@Override
+				public C getValue(SubjectGroup object) {
+					return getter.getValue(object);
+				}
+
+				@Override
+				public void render(Cell.Context context, SubjectGroup object,
+						SafeHtmlBuilder sb) {
+					sb.appendHtmlConstant("<a href='javascript:void(0);'>");
+					super.render(context, object, sb);
+					sb.appendHtmlConstant("</a>");
+				}
+			};
+			column.setFieldUpdater(fieldUpdater);
+			return column;
 		}
-		
-		private void initTableColumns(final SelectionModel<SubjectGroup> selectionModel, 
-				ListHandler<SubjectGroup> sortHandler ) {
 
-			//checkbox column 
+		private void initTableColumns(
+				final SelectionModel<SubjectGroup> selectionModel,
+				ListHandler<SubjectGroup> sortHandler) {
+
+			// checkbox column
 			Column<SubjectGroup, SubjectGroup> checkColumn = new Column<SubjectGroup, SubjectGroup>(
-                    new CustomPermissionCheckboxCell(UserAction.valueOf(
-                    		this.actionCombo.getValue(this.actionCombo.getSelectedIndex())),
-                    		pendingActions, permittedActions)) {
-                public SubjectGroup getValue(SubjectGroup group) {
-                   return group;
-                }
-            };
-            checkColumn.setFieldUpdater(new FieldUpdater<SubjectGroup, SubjectGroup>() {
-                public void update(int arg0, SubjectGroup arg1,SubjectGroup arg2) {
-                    if (pendingActions.keySet().contains(arg1)) {
-                        pendingActions.remove(arg1);
-                    }else {
-                        // Called when the user clicks on a checkbox.
-                    	pendingActions.put(arg1, UserAction.valueOf(
-                        		actionCombo.getValue(actionCombo.getSelectedIndex())));
-                    }
-                    
-                    actionButton.setEnabled(pendingActions.size()>0);
-                                      
-                    cellTable.redraw();
-                }
-            });
-			
+					new CustomPermissionCheckboxCell(
+							UserAction.valueOf(this.actionCombo
+									.getValue(this.actionCombo
+											.getSelectedIndex())),
+							pendingActions, permittedActions)) {
+				public SubjectGroup getValue(SubjectGroup group) {
+					return group;
+				}
+			};
+			checkColumn
+					.setFieldUpdater(new FieldUpdater<SubjectGroup, SubjectGroup>() {
+						public void update(int arg0, SubjectGroup arg1,
+								SubjectGroup arg2) {
+							if (pendingActions.keySet().contains(arg1)) {
+								pendingActions.remove(arg1);
+							} else {
+								// Called when the user clicks on a checkbox.
+								pendingActions.put(arg1, UserAction
+										.valueOf(actionCombo
+												.getValue(actionCombo
+														.getSelectedIndex())));
+							}
+
+							actionButton.setEnabled(pendingActions.size() > 0);
+
+							cellTable.redraw();
+						}
+					});
 			cellTable.addColumn(checkColumn, "All");
 
 			// subject Group name.
 			ClickableTextCell sgNameCellClickable = new ClickableTextCell();
-			
-			Column<SubjectGroup, String> sgNameCol =  createCell(sgNameCellClickable, new GetValue<String>(){
+			sgNameCol = createCell(sgNameCellClickable, new GetValue<String>() {
 				public String getValue(SubjectGroup sg) {
-	                return sg.getName() ; 
-	            }
-	        }, new FieldUpdater<SubjectGroup, String>() {
-	            public void update(int index, SubjectGroup sg, String value) {
-	                pendingActions.clear();
-	                pendingActions.put(sg, UserAction.SUBJECT_GROUP_EDIT);
-	                actionButton.fireEvent(new ClickEvent(){});
-	                pendingActions.clear();
-	            }
-	        });
+					return sg.getName();
+				}
+			}, new FieldUpdater<SubjectGroup, String>() {
+				public void update(int index, SubjectGroup sg, String value) {
+					pendingActions.clear();
+					pendingActions.put(sg, UserAction.SUBJECT_GROUP_EDIT);
+					actionButton.fireEvent(new ClickEvent() {
+					});
+					pendingActions.clear();
+				}
+			});
 			sgNameCol.setSortable(true);
-			sortHandler.setComparator(sgNameCol,
-			        new Comparator<SubjectGroup>() {
-			          public int compare(SubjectGroup o1, SubjectGroup o2) {
-			            if (o1 == o2) {
-			              return 0;
-			            }
-
-			            // Compare the name columns.
-			            if (o1 != null) {
-			              return (o2 != null) ? o1.getName().compareToIgnoreCase(o2.getName()) : 1;
-			            }
-			            return -1;
-			          }
-		        });
-			
-			
-			cellTable.addColumn(sgNameCol, PolicyAdminUIUtil.policyAdminConstants.subjectGroupName());
+			cellTable.addColumn(sgNameCol,
+					PolicyAdminUIUtil.policyAdminConstants.subjectGroupName());
 			cellTable.getColumnSortList().push(sgNameCol);
-			
-			
-			
+
 			// subject type
-			TextColumn<SubjectGroup> groupTypeCol = new TextColumn<SubjectGroup>() {
+			groupTypeCol = new TextColumn<SubjectGroup>() {
 				public String getValue(SubjectGroup group) {
 					return (group == null ? null : group.getType().toString());
 				}
 			};
 			groupTypeCol.setSortable(true);
-			sortHandler.setComparator(groupTypeCol,
-			        new Comparator<SubjectGroup>() {
-			          public int compare(SubjectGroup o1, SubjectGroup o2) {
-			            if (o1 == o2) {
-			              return 0;
-			            }
 
-			            // Compare the type columns.
-			            if (o1 != null) {
-			              return (o2 != null) ? o1.getType().compareToIgnoreCase(o2.getType()) : 1;
-			            }
-			            return -1;
-			          }
-		        });
 			cellTable.addColumn(groupTypeCol,
 					PolicyAdminUIUtil.policyAdminConstants.subjectType());
 
-			
 			// assigned subjects
-			// TODO improve this
 			Column<SubjectGroup, List<String>> groupSubjectsCol = new Column<SubjectGroup, List<String>>(
 					new CustomListCell()) {
 				public List<String> getValue(SubjectGroup group) {
@@ -483,12 +665,11 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 					return group.getSubjects();
 				}
 			};
-			
+
 			cellTable.addColumn(groupSubjectsCol,
 					PolicyAdminUIUtil.policyAdminConstants.subjectsAssigned());
 
 			// policies assigned
-			// TODO improve this
 			Column<SubjectGroup, List<String>> groupPoliciesCol = new Column<SubjectGroup, List<String>>(
 					new CustomListCell()) {
 				public List<String> getValue(SubjectGroup group) {
@@ -498,95 +679,43 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 					return group.getPolicies();
 				}
 			};
-
 			cellTable.addColumn(groupPoliciesCol,
 					PolicyAdminUIUtil.policyAdminConstants.policiesAssigned());
 
 			// created by
-			TextColumn<SubjectGroup> groupCreatedByCol = new TextColumn<SubjectGroup>() {
+			groupCreatedByCol = new TextColumn<SubjectGroup>() {
 				public String getValue(SubjectGroup group) {
 					return (group == null ? null : group.getCreatedBy());
 				}
 			};
 			groupCreatedByCol.setSortable(true);
-			sortHandler.setComparator(groupCreatedByCol,
-			        new Comparator<SubjectGroup>() {
-			          public int compare(SubjectGroup o1, SubjectGroup o2) {
-			            if (o1 == o2) {
-			              return 0;
-			            }
-
-			            // Compare the type columns.
-			            if (o1 != null) {
-			              return (o2 != null) ? o1.getCreatedBy().compareToIgnoreCase(o2.getCreatedBy()) : 1;
-			            }
-			            return -1;
-			          }
-		        });
 			cellTable.addColumn(groupCreatedByCol,
 					PolicyAdminUIUtil.policyAdminConstants.createdBy());
 
 			// Last modified by
-			TextColumn<SubjectGroup> groupModifiedByCol = new TextColumn<SubjectGroup>() {
+			groupModifiedByCol = new TextColumn<SubjectGroup>() {
 				public String getValue(SubjectGroup group) {
 					return (group == null ? null : group.getLastModifiedBy());
 				}
 			};
 			groupModifiedByCol.setSortable(true);
-			sortHandler.setComparator(groupModifiedByCol,
-			        new Comparator<SubjectGroup>() {
-			          public int compare(SubjectGroup o1, SubjectGroup o2) {
-			            if (o1 == o2) {
-			              return 0;
-			            }
-
-			            // Compare the type columns.
-			            if (o1 != null) {
-			              return (o2 != null) ? o1.getLastModifiedBy().compareToIgnoreCase(o2.getLastModifiedBy()) : 1;
-			            }
-			            return -1;
-			          }
-		        });
 			cellTable.addColumn(groupModifiedByCol,
 					PolicyAdminUIUtil.policyAdminConstants.lastModifiedBy());
 
 			// Last modified date
-			Column<SubjectGroup, Date> groupModifiedDateCol = new Column<SubjectGroup, Date>(
-					new DateCell(PolicyAdminUIUtil.tzTimeFormat)) {
+			groupModifiedDateCol = new Column<SubjectGroup, Date>(new DateCell(
+					PolicyAdminUIUtil.tzTimeFormat)) {
 				public Date getValue(SubjectGroup group) {
 					return (group == null ? null : group.getLastModifiedTime());
 				}
 			};
 			groupModifiedDateCol.setSortable(true);
-			sortHandler.setComparator(groupModifiedDateCol,
-			        new Comparator<SubjectGroup>() {
-			          public int compare(SubjectGroup o1, SubjectGroup o2) {
-			            if (o1 == o2) {
-			              return 0;
-			            }
-
-			            // Compare the type columns.
-			            if (o1 != null) {
-			              return (o2 != null) ? o1.getLastModifiedTime().toString().compareToIgnoreCase(o2.getLastModifiedTime().toString()) : 1;
-			            }
-			            return -1;
-			          }
-		        });
 			cellTable.addColumn(groupModifiedDateCol,
 					PolicyAdminUIUtil.policyAdminConstants.lastModifiedTime());
 
-//			cellTable.addRangeChangeHandler(new RangeChangeEvent.Handler() {
-//				public void onRangeChange(RangeChangeEvent event) {
-//					// TODO ask for permissions for this user for the next lot
-//					// of subjectgroups selected
-//				}
-//			});
-
 			cellTable.addColumnSortHandler(sortHandler);
 		}
-		
-		
-	
+
 		public Map<SubjectGroup, UserAction> getPendingActions() {
 			return new HashMap<SubjectGroup, UserAction>(pendingActions);
 		}
