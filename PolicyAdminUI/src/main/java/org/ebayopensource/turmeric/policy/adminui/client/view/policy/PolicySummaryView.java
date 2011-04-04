@@ -1031,7 +1031,13 @@ public class PolicySummaryView extends AbstractGenericView implements
 	        }, new FieldUpdater<GenericPolicy, String>() {
 	            public void update(int index, GenericPolicy policy, String value) {
 	                pendingActions.clear();
-	                pendingActions.put(policy, UserAction.POLICY_EDIT);
+					if(permittedActions.containsKey(policy) && permittedActions.get(policy).contains(UserAction.POLICY_EDIT)){
+						pendingActions.put(policy, UserAction.POLICY_EDIT);	
+					}else{
+						pendingActions.put(policy, UserAction.POLICY_VIEW);
+					}
+						
+
 	                actionButton.fireEvent(new ClickEvent(){});
 	                pendingActions.clear();
 

@@ -650,14 +650,19 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 					return sg.getName();
 				}
 			}, new FieldUpdater<SubjectGroup, String>() {
-				public void update(int index, SubjectGroup sg, String value) {
-					pendingActions.clear();
-					pendingActions.put(sg, UserAction.SUBJECT_GROUP_EDIT);
-					actionButton.fireEvent(new ClickEvent() {
-					});
-					pendingActions.clear();
-				}
-			});
+					public void update(int index, SubjectGroup sg, String value) {
+						pendingActions.clear();
+						if(permittedActions.containsKey(sg) && permittedActions.get(sg).contains(UserAction.SUBJECT_GROUP_EDIT)){
+							pendingActions.put(sg, UserAction.SUBJECT_GROUP_EDIT);	
+						}else{
+							pendingActions.put(sg, UserAction.SUBJECT_GROUP_VIEW);
+						}
+						actionButton.fireEvent(new ClickEvent() {
+						});
+						pendingActions.clear();
+					}
+				});
+				
 			sgNameCol.setSortable(true);
 			cellTable.addColumn(sgNameCol,
 					PolicyAdminUIUtil.policyAdminConstants.subjectGroupName());
