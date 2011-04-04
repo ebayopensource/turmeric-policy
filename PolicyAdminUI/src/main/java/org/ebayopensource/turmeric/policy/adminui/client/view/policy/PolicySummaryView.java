@@ -100,6 +100,7 @@ public class PolicySummaryView extends AbstractGenericView implements
 		private List<String> rsNames = new ArrayList<String>();
 		private List<String> opNames = new ArrayList<String>();
 
+		
 		public PolicySearchWidget() {
 			mainPanel = new FlowPanel();
 
@@ -455,8 +456,12 @@ public class PolicySummaryView extends AbstractGenericView implements
 		/*
 		 * columns
 		 */
-		
 		Column<GenericPolicy, String> policyNameCol;
+		TextColumn<GenericPolicy> policyTypeCol;
+		TextColumn<GenericPolicy> policyStatusCol;
+		TextColumn<GenericPolicy> policyCreatedByCol;
+		TextColumn<GenericPolicy> policyModifiedByCol;
+		Column<GenericPolicy, Date> policyModifiedDateCol;
 
 		/**
 		 * ActionPermissionCheckboxCell
@@ -576,7 +581,7 @@ public class PolicySummaryView extends AbstractGenericView implements
 			};
 			
 			
-			List<GenericPolicy> list;
+			final List<GenericPolicy> list;
 			if (policies == null) {
 				list = Collections.emptyList();
 			} else {
@@ -587,9 +592,253 @@ public class PolicySummaryView extends AbstractGenericView implements
 			// list.
 			ListHandler<GenericPolicy> sortHandler = new ListHandler<GenericPolicy>( 
 					list){
+				@SuppressWarnings({ "rawtypes", "unchecked" })
 				@Override
 				public void onColumnSort(ColumnSortEvent event) {
-					super.onColumnSort(event);
+
+					if (policyNameCol.hashCode() == event.getColumn().hashCode()) {
+						// name sorting
+						Comparator nameAscComp = new Comparator<GenericPolicy>() {
+							public int compare(GenericPolicy o1, GenericPolicy o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the name columns.
+								if (o1 != null) {
+									return (o2 != null) ? o1.getName()
+											.compareToIgnoreCase(o2.getName())
+											: 1;
+								}
+								return -1;
+							}
+						};
+						Comparator nameDescComp = new Comparator<GenericPolicy>() {
+							public int compare(GenericPolicy o1, GenericPolicy o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the name columns.
+								if (o2 != null) {
+									return (o1 != null) ? o2.getName()
+											.compareToIgnoreCase(o1.getName())
+											: 1;
+								}
+								return -1;
+							}
+						};
+
+						if (event.isSortAscending()) {
+							Collections.sort(list, nameDescComp);
+						} else {
+							Collections.sort(list, nameAscComp);
+						}
+						
+					} else if (policyTypeCol.hashCode() == event.getColumn()
+							.hashCode()) {
+						// type sorting
+						Comparator typeAscComp = new Comparator<GenericPolicy>() {
+							public int compare(GenericPolicy o1, GenericPolicy o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the type columns.
+								if (o1 != null) {
+									return (o2 != null) ? o1.getType()
+											.compareToIgnoreCase(o2.getType())
+											: 1;
+								}
+								return -1;
+							}
+						};
+						Comparator typeDescComp = new Comparator<GenericPolicy>() {
+							public int compare(GenericPolicy o1, GenericPolicy o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the type columns.
+								if (o2 != null) {
+									return (o1 != null) ? o2.getType()
+											.compareToIgnoreCase(o1.getType())
+											: 1;
+								}
+								return -1;
+							}
+						};
+
+						if (event.isSortAscending()) {
+							Collections.sort(list, typeDescComp);
+						} else {
+							Collections.sort(list, typeAscComp);
+						}
+						
+					} else if (policyStatusCol.hashCode() == event.getColumn()
+							.hashCode()) {
+						// status sorting
+						Comparator statusAscComp = new Comparator<GenericPolicy>() {
+							public int compare(GenericPolicy o1, GenericPolicy o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the status columns.
+								if (o1 != null) {
+									return (o2 != null) ? String.valueOf(o1.getEnabled())
+											.compareToIgnoreCase(String.valueOf(o2.getEnabled()))
+											: 1;
+								}
+								return -1;
+							}
+						};
+						Comparator statusDescComp = new Comparator<GenericPolicy>() {
+							public int compare(GenericPolicy o1, GenericPolicy o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the status columns.
+								if (o2 != null) {
+									return (o1 != null) ? String.valueOf(o2.getEnabled())
+											.compareToIgnoreCase(String.valueOf(o1.getEnabled()))
+											: 1;
+								}
+								return -1;
+							}
+						};
+
+						if (event.isSortAscending()) {
+							Collections.sort(list, statusDescComp);
+						} else {
+							Collections.sort(list, statusAscComp);
+						}
+
+					} else if (policyCreatedByCol.hashCode() == event
+							.getColumn().hashCode()) {
+						// creator sorting
+						Comparator creatorAscComp = new Comparator<GenericPolicy>() {
+							public int compare(GenericPolicy o1, GenericPolicy o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the creator columns.
+								if (o1 != null) {
+									return (o2 != null) ? o1.getCreatedBy()
+											.compareToIgnoreCase(
+													o2.getCreatedBy()) : 1;
+								}
+								return -1;
+							}
+						};
+						Comparator creatorDescComp = new Comparator<GenericPolicy>() {
+							public int compare(GenericPolicy o1, GenericPolicy o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the creator columns.
+								if (o2 != null) {
+									return (o1 != null) ? o2.getCreatedBy()
+											.compareToIgnoreCase(
+													o1.getCreatedBy()) : 1;
+								}
+								return -1;
+							}
+						};
+
+						if (event.isSortAscending()) {
+							Collections.sort(list, creatorDescComp);
+						} else {
+							Collections.sort(list, creatorAscComp);
+						}
+
+					} else if (policyModifiedByCol.hashCode() == event
+							.getColumn().hashCode()) {
+						// modifier sorting
+						Comparator modifierAscComp = new Comparator<GenericPolicy>() {
+							public int compare(GenericPolicy o1, GenericPolicy o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the updater columns.
+								if (o1 != null && o1.getLastModifiedBy() != null ) {
+									return (o2 != null && o2.getLastModifiedBy() != null ) ? o1
+											.getLastModifiedBy()
+											.compareToIgnoreCase(
+													o2.getLastModifiedBy()) : 1;
+								}
+								return -1;
+							}
+						};
+						Comparator modifierDescComp = new Comparator<GenericPolicy>() {
+							public int compare(GenericPolicy o1, GenericPolicy o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the updater columns.
+								if (o2 != null && o2.getLastModifiedBy() != null) {
+									return (o1 != null && o1.getLastModifiedBy() != null ) ? o2
+											.getLastModifiedBy()
+											.compareToIgnoreCase(
+													o1.getLastModifiedBy()) : 1;
+								}
+								return -1;
+							}
+						};
+
+						if (event.isSortAscending()) {
+							Collections.sort(list, modifierDescComp);
+						} else {
+							Collections.sort(list, modifierAscComp);
+						}
+
+					} else if (policyModifiedDateCol.hashCode() == event
+							.getColumn().hashCode()) {
+						
+						
+						// creator sorting
+						Comparator timeAscComp = new Comparator<GenericPolicy>() {
+							public int compare(GenericPolicy o1, GenericPolicy o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the time columns.
+								if (o1 != null) {
+									return (o2 != null) ? o1
+											.getLastModified()
+											.compareTo(o2.getLastModified()) : 1;
+								}
+								return -1;
+							}
+						};
+						Comparator timeDescComp = new Comparator<GenericPolicy>() {
+							public int compare(GenericPolicy o1, GenericPolicy o2) {
+								if (o1 == o2) {
+									return 0;
+								}
+								// Compare the time columns.
+								if (o2 != null) {
+									return (o1 != null) ? o2
+											.getLastModified()
+											.compareTo(
+													o1.getLastModified()) : 1;
+								}
+								return -1;
+							}
+						};
+
+						if (event.isSortAscending()) {
+							Collections.sort(list, timeDescComp);
+						} else {
+							Collections.sort(list, timeAscComp);
+						}
+
+					}
+					
+					
+					
+					
+					
+					
+					
+					
+					dataProvider.setList(list);
+					dataProvider.refresh();
 					cellTable.redraw();
 				}
 			};
@@ -756,7 +1005,6 @@ public class PolicySummaryView extends AbstractGenericView implements
 			
 			// policyName.
 			ClickableTextCell policyNameCellClickable = new ClickableTextCell();
-			
 			policyNameCol =  createCell(policyNameCellClickable, new GetValue<String>(){
 				public String getValue(GenericPolicy policy) {
 	                return policy.getName() ; 
@@ -771,149 +1019,65 @@ public class PolicySummaryView extends AbstractGenericView implements
 	            }
 	        });
 			policyNameCol.setSortable(true);
-			sortHandler.setComparator(policyNameCol,
-			        new Comparator<GenericPolicy>() {
-			          public int compare(GenericPolicy o1, GenericPolicy o2) {
-			            if (o1 == o2) {
-			              return 0;
-			            }
-
-			            // Compare the name columns.
-			            if (o1 != null) {
-			              return (o2 != null) ? o1.getName().compareToIgnoreCase(o2.getName()) : 1;
-			            }
-			            return -1;
-			          }
-		        });
-			
-			
 			cellTable.addColumn(policyNameCol, PolicyAdminUIUtil.policyAdminConstants.policyName());
 			cellTable.getColumnSortList().push(policyNameCol);
 			
 			
 			// policy type
-			TextColumn<GenericPolicy> policyTypeCol = new TextColumn<GenericPolicy>() {
+			policyTypeCol = new TextColumn<GenericPolicy>() {
 				public String getValue(GenericPolicy policy) {
 					return (policy == null ? null : policy.getType());
 				}
 			};
-			
 			policyTypeCol.setSortable(true);
-			sortHandler.setComparator(policyTypeCol,
-			        new Comparator<GenericPolicy>() {
-			          public int compare(GenericPolicy o1, GenericPolicy o2) {
-			            if (o1 == o2) {
-			              return 0;
-			            }
-
-			            // Compare the type columns.
-			            if (o1 != null) {
-			              return (o2 != null) ? o1.getType().compareToIgnoreCase(o2.getType()) : 1;
-			            }
-			            return -1;
-			          }
-		        });
-
 			cellTable.addColumn(policyTypeCol,
 					PolicyAdminUIUtil.policyAdminConstants.policyType());
 			
+			
 			// policy status
-			TextColumn<GenericPolicy> policyStatusCol = new TextColumn<GenericPolicy>() {
+			policyStatusCol = new TextColumn<GenericPolicy>() {
 				public String getValue(GenericPolicy policy) {
 					return (policy == null ? null
 							: policy.getEnabled() ? "ENABLED" : "DISABLED");
 				}
 			};
 			policyStatusCol.setSortable(true);
-			sortHandler.setComparator(policyStatusCol,
-			        new Comparator<GenericPolicy>() {
-			          public int compare(GenericPolicy o1, GenericPolicy o2) {
-			            if (o1 == o2) {
-			              return 0;
-			            }
-
-			            // Compare the status columns.
-			            if (o1 != null) {
-			              return (o2 != null) ? Boolean.toString(o1.getEnabled()).compareToIgnoreCase(Boolean.toString(o2.getEnabled())) : 1;
-			            }
-			            return -1;
-			          }
-		        });
-
 			cellTable.addColumn(policyStatusCol,
 					PolicyAdminUIUtil.policyAdminConstants.status());
 			
+			
 			// created by
-			TextColumn<GenericPolicy> policyCreatedByCol = new TextColumn<GenericPolicy>() {
+			policyCreatedByCol = new TextColumn<GenericPolicy>() {
 				public String getValue(GenericPolicy policy) {
 					return (policy == null ? null : policy.getCreatedBy());
 				}
 			};
 			policyCreatedByCol.setSortable(true);
-			sortHandler.setComparator(policyCreatedByCol,
-			        new Comparator<GenericPolicy>() {
-			          public int compare(GenericPolicy o1, GenericPolicy o2) {
-			            if (o1 == o2) {
-			              return 0;
-			            }
-
-			            // Compare the creator columns.
-			            if (o1 != null) {
-			              return (o2 != null) ? o1.getCreatedBy().compareToIgnoreCase(o2.getCreatedBy()) : 1;
-			            }
-			            return -1;
-			          }
-		        });
 			cellTable.addColumn(policyCreatedByCol,
 					PolicyAdminUIUtil.policyAdminConstants.createdBy());
 
+			
+			
 			// Last modified by
-			TextColumn<GenericPolicy> policyModifiedByCol = new TextColumn<GenericPolicy>() {
+			policyModifiedByCol = new TextColumn<GenericPolicy>() {
 				public String getValue(GenericPolicy policy) {
 					return (policy == null ? null : policy.getLastModifiedBy());
 				}
 			};
 			
 			policyModifiedByCol.setSortable(true);
-			sortHandler.setComparator(policyModifiedByCol,
-			        new Comparator<GenericPolicy>() {
-			          public int compare(GenericPolicy o1, GenericPolicy o2) {
-			            if (o1 == o2) {
-			              return 0;
-			            }
-
-			            // Compare the last updater columns.
-			            if (o1 != null) {
-			              return (o2 != null) ? o1.getLastModifiedBy().compareToIgnoreCase(o2.getLastModifiedBy()) : 1;
-			            }
-			            return -1;
-			          }
-		        });
 			cellTable.addColumn(policyModifiedByCol,
 					PolicyAdminUIUtil.policyAdminConstants.lastModifiedBy());
 			
+			
 			// Last modified date
-			Column<GenericPolicy, Date> policyModifiedDateCol = new Column<GenericPolicy, Date>(
+			policyModifiedDateCol = new Column<GenericPolicy, Date>(
 					new DateCell(PolicyAdminUIUtil.tzTimeFormat)) {
 				public Date getValue(GenericPolicy policy) {
 					return (policy == null ? null : policy.getLastModified());
 				}
 			};
 			policyModifiedDateCol.setSortable(true);
-			sortHandler.setComparator(policyModifiedDateCol,
-			        new Comparator<GenericPolicy>() {
-			          public int compare(GenericPolicy o1, GenericPolicy o2) {
-			            if (o1 == o2) {
-			              return 0;
-			            }
-
-			            // Compare the Last update columns.
-			            if (o1 != null) {
-			              return (o2 != null) ? o1.getLastModified().toString().compareToIgnoreCase(o2.getLastModified().toString()) : 1;
-			            }
-			            return -1;
-			          }
-		        });
 			cellTable.addColumn(policyModifiedDateCol,
 					PolicyAdminUIUtil.policyAdminConstants.lastModifiedTime());
 			
