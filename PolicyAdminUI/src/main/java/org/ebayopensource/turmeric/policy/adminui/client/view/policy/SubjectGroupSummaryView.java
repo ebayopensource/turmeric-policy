@@ -282,7 +282,7 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 									return 0;
 								}
 								// Compare the name columns.
-								if (o1 != null) {
+								if (o2 != null) {
 									return (o1 != null) ? o2.getName()
 											.compareToIgnoreCase(o1.getName())
 											: 1;
@@ -319,7 +319,7 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 									return 0;
 								}
 								// Compare the name columns.
-								if (o1 != null) {
+								if (o2 != null) {
 									return (o1 != null) ? o2.getType()
 											.compareToIgnoreCase(o1.getType())
 											: 1;
@@ -357,7 +357,7 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 									return 0;
 								}
 								// Compare the name columns.
-								if (o1 != null) {
+								if (o2 != null) {
 									return (o1 != null) ? o2.getCreatedBy()
 											.compareToIgnoreCase(
 													o1.getCreatedBy()) : 1;
@@ -381,8 +381,8 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 									return 0;
 								}
 								// Compare the name columns.
-								if (o1 != null) {
-									return (o2 != null) ? o1
+								if (o1 != null && o1.getLastModifiedBy() != null ) {
+									return (o2 != null && o2.getLastModifiedBy() != null ) ? o1
 											.getLastModifiedBy()
 											.compareToIgnoreCase(
 													o2.getLastModifiedBy()) : 1;
@@ -396,8 +396,8 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 									return 0;
 								}
 								// Compare the name columns.
-								if (o1 != null) {
-									return (o1 != null) ? o2
+								if (o2 != null && o2.getLastModifiedBy() != null) {
+									return (o1 != null && o1.getLastModifiedBy() != null ) ? o2
 											.getLastModifiedBy()
 											.compareToIgnoreCase(
 													o1.getLastModifiedBy()) : 1;
@@ -437,7 +437,7 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 									return 0;
 								}
 								// Compare the time columns.
-								if (o1 != null) {
+								if (o2 != null) {
 									return (o1 != null) ? o2
 											.getLastModifiedTime()
 											.compareTo(
