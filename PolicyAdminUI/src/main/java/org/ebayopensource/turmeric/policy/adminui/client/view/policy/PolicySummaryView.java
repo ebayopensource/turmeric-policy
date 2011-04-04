@@ -573,6 +573,7 @@ public class PolicySummaryView extends AbstractGenericView implements
 			initialize();
 		}
 
+		@SuppressWarnings("unchecked")
 		public void setPolicies(List<GenericPolicy> policies) {
 			cellTable.setRowCount(0);
 			int i = 0;
@@ -586,6 +587,24 @@ public class PolicySummaryView extends AbstractGenericView implements
 				list = Collections.emptyList();
 			} else {
 				list = policies;
+
+				// date modified sorting
+				Comparator timeAscComp = new Comparator<GenericPolicy>() {
+					public int compare(GenericPolicy o1, GenericPolicy o2) {
+						if (o1 == o2) {
+							return 0;
+						}
+						// Compare the time columns.
+						if (o1 != null) {
+							return (o2 != null) ? o1
+									.getLastModified()
+									.compareTo(o2.getLastModified()) : 1;
+						}
+						return -1;
+					}
+				};
+
+				Collections.sort(list, timeAscComp);
 			}
 			
 			// Attach a column sort handler to the ListDataProvider to sort the
@@ -791,7 +810,7 @@ public class PolicySummaryView extends AbstractGenericView implements
 							.getColumn().hashCode()) {
 						
 						
-						// creator sorting
+						// date modified sorting
 						Comparator timeAscComp = new Comparator<GenericPolicy>() {
 							public int compare(GenericPolicy o1, GenericPolicy o2) {
 								if (o1 == o2) {

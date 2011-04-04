@@ -252,6 +252,26 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 				list = Collections.emptyList();
 			} else {
 				list = groups;
+
+				// date modified sorting
+				Comparator timeAscComp = new Comparator<SubjectGroup>() {
+					public int compare(SubjectGroup o1, SubjectGroup o2) {
+						if (o1 == o2) {
+							return 0;
+						}
+						// Compare the time columns.
+						if (o1 != null) {
+							return (o2 != null) ? o1
+									.getLastModifiedTime()
+									.compareTo(o2.getLastModifiedTime()) : 1;
+						}
+						return -1;
+					}
+				};
+
+				Collections.sort(list, timeAscComp);
+			
+			
 			}
 
 			ListHandler<SubjectGroup> sortHandler = new ListHandler<SubjectGroup>(
@@ -455,7 +475,6 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 
 					}
 
-					//
 					dataProvider.setList(list);
 					dataProvider.refresh();
 					cellTable.redraw();
