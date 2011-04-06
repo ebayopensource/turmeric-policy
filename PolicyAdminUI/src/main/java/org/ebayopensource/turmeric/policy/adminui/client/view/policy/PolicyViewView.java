@@ -11,8 +11,8 @@ package org.ebayopensource.turmeric.policy.adminui.client.view.policy;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.Display;
+import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ExtraField;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Operation;
@@ -26,6 +26,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.Policy
 import org.ebayopensource.turmeric.policy.adminui.client.util.PolicyExtraFieldsUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
+import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericStackPanel;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -42,7 +43,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
@@ -94,21 +94,24 @@ public class PolicyViewView extends ResizeComposite implements
 		extraFieldList = new ArrayList<ExtraField>();
 
 		// CONTENT
-		StackLayoutPanel policyContentPanel = new StackLayoutPanel(Unit.EM);
-		policyContentPanel.add(initContentView(), TITLE_FORM, 2);
+		TurmericStackPanel policyContentPanel = new TurmericStackPanel();
+		policyContentPanel.add(initContentView(), TITLE_FORM);
 		policyContentPanel.add(initResourceContentView(),
-				PolicyAdminUIUtil.policyAdminConstants.resources(), 2);
+				PolicyAdminUIUtil.policyAdminConstants.resources());
 		policyContentPanel.add(initSubjectContentView(),
-				PolicyAdminUIUtil.policyAdminConstants.subjectsAndSubjectGroups(), 2);
-		policyContentPanel.setHeight("90%");
+				PolicyAdminUIUtil.policyAdminConstants.subjectsAndSubjectGroups());
+		policyContentPanel.setWidth("100%");
 
 		cancelButton = new Button(PolicyAdminUIUtil.constants.cancel());
 		final HorizontalPanel buttonsPannel = new HorizontalPanel();
 		buttonsPannel.add(cancelButton);
 
-		mainPanel.addSouth(buttonsPannel, 1);
-		mainPanel.add(policyContentPanel);
-
+		mainPanel.addSouth(buttonsPannel, 2);
+		
+		ScrollPanel scroll =  new ScrollPanel( policyContentPanel);
+		scroll.setHeight("95%");
+		mainPanel.add(scroll);
+		
 	}
 
 	protected Widget initContentView() {

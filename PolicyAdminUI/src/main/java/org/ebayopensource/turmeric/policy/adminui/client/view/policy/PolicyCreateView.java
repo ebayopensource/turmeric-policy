@@ -14,10 +14,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.Display;
+import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ExtraField;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Operation;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicySubjectAssignment;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource;
@@ -29,6 +28,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.Policy
 import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.SelectBoxesWidget;
+import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericStackPanel;
 
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.FieldUpdater;
@@ -57,7 +57,6 @@ import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -96,19 +95,18 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 	private class PolicyConditionWidget extends Composite {
 		private FlowPanel mainPanel;
 		private Button addConditionButton;
-		
+
 		TextBox quantityBox;
-		
+
 		private Label rsLabel;
 		private Label opLabel;
-		
+
 		private ListBox rsListBox;
 		private ListBox opListBox;
 		private ListBox conditionListBox;
 		private ListBox aritmSignListBox;
 		private ListBox logicOpListBox;
-		
-	
+
 		public PolicyConditionWidget() {
 			mainPanel = new FlowPanel();
 
@@ -118,22 +116,23 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 					PolicyAdminUIUtil.policyAdminConstants.service());
 			opLabel = new Label(
 					PolicyAdminUIUtil.policyAdminConstants.operationName());
-			
+
 			rsListBox = new ListBox(false);
-			opListBox= new ListBox(false);
-			conditionListBox=new ListBox(false);
-			aritmSignListBox= new ListBox(false);
+			opListBox = new ListBox(false);
+			conditionListBox = new ListBox(false);
+			aritmSignListBox = new ListBox(false);
 			setAritmSignListBoxValues();
-			logicOpListBox= new ListBox(false);
+			logicOpListBox = new ListBox(false);
 			setLogicOpListBoxValues();
-			
+
 			quantityBox = new TextBox();
-			
-			addConditionButton = new Button(PolicyAdminUIUtil.policyAdminConstants.add());
-		
+
+			addConditionButton = new Button(
+					PolicyAdminUIUtil.policyAdminConstants.add());
+
 			grid.setWidget(0, 0, rsLabel);
 			grid.setWidget(0, 2, opLabel);
-			
+
 			grid.setWidget(1, 0, rsListBox);
 			grid.setWidget(1, 1, new Label(":"));
 			grid.setWidget(1, 2, opListBox);
@@ -141,29 +140,27 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			grid.setWidget(1, 4, aritmSignListBox);
 			grid.setWidget(1, 5, quantityBox);
 			grid.setWidget(1, 6, logicOpListBox);
-			
+
 			grid.setWidget(2, 4, addConditionButton);
 
-		
 			mainPanel.add(grid);
 			initWidget(mainPanel);
 		}
 
-		private void setAritmSignListBoxValues(){
+		private void setAritmSignListBoxValues() {
 			aritmSignListBox.addItem("<");
 			aritmSignListBox.addItem(">");
 			aritmSignListBox.addItem("<=");
 			aritmSignListBox.addItem(">=");
 			aritmSignListBox.addItem("=");
 		}
-		
-		private void setLogicOpListBoxValues(){
+
+		private void setLogicOpListBoxValues() {
 			logicOpListBox.addItem("");
 			logicOpListBox.addItem(" AND ");
 			logicOpListBox.addItem(" OR ");
 		}
-		
-		
+
 		public void clearConditionBuilder() {
 			// select nothing
 			rsListBox.setSelectedIndex(-1);
@@ -174,35 +171,33 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			quantityBox.setText("");
 		}
 
-		public boolean validAllFields(){
+		public boolean validAllFields() {
 			boolean valid = true;
 
-			if(this.rsListBox.getSelectedIndex() == -1){
+			if (this.rsListBox.getSelectedIndex() == -1) {
 				return false;
 			}
-			if(this.opListBox.getSelectedIndex() == -1){
+			if (this.opListBox.getSelectedIndex() == -1) {
 				return false;
 			}
-			if(this.aritmSignListBox.getSelectedIndex() == -1){
+			if (this.aritmSignListBox.getSelectedIndex() == -1) {
 				return false;
 			}
-			if("".equals(this.quantityBox.getText())){
+			if ("".equals(this.quantityBox.getText())) {
 				return false;
 			}
-			
+
 			return valid;
 		}
-		
+
 		public HasClickHandlers getAddConditionButton() {
 			return addConditionButton;
 		}
 
-		
 		public HasChangeHandlers getRsListBox() {
 			return rsListBox;
 		}
 
-		
 		public String getQuantityBox() {
 			return quantityBox.getValue();
 		}
@@ -220,57 +215,58 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			else
 				return null;
 		}
-		
+
 		public String getConditionSelected() {
 			if (conditionListBox.getSelectedIndex() >= 0)
-				return conditionListBox.getItemText(conditionListBox.getSelectedIndex());
+				return conditionListBox.getItemText(conditionListBox
+						.getSelectedIndex());
 			else
 				return null;
 		}
-		
+
 		public String getAritmSignSelected() {
 			if (aritmSignListBox.getSelectedIndex() >= 0)
-				return aritmSignListBox.getItemText(aritmSignListBox.getSelectedIndex());
+				return aritmSignListBox.getItemText(aritmSignListBox
+						.getSelectedIndex());
 			else
 				return null;
 		}
-		
+
 		public String getLogicOpSelected() {
 			if (logicOpListBox.getSelectedIndex() >= 0)
-				return logicOpListBox.getItemText(logicOpListBox.getSelectedIndex());
+				return logicOpListBox.getItemText(logicOpListBox
+						.getSelectedIndex());
 			else
 				return null;
 		}
-		
-		public void setRsNames(List<String>  names) {
+
+		public void setRsNames(List<String> names) {
 			rsListBox.clear();
-			for (String s : names){
+			for (String s : names) {
 				rsListBox.addItem(s);
 			}
 		}
-		
-		
-		
-		public void initializeRsListBox(){
+
+		public void initializeRsListBox() {
 			rsListBox.setSelectedIndex(-1);
 		}
-		
-		public void setOpNames(List<String>  names) {
+
+		public void setOpNames(List<String> names) {
 			opListBox.clear();
-			for (String s : names){
+			for (String s : names) {
 				opListBox.addItem(s);
 			}
 		}
-	
-		public void setConditionNames(List<String>  conditions) {
+
+		public void setConditionNames(List<String> conditions) {
 			conditionListBox.clear();
-			for (String s : conditions){
+			for (String s : conditions) {
 				conditionListBox.addItem(s);
 			}
 		}
 
 	}
-	
+
 	public PolicyCreateView() {
 		mainPanel = new DockLayoutPanel(Unit.EM);
 		initWidget(mainPanel);
@@ -280,7 +276,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 	}
 
 	public abstract UserAction getSelectedAction();
-	
+
 	public void initialize() {
 
 		policyName = new TextBox();
@@ -291,22 +287,27 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		initializeExtraFields();
 
 		// CONTENT
-		StackLayoutPanel policyContentPanel = new StackLayoutPanel(Unit.EM);
-		policyContentPanel.add(initContentView(), getTitleForm(), 2);
+		TurmericStackPanel policyContentPanel = new TurmericStackPanel();
+		policyContentPanel.add(initContentView(), getTitleForm());
+
 		policyContentPanel.add(initResourceContentView(),
-				PolicyAdminUIUtil.policyAdminConstants.resources(), 2);
+				PolicyAdminUIUtil.policyAdminConstants.resources(), true);
 		policyContentPanel.add(initSubjectContentView(),
-				PolicyAdminUIUtil.policyAdminConstants.subjectsAndSubjectGroups(), 2);
-		policyContentPanel.setHeight("90%");
+				PolicyAdminUIUtil.policyAdminConstants
+						.subjectsAndSubjectGroups());
+		policyContentPanel.setWidth("100%");
 
 		saveButton = new Button(PolicyAdminUIUtil.constants.save());
 		cancelButton = new Button(PolicyAdminUIUtil.constants.cancel());
+
 		HorizontalPanel buttonsPannel = new HorizontalPanel();
 		buttonsPannel.add(saveButton);
 		buttonsPannel.add(cancelButton);
-
 		mainPanel.addSouth(buttonsPannel, 2);
-		mainPanel.add(policyContentPanel);
+
+		ScrollPanel scroll = new ScrollPanel(policyContentPanel);
+		scroll.setHeight("95%");
+		mainPanel.add(scroll);
 	}
 
 	protected abstract void initializeExtraFields();
@@ -340,7 +341,6 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		private PolicyConditionWidget conditionWidget;
 		protected DisclosurePanel conditionPanel;
 
-		
 		public ContentView() {
 			mainPanel = new VerticalPanel();
 			initWidget(mainPanel);
@@ -359,38 +359,34 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			policyDesc.setWidth("250px");
 			policyStatus.setWidth("300px");
 			policyType.setWidth("300px");
-			
+
 			policyInfoGrid = new Grid(4, 2);
 
 			policyInfoGrid.setWidget(0, 0, new Label(
 					PolicyAdminUIUtil.policyAdminConstants.policyName() + ":"));
 			policyInfoGrid.setWidget(0, 1, policyName);
-			policyInfoGrid
-					.setWidget(
-							1,
-							0,
-							new Label(PolicyAdminUIUtil.policyAdminConstants
-									.policyDescription() + ":"));
+			policyInfoGrid.setWidget(1, 0, new Label(
+					PolicyAdminUIUtil.policyAdminConstants.policyDescription()
+							+ ":"));
 			policyInfoGrid.setWidget(1, 1, policyDesc);
 
 			policyInfoGrid.setWidget(2, 0, new Label(
 					PolicyAdminUIUtil.policyAdminConstants.policyType() + ":"));
 			policyInfoGrid.setWidget(2, 1, policyType);
-			
+
 			policyInfoGrid.setWidget(3, 0, new Label(
 					PolicyAdminUIUtil.policyAdminConstants.status() + ":"));
 			policyInfoGrid.setWidget(3, 1, policyStatus);
-			
+
 			mainPanel.add(policyInfoGrid);
 			mainPanel.add(extraFieldsGrid);
-			
-			
+
 			conditionWidget = new PolicyConditionWidget();
 			conditionPanel = new DisclosurePanel(
 					PolicyAdminUIUtil.policyAdminConstants.conditionBuilder());
 			conditionPanel.setContent(conditionWidget);
 			conditionPanel.setStyleName("policy-content");
-			
+
 			mainPanel.add(conditionPanel);
 
 		}
@@ -654,7 +650,6 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			return delButton;
 		}
 
-		
 		@Override
 		public ListBox getResourceTypeBox() {
 			return resourceAssignmentWidget.getResourceTypeBox();
@@ -698,7 +693,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		public Label getResourceLevelLabel() {
 			return resourceAssignmentWidget.getResourceLevelLabel();
 		}
-		
+
 		@Override
 		public Label getResourceNameLabel() {
 			return resourceAssignmentWidget.getResourceNameLabel();
@@ -858,7 +853,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			// text column for type
 			TextColumn<PolicySubjectAssignment> typeCol = new TextColumn<PolicySubjectAssignment>() {
 				public String getValue(PolicySubjectAssignment assignment) {
-					if (assignment == null ){
+					if (assignment == null) {
 						return null;
 					}
 					return assignment.getSubjectType();
@@ -883,16 +878,17 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 					return namesList;
 				}
 			};
-			
+
 			cellTable.addColumn(subjectNamesCol,
 					PolicyAdminUIUtil.policyAdminConstants.subjects());
-			
+
 			// text column for Exclusion Subject names
 			Column<PolicySubjectAssignment, List<String>> exclusionSubjectNamesCol = new Column<PolicySubjectAssignment, List<String>>(
 					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
 				public List<String> getValue(PolicySubjectAssignment assignment) {
 
-					if (assignment == null || assignment.getExclusionSubjects() == null) {
+					if (assignment == null
+							|| assignment.getExclusionSubjects() == null) {
 						return null;
 					}
 					ArrayList<String> namesList = new ArrayList<String>();
@@ -903,7 +899,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 					return namesList;
 				}
 			};
-			
+
 			cellTable.addColumn(exclusionSubjectNamesCol,
 					PolicyAdminUIUtil.policyAdminConstants.exclusionSubjects());
 
@@ -912,32 +908,35 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
 				public List<String> getValue(PolicySubjectAssignment assignment) {
 
-					if (assignment == null || assignment.getSubjectGroups()  == null) {
+					if (assignment == null
+							|| assignment.getSubjectGroups() == null) {
 						return null;
 					}
 					ArrayList<String> namesList = new ArrayList<String>();
-					for (SubjectGroup subjectGroup : assignment.getSubjectGroups()) {
+					for (SubjectGroup subjectGroup : assignment
+							.getSubjectGroups()) {
 						namesList.add(subjectGroup.getName());
 					}
 
 					return namesList;
 				}
 			};
-			
+
 			cellTable.addColumn(subjectGroupNamesCol,
 					PolicyAdminUIUtil.policyAdminConstants.subjectGroups());
 
-		
 			// text column for Exclusion Subject Group names
 			Column<PolicySubjectAssignment, List<String>> exclusionSGNamesCol = new Column<PolicySubjectAssignment, List<String>>(
 					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
 				public List<String> getValue(PolicySubjectAssignment assignment) {
 
-					if (assignment == null || assignment.getExclusionSubjectGroups() == null) {
+					if (assignment == null
+							|| assignment.getExclusionSubjectGroups() == null) {
 						return null;
 					}
 					ArrayList<String> namesList = new ArrayList<String>();
-					for (SubjectGroup subjectGroup : assignment.getExclusionSubjectGroups()) {
+					for (SubjectGroup subjectGroup : assignment
+							.getExclusionSubjectGroups()) {
 						namesList.add(subjectGroup.getName());
 					}
 
@@ -945,8 +944,8 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 				}
 			};
 			cellTable.addColumn(exclusionSGNamesCol,
-					PolicyAdminUIUtil.policyAdminConstants.exclusionSubjectGroups());
-
+					PolicyAdminUIUtil.policyAdminConstants
+							.exclusionSubjectGroups());
 
 		}
 
@@ -965,7 +964,8 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 					});
 
 			addSubjectButton = new Button(PolicyAdminUIUtil.constants.apply());
-			cancelSubjectButton = new Button(PolicyAdminUIUtil.constants.cancel());
+			cancelSubjectButton = new Button(
+					PolicyAdminUIUtil.constants.cancel());
 
 			subjectAssignmentButtonPanel = new FlowPanel();
 			subjectAssignmentButtonPanel.add(addSubjectButton);
@@ -1011,10 +1011,10 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			enableActions();
 		}
 
-	    public void setExclusionListVisible(boolean visible){
-	    	subjectAssignmentWidget.setExclusionListVisible(visible);
-	    }
-	    
+		public void setExclusionListVisible(boolean visible) {
+			subjectAssignmentWidget.setExclusionListVisible(visible);
+		}
+
 		public void setAssignments(List<PolicySubjectAssignment> assignments) {
 			HashSet<PolicySubjectAssignment> tmp = new HashSet(
 					selectionModel.getSelectedSet());
@@ -1138,7 +1138,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		public List<String> getSelectedExclusionSG() {
 			return subjectAssignmentWidget.getSelectedExclusionSG();
 		}
-		
+
 		@Override
 		public void setAvailableExclusionSubjects(List<String> list) {
 			subjectAssignmentWidget.setAvailableExclusionSubjects(list);
@@ -1161,7 +1161,6 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		public void setSelectedExclusionSG(final List<String> list) {
 			subjectAssignmentWidget.setSelectedExclusionSG(list);
 		}
-
 
 	}
 
@@ -1218,7 +1217,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		this.resourceContentView.setAssignments(Collections.EMPTY_LIST);
 		this.subjectContentView.setAssignments(Collections.EMPTY_LIST);
 		((ContentView) contentView).conditionWidget.clearConditionBuilder();
-		
+
 	}
 
 	public void error(String msg) {
@@ -1251,25 +1250,25 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		}
 		return value;
 	}
-	
+
 	@Override
 	public void setExtraFieldValue(int order, String value, boolean append) {
 		// textArea widet type
 		if (extraFieldsGrid.getWidget(order, 1) instanceof TextArea) {
 			TextArea text = (TextArea) extraFieldsGrid.getWidget(order, 1);
-			if(append){
-				value = text.getText() + value ;
+			if (append) {
+				value = text.getText() + value;
 			}
 			text.setText(value);
-			
-		}else if (extraFieldsGrid.getWidget(order, 1) instanceof TextBox) {
+
+		} else if (extraFieldsGrid.getWidget(order, 1) instanceof TextBox) {
 			TextBox text = (TextBox) extraFieldsGrid.getWidget(order, 1);
 			text.setText(value);
-			
-		}else  if (extraFieldsGrid.getWidget(order, 1) instanceof ListBox) {
+
+		} else if (extraFieldsGrid.getWidget(order, 1) instanceof ListBox) {
 			ListBox list = (ListBox) extraFieldsGrid.getWidget(order, 1);
 			for (int i = 0; i < list.getItemCount(); i++) {
-				if(value.equalsIgnoreCase(list.getItemText(i))){
+				if (value.equalsIgnoreCase(list.getItemText(i))) {
 					list.setSelectedIndex(i);
 					break;
 				}
@@ -1277,12 +1276,10 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		}
 	}
 
-
-	
-	
 	@Override
 	public HasClickHandlers getAddConditionButton() {
-		return ((ContentView) contentView).conditionWidget.getAddConditionButton();
+		return ((ContentView) contentView).conditionWidget
+				.getAddConditionButton();
 	}
 
 	@Override
@@ -1290,85 +1287,85 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		return ((ContentView) contentView).conditionWidget.getRsListBox();
 	}
 
-	
 	@Override
 	public String getQuantityBox() {
 		return ((ContentView) contentView).conditionWidget.getQuantityBox();
 	}
-	
+
 	@Override
 	public String getRsNameSelected() {
 		return ((ContentView) contentView).conditionWidget.getRsNameSelected();
 	}
-	
+
 	@Override
 	public String getOpNameSelected() {
 		return ((ContentView) contentView).conditionWidget.getOpNameSelected();
 	}
-	
+
 	@Override
 	public String getConditionSelected() {
-		return ((ContentView) contentView).conditionWidget.getConditionSelected();
+		return ((ContentView) contentView).conditionWidget
+				.getConditionSelected();
 	}
-	
+
 	@Override
 	public String getAritmSignSelected() {
-		return ((ContentView) contentView).conditionWidget.getAritmSignSelected();	
+		return ((ContentView) contentView).conditionWidget
+				.getAritmSignSelected();
 	}
-	
+
 	@Override
 	public String getLogicOpSelected() {
-		return ((ContentView) contentView).conditionWidget.getLogicOpSelected();		
+		return ((ContentView) contentView).conditionWidget.getLogicOpSelected();
 	}
-	
+
 	@Override
-	public void setRsNames(List<String>  names) {
-		((ContentView) contentView).conditionWidget.setRsNames( names);	
+	public void setRsNames(List<String> names) {
+		((ContentView) contentView).conditionWidget.setRsNames(names);
 		((ContentView) contentView).conditionWidget.initializeRsListBox();
 	}
-	
+
 	@Override
-	public void setOpNames(List<String>  names) {
-		((ContentView) contentView).conditionWidget. setOpNames(names);
+	public void setOpNames(List<String> names) {
+		((ContentView) contentView).conditionWidget.setOpNames(names);
 	}
-	
+
 	@Override
-	public void setConditionNames(List<String>  conditions) {
-		((ContentView) contentView).conditionWidget.setConditionNames(conditions);
+	public void setConditionNames(List<String> conditions) {
+		((ContentView) contentView).conditionWidget
+				.setConditionNames(conditions);
 	}
-	
+
 	@Override
 	public void setPolicyStatus(final boolean enabled) {
-		this.policyStatus.setText(PolicyAdminUIUtil.policyAdminConstants.disable());
+		this.policyStatus.setText(PolicyAdminUIUtil.policyAdminConstants
+				.disable());
 	}
-	
+
 	@Override
 	public void setPolicyType(final String policyType) {
 		this.policyType.setText(policyType);
 	}
-	
 
-	
 	@Override
 	public void clearConditionBuilder() {
-		((ContentView) contentView).conditionWidget.clearConditionBuilder();		
+		((ContentView) contentView).conditionWidget.clearConditionBuilder();
 	}
 
-	
 	@Override
 	public void setConditionBuilderVisible(boolean visible) {
 		((ContentView) contentView).conditionPanel.setVisible(visible);
 	}
 
 	@Override
-	public void setExclusionListsVisible(boolean visible){;
-		((SubjectContentView) subjectContentView).setExclusionListVisible(visible);
+	public void setExclusionListsVisible(boolean visible) {
+		;
+		((SubjectContentView) subjectContentView)
+				.setExclusionListVisible(visible);
 	}
 
-
-	public boolean validAllConditionFields(){
+	public boolean validAllConditionFields() {
 		return ((ContentView) contentView).conditionWidget.validAllFields();
 	}
-	
-	
+
 }
