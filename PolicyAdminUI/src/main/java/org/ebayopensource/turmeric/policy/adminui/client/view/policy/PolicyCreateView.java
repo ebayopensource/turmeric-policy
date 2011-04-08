@@ -19,9 +19,11 @@ import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Operation;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicySubjectAssignment;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyType;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectType;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.ResourcesContentDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.SubjectContentDisplay;
@@ -77,7 +79,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 	protected TextBox policyName;
 	protected TextBox policyDesc;
-	protected Label policyType;
+	protected  Label policyType;
 	protected Label policyStatus;
 	protected boolean policyEnabled;
 
@@ -882,27 +884,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			cellTable.addColumn(subjectNamesCol,
 					PolicyAdminUIUtil.policyAdminConstants.subjects());
 
-			// text column for Exclusion Subject names
-			Column<PolicySubjectAssignment, List<String>> exclusionSubjectNamesCol = new Column<PolicySubjectAssignment, List<String>>(
-					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
-				public List<String> getValue(PolicySubjectAssignment assignment) {
-
-					if (assignment == null
-							|| assignment.getExclusionSubjects() == null) {
-						return null;
-					}
-					ArrayList<String> namesList = new ArrayList<String>();
-					for (Subject subject : assignment.getExclusionSubjects()) {
-						namesList.add(subject.getName());
-					}
-
-					return namesList;
-				}
-			};
-
-			cellTable.addColumn(exclusionSubjectNamesCol,
-					PolicyAdminUIUtil.policyAdminConstants.exclusionSubjects());
-
+			
 			// text column for SubjectGroup names
 			Column<PolicySubjectAssignment, List<String>> subjectGroupNamesCol = new Column<PolicySubjectAssignment, List<String>>(
 					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
@@ -924,29 +906,6 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 			cellTable.addColumn(subjectGroupNamesCol,
 					PolicyAdminUIUtil.policyAdminConstants.subjectGroups());
-
-			// text column for Exclusion Subject Group names
-			Column<PolicySubjectAssignment, List<String>> exclusionSGNamesCol = new Column<PolicySubjectAssignment, List<String>>(
-					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
-				public List<String> getValue(PolicySubjectAssignment assignment) {
-
-					if (assignment == null
-							|| assignment.getExclusionSubjectGroups() == null) {
-						return null;
-					}
-					ArrayList<String> namesList = new ArrayList<String>();
-					for (SubjectGroup subjectGroup : assignment
-							.getExclusionSubjectGroups()) {
-						namesList.add(subjectGroup.getName());
-					}
-
-					return namesList;
-				}
-			};
-			cellTable.addColumn(exclusionSGNamesCol,
-					PolicyAdminUIUtil.policyAdminConstants
-							.exclusionSubjectGroups());
-
 		}
 
 		protected void createSubjectAssignmentFields() {
@@ -990,6 +949,10 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			return selections;
 		}
 
+		public CellTable<PolicySubjectAssignment> getCellTable(){
+			return cellTable;
+		}
+		
 		public HasClickHandlers getEditButton() {
 			return editButton;
 		}
@@ -1344,6 +1307,54 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 	@Override
 	public void setPolicyType(final String policyType) {
+		if("RL".equalsIgnoreCase(policyType)){
+			CellTable<PolicySubjectAssignment> cellTable = ((SubjectContentView)subjectContentView).getCellTable();
+			
+			// text column for Exclusion Subject names
+			Column<PolicySubjectAssignment, List<String>> exclusionSubjectNamesCol = new Column<PolicySubjectAssignment, List<String>>(
+					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
+				public List<String> getValue(PolicySubjectAssignment assignment) {
+	
+					if (assignment == null
+							|| assignment.getExclusionSubjects() == null) {
+						return null;
+					}
+					ArrayList<String> namesList = new ArrayList<String>();
+					for (Subject subject : assignment.getExclusionSubjects()) {
+						namesList.add(subject.getName());
+					}
+	
+					return namesList;
+				}
+			};
+	
+			cellTable.addColumn(exclusionSubjectNamesCol,
+						PolicyAdminUIUtil.policyAdminConstants.exclusionSubjects());
+			
+			// text column for Exclusion Subject Group names
+			Column<PolicySubjectAssignment, List<String>> exclusionSGNamesCol = new Column<PolicySubjectAssignment, List<String>>(
+					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
+				public List<String> getValue(PolicySubjectAssignment assignment) {
+
+					if (assignment == null
+							|| assignment.getExclusionSubjectGroups() == null) {
+						return null;
+					}
+					ArrayList<String> namesList = new ArrayList<String>();
+					for (SubjectGroup subjectGroup : assignment
+							.getExclusionSubjectGroups()) {
+						namesList.add(subjectGroup.getName());
+					}
+
+					return namesList;
+				}
+			};
+			cellTable.addColumn(exclusionSGNamesCol,
+					PolicyAdminUIUtil.policyAdminConstants
+							.exclusionSubjectGroups());
+
+			
+		}
 		this.policyType.setText(policyType);
 	}
 
@@ -1359,7 +1370,6 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 	@Override
 	public void setExclusionListsVisible(boolean visible) {
-		;
 		((SubjectContentView) subjectContentView)
 				.setExclusionListVisible(visible);
 	}

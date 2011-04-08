@@ -414,25 +414,7 @@ public class PolicyViewView extends ResizeComposite implements
 			cellTable.addColumn(subjectNamesCol,
 					PolicyAdminUIUtil.policyAdminConstants.subjects());
 
-			// text column for Exclusion Subject names
-			Column<PolicySubjectAssignment, List<String>> excluionSubjectNamesCol = new Column<PolicySubjectAssignment, List<String>>(
-					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
-				public List<String> getValue(PolicySubjectAssignment assignment) {
-
-					if (assignment == null || assignment.getExclusionSubjects() == null) {
-						return null;
-					}
-					ArrayList<String> namesList = new ArrayList<String>();
-					for (Subject subject : assignment.getExclusionSubjects()) {
-						namesList.add(subject.getName());
-					}
-
-					return namesList;
-				}
-			};
 			
-			cellTable.addColumn(excluionSubjectNamesCol,
-					PolicyAdminUIUtil.policyAdminConstants.exclusionSubjects());
 
 			// text column for SubjectGroup names
 			Column<PolicySubjectAssignment, List<String>> sgNamesCol = new Column<PolicySubjectAssignment, List<String>>(
@@ -454,26 +436,7 @@ public class PolicyViewView extends ResizeComposite implements
 			cellTable.addColumn(sgNamesCol,
 					PolicyAdminUIUtil.policyAdminConstants.subjectGroups());
 
-			// text column for Exclusion Subject Group names
-			Column<PolicySubjectAssignment, List<String>> exclusionSGNamesCol = new Column<PolicySubjectAssignment, List<String>>(
-					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
-				public List<String> getValue(PolicySubjectAssignment assignment) {
-
-					if (assignment == null || assignment.getExclusionSubjectGroups() == null) {
-						return null;
-					}
-					ArrayList<String> namesList = new ArrayList<String>();
-					for (SubjectGroup subjectGroup : assignment.getExclusionSubjectGroups()) {
-						namesList.add(subjectGroup.getName());
-					}
-
-					return namesList;
-				}
-			};
 			
-			cellTable.addColumn(exclusionSGNamesCol,
-					PolicyAdminUIUtil.policyAdminConstants.exclusionSubjectGroups());
-
 		}
 
 		public void setAssignments(
@@ -485,6 +448,10 @@ public class PolicyViewView extends ResizeComposite implements
 				data.addAll(assignments);
 			}
 			cellTable.redraw();
+		}
+		
+		public CellTable<PolicySubjectAssignment> getCellTable(){
+			return cellTable;
 		}
 
 	}
@@ -520,6 +487,52 @@ public class PolicyViewView extends ResizeComposite implements
 	}
 
 	public void setPolicyType(final String policyType) {
+		if("RL".equalsIgnoreCase(policyType)){
+			CellTable<PolicySubjectAssignment> cellTable = ((SubjectContentView)subjectContentView).getCellTable();
+
+			// text column for Exclusion Subject names
+			Column<PolicySubjectAssignment, List<String>> excluionSubjectNamesCol = new Column<PolicySubjectAssignment, List<String>>(
+					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
+				public List<String> getValue(PolicySubjectAssignment assignment) {
+
+					if (assignment == null || assignment.getExclusionSubjects() == null) {
+						return null;
+					}
+					ArrayList<String> namesList = new ArrayList<String>();
+					for (Subject subject : assignment.getExclusionSubjects()) {
+						namesList.add(subject.getName());
+					}
+
+					return namesList;
+				}
+			};
+			
+			cellTable.addColumn(excluionSubjectNamesCol,
+					PolicyAdminUIUtil.policyAdminConstants.exclusionSubjects());
+			
+			
+			// text column for Exclusion Subject Group names
+			Column<PolicySubjectAssignment, List<String>> exclusionSGNamesCol = new Column<PolicySubjectAssignment, List<String>>(
+					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
+				public List<String> getValue(PolicySubjectAssignment assignment) {
+
+					if (assignment == null || assignment.getExclusionSubjectGroups() == null) {
+						return null;
+					}
+					ArrayList<String> namesList = new ArrayList<String>();
+					for (SubjectGroup subjectGroup : assignment.getExclusionSubjectGroups()) {
+						namesList.add(subjectGroup.getName());
+					}
+
+					return namesList;
+				}
+			};
+			
+			cellTable.addColumn(exclusionSGNamesCol,
+					PolicyAdminUIUtil.policyAdminConstants.exclusionSubjectGroups());
+		
+		}
+		
 		this.policyType.setText(policyType);
 	}
 
