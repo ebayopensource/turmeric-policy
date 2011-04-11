@@ -263,8 +263,11 @@ public interface PolicyAdminConstants extends Constants {
     @DefaultStringValue("Level")
     public String resourceLevel();
     
-    @DefaultStringValue("Assign Another Resource")
-    public String resourceAssignAnotherResources();
+    @DefaultStringValue("Assign resources...")
+    public String resourceAssignResources();
+    
+    @DefaultStringValue("Assign subjects...")
+    public String subjectAssignSubjects();
     
     @DefaultStringValue("Operations")
     public String operations();

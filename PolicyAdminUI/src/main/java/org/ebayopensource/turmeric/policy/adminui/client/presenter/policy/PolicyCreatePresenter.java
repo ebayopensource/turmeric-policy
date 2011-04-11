@@ -666,8 +666,9 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 					public void onClick(ClickEvent event) {
 						if (view.getResourceContentView().getSelections()
-								.size() != 1)
+								.size() != 1){
 							return;
+						}
 						view.getResourceContentView().getResourceLevelLabel()
 								.setVisible(false);
 						view.getResourceContentView().getResourceLevelBox()

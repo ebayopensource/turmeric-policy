@@ -8,7 +8,6 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.client.view.policy;
 
-import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyEditPresenter.PolicyEditDisplay;
 
 public abstract class PolicyEditView extends PolicyCreateView implements
@@ -26,9 +25,9 @@ public abstract class PolicyEditView extends PolicyCreateView implements
 	@Override
 	public void setPolicyStatus(final boolean enabled) {
 		if(enabled){
-			this.policyStatus.setText(PolicyAdminUIUtil.policyAdminConstants.enable());
+			this.policyStatus.setSelectedIndex(0); //enable;
 		}else{
-			this.policyStatus.setText(PolicyAdminUIUtil.policyAdminConstants.disable());
+			this.policyStatus.setSelectedIndex(1);//disable;
 		}
 	}
 

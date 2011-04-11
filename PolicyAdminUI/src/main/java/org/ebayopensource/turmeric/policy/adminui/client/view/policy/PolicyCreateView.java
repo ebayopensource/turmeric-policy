@@ -32,29 +32,45 @@ import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGen
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.SelectBoxesWidget;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericStackPanel;
 
+import com.gargoylesoftware.htmlunit.javascript.host.Popup;
+import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.CheckboxCell;
+import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.dom.client.Style.Unit;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasChangeHandlers;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.HasCloseHandlers;
 import com.google.gwt.event.logical.shared.HasOpenHandlers;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Label;
+
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -78,9 +94,9 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 	private SubjectContentDisplay subjectContentView;
 
 	protected TextBox policyName;
-	protected TextBox policyDesc;
+	protected TextArea policyDesc;
 	protected  Label policyType;
-	protected Label policyStatus;
+	protected ListBox policyStatus;
 	protected boolean policyEnabled;
 
 	private Button saveButton;
@@ -88,6 +104,14 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 	protected Grid extraFieldsGrid = new Grid(1, 1);
 
+	private static interface GetRsValue<C> {
+	    C getValue(Resource rs);
+	}
+	
+	private static interface GetSubjectValue<C> {
+	    C getValue(PolicySubjectAssignment sb);
+	}
+	
 	protected abstract String getTitleForm();
 
 	/**
@@ -282,10 +306,12 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 	public void initialize() {
 
 		policyName = new TextBox();
-		policyDesc = new TextBox();
+		policyDesc = new TextArea();
 		policyType = new Label();
-		policyStatus = new Label();
-
+		policyStatus = new ListBox();
+		policyStatus.addItem(PolicyAdminUIUtil.policyAdminConstants.enable(), PolicyAdminUIUtil.policyAdminConstants.enable());
+		policyStatus.addItem(PolicyAdminUIUtil.policyAdminConstants.disable(), PolicyAdminUIUtil.policyAdminConstants.disable());
+		
 		initializeExtraFields();
 
 		// CONTENT
@@ -301,7 +327,9 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 		saveButton = new Button(PolicyAdminUIUtil.constants.save());
 		cancelButton = new Button(PolicyAdminUIUtil.constants.cancel());
-
+		saveButton.setWidth("80px");
+		cancelButton.setWidth("80px");
+		
 		HorizontalPanel buttonsPannel = new HorizontalPanel();
 		buttonsPannel.add(saveButton);
 		buttonsPannel.add(cancelButton);
@@ -342,7 +370,8 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		private Grid policyInfoGrid;
 		private PolicyConditionWidget conditionWidget;
 		protected DisclosurePanel conditionPanel;
-
+		
+		
 		public ContentView() {
 			mainPanel = new VerticalPanel();
 			initWidget(mainPanel);
@@ -358,8 +387,8 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			mainPanel.clear();
 
 			policyName.setWidth("300px");
-			policyDesc.setWidth("250px");
-			policyStatus.setWidth("300px");
+			policyDesc.setWidth("550px");
+			policyStatus.setWidth("100px");
 			policyType.setWidth("300px");
 
 			policyInfoGrid = new Grid(4, 2);
@@ -402,7 +431,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		MultiSelectionModel<Resource> selectionModel;
 		ProvidesKey<Resource> keyProvider;
 		private PolicyResourceAssignmentWidget resourceAssignmentWidget;
-		private DisclosurePanel resourceAssignmentPanel;
+		private PopupPanel resourceAssignmentPopup;
 		private Button addResourceButton;
 		private Button cancelResourceButton;
 		private FlowPanel resourceAssignmentButtonPanel;
@@ -434,36 +463,51 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		}
 
 		public void show() {
-			resourceAssignmentPanel.setOpen(true);
+			resourceAssignmentPopup.center();
 		}
 
 		public void hide() {
-			resourceAssignmentPanel.setOpen(false);
+			resourceAssignmentWidget.clear();
+			resourceAssignmentPopup.hide();
 		}
 
 		@Override
 		public void initialize() {
 			mainPanel.clear();
 			createResourceAssignmentFields();
-			mainPanel.add(resourceAssignmentPanel);
 
 			// bottom part of panel is a table with search results
 			Grid summaryGrid = new Grid(3, 1);
 			summaryGrid.setStyleName("sggrid");
 
 			Grid actionGrid = new Grid(1, 2);
-
+			actionGrid.setWidth("100%");
+			
 			editButton = new PushButton("[ "
 					+ PolicyAdminUIUtil.policyAdminConstants.edit() + " ]");
-			editButton.setEnabled(false);
-
+			editButton.setVisible(false);
+			
 			delButton = new PushButton("[ "
 					+ PolicyAdminUIUtil.policyAdminConstants.delete() + " ]");
+			delButton.setWidth("60px");
+			
 			delButton.setEnabled(false);
+			
+			Anchor assignResourcesClickable = new Anchor("[ " + PolicyAdminUIUtil.policyAdminConstants.resourceAssignResources() + " ]");
+			assignResourcesClickable.addClickHandler(new ClickHandler() {
+			    @Override
+			    public void onClick (ClickEvent event){
+			    	subjectContentView.hide();
+			    	resourceAssignmentPopup.center();
+			    }
+			});
 
-			actionGrid.setWidget(0, 0, editButton);
-			actionGrid.setWidget(0, 1, delButton);
-
+			actionGrid.setWidget(0, 0, delButton);
+			actionGrid.getCellFormatter().setWidth(0,0,"20%");
+			
+			actionGrid.setWidget(0, 1, assignResourcesClickable);
+			actionGrid.getCellFormatter().setWidth(0,1,"80%");
+			actionGrid.getCellFormatter().setAlignment(0,1, HasHorizontalAlignment.ALIGN_RIGHT, HasVerticalAlignment.ALIGN_MIDDLE);
 			summaryGrid.setWidget(0, 0, actionGrid);
 
 			keyProvider = new ProvidesKey<Resource>() {
@@ -474,6 +518,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			};
 
 			cellTable = new CellTable<Resource>(keyProvider);
+			cellTable.setWidth("70%");
 			selectionModel = new MultiSelectionModel<Resource>(keyProvider);
 			cellTable.setSelectionModel(selectionModel);
 			selectionModel
@@ -505,7 +550,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 					selectionModel.setSelected(rs, value);
 				}
 			});
-			cellTable.addColumn(checkColumn, "");
+			cellTable.addColumn(checkColumn, "All");
 
 			// resource type
 			TextColumn<Resource> resourceTypeCol = new TextColumn<Resource>() {
@@ -521,18 +566,25 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 					PolicyAdminUIUtil.policyAdminConstants.resourceType());
 
 			// resource Name
-			TextColumn<Resource> resourceNameCol = new TextColumn<Resource>() {
+			ClickableTextCell resourceNameCellClickable = new ClickableTextCell();
+			Column<Resource, String>  resourceNameCol = createCell(resourceNameCellClickable, new GetRsValue<String>(){
 				public String getValue(Resource assignment) {
 					if (assignment == null
 							|| assignment.getResourceName() == null) {
 						return null;
 					}
-					return assignment.getResourceName();
-				}
-			};
+	                return assignment.getResourceName(); 
+	            }
+	        }, new FieldUpdater<Resource, String>() {
+	            public void update(int index, Resource rs, String value) {
+	            	selections.add(rs);
+	            	editButton.fireEvent(new ClickEvent(){});
+	            }
+	        });
 			cellTable.addColumn(resourceNameCol,
 					PolicyAdminUIUtil.policyAdminConstants.resourceName());
 
+			
 			// operations
 			// TODO add operations name into table
 			Column<Resource, List<String>> resourceOpsCol = new Column<Resource, List<String>>(
@@ -563,20 +615,44 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			mainPanel.add(summaryGrid);
 		}
 
-		protected void createResourceAssignmentFields() {
+		
+		private <C> Column<Resource, C> createCell(Cell<C> cell,final GetRsValue<C> getter,
+				FieldUpdater<Resource, C> fieldUpdater) {
+				        Column<Resource, C> column = new Column<Resource, C>(cell) {
 
+				        @Override
+				        public C getValue(Resource object) {
+				            return getter.getValue(object);
+				        }
+				       
+				        @Override
+		                public void render(Cell.Context context, Resource object, SafeHtmlBuilder sb) 
+		                {
+		                    sb.appendHtmlConstant("<a href='javascript:void(0);'>");
+		                    super.render(context, object, sb);
+		                    sb.appendHtmlConstant("</a>");
+		                } 
+				    };
+				    column.setFieldUpdater(fieldUpdater);
+				    return column;
+		}
+		
+			
+		protected void createResourceAssignmentFields() {
+			
 			resourceAssignmentWidget = new PolicyResourceAssignmentWidget();
-			resourceAssignmentPanel = new DisclosurePanel(
-					PolicyAdminUIUtil.policyAdminConstants.assignResources());
-			resourceAssignmentPanel
-					.addCloseHandler(new CloseHandler<DisclosurePanel>() {
-						public void onClose(CloseEvent<DisclosurePanel> arg0) {
-							resourceAssignmentWidget.clear();
+			resourceAssignmentPopup = new PopupPanel(); 
+			resourceAssignmentPopup.setTitle(PolicyAdminUIUtil.policyAdminConstants
+					.assignResources());
+			addResourceButton = new Button(
+					PolicyAdminUIUtil.policyAdminConstants.save(), new ClickHandler() {
+						
+						@Override
+						public void onClick(ClickEvent paramClickEvent) {
+							resourceAssignmentPopup.hide();
 						}
 					});
-
-			addResourceButton = new Button(
-					PolicyAdminUIUtil.policyAdminConstants.save());
+			
 			cancelResourceButton = new Button(
 					PolicyAdminUIUtil.policyAdminConstants.cancel());
 
@@ -588,7 +664,8 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			resourceAssignmentGrid.setWidget(0, 0, resourceAssignmentWidget);
 			resourceAssignmentGrid.setWidget(1, 0,
 					resourceAssignmentButtonPanel);
-			resourceAssignmentPanel.setContent(resourceAssignmentGrid);
+			resourceAssignmentPopup.add(resourceAssignmentGrid);
+			
 		}
 
 		public List<Resource> getSelections() {
@@ -599,7 +676,6 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			boolean permitted = permissions != null
 					&& permissions.contains(UserAction.POLICY_EDIT);
 			delButton.setEnabled(permitted && selections.size() >= 1);
-			editButton.setEnabled(permitted && selections.size() == 1);
 		}
 
 		@Override
@@ -732,7 +808,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		private SimplePanel mainPanel;
 		private Grid mainGrid;
 		private PolicySubjectAssignmentWidget subjectAssignmentWidget;
-		private DisclosurePanel subjectAssignmentPanel;
+		private PopupPanel subjectAssignmentPopup;
 		private FlowPanel subjectAssignmentButtonPanel;
 		private Button addSubjectButton;
 		private Button cancelSubjectButton;
@@ -771,7 +847,6 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			subjectGrid.setWidget(2, 0, pager);
 
 			createSubjectAssignmentFields();
-			mainGrid.setWidget(0, 0, subjectAssignmentPanel);
 			mainGrid.setWidget(1, 0, subjectGrid);
 			mainGrid.setWidth("60%");
 		}
@@ -784,15 +859,33 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			// DeleteAll (subject assignment) button - depends on POLICY_EDIT
 			// permission
 			actionGrid = new Grid(1, 2);
+			actionGrid.setWidth("100%");
+			
 			editButton = new PushButton("[ "
 					+ PolicyAdminUIUtil.policyAdminConstants.edit() + " ]");
-			editButton.setEnabled(false);
+			editButton.setVisible(false);
+			
 			delButton = new PushButton("[ "
 					+ PolicyAdminUIUtil.policyAdminConstants.delete() + " ]");
+			delButton.setWidth("60px");
 			delButton.setEnabled(false);
 
-			actionGrid.setWidget(0, 0, editButton);
-			actionGrid.setWidget(0, 1, delButton);
+			Anchor assignSubjectsClickable = new Anchor("[ " + PolicyAdminUIUtil.policyAdminConstants.subjectAssignSubjects() + " ]");
+			assignSubjectsClickable.addClickHandler(new ClickHandler() {
+			    @Override
+			    public void onClick (ClickEvent event){
+			    	resourceContentView.hide();
+			    	subjectAssignmentPopup.center();
+			    }
+			});
+			
+			actionGrid.setWidget(0, 0, delButton);
+			actionGrid.getCellFormatter().setWidth(0,0,"20%");
+			
+			actionGrid.setWidget(0, 1, assignSubjectsClickable);
+			actionGrid.getCellFormatter().setWidth(0,1,"80%");
+			actionGrid.getCellFormatter().setAlignment(0,1, HasHorizontalAlignment.ALIGN_RIGHT, HasVerticalAlignment.ALIGN_MIDDLE);
+		
 		}
 
 		protected void createSubjectTableFields() {
@@ -850,20 +943,40 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 							selectionModel.setSelected(assignment, value);
 						}
 					});
-			cellTable.addColumn(checkColumn, "");
+			cellTable.addColumn(checkColumn, "All");
 
+			
 			// text column for type
-			TextColumn<PolicySubjectAssignment> typeCol = new TextColumn<PolicySubjectAssignment>() {
+			ClickableTextCell sbTypeCellClickable = new ClickableTextCell();
+			Column<PolicySubjectAssignment, String>  typeCol = createCell(sbTypeCellClickable, new GetSubjectValue<String>(){
 				public String getValue(PolicySubjectAssignment assignment) {
-					if (assignment == null) {
+					if (assignment == null
+							|| assignment.getSubjectType() == null) {
 						return null;
 					}
-					return assignment.getSubjectType();
-				}
-			};
+	                return assignment.getSubjectType(); 
+	            }
+	        }, new FieldUpdater<PolicySubjectAssignment, String>() {
+	            public void update(int index, PolicySubjectAssignment assignment, String value) {
+	            	selections.add(assignment);
+	            	editButton.fireEvent(new ClickEvent(){});
+	            }
+	        });
 			cellTable.addColumn(typeCol,
 					PolicyAdminUIUtil.policyAdminConstants.subjectType());
-
+			
+//			TextColumn<PolicySubjectAssignment> typeCol = new TextColumn<PolicySubjectAssignment>() {
+//				public String getValue(PolicySubjectAssignment assignment) {
+//					if (assignment == null) {
+//						return null;
+//					}
+//					return assignment.getSubjectType();
+//				}
+//			};
+//			cellTable.addColumn(typeCol,
+//					PolicyAdminUIUtil.policyAdminConstants.subjectType());
+			
+			
 			// text column for Subject names
 			Column<PolicySubjectAssignment, List<String>> subjectNamesCol = new Column<PolicySubjectAssignment, List<String>>(
 					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
@@ -908,21 +1021,41 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 					PolicyAdminUIUtil.policyAdminConstants.subjectGroups());
 		}
 
-		protected void createSubjectAssignmentFields() {
+		private <C> Column<PolicySubjectAssignment, C> createCell(Cell<C> cell,final GetSubjectValue<C> getter,
+				FieldUpdater<PolicySubjectAssignment, C> fieldUpdater) {
+				        Column<PolicySubjectAssignment, C> column = new Column<PolicySubjectAssignment, C>(cell) {
 
+				        @Override
+				        public C getValue(PolicySubjectAssignment object) {
+				            return getter.getValue(object);
+				        }
+				       
+				        @Override
+		                public void render(Cell.Context context, PolicySubjectAssignment object, SafeHtmlBuilder sb) 
+		                {
+		                    sb.appendHtmlConstant("<a href='javascript:void(0);'>");
+		                    super.render(context, object, sb);
+		                    sb.appendHtmlConstant("</a>");
+		                } 
+				    };
+				    column.setFieldUpdater(fieldUpdater);
+				    return column;
+		}
+		
+		protected void createSubjectAssignmentFields() {
 			subjectAssignmentWidget = new PolicySubjectAssignmentWidget();
 
-			subjectAssignmentPanel = new DisclosurePanel(
-					PolicyAdminUIUtil.policyAdminConstants
-							.assignSubjectsAndSubjectGroups());
-			subjectAssignmentPanel
-					.addCloseHandler(new CloseHandler<DisclosurePanel>() {
-						public void onClose(CloseEvent<DisclosurePanel> arg0) {
-							subjectAssignmentWidget.clear();
-						}
-					});
+			subjectAssignmentPopup =  new PopupPanel();
+			subjectAssignmentPopup.setTitle(PolicyAdminUIUtil.policyAdminConstants
+					.assignSubjectsAndSubjectGroups());
 
-			addSubjectButton = new Button(PolicyAdminUIUtil.constants.apply());
+			addSubjectButton = new Button(PolicyAdminUIUtil.constants.apply(), new ClickHandler() {
+				
+				@Override
+				public void onClick(ClickEvent paramClickEvent) {
+					subjectAssignmentPopup.hide();					
+				}
+			});
 			cancelSubjectButton = new Button(
 					PolicyAdminUIUtil.constants.cancel());
 
@@ -933,16 +1066,17 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			Grid subjectAssignmentGrid = new Grid(2, 1);
 			subjectAssignmentGrid.setWidget(0, 0, subjectAssignmentWidget);
 			subjectAssignmentGrid.setWidget(1, 0, subjectAssignmentButtonPanel);
-			subjectAssignmentPanel.setContent(subjectAssignmentGrid);
+			subjectAssignmentPopup.add(subjectAssignmentGrid);
 
 		}
 
 		public void show() {
-			subjectAssignmentPanel.setOpen(true);
+			subjectAssignmentPopup.center();
 		}
 
 		public void hide() {
-			subjectAssignmentPanel.setOpen(false);
+			subjectAssignmentWidget.clear();
+			subjectAssignmentPopup.hide();
 		}
 
 		public List<PolicySubjectAssignment> getSelectedSubjectAssignments() {
@@ -961,14 +1095,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			return delButton;
 		}
 
-		public HasCloseHandlers getCloseHandler() {
-			return subjectAssignmentPanel;
-		}
-
-		public HasOpenHandlers getOpenHandler() {
-			return subjectAssignmentPanel;
-		}
-
+		
 		public void setUserActions(List<UserAction> actions) {
 			permissions = actions;
 			enableActions();
@@ -1140,7 +1267,11 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		return policyEnabled;
 	}
 
-	public TextBox getPolicyDesc() {
+	public ListBox getPolicyStatusList() {
+		return policyStatus;
+	}
+
+	public TextArea getPolicyDesc() {
 		return policyDesc;
 	}
 
@@ -1174,7 +1305,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 	public void clear() {
 		policyName.setText("");
 		policyDesc.setText("");
-		policyStatus.setText("");
+		policyStatus.setSelectedIndex(-1);
 		this.resourceContentView.clearAssignmentWidget();
 		this.subjectContentView.clearAssignmentWidget();
 		this.resourceContentView.setAssignments(Collections.EMPTY_LIST);
@@ -1301,8 +1432,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 	@Override
 	public void setPolicyStatus(final boolean enabled) {
-		this.policyStatus.setText(PolicyAdminUIUtil.policyAdminConstants
-				.disable());
+		this.policyStatus.setSelectedIndex(1);
 	}
 
 	@Override
