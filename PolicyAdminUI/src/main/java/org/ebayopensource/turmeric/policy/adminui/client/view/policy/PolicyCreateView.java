@@ -19,11 +19,9 @@ import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Operation;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicySubjectAssignment;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyType;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectType;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.ResourcesContentDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.SubjectContentDisplay;
@@ -32,34 +30,23 @@ import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGen
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.SelectBoxesWidget;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericStackPanel;
 
-import com.gargoylesoftware.htmlunit.javascript.host.Popup;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.dom.client.Style.Unit;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasChangeHandlers;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.HasCloseHandlers;
-import com.google.gwt.event.logical.shared.HasOpenHandlers;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Label;
-
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
@@ -394,16 +381,17 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			policyInfoGrid = new Grid(4, 2);
 
 			policyInfoGrid.setWidget(0, 0, new Label(
-					PolicyAdminUIUtil.policyAdminConstants.policyName() + ":"));
-			policyInfoGrid.setWidget(0, 1, policyName);
+					PolicyAdminUIUtil.policyAdminConstants.policyType() + ":"));
+			policyInfoGrid.setWidget(0, 1, policyType);
+			
 			policyInfoGrid.setWidget(1, 0, new Label(
+					PolicyAdminUIUtil.policyAdminConstants.policyName() + ":"));
+			policyInfoGrid.setWidget(1, 1, policyName);
+			
+			policyInfoGrid.setWidget(2, 0, new Label(
 					PolicyAdminUIUtil.policyAdminConstants.policyDescription()
 							+ ":"));
-			policyInfoGrid.setWidget(1, 1, policyDesc);
-
-			policyInfoGrid.setWidget(2, 0, new Label(
-					PolicyAdminUIUtil.policyAdminConstants.policyType() + ":"));
-			policyInfoGrid.setWidget(2, 1, policyType);
+			policyInfoGrid.setWidget(2, 1, policyDesc);
 
 			policyInfoGrid.setWidget(3, 0, new Label(
 					PolicyAdminUIUtil.policyAdminConstants.status() + ":"));
@@ -642,8 +630,9 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			
 			resourceAssignmentWidget = new PolicyResourceAssignmentWidget();
 			resourceAssignmentPopup = new PopupPanel(); 
-			resourceAssignmentPopup.setTitle(PolicyAdminUIUtil.policyAdminConstants
-					.assignResources());
+			resourceAssignmentPopup.setWidth("600px");
+			resourceAssignmentPopup.setHeight("300px");
+			
 			addResourceButton = new Button(
 					PolicyAdminUIUtil.policyAdminConstants.save(), new ClickHandler() {
 						
@@ -660,10 +649,19 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			resourceAssignmentButtonPanel.add(addResourceButton);
 			resourceAssignmentButtonPanel.add(cancelResourceButton);
 
-			Grid resourceAssignmentGrid = new Grid(2, 1);
-			resourceAssignmentGrid.setWidget(0, 0, resourceAssignmentWidget);
-			resourceAssignmentGrid.setWidget(1, 0,
+			Grid resourceAssignmentGrid = new Grid(3, 1);
+			Label title = new Label(PolicyAdminUIUtil.policyAdminConstants
+					.assignResources());
+			title.setAutoHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+			resourceAssignmentGrid.setWidget(0, 0, title);
+			
+			resourceAssignmentGrid.setWidget(1, 0, resourceAssignmentWidget);
+			resourceAssignmentGrid.getCellFormatter().setVerticalAlignment(1,0,HasVerticalAlignment.ALIGN_TOP);
+			
+			resourceAssignmentGrid.setWidget(2, 0,
 					resourceAssignmentButtonPanel);
+			resourceAssignmentGrid.getCellFormatter().setVerticalAlignment(2,0,HasVerticalAlignment.ALIGN_BOTTOM);
+			resourceAssignmentGrid.getCellFormatter().setHorizontalAlignment(2,0,HasHorizontalAlignment.ALIGN_CENTER);
 			resourceAssignmentPopup.add(resourceAssignmentGrid);
 			
 		}
@@ -965,18 +963,6 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			cellTable.addColumn(typeCol,
 					PolicyAdminUIUtil.policyAdminConstants.subjectType());
 			
-//			TextColumn<PolicySubjectAssignment> typeCol = new TextColumn<PolicySubjectAssignment>() {
-//				public String getValue(PolicySubjectAssignment assignment) {
-//					if (assignment == null) {
-//						return null;
-//					}
-//					return assignment.getSubjectType();
-//				}
-//			};
-//			cellTable.addColumn(typeCol,
-//					PolicyAdminUIUtil.policyAdminConstants.subjectType());
-			
-			
 			// text column for Subject names
 			Column<PolicySubjectAssignment, List<String>> subjectNamesCol = new Column<PolicySubjectAssignment, List<String>>(
 					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
@@ -1046,9 +1032,9 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			subjectAssignmentWidget = new PolicySubjectAssignmentWidget();
 
 			subjectAssignmentPopup =  new PopupPanel();
-			subjectAssignmentPopup.setTitle(PolicyAdminUIUtil.policyAdminConstants
-					.assignSubjectsAndSubjectGroups());
-
+			subjectAssignmentPopup.setWidth("600px");
+			subjectAssignmentPopup.setHeight("400px");
+			
 			addSubjectButton = new Button(PolicyAdminUIUtil.constants.apply(), new ClickHandler() {
 				
 				@Override
@@ -1063,9 +1049,19 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			subjectAssignmentButtonPanel.add(addSubjectButton);
 			subjectAssignmentButtonPanel.add(cancelSubjectButton);
 
-			Grid subjectAssignmentGrid = new Grid(2, 1);
-			subjectAssignmentGrid.setWidget(0, 0, subjectAssignmentWidget);
-			subjectAssignmentGrid.setWidget(1, 0, subjectAssignmentButtonPanel);
+			Grid subjectAssignmentGrid = new Grid(3, 1);
+			Label title = new Label(PolicyAdminUIUtil.policyAdminConstants
+					.assignSubjectsAndSubjectGroups());
+			title.setAutoHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+			subjectAssignmentGrid.setWidget(0, 0, title);
+			
+			subjectAssignmentGrid.setWidget(1, 0, subjectAssignmentWidget);
+			subjectAssignmentGrid.getCellFormatter().setVerticalAlignment(1,0,HasVerticalAlignment.ALIGN_TOP);
+
+			subjectAssignmentGrid.setWidget(2, 0, subjectAssignmentButtonPanel);
+			subjectAssignmentGrid.getCellFormatter().setVerticalAlignment(2,0,HasVerticalAlignment.ALIGN_BOTTOM);
+			subjectAssignmentGrid.getCellFormatter().setHorizontalAlignment(2,0,HasHorizontalAlignment.ALIGN_CENTER);
+			
 			subjectAssignmentPopup.add(subjectAssignmentGrid);
 
 		}
