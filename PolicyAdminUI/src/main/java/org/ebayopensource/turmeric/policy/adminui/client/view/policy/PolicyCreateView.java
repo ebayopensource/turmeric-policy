@@ -630,6 +630,8 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			
 			resourceAssignmentWidget = new PolicyResourceAssignmentWidget();
 			resourceAssignmentPopup = new PopupPanel(); 
+			resourceAssignmentPopup.setGlassEnabled(true);
+
 			resourceAssignmentPopup.setWidth("600px");
 			resourceAssignmentPopup.setHeight("300px");
 			
@@ -1032,6 +1034,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			subjectAssignmentWidget = new PolicySubjectAssignmentWidget();
 
 			subjectAssignmentPopup =  new PopupPanel();
+			subjectAssignmentPopup.setGlassEnabled(true);
 			subjectAssignmentPopup.setWidth("600px");
 			subjectAssignmentPopup.setHeight("400px");
 			
