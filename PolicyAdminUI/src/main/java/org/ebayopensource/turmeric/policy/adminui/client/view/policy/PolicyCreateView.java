@@ -34,6 +34,10 @@ import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.cell.client.ValueUpdater;
+import com.google.gwt.cell.client.Cell.Context;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -42,8 +46,10 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -82,7 +88,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 	protected TextBox policyName;
 	protected TextArea policyDesc;
-	protected  Label policyType;
+	protected Label policyType;
 	protected ListBox policyStatus;
 	protected boolean policyEnabled;
 
@@ -92,13 +98,13 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 	protected Grid extraFieldsGrid = new Grid(1, 1);
 
 	private static interface GetRsValue<C> {
-	    C getValue(Resource rs);
+		C getValue(Resource rs);
 	}
-	
+
 	private static interface GetSubjectValue<C> {
-	    C getValue(PolicySubjectAssignment sb);
+		C getValue(PolicySubjectAssignment sb);
 	}
-	
+
 	protected abstract String getTitleForm();
 
 	/**
@@ -296,9 +302,11 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		policyDesc = new TextArea();
 		policyType = new Label();
 		policyStatus = new ListBox();
-		policyStatus.addItem(PolicyAdminUIUtil.policyAdminConstants.enable(), PolicyAdminUIUtil.policyAdminConstants.enable());
-		policyStatus.addItem(PolicyAdminUIUtil.policyAdminConstants.disable(), PolicyAdminUIUtil.policyAdminConstants.disable());
-		
+		policyStatus.addItem(PolicyAdminUIUtil.policyAdminConstants.enable(),
+				PolicyAdminUIUtil.policyAdminConstants.enable());
+		policyStatus.addItem(PolicyAdminUIUtil.policyAdminConstants.disable(),
+				PolicyAdminUIUtil.policyAdminConstants.disable());
+
 		initializeExtraFields();
 
 		// CONTENT
@@ -316,7 +324,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		cancelButton = new Button(PolicyAdminUIUtil.constants.cancel());
 		saveButton.setWidth("80px");
 		cancelButton.setWidth("80px");
-		
+
 		HorizontalPanel buttonsPannel = new HorizontalPanel();
 		buttonsPannel.add(saveButton);
 		buttonsPannel.add(cancelButton);
@@ -357,8 +365,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		private Grid policyInfoGrid;
 		private PolicyConditionWidget conditionWidget;
 		protected DisclosurePanel conditionPanel;
-		
-		
+
 		public ContentView() {
 			mainPanel = new VerticalPanel();
 			initWidget(mainPanel);
@@ -383,11 +390,11 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			policyInfoGrid.setWidget(0, 0, new Label(
 					PolicyAdminUIUtil.policyAdminConstants.policyType() + ":"));
 			policyInfoGrid.setWidget(0, 1, policyType);
-			
+
 			policyInfoGrid.setWidget(1, 0, new Label(
 					PolicyAdminUIUtil.policyAdminConstants.policyName() + ":"));
 			policyInfoGrid.setWidget(1, 1, policyName);
-			
+
 			policyInfoGrid.setWidget(2, 0, new Label(
 					PolicyAdminUIUtil.policyAdminConstants.policyDescription()
 							+ ":"));
@@ -470,32 +477,37 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 			Grid actionGrid = new Grid(1, 2);
 			actionGrid.setWidth("100%");
-			
+
 			editButton = new PushButton("[ "
 					+ PolicyAdminUIUtil.policyAdminConstants.edit() + " ]");
 			editButton.setVisible(false);
-			
+
 			delButton = new PushButton("[ "
 					+ PolicyAdminUIUtil.policyAdminConstants.delete() + " ]");
 			delButton.setWidth("60px");
-			
+
 			delButton.setEnabled(false);
-			
-			Anchor assignResourcesClickable = new Anchor("[ " + PolicyAdminUIUtil.policyAdminConstants.resourceAssignResources() + " ]");
+
+			Anchor assignResourcesClickable = new Anchor(
+					"[ "
+							+ PolicyAdminUIUtil.policyAdminConstants
+									.resourceAssignResources() + " ]");
 			assignResourcesClickable.addClickHandler(new ClickHandler() {
-			    @Override
-			    public void onClick (ClickEvent event){
-			    	subjectContentView.hide();
-			    	resourceAssignmentPopup.center();
-			    }
+				@Override
+				public void onClick(ClickEvent event) {
+					subjectContentView.hide();
+					resourceAssignmentPopup.center();
+				}
 			});
 
 			actionGrid.setWidget(0, 0, delButton);
-			actionGrid.getCellFormatter().setWidth(0,0,"20%");
-			
+			actionGrid.getCellFormatter().setWidth(0, 0, "20%");
+
 			actionGrid.setWidget(0, 1, assignResourcesClickable);
-			actionGrid.getCellFormatter().setWidth(0,1,"80%");
-			actionGrid.getCellFormatter().setAlignment(0,1, HasHorizontalAlignment.ALIGN_RIGHT, HasVerticalAlignment.ALIGN_MIDDLE);
+			actionGrid.getCellFormatter().setWidth(0, 1, "80%");
+			actionGrid.getCellFormatter().setAlignment(0, 1,
+					HasHorizontalAlignment.ALIGN_RIGHT,
+					HasVerticalAlignment.ALIGN_MIDDLE);
 			summaryGrid.setWidget(0, 0, actionGrid);
 
 			keyProvider = new ProvidesKey<Resource>() {
@@ -538,7 +550,27 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 					selectionModel.setSelected(rs, value);
 				}
 			});
-			cellTable.addColumn(checkColumn, "All");
+			
+			final CheckboxCell cb = new CheckboxCell();
+			Header<Boolean> hdr = new Header<Boolean>(cb) {
+				boolean selected = false;
+				@Override
+				public void onBrowserEvent(Context context, Element elem,
+						NativeEvent event) {
+					// TODO Auto-generated method stub
+					super.onBrowserEvent(context, elem, event);
+					selected=!selected;
+					for (Resource visibleItem : cellTable.getVisibleItems()) {
+						selectionModel.setSelected(visibleItem, selected);
+					}
+				}
+				
+				@Override
+				public Boolean getValue() {
+					return false;
+				}
+			};
+			cellTable.addColumn(checkColumn, hdr);
 
 			// resource type
 			TextColumn<Resource> resourceTypeCol = new TextColumn<Resource>() {
@@ -555,24 +587,25 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 			// resource Name
 			ClickableTextCell resourceNameCellClickable = new ClickableTextCell();
-			Column<Resource, String>  resourceNameCol = createCell(resourceNameCellClickable, new GetRsValue<String>(){
-				public String getValue(Resource assignment) {
-					if (assignment == null
-							|| assignment.getResourceName() == null) {
-						return null;
-					}
-	                return assignment.getResourceName(); 
-	            }
-	        }, new FieldUpdater<Resource, String>() {
-	            public void update(int index, Resource rs, String value) {
-	            	selections.add(rs);
-	            	editButton.fireEvent(new ClickEvent(){});
-	            }
-	        });
+			Column<Resource, String> resourceNameCol = createCell(
+					resourceNameCellClickable, new GetRsValue<String>() {
+						public String getValue(Resource assignment) {
+							if (assignment == null
+									|| assignment.getResourceName() == null) {
+								return null;
+							}
+							return assignment.getResourceName();
+						}
+					}, new FieldUpdater<Resource, String>() {
+						public void update(int index, Resource rs, String value) {
+							selections.add(rs);
+							editButton.fireEvent(new ClickEvent() {
+							});
+						}
+					});
 			cellTable.addColumn(resourceNameCol,
 					PolicyAdminUIUtil.policyAdminConstants.resourceName());
 
-			
 			// operations
 			// TODO add operations name into table
 			Column<Resource, List<String>> resourceOpsCol = new Column<Resource, List<String>>(
@@ -603,47 +636,47 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			mainPanel.add(summaryGrid);
 		}
 
-		
-		private <C> Column<Resource, C> createCell(Cell<C> cell,final GetRsValue<C> getter,
+		private <C> Column<Resource, C> createCell(Cell<C> cell,
+				final GetRsValue<C> getter,
 				FieldUpdater<Resource, C> fieldUpdater) {
-				        Column<Resource, C> column = new Column<Resource, C>(cell) {
+			Column<Resource, C> column = new Column<Resource, C>(cell) {
 
-				        @Override
-				        public C getValue(Resource object) {
-				            return getter.getValue(object);
-				        }
-				       
-				        @Override
-		                public void render(Cell.Context context, Resource object, SafeHtmlBuilder sb) 
-		                {
-		                    sb.appendHtmlConstant("<a href='javascript:void(0);'>");
-		                    super.render(context, object, sb);
-		                    sb.appendHtmlConstant("</a>");
-		                } 
-				    };
-				    column.setFieldUpdater(fieldUpdater);
-				    return column;
+				@Override
+				public C getValue(Resource object) {
+					return getter.getValue(object);
+				}
+
+				@Override
+				public void render(Cell.Context context, Resource object,
+						SafeHtmlBuilder sb) {
+					sb.appendHtmlConstant("<a href='javascript:void(0);'>");
+					super.render(context, object, sb);
+					sb.appendHtmlConstant("</a>");
+				}
+			};
+			column.setFieldUpdater(fieldUpdater);
+			return column;
 		}
-		
-			
+
 		protected void createResourceAssignmentFields() {
-			
+
 			resourceAssignmentWidget = new PolicyResourceAssignmentWidget();
-			resourceAssignmentPopup = new PopupPanel(); 
+			resourceAssignmentPopup = new PopupPanel();
 			resourceAssignmentPopup.setGlassEnabled(true);
 
 			resourceAssignmentPopup.setWidth("600px");
 			resourceAssignmentPopup.setHeight("300px");
-			
+
 			addResourceButton = new Button(
-					PolicyAdminUIUtil.policyAdminConstants.save(), new ClickHandler() {
-						
+					PolicyAdminUIUtil.policyAdminConstants.save(),
+					new ClickHandler() {
+
 						@Override
 						public void onClick(ClickEvent paramClickEvent) {
 							resourceAssignmentPopup.hide();
 						}
 					});
-			
+
 			cancelResourceButton = new Button(
 					PolicyAdminUIUtil.policyAdminConstants.cancel());
 
@@ -652,20 +685,23 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			resourceAssignmentButtonPanel.add(cancelResourceButton);
 
 			Grid resourceAssignmentGrid = new Grid(3, 1);
-			Label title = new Label(PolicyAdminUIUtil.policyAdminConstants
-					.assignResources());
+			Label title = new Label(
+					PolicyAdminUIUtil.policyAdminConstants.assignResources());
 			title.setAutoHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 			resourceAssignmentGrid.setWidget(0, 0, title);
-			
+
 			resourceAssignmentGrid.setWidget(1, 0, resourceAssignmentWidget);
-			resourceAssignmentGrid.getCellFormatter().setVerticalAlignment(1,0,HasVerticalAlignment.ALIGN_TOP);
-			
+			resourceAssignmentGrid.getCellFormatter().setVerticalAlignment(1,
+					0, HasVerticalAlignment.ALIGN_TOP);
+
 			resourceAssignmentGrid.setWidget(2, 0,
 					resourceAssignmentButtonPanel);
-			resourceAssignmentGrid.getCellFormatter().setVerticalAlignment(2,0,HasVerticalAlignment.ALIGN_BOTTOM);
-			resourceAssignmentGrid.getCellFormatter().setHorizontalAlignment(2,0,HasHorizontalAlignment.ALIGN_CENTER);
+			resourceAssignmentGrid.getCellFormatter().setVerticalAlignment(2,
+					0, HasVerticalAlignment.ALIGN_BOTTOM);
+			resourceAssignmentGrid.getCellFormatter().setHorizontalAlignment(2,
+					0, HasHorizontalAlignment.ALIGN_CENTER);
 			resourceAssignmentPopup.add(resourceAssignmentGrid);
-			
+
 		}
 
 		public List<Resource> getSelections() {
@@ -860,32 +896,37 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			// permission
 			actionGrid = new Grid(1, 2);
 			actionGrid.setWidth("100%");
-			
+
 			editButton = new PushButton("[ "
 					+ PolicyAdminUIUtil.policyAdminConstants.edit() + " ]");
 			editButton.setVisible(false);
-			
+
 			delButton = new PushButton("[ "
 					+ PolicyAdminUIUtil.policyAdminConstants.delete() + " ]");
 			delButton.setWidth("60px");
 			delButton.setEnabled(false);
 
-			Anchor assignSubjectsClickable = new Anchor("[ " + PolicyAdminUIUtil.policyAdminConstants.subjectAssignSubjects() + " ]");
+			Anchor assignSubjectsClickable = new Anchor(
+					"[ "
+							+ PolicyAdminUIUtil.policyAdminConstants
+									.subjectAssignSubjects() + " ]");
 			assignSubjectsClickable.addClickHandler(new ClickHandler() {
-			    @Override
-			    public void onClick (ClickEvent event){
-			    	resourceContentView.hide();
-			    	subjectAssignmentPopup.center();
-			    }
+				@Override
+				public void onClick(ClickEvent event) {
+					resourceContentView.hide();
+					subjectAssignmentPopup.center();
+				}
 			});
-			
+
 			actionGrid.setWidget(0, 0, delButton);
-			actionGrid.getCellFormatter().setWidth(0,0,"20%");
-			
+			actionGrid.getCellFormatter().setWidth(0, 0, "20%");
+
 			actionGrid.setWidget(0, 1, assignSubjectsClickable);
-			actionGrid.getCellFormatter().setWidth(0,1,"80%");
-			actionGrid.getCellFormatter().setAlignment(0,1, HasHorizontalAlignment.ALIGN_RIGHT, HasVerticalAlignment.ALIGN_MIDDLE);
-		
+			actionGrid.getCellFormatter().setWidth(0, 1, "80%");
+			actionGrid.getCellFormatter().setAlignment(0, 1,
+					HasHorizontalAlignment.ALIGN_RIGHT,
+					HasVerticalAlignment.ALIGN_MIDDLE);
+
 		}
 
 		protected void createSubjectTableFields() {
@@ -943,28 +984,54 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 							selectionModel.setSelected(assignment, value);
 						}
 					});
-			cellTable.addColumn(checkColumn, "All");
+
+			final CheckboxCell cb = new CheckboxCell();
+			Header<Boolean> hdr = new Header<Boolean>(cb) {
+				boolean selected = false;
+				@Override
+				public void onBrowserEvent(Context context, Element elem,
+						NativeEvent event) {
+					// TODO Auto-generated method stub
+					super.onBrowserEvent(context, elem, event);
+					selected=!selected;
+					for (PolicySubjectAssignment visibleItem : cellTable
+							.getVisibleItems()) {
+						selectionModel.setSelected(visibleItem, selected);
+					}
+				}
+				
+				@Override
+				public Boolean getValue() {
+					return false;
+				}
+			};
 
 			
+			cellTable.addColumn(checkColumn, hdr);
+
 			// text column for type
 			ClickableTextCell sbTypeCellClickable = new ClickableTextCell();
-			Column<PolicySubjectAssignment, String>  typeCol = createCell(sbTypeCellClickable, new GetSubjectValue<String>(){
-				public String getValue(PolicySubjectAssignment assignment) {
-					if (assignment == null
-							|| assignment.getSubjectType() == null) {
-						return null;
-					}
-	                return assignment.getSubjectType(); 
-	            }
-	        }, new FieldUpdater<PolicySubjectAssignment, String>() {
-	            public void update(int index, PolicySubjectAssignment assignment, String value) {
-	            	selections.add(assignment);
-	            	editButton.fireEvent(new ClickEvent(){});
-	            }
-	        });
+			Column<PolicySubjectAssignment, String> typeCol = createCell(
+					sbTypeCellClickable, new GetSubjectValue<String>() {
+						public String getValue(
+								PolicySubjectAssignment assignment) {
+							if (assignment == null
+									|| assignment.getSubjectType() == null) {
+								return null;
+							}
+							return assignment.getSubjectType();
+						}
+					}, new FieldUpdater<PolicySubjectAssignment, String>() {
+						public void update(int index,
+								PolicySubjectAssignment assignment, String value) {
+							selections.add(assignment);
+							editButton.fireEvent(new ClickEvent() {
+							});
+						}
+					});
 			cellTable.addColumn(typeCol,
 					PolicyAdminUIUtil.policyAdminConstants.subjectType());
-			
+
 			// text column for Subject names
 			Column<PolicySubjectAssignment, List<String>> subjectNamesCol = new Column<PolicySubjectAssignment, List<String>>(
 					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
@@ -985,7 +1052,6 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			cellTable.addColumn(subjectNamesCol,
 					PolicyAdminUIUtil.policyAdminConstants.subjects());
 
-			
 			// text column for SubjectGroup names
 			Column<PolicySubjectAssignment, List<String>> subjectGroupNamesCol = new Column<PolicySubjectAssignment, List<String>>(
 					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
@@ -1009,42 +1075,45 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 					PolicyAdminUIUtil.policyAdminConstants.subjectGroups());
 		}
 
-		private <C> Column<PolicySubjectAssignment, C> createCell(Cell<C> cell,final GetSubjectValue<C> getter,
+		private <C> Column<PolicySubjectAssignment, C> createCell(Cell<C> cell,
+				final GetSubjectValue<C> getter,
 				FieldUpdater<PolicySubjectAssignment, C> fieldUpdater) {
-				        Column<PolicySubjectAssignment, C> column = new Column<PolicySubjectAssignment, C>(cell) {
+			Column<PolicySubjectAssignment, C> column = new Column<PolicySubjectAssignment, C>(
+					cell) {
 
-				        @Override
-				        public C getValue(PolicySubjectAssignment object) {
-				            return getter.getValue(object);
-				        }
-				       
-				        @Override
-		                public void render(Cell.Context context, PolicySubjectAssignment object, SafeHtmlBuilder sb) 
-		                {
-		                    sb.appendHtmlConstant("<a href='javascript:void(0);'>");
-		                    super.render(context, object, sb);
-		                    sb.appendHtmlConstant("</a>");
-		                } 
-				    };
-				    column.setFieldUpdater(fieldUpdater);
-				    return column;
+				@Override
+				public C getValue(PolicySubjectAssignment object) {
+					return getter.getValue(object);
+				}
+
+				@Override
+				public void render(Cell.Context context,
+						PolicySubjectAssignment object, SafeHtmlBuilder sb) {
+					sb.appendHtmlConstant("<a href='javascript:void(0);'>");
+					super.render(context, object, sb);
+					sb.appendHtmlConstant("</a>");
+				}
+			};
+			column.setFieldUpdater(fieldUpdater);
+			return column;
 		}
-		
+
 		protected void createSubjectAssignmentFields() {
 			subjectAssignmentWidget = new PolicySubjectAssignmentWidget();
 
-			subjectAssignmentPopup =  new PopupPanel();
+			subjectAssignmentPopup = new PopupPanel();
 			subjectAssignmentPopup.setGlassEnabled(true);
 			subjectAssignmentPopup.setWidth("600px");
 			subjectAssignmentPopup.setHeight("400px");
-			
-			addSubjectButton = new Button(PolicyAdminUIUtil.constants.apply(), new ClickHandler() {
-				
-				@Override
-				public void onClick(ClickEvent paramClickEvent) {
-					subjectAssignmentPopup.hide();					
-				}
-			});
+
+			addSubjectButton = new Button(PolicyAdminUIUtil.constants.apply(),
+					new ClickHandler() {
+
+						@Override
+						public void onClick(ClickEvent paramClickEvent) {
+							subjectAssignmentPopup.hide();
+						}
+					});
 			cancelSubjectButton = new Button(
 					PolicyAdminUIUtil.constants.cancel());
 
@@ -1053,18 +1122,22 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			subjectAssignmentButtonPanel.add(cancelSubjectButton);
 
 			Grid subjectAssignmentGrid = new Grid(3, 1);
-			Label title = new Label(PolicyAdminUIUtil.policyAdminConstants
-					.assignSubjectsAndSubjectGroups());
+			Label title = new Label(
+					PolicyAdminUIUtil.policyAdminConstants
+							.assignSubjectsAndSubjectGroups());
 			title.setAutoHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 			subjectAssignmentGrid.setWidget(0, 0, title);
-			
+
 			subjectAssignmentGrid.setWidget(1, 0, subjectAssignmentWidget);
-			subjectAssignmentGrid.getCellFormatter().setVerticalAlignment(1,0,HasVerticalAlignment.ALIGN_TOP);
+			subjectAssignmentGrid.getCellFormatter().setVerticalAlignment(1, 0,
+					HasVerticalAlignment.ALIGN_TOP);
 
 			subjectAssignmentGrid.setWidget(2, 0, subjectAssignmentButtonPanel);
-			subjectAssignmentGrid.getCellFormatter().setVerticalAlignment(2,0,HasVerticalAlignment.ALIGN_BOTTOM);
-			subjectAssignmentGrid.getCellFormatter().setHorizontalAlignment(2,0,HasHorizontalAlignment.ALIGN_CENTER);
-			
+			subjectAssignmentGrid.getCellFormatter().setVerticalAlignment(2, 0,
+					HasVerticalAlignment.ALIGN_BOTTOM);
+			subjectAssignmentGrid.getCellFormatter().setHorizontalAlignment(2,
+					0, HasHorizontalAlignment.ALIGN_CENTER);
+
 			subjectAssignmentPopup.add(subjectAssignmentGrid);
 
 		}
@@ -1082,10 +1155,10 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			return selections;
 		}
 
-		public CellTable<PolicySubjectAssignment> getCellTable(){
+		public CellTable<PolicySubjectAssignment> getCellTable() {
 			return cellTable;
 		}
-		
+
 		public HasClickHandlers getEditButton() {
 			return editButton;
 		}
@@ -1094,7 +1167,6 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			return delButton;
 		}
 
-		
 		public void setUserActions(List<UserAction> actions) {
 			permissions = actions;
 			enableActions();
@@ -1198,8 +1270,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		private void enableActions() {
 			boolean permitted = permissions != null
 					&& permissions.contains(UserAction.POLICY_EDIT);
-			delButton.setEnabled(permitted && selections.size() == 1);
-			editButton.setEnabled(permitted && selections.size() == 1);
+			editButton.setEnabled(permitted && selections.size() >= 1);
 		}
 
 		/**
@@ -1436,14 +1507,15 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 	@Override
 	public void setPolicyType(final String policyType) {
-		if("RL".equalsIgnoreCase(policyType)){
-			CellTable<PolicySubjectAssignment> cellTable = ((SubjectContentView)subjectContentView).getCellTable();
-			
+		if ("RL".equalsIgnoreCase(policyType)) {
+			CellTable<PolicySubjectAssignment> cellTable = ((SubjectContentView) subjectContentView)
+					.getCellTable();
+
 			// text column for Exclusion Subject names
 			Column<PolicySubjectAssignment, List<String>> exclusionSubjectNamesCol = new Column<PolicySubjectAssignment, List<String>>(
 					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
 				public List<String> getValue(PolicySubjectAssignment assignment) {
-	
+
 					if (assignment == null
 							|| assignment.getExclusionSubjects() == null) {
 						return null;
@@ -1452,14 +1524,14 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 					for (Subject subject : assignment.getExclusionSubjects()) {
 						namesList.add(subject.getName());
 					}
-	
+
 					return namesList;
 				}
 			};
-	
+
 			cellTable.addColumn(exclusionSubjectNamesCol,
-						PolicyAdminUIUtil.policyAdminConstants.exclusionSubjects());
-			
+					PolicyAdminUIUtil.policyAdminConstants.exclusionSubjects());
+
 			// text column for Exclusion Subject Group names
 			Column<PolicySubjectAssignment, List<String>> exclusionSGNamesCol = new Column<PolicySubjectAssignment, List<String>>(
 					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
@@ -1482,7 +1554,6 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 					PolicyAdminUIUtil.policyAdminConstants
 							.exclusionSubjectGroups());
 
-			
 		}
 		this.policyType.setText(policyType);
 	}
