@@ -1270,7 +1270,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		private void enableActions() {
 			boolean permitted = permissions != null
 					&& permissions.contains(UserAction.POLICY_EDIT);
-			editButton.setEnabled(permitted && selections.size() >= 1);
+			delButton.setEnabled(permitted && selections.size() >= 1);
 		}
 
 		/**
