@@ -40,9 +40,12 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
@@ -60,10 +63,10 @@ public class PolicyViewView extends ResizeComposite implements
 	private ResourcesContentDisplay resourceContentView;
 	private SubjectContentDisplay subjectContentView;
 
-	protected Label policyName;
-	protected Label policyDesc;
+	protected TextBox policyName;
+	protected TextArea policyDesc;
 	protected Label policyType;
-	protected Label policyStatus;
+	protected ListBox policyStatus;
 
 	protected boolean extraGridAvailable;
 
@@ -87,10 +90,20 @@ public class PolicyViewView extends ResizeComposite implements
 
 	public void initialize() {
 
-		policyName = new Label();
-		policyDesc = new Label();
+		policyName = new TextBox();
+		policyName.setEnabled(false);
+		
+		policyDesc = new TextArea();
+		policyDesc.setEnabled(false);
+		
 		policyType = new Label();
-		policyStatus = new Label();
+		
+		policyStatus = new ListBox();
+		policyStatus.setEnabled(false);
+		policyStatus.addItem(PolicyAdminUIUtil.policyAdminConstants.enable(), PolicyAdminUIUtil.policyAdminConstants.enable());
+		policyStatus.addItem(PolicyAdminUIUtil.policyAdminConstants.disable(), PolicyAdminUIUtil.policyAdminConstants.disable());
+		
+		
 		extraFieldList = new ArrayList<ExtraField>();
 
 		// CONTENT
@@ -158,24 +171,24 @@ public class PolicyViewView extends ResizeComposite implements
 			policyName.setWidth("300px");
 			policyDesc.setWidth("250px");
 			policyType.setWidth("300px");
-			policyStatus.setWidth("300px");
+			policyStatus.setWidth("100px");
 
 			policyInfoGrid = new Grid(4, 2);
 
 			policyInfoGrid.setWidget(0, 0, new Label(
+					PolicyAdminUIUtil.policyAdminConstants.policyType() + ":"));
+			policyInfoGrid.setWidget(0, 1, policyType);
+			
+			policyInfoGrid.setWidget(1, 0, new Label(
 					PolicyAdminUIUtil.policyAdminConstants.policyName() + ":"));
-			policyInfoGrid.setWidget(0, 1, policyName);
+			policyInfoGrid.setWidget(1, 1, policyName);
 			policyInfoGrid
 					.setWidget(
-							1,
+							2,
 							0,
 							new Label(PolicyAdminUIUtil.policyAdminConstants
 									.policyDescription() + ":"));
-			policyInfoGrid.setWidget(1, 1, policyDesc);
-
-			policyInfoGrid.setWidget(2, 0, new Label(
-					PolicyAdminUIUtil.policyAdminConstants.policyType() + ":"));
-			policyInfoGrid.setWidget(2, 1, policyType);
+			policyInfoGrid.setWidget(2, 1, policyDesc);
 
 			policyInfoGrid.setWidget(3, 0, new Label(
 					PolicyAdminUIUtil.policyAdminConstants.status() + ":"));
@@ -538,11 +551,9 @@ public class PolicyViewView extends ResizeComposite implements
 
 	public void setPolicyStatus(final boolean enabled) {
 		if (enabled) {
-			this.policyStatus
-					.setText(PolicyAdminUIUtil.policyAdminConstants.enable());
+			this.policyStatus.setSelectedIndex(0);
 		} else {
-			this.policyStatus.setText(PolicyAdminUIUtil.policyAdminConstants
-					.disable());
+			this.policyStatus.setSelectedIndex(1);
 		}
 	}
 
@@ -579,7 +590,7 @@ public class PolicyViewView extends ResizeComposite implements
 		policyName.setText("");
 		policyDesc.setText("");
 		policyType.setText("");
-		policyStatus.setText("");
+		policyStatus.setSelectedIndex(-1);
 		extraGridAvailable = false;
 
 		if (this.extraFieldList != null && this.extraFieldList.size() > 0) {
