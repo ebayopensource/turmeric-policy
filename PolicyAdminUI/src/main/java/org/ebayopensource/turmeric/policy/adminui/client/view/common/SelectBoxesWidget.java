@@ -113,6 +113,11 @@ public class SelectBoxesWidget extends Composite {
         }
     }
     
+    public void setWithForOperations(){
+    	availableBox.setWidth("230px");
+    	selectedBox.setWidth("230px");
+    }
+    
     public void setSelections (List<String> selects) {
         selectedBox.clear();
         if (selects != null && selects.size() > 0)
