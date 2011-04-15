@@ -9,7 +9,6 @@
 package org.ebayopensource.turmeric.policy.adminui.client;
 
 import com.google.gwt.i18n.client.Constants;
-import com.google.gwt.i18n.client.Constants.DefaultStringValue;
 
 public interface PolicyAdminConstants extends Constants {
     

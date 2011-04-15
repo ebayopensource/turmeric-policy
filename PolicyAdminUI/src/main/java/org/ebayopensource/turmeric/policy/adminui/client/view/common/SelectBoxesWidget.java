@@ -47,8 +47,11 @@ public class SelectBoxesWidget extends Composite {
         
         availableBox = new ListBox(isAvailableMulti);
         selectedBox = new ListBox(isSelectedMulti);
-       
- 
+        availableBox.setWidth("130px");
+        availableBox.setHeight("80px");
+        selectedBox.setWidth("130px");
+        selectedBox.setHeight("80px");
+        
         //arrows
         addButton = new Button(">>");
         delButton = new Button("<<");

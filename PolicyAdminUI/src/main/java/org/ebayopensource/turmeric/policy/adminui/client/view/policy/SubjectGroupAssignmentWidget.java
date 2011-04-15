@@ -22,6 +22,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -47,10 +48,16 @@ public class SubjectGroupAssignmentWidget extends Composite {
     protected String subjectType;
     protected ListBox subjectTypeBox;
     protected Label subjectTypeLabel;
+    protected Label subjectNameLabel;
+    protected CaptionPanel subjectCaption;
     protected TextBox searchBox;
     protected Button searchButton;
     protected FlowPanel panel;
     protected FlexTable table;
+    protected FlexTable subjectTable;
+
+    protected FlexTable subjectGroupTable;
+    
     protected Button addSubjectButton;
     protected Button delSubjectButton;
     protected SelectBoxesWidget selectBoxes;
@@ -68,6 +75,13 @@ public class SubjectGroupAssignmentWidget extends Composite {
         panel.addStyleName("subject-assignment-panel");
         table = new FlexTable();  
         table.setWidth("100%");
+        
+        subjectTable = new FlexTable();  
+        subjectTable.setWidth("100%");
+         
+        subjectGroupTable = new FlexTable();  
+        subjectGroupTable.setWidth("100%");
+
         panel.add(table);   
         createFields();
         positionFields();
@@ -120,6 +134,9 @@ public class SubjectGroupAssignmentWidget extends Composite {
         subjectTypeBox.clear();
         subjectTypeBox.setVisible(true);
         subjectTypeLabel.setVisible(true);
+        subjectCaption.setVisible(true);
+
+        subjectNameLabel.setVisible(true);
         if(availableSubjectTypes != null){
         	for (String s:availableSubjectTypes)
             subjectTypeBox.addItem(s);
@@ -131,27 +148,35 @@ public class SubjectGroupAssignmentWidget extends Composite {
     
     protected void createFields () {
         createSubjectTypeFields();
-        createSearchFields();
-        createSubjectsFields();
+        createSubjectCaption();
+       
     }
     
     protected void positionFields () {
         // subjectTypeBox add it first
         positionSubjectTypeFields();
-        
-        //position the search box
+        positionSubjectCaption();
+        table.setWidget(1, 0, subjectCaption);
+
+    }
+   
+    private void positionSubjectCaption(){
+    	//position the search box
         positionSearchFields();
         
         //position the subject boxes
         positionSubjectsFields();
+        
     }
-   
     
-    private void positionSubjectTypeFields () {      
-        table.setWidget(0, 0, subjectTypeLabel);
-        table.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_LEFT);
-        table.getCellFormatter().setWordWrap(0, 0, false);
-        table.setWidget(0, 1, subjectTypeBox);
+    
+    private void positionSubjectTypeFields () {  
+    	Grid searchGrid = new Grid(1,2);
+    	
+    	searchGrid.setWidget(0, 0, subjectTypeLabel);
+    	searchGrid.setWidget(0, 1, subjectTypeBox);   
+    	table.setWidget(0, 0, searchGrid);
+     
     }
     
     private void createSubjectTypeFields () {
@@ -167,18 +192,35 @@ public class SubjectGroupAssignmentWidget extends Composite {
     
     
     private void positionSubjectsFields () {
-        table.setWidget(2, 0, selectBoxes);
-        table.getFlexCellFormatter().setColSpan(2, 0, 2);
+    	subjectTable.setWidget(1, 0, selectBoxes);
+    	subjectTable.getFlexCellFormatter().setColSpan(1, 0, 3);
     }
     
     private void createSearchFields (){
         searchBox = new TextBox();
-        searchButton = new Button(PolicyAdminUIUtil.policyAdminConstants.searchSubjects());
+        searchButton = new Button(PolicyAdminUIUtil.policyAdminConstants.search());
     }
     
-    private void positionSearchFields() {
-        table.setWidget(1,0, searchButton);
-        table.getCellFormatter().setHorizontalAlignment(1, 0, HasHorizontalAlignment.ALIGN_LEFT);
-        table.setWidget(1,1,searchBox);
+    private void createSubjectCaption(){
+    	createSearchFields();
+        createSubjectsFields();
+        subjectCaption = new CaptionPanel("Subjects");
+        subjectCaption.setContentWidget(subjectTable);	    
     }
+    
+   
+    private void positionSearchFields() {
+    	subjectNameLabel = new Label(PolicyAdminUIUtil.policyAdminConstants.subjectName()+":");
+    	subjectTable.setWidget(0,0, subjectNameLabel);
+    	subjectTable.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_LEFT);
+    	subjectTable.setWidget(0,1,searchBox);
+    	subjectTable.setWidget(0,2, searchButton);
+ 
+//    	
+//    	subjectNameLabel = new Label(PolicyAdminUIUtil.policyAdminConstants.subjectName()+":");
+//    	table.setWidget(1,0, subjectNameLabel);
+//        table.getCellFormatter().setHorizontalAlignment(1, 0, HasHorizontalAlignment.ALIGN_LEFT);
+//        table.setWidget(1,1,searchBox);
+//        table.setWidget(1,2, searchButton);
+     }
 }

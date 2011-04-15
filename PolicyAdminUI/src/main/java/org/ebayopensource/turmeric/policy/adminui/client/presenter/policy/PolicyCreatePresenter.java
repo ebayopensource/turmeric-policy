@@ -10,18 +10,17 @@ package org.ebayopensource.turmeric.policy.adminui.client.presenter.policy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.Display;
+import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.SupportedService;
-import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken;
+import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.AttributeValueImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ExtraField;
@@ -30,6 +29,12 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPol
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Operation;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.OperationImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreateSubjectsResponse;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindExternalSubjectsResponse;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectsResponse;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetResourcesResponse;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.ResourceLevel;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicySubjectAssignment;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ResourceImpl;
@@ -37,7 +42,6 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ResourceKe
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ResourceType;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Rule;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectAttributeDesignator;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectAttributeDesignatorImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroupImpl;
@@ -49,17 +53,11 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectMat
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectMatchTypeImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectQuery;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectType;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreateSubjectsResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindExternalSubjectsResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectsResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetResourcesResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.ResourceLevel;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter;
 import org.ebayopensource.turmeric.policy.adminui.client.util.PolicyKeysUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.util.SubjectUtil;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.SelectBoxesWidget;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.PolicyPageTemplateDisplay;
+import org.ebayopensource.turmeric.policy.adminui.client.view.common.SelectBoxesWidget;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -67,11 +65,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasChangeHandlers;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.logical.shared.HasCloseHandlers;
-import com.google.gwt.event.logical.shared.HasOpenHandlers;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -779,7 +774,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 							// AvailableSubjectTypes(subjectTypes);
 							return;
 						}
-						assignedUniqueResources.clear();
+
 						view.getResourceContentView().clearAssignmentWidget();
 						view.getResourceContentView().hide();
 					}
@@ -1122,6 +1117,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	}
 
 	protected void clearLists() {
+
 		if (assignedUniqueResources != null) {
 			assignedUniqueResources.clear();
 		}
@@ -1155,21 +1151,33 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		this.view.getCancelButton().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				PolicyCreatePresenter.this.view.clear();
+				
+					if(subjectAssignments != null)
+						subjectAssignments.clear();
 
-				try {
-					PolicyCreatePresenter.this.subjectAssignments.clear();
-					PolicyCreatePresenter.this.resourceAssignments.clear();
-					PolicyCreatePresenter.this.rules.clear();
-					PolicyCreatePresenter.this.allResources.clear();
-					PolicyCreatePresenter.this.assignedUniqueResources.clear();
-					PolicyCreatePresenter.this.availableResourcesByType.clear();
-				    PolicyCreatePresenter.this.allSubjects.clear();
-				    PolicyCreatePresenter.this.allSubjectGroups.clear();
-					PolicyCreatePresenter.this.editResourceAssignment = null;
+					if(resourceAssignments != null)
+						resourceAssignments.clear();
+					
+					if(rules != null)
+						rules.clear();
+				
+					if(assignedUniqueResources!=null)
+						assignedUniqueResources.clear();
 
-				} catch (NullPointerException ex) {
-					// do nothing
-				}
+					if(availableResourcesByType != null)
+						availableResourcesByType.clear();
+					
+					if(allResources != null)
+						allResources.clear();
+					
+					if(allSubjects != null)
+						allSubjects.clear();
+					
+					if(allSubjectGroups != null)
+						allSubjectGroups.clear();
+					
+					if(allSubjectGroups != null)
+						editResourceAssignment = null;
 
 				HistoryToken token = makeToken(PolicyController.PRESENTER_ID,
 						PolicySummaryPresenter.PRESENTER_ID, null);
@@ -1470,9 +1478,16 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 			p.setRules(rules);
 		}
 
-		if (resources != null)
+		if (resources != null){
 			p.setResources(new ArrayList<Resource>(resources));
-
+			
+			for(Resource rs : resources){
+				assignedUniqueResources.add(rs
+							.getResourceType()
+							+ rs.getResourceName());
+			}
+		}
+		
 		if (subjectAssignments != null) {
 			List<Subject> subjects = new ArrayList<Subject>();
 			List<Subject> exclusionSubjects = new ArrayList<Subject>();
@@ -1603,7 +1618,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		service.getResources(null, new AsyncCallback<GetResourcesResponse>() {
 			public void onSuccess(GetResourcesResponse response) {
 				availableResourcesByType.addAll(response.getResources());
-
+			
 			}
 
 			public void onFailure(Throwable arg) {

@@ -1103,8 +1103,8 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 			subjectAssignmentPopup = new PopupPanel();
 			subjectAssignmentPopup.setGlassEnabled(true);
-			subjectAssignmentPopup.setWidth("600px");
-			subjectAssignmentPopup.setHeight("400px");
+			subjectAssignmentPopup.setWidth("800px");
+			subjectAssignmentPopup.setHeight("300px");
 
 			addSubjectButton = new Button(PolicyAdminUIUtil.constants.apply(),
 					new ClickHandler() {

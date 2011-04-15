@@ -16,7 +16,9 @@ import org.ebayopensource.turmeric.policy.adminui.client.view.common.SelectBoxes
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 
 
@@ -25,6 +27,9 @@ import com.google.gwt.user.client.ui.TextBox;
  *
  */
 public class PolicySubjectAssignmentWidget extends SubjectGroupAssignmentWidget {
+
+    protected CaptionPanel subjectGroupCaption;
+    protected Label subjectGroupNameLabel;
 
     protected SelectBoxesWidget selectGroups;
     protected TextBox searchGroupBox;
@@ -58,10 +63,13 @@ public class PolicySubjectAssignmentWidget extends SubjectGroupAssignmentWidget 
         List<String> emptyList = Collections.emptyList();
         setSelectedGroups(emptyList);
         setAvailableGroups(emptyList);
+        subjectGroupCaption.setVisible(true);
+
     }
     
     public void setAvailableGroups(List<String> availableGroups) {
         selectGroups.setAvailables(availableGroups);
+        
     }
     
     
@@ -88,52 +96,61 @@ public class PolicySubjectAssignmentWidget extends SubjectGroupAssignmentWidget 
     protected void createFields() {
         super.createFields();
         createExclusionSubjectFields();
-        
-        createGroupSearchFields();
-        createGroupsFields();
-        createExclusionSGFields();
 
+        createSubjectGroupCaption();
     }
     
     protected void positionFields () {
         super.positionFields();
         positionExclusionSubjectFields();
+        positionSubjectGroupCaption();
+        table.setWidget(1, 1, subjectGroupCaption);
         
-        positionGroupSearchFields();
+    }
+    
+    protected void positionSubjectGroupCaption(){
+    	positionGroupSearchFields();
         positionGroupsFields();
         positionExclusionSGFields();
     }
     
     protected void positionGroupSearchFields() {
-        int newRow = table.getRowCount();
-        table.setWidget(newRow,0, searchGroupButton);
-        table.getCellFormatter().setHorizontalAlignment(newRow, 0, HasHorizontalAlignment.ALIGN_LEFT);
-        table.setWidget(newRow,1,searchGroupBox);
+        subjectGroupNameLabel = new Label(PolicyAdminUIUtil.policyAdminConstants.subjectGroupName()+":");
+    	subjectGroupTable.setWidget(0,0, subjectGroupNameLabel);
+    	subjectGroupTable.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_LEFT);
+    	subjectGroupTable.setWidget(0,1,searchGroupBox);
+    	subjectGroupTable.setWidget(0,2, searchGroupButton);
+    
     }
     
+    protected void createSubjectGroupCaption(){
+    	createGroupSearchFields();
+        createGroupsFields();
+        createExclusionSGFields();
+       	subjectGroupCaption = new CaptionPanel("Subject Groups");
+        subjectGroupCaption.setContentWidget(subjectGroupTable);	
+    
+    }
 
     protected void createGroupSearchFields () {
         searchGroupBox = new TextBox();
-        searchGroupButton = new Button(PolicyAdminUIUtil.policyAdminConstants.searchGroups());
+        searchGroupButton = new Button(PolicyAdminUIUtil.policyAdminConstants.search());
     }
     
     
     protected void positionGroupsFields() {
-        int newRow = table.getRowCount();
-        table.setWidget(newRow, 0, selectGroups);
-        table.getFlexCellFormatter().setColSpan(newRow, 0, 2);                
+        subjectGroupTable.setWidget(1, 0, selectGroups);
+        subjectGroupTable.getFlexCellFormatter().setColSpan(1, 0, 3);                
     }
     
     protected void positionExclusionSubjectFields() {
-    	 int newRow = table.getRowCount();
-    	 table.setWidget(newRow, 0, selectExclusionSubjects);
-         table.getFlexCellFormatter().setColSpan(newRow, 0, 2);         
+    	 subjectTable.setWidget(2, 0, selectExclusionSubjects);
+    	 subjectTable.getFlexCellFormatter().setColSpan(2, 0, 3);         
     }
    
     protected void positionExclusionSGFields() {
-   	 int newRow = table.getRowCount();
-   	 table.setWidget(newRow, 0, selectExclusionSG);
-        table.getFlexCellFormatter().setColSpan(newRow, 0, 2);         
+    	subjectGroupTable.setWidget(2, 0, selectExclusionSG);
+    	subjectGroupTable.getFlexCellFormatter().setColSpan(2, 0, 3);         
    }
     
     /**
