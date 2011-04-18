@@ -494,7 +494,9 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 				@Override
 				public void onClick(ClickEvent event) {
 					subjectContentView.hide();
+					clearAssignmentWidget();
 					getResourceContentView().setResourceLevel(allAvailableRsLevels);
+					getResourceContentView().getResourceLevelBox().setSelectedIndex(-1);
 					resourceAssignmentPopup.center();
 				}
 			});
