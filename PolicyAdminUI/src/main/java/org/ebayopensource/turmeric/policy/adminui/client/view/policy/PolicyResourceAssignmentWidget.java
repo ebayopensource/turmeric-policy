@@ -227,7 +227,8 @@ public class PolicyResourceAssignmentWidget extends Composite {
     
     private void createOperationFields () {
         selectBoxes = new SelectBoxesWidget(PolicyAdminUIUtil.policyAdminConstants.availableOperations(), true, PolicyAdminUIUtil.policyAdminConstants.selectedOperations(), true);
-        selectBoxes.setVisible(false);
+        clear();
+        // selectBoxes.setVisible(false);
         selectBoxes.setWithForOperations();
     }
   

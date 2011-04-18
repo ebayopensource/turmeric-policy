@@ -657,7 +657,6 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		}
 
 		protected void createResourceAssignmentFields() {
-
 			resourceAssignmentWidget = new PolicyResourceAssignmentWidget();
 			resourceAssignmentPopup = new PopupPanel();
 			resourceAssignmentPopup.setGlassEnabled(true);
