@@ -25,9 +25,13 @@ import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
 
 import com.google.gwt.cell.client.Cell;
+import com.google.gwt.cell.client.Cell.Context;
+import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -38,6 +42,7 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
+import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.Button;
@@ -641,7 +646,36 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 							cellTable.redraw();
 						}
 					});
-			cellTable.addColumn(checkColumn, "All");
+			
+			final CheckboxCell cb = new CheckboxCell();
+			Header<Boolean> hdr = new Header<Boolean>(cb) {
+				boolean selected = false;
+				@Override
+				public void onBrowserEvent(Context context, Element elem,
+						NativeEvent event) {
+					super.onBrowserEvent(context, elem, event);
+					selected=!selected;
+					final String action = actionCombo.getValue(actionCombo.getSelectedIndex());
+					for (SubjectGroup visibleItem : cellTable.getVisibleItems()) {
+						if (!selected && pendingActions.keySet().contains(visibleItem)) {
+	                        pendingActions.remove(visibleItem);
+	                    }else if (permittedActions.get(visibleItem).contains(UserAction.valueOf(action)) && 
+	                    		selected && !pendingActions.keySet().contains(visibleItem)) {
+	                    	pendingActions.put(visibleItem, UserAction.valueOf(
+	                        		actionCombo.getValue(actionCombo.getSelectedIndex())));
+	                    }
+					}
+					 actionButton.setEnabled(pendingActions.size()>0);
+					 cellTable.redraw();
+				}
+				
+				@Override
+				public Boolean getValue() {
+					return false;
+				}
+			};
+			
+			cellTable.addColumn(checkColumn, hdr);
 
 			// subject Group name.
 			ClickableTextCell sgNameCellClickable = new ClickableTextCell();

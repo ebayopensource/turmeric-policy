@@ -25,9 +25,13 @@ import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
 
 import com.google.gwt.cell.client.Cell;
+import com.google.gwt.cell.client.Cell.Context;
+import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -39,8 +43,10 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
+import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -993,19 +999,19 @@ public class PolicySummaryView extends AbstractGenericView implements
 		
 		private void initTableColumns(final SelectionModel<GenericPolicy> selectionModel, 
 				ListHandler<GenericPolicy> sortHandler ) {
-			
+
            //checkbox column 
-			Column<GenericPolicy, GenericPolicy> checkColumn = new Column<GenericPolicy, GenericPolicy>(
+			final Column<GenericPolicy, GenericPolicy> checkColumn = new Column<GenericPolicy, GenericPolicy>(
                     new ActionPermissionCheckboxCell(UserAction.valueOf(
                     		this.actionCombo.getValue(this.actionCombo.getSelectedIndex())),
                     		pendingActions, permittedActions)) {
-                public GenericPolicy getValue(GenericPolicy group) {
-                   return group;
+                public GenericPolicy getValue(GenericPolicy policy) {
+                   return policy;
                 }
             };
             checkColumn.setFieldUpdater(new FieldUpdater<GenericPolicy, GenericPolicy>() {
                 public void update(int arg0, GenericPolicy arg1,GenericPolicy arg2) {
-                    if (pendingActions.keySet().contains(arg1)) {
+                	if (pendingActions.keySet().contains(arg1)) {
                         pendingActions.remove(arg1);
                     }else {
                         // Called when the user clicks on a checkbox.
@@ -1014,12 +1020,51 @@ public class PolicySummaryView extends AbstractGenericView implements
                     }
                     
                     actionButton.setEnabled(pendingActions.size()>0);
-                                      
                     cellTable.redraw();
                 }
             });
+            
+			final CheckboxCell cb = new CheckboxCell();
+			Header<Boolean> hdr = new Header<Boolean>(cb) {
+				boolean selected = false;
+				@Override
+				public void onBrowserEvent(Context context, Element elem,
+						NativeEvent event) {
+					super.onBrowserEvent(context, elem, event);
+					selected=!selected;
+					final String action = actionCombo.getValue(actionCombo.getSelectedIndex());
+					
+					for (GenericPolicy visibleItem : cellTable.getVisibleItems()) {
+						if (!selected && pendingActions.keySet().contains(visibleItem)) {
+	                        pendingActions.remove(visibleItem);
+	                        
+	                        //to draw as enable user should has privileges, checkAll must be selected, 
+	                        //and do not duplicate an entry en the pending actions set
+
+	                    }else if (permittedActions.get(visibleItem).contains(UserAction.valueOf(action)) && 
+	                    		selected && !pendingActions.keySet().contains(visibleItem) ) {
+	                        //also, the action should be a valid action, ie: enabling just for disabled and viceversa
+	                    	if(! (visibleItem.getEnabled() && UserAction.valueOf(action).compareTo(UserAction.POLICY_ENABLE)==0
+	                    			|| !visibleItem.getEnabled() && UserAction.valueOf(action).compareTo(UserAction.POLICY_DISABLE)==0)){
+	                    		pendingActions.put(visibleItem, UserAction.valueOf(
+		                        		actionCombo.getValue(actionCombo.getSelectedIndex())));	
+	                    	}
+	                    	
+	                    }
+					}
+					 actionButton.setEnabled(pendingActions.size()>0);
+					 
+					 cellTable.redraw();
+				}
+				
+				@Override
+				public Boolean getValue() {
+					return false;
+				}
+			};
 			
-			cellTable.addColumn(checkColumn, "All");
+			
+			cellTable.addColumn(checkColumn, hdr);
 
 			
 			// policyName.
