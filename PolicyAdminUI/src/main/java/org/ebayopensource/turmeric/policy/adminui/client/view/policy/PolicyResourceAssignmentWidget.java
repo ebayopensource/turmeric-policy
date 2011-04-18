@@ -87,17 +87,28 @@ public class PolicyResourceAssignmentWidget extends Composite {
     }
     
     public void clear () {
+    	resourceLevelBox.clear();
+        resourceLevelBox.setVisible(true);
+        resourceLevelLabel.setVisible(true);
+        
         List<String> emptyList = Collections.emptyList();
-        setAvailableOperations(emptyList);
+        setResourceTypes(emptyList);
+        setResourceNames(emptyList);
         setSelectedOperations(emptyList);
+        setAvailableOperations(emptyList);
+        
         resourceLevelBox.setSelectedIndex(-1);
+        
         resourceTypeBox.setSelectedIndex(-1);
         resourceTypeBox.setVisible(false);
+        resourceTypeLabel.setVisible(false);
+        
         resourceNameBox.setSelectedIndex(-1);
         resourceNameBox.setVisible(false);
         resourceNameLabel.setVisible(false);
-        resourceTypeLabel.setVisible(false);
+        
         selectBoxes.setVisible(false);
+        
     }
     
     
@@ -227,8 +238,7 @@ public class PolicyResourceAssignmentWidget extends Composite {
     
     private void createOperationFields () {
         selectBoxes = new SelectBoxesWidget(PolicyAdminUIUtil.policyAdminConstants.availableOperations(), true, PolicyAdminUIUtil.policyAdminConstants.selectedOperations(), true);
-        clear();
-        // selectBoxes.setVisible(false);
+        selectBoxes.setVisible(false);
         selectBoxes.setWithForOperations();
     }
   

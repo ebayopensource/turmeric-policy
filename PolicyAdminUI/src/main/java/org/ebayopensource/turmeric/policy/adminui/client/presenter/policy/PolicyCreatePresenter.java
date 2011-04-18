@@ -813,9 +813,9 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 						 * OPERATION: The policy just apply to the specific
 						 * operation of the selected resources
 						 */
-						if (resourceAssignments == null)
+						if (resourceAssignments == null){
 							resourceAssignments = new ArrayList<Resource>();
-
+						}
 						ResourceImpl assignment = null;
 						// if (editResourceAssignment != null) {
 						// // we were editing an existing assignment

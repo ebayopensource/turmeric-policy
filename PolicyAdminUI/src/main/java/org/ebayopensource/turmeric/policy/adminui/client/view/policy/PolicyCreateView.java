@@ -430,7 +430,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		private FlowPanel resourceAssignmentButtonPanel;
 		private PushButton delButton;
 		private PushButton editButton;
-
+		private List<String> allAvailableRsLevels;
 		private List<Resource> selections = new ArrayList<Resource>();
 		private ListDataProvider<Resource> dataProvider;
 		private List<UserAction> permissions;
@@ -460,7 +460,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		}
 
 		public void hide() {
-			resourceAssignmentWidget.clear();
+			clearAssignmentWidget();
 			resourceAssignmentPopup.hide();
 		}
 
@@ -494,6 +494,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 				@Override
 				public void onClick(ClickEvent event) {
 					subjectContentView.hide();
+					getResourceContentView().setResourceLevel(allAvailableRsLevels);
 					resourceAssignmentPopup.center();
 				}
 			});
@@ -734,7 +735,8 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 		@Override
 		public void setResourceLevel(List<String> resourceLevels) {
-			resourceAssignmentWidget.setResourceLevels(resourceLevels);
+			allAvailableRsLevels= new ArrayList<String>(resourceLevels);
+			resourceAssignmentWidget.setResourceLevels(allAvailableRsLevels);
 		}
 
 		@Override
