@@ -495,8 +495,10 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 				public void onClick(ClickEvent event) {
 					subjectContentView.hide();
 					clearAssignmentWidget();
-					getResourceContentView().setResourceLevel(allAvailableRsLevels);
-					getResourceContentView().getResourceLevelBox().setSelectedIndex(-1);
+					getResourceContentView().setResourceLevel(
+							allAvailableRsLevels);
+					getResourceContentView().getResourceLevelBox()
+							.setSelectedIndex(-1);
 					resourceAssignmentPopup.center();
 				}
 			});
@@ -551,21 +553,22 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 					selectionModel.setSelected(rs, value);
 				}
 			});
-			
+
 			final CheckboxCell cb = new CheckboxCell();
 			Header<Boolean> hdr = new Header<Boolean>(cb) {
 				boolean selected = false;
+
 				@Override
 				public void onBrowserEvent(Context context, Element elem,
 						NativeEvent event) {
 					// TODO Auto-generated method stub
 					super.onBrowserEvent(context, elem, event);
-					selected=!selected;
+					selected = !selected;
 					for (Resource visibleItem : cellTable.getVisibleItems()) {
 						selectionModel.setSelected(visibleItem, selected);
 					}
 				}
-				
+
 				@Override
 				public Boolean getValue() {
 					return false;
@@ -631,8 +634,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			summaryGrid.setWidget(2, 0, pager);
 
 			mainPanel.addStyleName("resource-summary");
-			// mainPanel.add(searchPanel);
-			// searchPanel.addStyleName("policy-content");
+
 			summaryGrid.addStyleName("resource-content");
 			mainPanel.add(summaryGrid);
 		}
@@ -737,7 +739,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 		@Override
 		public void setResourceLevel(List<String> resourceLevels) {
-			allAvailableRsLevels= new ArrayList<String>(resourceLevels);
+			allAvailableRsLevels = new ArrayList<String>(resourceLevels);
 			resourceAssignmentWidget.setResourceLevels(allAvailableRsLevels);
 		}
 
@@ -989,25 +991,24 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			final CheckboxCell cb = new CheckboxCell();
 			Header<Boolean> hdr = new Header<Boolean>(cb) {
 				boolean selected = false;
+
 				@Override
 				public void onBrowserEvent(Context context, Element elem,
 						NativeEvent event) {
-					// TODO Auto-generated method stub
 					super.onBrowserEvent(context, elem, event);
-					selected=!selected;
+					selected = !selected;
 					for (PolicySubjectAssignment visibleItem : cellTable
 							.getVisibleItems()) {
 						selectionModel.setSelected(visibleItem, selected);
 					}
 				}
-				
+
 				@Override
 				public Boolean getValue() {
 					return false;
 				}
 			};
 
-			
 			cellTable.addColumn(checkColumn, hdr);
 
 			// text column for type

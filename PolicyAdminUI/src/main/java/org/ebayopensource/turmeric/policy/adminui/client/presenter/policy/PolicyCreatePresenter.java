@@ -81,12 +81,12 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	protected PolicyCreateDisplay view;
 	protected Map<SupportedService, PolicyAdminUIService> serviceMap;
 	protected List<UserAction> permittedActions = new ArrayList<UserAction>();
-	protected List<Resource> availableResourcesByType;
+	protected final List<Resource> availableResourcesByType = new ArrayList<Resource>();
 	protected List<Subject> allSubjects;
 
 	protected List<SubjectGroup> allSubjectGroups;
 
-	protected List<Resource> allResources;
+	protected final List<Resource> allResources = new ArrayList<Resource>();
 	protected List<Subject> internalSubjects;
 
 	protected HashSet<String> assignedUniqueResources = new HashSet<String>();
@@ -468,20 +468,24 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 							return;
 						} else {
-							if(Window.confirm(PolicyAdminUIUtil.policyAdminConstants
-									.deleteSelected())){
+							if (Window
+									.confirm(PolicyAdminUIUtil.policyAdminConstants
+											.deleteSelected())) {
 								for (PolicySubjectAssignment assignment : view
 										.getSubjectContentView()
 										.getSelectedSubjectAssignments()) {
 									subjectAssignments.remove(assignment);
-									subjectTypes.add(assignment.getSubjectType());
+									subjectTypes.add(assignment
+											.getSubjectType());
 								}
 								view.getSubjectContentView()
-										.getSelectedSubjectAssignments().clear();
-	
+										.getSelectedSubjectAssignments()
+										.clear();
+
 								view.getSubjectContentView().setAssignments(
 										subjectAssignments);
-								// add back in the subject type as being available
+								// add back in the subject type as being
+								// available
 								view.getSubjectContentView()
 										.setAvailableSubjectTypes(subjectTypes);
 							}
@@ -514,38 +518,46 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 						for (String s : view.getSubjectContentView()
 								.getSelectedSubjects()) {
-							Subject assignedSubject = getSubject(s, assignment.getSubjectType(), false);
-							//let's do a second loading, external subjects should stored in local now
-							if(assignedSubject.getSubjectMatchTypes() == null){
-								assignedSubject = getSubject(s, assignment.getSubjectType(), true);
+							Subject assignedSubject = getSubject(s,
+									assignment.getSubjectType(), false);
+							// let's do a second loading, external subjects
+							// should stored in local now
+							if (assignedSubject.getSubjectMatchTypes() == null) {
+								assignedSubject = getSubject(s,
+										assignment.getSubjectType(), true);
 							}
 							subjects.add(assignedSubject);
-						
+
 						}
 						// exclusionSubjects
 						List<Subject> exclusionSubjects = new ArrayList<Subject>();
 						for (String s : view.getSubjectContentView()
 								.getSelectedExclusionSubjects()) {
-							Subject assignedSubject = getSubject(s, assignment.getSubjectType(), true);
-							
-							//let's do a second loading, external subjects should stored in local now
-							if(assignedSubject.getSubjectMatchTypes() == null){
-								assignedSubject = getSubject(s, assignment.getSubjectType(), true);
+							Subject assignedSubject = getSubject(s,
+									assignment.getSubjectType(), true);
+
+							// let's do a second loading, external subjects
+							// should stored in local now
+							if (assignedSubject.getSubjectMatchTypes() == null) {
+								assignedSubject = getSubject(s,
+										assignment.getSubjectType(), true);
 							}
 							exclusionSubjects.add(assignedSubject);
-						
+
 						}
 						// groups
 						List<SubjectGroup> groups = new ArrayList<SubjectGroup>();
 						for (String s : view.getSubjectContentView()
 								.getSelectedSubjectGroups()) {
-							groups.add(getGroup(s, assignment.getSubjectType(), false));
+							groups.add(getGroup(s, assignment.getSubjectType(),
+									false));
 						}
 						// exclusion Subjectgroups
 						List<SubjectGroup> exclSg = new ArrayList<SubjectGroup>();
 						for (String s : view.getSubjectContentView()
 								.getSelectedExclusionSG()) {
-							exclSg.add(getGroup(s, assignment.getSubjectType(), true));
+							exclSg.add(getGroup(s, assignment.getSubjectType(),
+									true));
 						}
 
 						assignment.setSubjects(subjects);
@@ -586,70 +598,64 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 	}
 
+	private void display() {
+		if (ResourceLevel.GLOBAL.name().equals(
+				view.getResourceContentView().getResourceLevel())) {
+
+			view.getResourceContentView().getResourceTypeLabel()
+					.setVisible(false);
+			view.getResourceContentView().getResourceTypeBox()
+					.setVisible(false);
+			view.getResourceContentView().getResourceNameLabel()
+					.setVisible(false);
+			view.getResourceContentView().getResourceNameBox()
+					.setVisible(false);
+
+			view.getResourceContentView().getSelectBoxesWidget()
+					.setVisible(false);
+
+		} else {
+
+			if (ResourceLevel.RESOURCE.name().equals(
+					view.getResourceContentView().getResourceLevel())) {
+				view.getResourceContentView().getResourceTypeLabel()
+						.setVisible(true);
+				view.getResourceContentView().getResourceTypeBox()
+						.setVisible(true);
+				view.getResourceContentView().getResourceNameLabel()
+						.setVisible(true);
+				view.getResourceContentView().getResourceNameBox()
+						.setVisible(true);
+				view.getResourceContentView().getSelectBoxesWidget()
+						.setVisible(false);
+			} else if (ResourceLevel.OPERATION.name().equals(
+					view.getResourceContentView().getResourceLevel())) {
+				view.getResourceContentView().getResourceTypeLabel()
+						.setVisible(true);
+				view.getResourceContentView().getResourceTypeBox()
+						.setVisible(true);
+				view.getResourceContentView().getResourceNameLabel()
+						.setVisible(true);
+				view.getResourceContentView().getResourceNameBox()
+						.setVisible(true);
+				view.getResourceContentView().getSelectBoxesWidget()
+						.setVisible(true);
+			}
+
+			view.getResourceContentView().setResourceTypes(getResourceTypes());
+			view.getResourceContentView().getResourceTypeBox()
+					.setSelectedIndex(-1);
+		}
+
+	}
+
 	private void bindResourceSection() {
 
 		this.view.getResourceContentView().getResourceLevelBox()
 				.addChangeHandler(new ChangeHandler() {
 
 					public void onChange(ChangeEvent event) {
-
-						if (ResourceLevel.GLOBAL.name().equals(
-								view.getResourceContentView()
-										.getResourceLevel())) {
-
-							view.getResourceContentView()
-									.getResourceTypeLabel().setVisible(false);
-							view.getResourceContentView().getResourceTypeBox()
-									.setVisible(false);
-							view.getResourceContentView()
-									.getResourceNameLabel().setVisible(false);
-							view.getResourceContentView().getResourceNameBox()
-									.setVisible(false);
-
-							view.getResourceContentView()
-									.getSelectBoxesWidget().setVisible(false);
-
-						} else {
-
-							if (ResourceLevel.RESOURCE.name().equals(
-									view.getResourceContentView()
-											.getResourceLevel())) {
-								view.getResourceContentView()
-										.getResourceTypeLabel()
-										.setVisible(true);
-								view.getResourceContentView()
-										.getResourceTypeBox().setVisible(true);
-								view.getResourceContentView()
-										.getResourceNameLabel()
-										.setVisible(true);
-								view.getResourceContentView()
-										.getResourceNameBox().setVisible(true);
-								view.getResourceContentView()
-										.getSelectBoxesWidget()
-										.setVisible(false);
-							} else if (ResourceLevel.OPERATION.name().equals(
-									view.getResourceContentView()
-											.getResourceLevel())) {
-								view.getResourceContentView()
-										.getResourceTypeLabel()
-										.setVisible(true);
-								view.getResourceContentView()
-										.getResourceTypeBox().setVisible(true);
-								view.getResourceContentView()
-										.getResourceNameLabel()
-										.setVisible(true);
-								view.getResourceContentView()
-										.getResourceNameBox().setVisible(true);
-								view.getResourceContentView()
-										.getSelectBoxesWidget()
-										.setVisible(true);
-							}
-
-							view.getResourceContentView().setResourceTypes(
-									getResourceTypes());
-							view.getResourceContentView().getResourceTypeBox()
-									.setSelectedIndex(-1);
-						}
+						display();
 
 					}
 
@@ -661,7 +667,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 					public void onClick(ClickEvent event) {
 						if (view.getResourceContentView().getSelections()
-								.size() != 1){
+								.size() != 1) {
 							return;
 						}
 						view.getResourceContentView().getResourceLevelLabel()
@@ -813,16 +819,10 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 						 * OPERATION: The policy just apply to the specific
 						 * operation of the selected resources
 						 */
-						if (resourceAssignments == null){
+						if (resourceAssignments == null) {
 							resourceAssignments = new ArrayList<Resource>();
 						}
-						ResourceImpl assignment = null;
-						// if (editResourceAssignment != null) {
-						// // we were editing an existing assignment
-						// assignment = editResourceAssignment;
-						// editResourceAssignment = null;
-						// } else
-						assignment = new ResourceImpl();
+						final ResourceImpl assignment = new ResourceImpl();
 
 						if (ResourceLevel.RESOURCE.name().equals(
 								view.getResourceContentView()
@@ -852,6 +852,12 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 							getAllResources();
 							resourceAssignments.clear();
 							resourceAssignments.addAll(allResources);
+							assignedUniqueResources.clear();
+							for (Resource rs : allResources) {
+								assignedUniqueResources.add(rs
+										.getResourceType()
+										+ rs.getResourceName());
+							}
 
 						} else {
 
@@ -872,22 +878,16 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 								operations.add(op);
 							}
 							assignment.setOpList(operations);
-							resourceAssignments.add(assignment);
 
+							assignedUniqueResources.add(assignment
+									.getResourceType()
+									+ assignment.getResourceName());
+
+							resourceAssignments.add(assignment);
 						}
 
 						view.getResourceContentView().setAssignments(
 								resourceAssignments);
-						// add the ResourceType & name as already assidned
-						if (ResourceLevel.GLOBAL.name().equals(
-								view.getResourceContentView()
-										.getResourceLevel())) {
-							assignedUniqueResources.add("allall");
-						} else {
-							assignedUniqueResources.add(assignment
-									.getResourceType()
-									+ assignment.getResourceName());
-						}
 
 						view.getResourceContentView().clearAssignmentWidget();
 					}
@@ -902,23 +902,27 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 								.size() == 0) {
 							return;
 						} else {
-							if(Window.confirm(PolicyAdminUIUtil.policyAdminConstants
-									.deleteSelected())){
+							if (Window
+									.confirm(PolicyAdminUIUtil.policyAdminConstants
+											.deleteSelected())) {
 								for (Resource selectedAssignment : view
-										.getResourceContentView().getSelections()) {
-									resourceAssignments.remove(selectedAssignment);
-	
+										.getResourceContentView()
+										.getSelections()) {
+									resourceAssignments
+											.remove(selectedAssignment);
+
 									assignedUniqueResources
 											.remove(selectedAssignment
 													.getResourceType()
 													+ selectedAssignment
 															.getResourceName());
-	
+
 								}
 								view.getResourceContentView().getSelections()
 										.clear();
 								view.getResourceContentView().setAssignments(
 										resourceAssignments);
+
 							}
 						}
 					}
@@ -970,7 +974,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		void setConditionBuilderVisible(boolean visible);
 
 		void setExclusionListsVisible(boolean visible);
-		
+
 		HasClickHandlers getAddConditionButton();
 
 		HasChangeHandlers getRsListBox();
@@ -1124,12 +1128,12 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		if (availableResourcesByType != null) {
 			availableResourcesByType.clear();
 		}
-		 if (allSubjects != null) {
-			 allSubjects.clear();
-		 }
-		 if(allSubjectGroups != null){
-			 allSubjectGroups.clear();
-		 }
+		if (allSubjects != null) {
+			allSubjects.clear();
+		}
+		if (allSubjectGroups != null) {
+			allSubjectGroups.clear();
+		}
 		if (subjectAssignments != null) {
 			subjectAssignments.clear();
 		}
@@ -1151,33 +1155,33 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		this.view.getCancelButton().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				PolicyCreatePresenter.this.view.clear();
-				
-					if(subjectAssignments != null)
-						subjectAssignments.clear();
 
-					if(resourceAssignments != null)
-						resourceAssignments.clear();
-					
-					if(rules != null)
-						rules.clear();
-				
-					if(assignedUniqueResources!=null)
-						assignedUniqueResources.clear();
+				if (subjectAssignments != null)
+					subjectAssignments.clear();
 
-					if(availableResourcesByType != null)
-						availableResourcesByType.clear();
-					
-					if(allResources != null)
-						allResources.clear();
-					
-					if(allSubjects != null)
-						allSubjects.clear();
-					
-					if(allSubjectGroups != null)
-						allSubjectGroups.clear();
-					
-					if(allSubjectGroups != null)
-						editResourceAssignment = null;
+				if (resourceAssignments != null)
+					resourceAssignments.clear();
+
+				if (rules != null)
+					rules.clear();
+
+				if (assignedUniqueResources != null)
+					assignedUniqueResources.clear();
+
+				if (availableResourcesByType != null)
+					availableResourcesByType.clear();
+
+				if (allResources != null)
+					allResources.clear();
+
+				if (allSubjects != null)
+					allSubjects.clear();
+
+				if (allSubjectGroups != null)
+					allSubjectGroups.clear();
+
+				if (allSubjectGroups != null)
+					editResourceAssignment = null;
 
 				HistoryToken token = makeToken(PolicyController.PRESENTER_ID,
 						PolicySummaryPresenter.PRESENTER_ID, null);
@@ -1207,7 +1211,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		fetchResources();
 		fetchSubjects();
 		fetchSubjectGroups();
-		
+		getAllResources();
+
 		this.view.getResourceContentView()
 				.setResourceLevel(getResourceLevels());
 
@@ -1231,7 +1236,6 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				.getResourceContentView().getResourceName();
 
 		List<String> opNames = new ArrayList<String>();
-
 		for (Resource rs : availableResourcesByType) {
 			if (rsName.equals(rs.getResourceName())) {
 				if (!rs.getOpList().isEmpty()) {
@@ -1253,8 +1257,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		service.getResources(PolicyKeysUtil.getAllResourceKeyList(),
 				new AsyncCallback<GetResourcesResponse>() {
 					public void onSuccess(GetResourcesResponse response) {
-						allResources = new ArrayList<Resource>(response
-								.getResources());
+						allResources.clear();
+						allResources.addAll(response.getResources());
 					}
 
 					public void onFailure(Throwable arg) {
@@ -1281,12 +1285,11 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		service.getResources(Collections.singletonList(key),
 				new AsyncCallback<GetResourcesResponse>() {
 					public void onSuccess(GetResourcesResponse response) {
-						availableResourcesByType = new ArrayList<Resource>(
-								response.getResources());
+						availableResourcesByType.clear();
+						availableResourcesByType.addAll(response.getResources());
 						List<String> resourceNames = new ArrayList<String>();
 
 						for (Resource rs : availableResourcesByType) {
-
 							if (!assignedUniqueResources.contains(rs
 									.getResourceType() + rs.getResourceName())) {
 								resourceNames.add(rs.getResourceName());
@@ -1334,7 +1337,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				new AsyncCallback<PolicyQueryService.FindSubjectsResponse>() {
 
 					public void onSuccess(FindSubjectsResponse result) {
-						allSubjects = new ArrayList<Subject>(result.getSubjects());
+						allSubjects = new ArrayList<Subject>(result
+								.getSubjects());
 					}
 
 					public void onFailure(Throwable arg) {
@@ -1343,23 +1347,25 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 									.serverError(PolicyAdminUIUtil.policyAdminConstants
 											.genericErrorMessage()));
 						} else {
-							view.error(PolicyAdminUIUtil.messages.serverError(arg
-									.getLocalizedMessage()));
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(arg.getLocalizedMessage()));
 						}
 					}
 				});
 	}
-	
+
 	protected void fetchSubjectGroups() {
 
 		SubjectGroupQuery query = new SubjectGroupQuery();
 
 		query.setGroupKeys(PolicyKeysUtil.getAllSubjectGroupKeyList());
-		service.findSubjectGroups(query,
+		service.findSubjectGroups(
+				query,
 				new AsyncCallback<PolicyQueryService.FindSubjectGroupsResponse>() {
 
 					public void onSuccess(FindSubjectGroupsResponse result) {
-						allSubjectGroups = new ArrayList<SubjectGroup>(result.getGroups());
+						allSubjectGroups = new ArrayList<SubjectGroup>(result
+								.getGroups());
 					}
 
 					public void onFailure(Throwable arg) {
@@ -1368,8 +1374,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 									.serverError(PolicyAdminUIUtil.policyAdminConstants
 											.genericErrorMessage()));
 						} else {
-							view.error(PolicyAdminUIUtil.messages.serverError(arg
-									.getLocalizedMessage()));
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(arg.getLocalizedMessage()));
 						}
 					}
 				});
@@ -1384,50 +1390,54 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				s.setName(subject.getName());
 				s.setType(subject.getType());
 				SubjectMatchTypeImpl smt = new SubjectMatchTypeImpl();
-				
+
 				AttributeValueImpl attr = new AttributeValueImpl();
 				SubjectAttributeDesignatorImpl designator = new SubjectAttributeDesignatorImpl();
 				if (!exclusionList) {
 					smt.setMatchId("urn:oasis:names:tc:xacml:1.0:function:integer-equal");
 					attr.setDataType("http://www.w3.org/2001/XMLSchema#integer");
 					attr.setValue(SubjectUtil.getSubjectId(subject).toString());
-					designator.setAttributeId("urn:oasis:names:tc:xacml:1.0:subject:subject-id");
-					designator.setDataType("http://www.w3.org/2001/XMLSchema#integer");
-					
+					designator
+							.setAttributeId("urn:oasis:names:tc:xacml:1.0:subject:subject-id");
+					designator
+							.setDataType("http://www.w3.org/2001/XMLSchema#integer");
+
 				} else {
 					smt.setMatchId("urn:oasis:names:tc:xacml:1.0:function:string-regexp-match");
 					attr.setDataType("http://www.w3.org/2001/XMLSchema#string");
 					attr.setValue("(?!"
 							+ SubjectUtil.getSubjectId(subject).toString()
 							+ ")");
-					designator.setAttributeId("urn:oasis:names:tc:xacml:1.0:subject:subject-id");
-					designator.setDataType("http://www.w3.org/2001/XMLSchema#string");
-					
+					designator
+							.setAttributeId("urn:oasis:names:tc:xacml:1.0:subject:subject-id");
+					designator
+							.setDataType("http://www.w3.org/2001/XMLSchema#string");
+
 				}
 				smt.setAttributeValue(attr);
 				smt.setSubjectAttributeDesignator(designator);
 
-			 
 				s.setSubjectMatch(new ArrayList<SubjectMatchType>(Collections
 						.singletonList(smt)));
 				break;
 			}
 
 		}
-		
-		if(s.getSubjectMatchTypes()==null){
+
+		if (s.getSubjectMatchTypes() == null) {
 			s.setType(type);
 			s.setName(name);
-			createInternalSubject(new ArrayList<Subject>(Collections.singletonList(s)));
+			createInternalSubject(new ArrayList<Subject>(
+					Collections.singletonList(s)));
 			fetchSubjects();
-			fetchSubjectGroups();	
+			fetchSubjectGroups();
 		}
-		 	
-		 
+
 		return s;
 	}
 
-	public SubjectGroup getGroup(String name, String type, final boolean exclusionList) {
+	public SubjectGroup getGroup(String name, String type,
+			final boolean exclusionList) {
 		SubjectGroupImpl group = new SubjectGroupImpl();
 		for (SubjectGroup subjectGroup : allSubjectGroups) {
 			if (subjectGroup.getType().equals(type)
@@ -1441,25 +1451,30 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				if (!exclusionList) {
 					smt.setMatchId("urn:oasis:names:tc:xacml:1.0:function:integer-equal");
 					attr.setDataType("http://www.w3.org/2001/XMLSchema#integer");
-					attr.setValue(SubjectUtil.getSubjectGroupId(subjectGroup).toString());
-					designator.setAttributeId("urn:oasis:names:tc:xacml:1.0:subject:subject-id");
-					designator.setDataType("http://www.w3.org/2001/XMLSchema#integer");
-					
+					attr.setValue(SubjectUtil.getSubjectGroupId(subjectGroup)
+							.toString());
+					designator
+							.setAttributeId("urn:oasis:names:tc:xacml:1.0:subject:subject-id");
+					designator
+							.setDataType("http://www.w3.org/2001/XMLSchema#integer");
+
 				} else {
 					smt.setMatchId("urn:oasis:names:tc:xacml:1.0:function:string-regexp-match");
 					attr.setDataType("http://www.w3.org/2001/XMLSchema#string");
 					attr.setValue("(?!"
-							+ SubjectUtil.getSubjectGroupId(subjectGroup).toString()
-							+ ")");
-					designator.setAttributeId("urn:oasis:names:tc:xacml:1.0:subject:subject-id");
-					designator.setDataType("http://www.w3.org/2001/XMLSchema#string");
-				
+							+ SubjectUtil.getSubjectGroupId(subjectGroup)
+									.toString() + ")");
+					designator
+							.setAttributeId("urn:oasis:names:tc:xacml:1.0:subject:subject-id");
+					designator
+							.setDataType("http://www.w3.org/2001/XMLSchema#string");
+
 				}
 				smt.setAttributeValue(attr);
 				smt.setSubjectAttributeDesignator(designator);
 
-				group.setSubjectMatch(new ArrayList<SubjectMatchType>(Collections
-						.singletonList(smt)));
+				group.setSubjectMatch(new ArrayList<SubjectMatchType>(
+						Collections.singletonList(smt)));
 				break;
 			}
 		}
@@ -1478,16 +1493,15 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 			p.setRules(rules);
 		}
 
-		if (resources != null){
+		if (resources != null) {
 			p.setResources(new ArrayList<Resource>(resources));
-			
-			for(Resource rs : resources){
-				assignedUniqueResources.add(rs
-							.getResourceType()
-							+ rs.getResourceName());
+
+			for (Resource rs : resources) {
+				assignedUniqueResources.add(rs.getResourceType()
+						+ rs.getResourceName());
 			}
 		}
-		
+
 		if (subjectAssignments != null) {
 			List<Subject> subjects = new ArrayList<Subject>();
 			List<Subject> exclusionSubjects = new ArrayList<Subject>();
@@ -1497,16 +1511,9 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 			for (PolicySubjectAssignment a : subjectAssignments) {
 
 				if (a.getSubjects() != null && a.getSubjects().size() > 0) {
-					// external subjects todays are only USER types
-//					if ("USER".equals(a.getSubjectType())) {
-//						createInternalSubject(a.getSubjects());
-//					}
 
-					// adding the created subjects (now as internal ones)
-//					List<PolicySubjectAssignment> internalAssignments = view
-//							.getSubjectContentView().getAssignments();
-
-					for (PolicySubjectAssignment policySubjectAssignment :  view.getSubjectContentView().getAssignments()) {
+					for (PolicySubjectAssignment policySubjectAssignment : view
+							.getSubjectContentView().getAssignments()) {
 						if (policySubjectAssignment.getSubjects() != null) {
 							subjects.addAll(policySubjectAssignment
 									.getSubjects());
@@ -1518,16 +1525,9 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 				if (a.getExclusionSubjects() != null
 						&& a.getExclusionSubjects().size() > 0) {
-					// external subjects todays are only USER types
-//					if ("USER".equals(a.getSubjectType())) {
-//						createInternalSubject(a.getExclusionSubjects());
-//					}
 
-					// adding the created subjects (now as internal ones)
-//					List<PolicySubjectAssignment> internalAssignments = view
-//							.getSubjectContentView().getAssignments();
-
-					for (PolicySubjectAssignment policySubjectAssignment : view.getSubjectContentView().getAssignments()) {
+					for (PolicySubjectAssignment policySubjectAssignment : view
+							.getSubjectContentView().getAssignments()) {
 						if (policySubjectAssignment.getExclusionSubjects() != null) {
 							exclusionSubjects.addAll(policySubjectAssignment
 									.getExclusionSubjects());
@@ -1537,7 +1537,6 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 				}
 
-				
 				if (a.getSubjectGroups() != null) {
 					groups.addAll(a.getSubjectGroups());
 				}
@@ -1605,8 +1604,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 									.serverError(PolicyAdminUIUtil.policyAdminConstants
 											.genericErrorMessage()));
 						} else {
-							view.error(PolicyAdminUIUtil.messages.serverError(arg
-									.getLocalizedMessage()));
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(arg.getLocalizedMessage()));
 						}
 					}
 
@@ -1618,7 +1617,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		service.getResources(null, new AsyncCallback<GetResourcesResponse>() {
 			public void onSuccess(GetResourcesResponse response) {
 				availableResourcesByType.addAll(response.getResources());
-			
+
 			}
 
 			public void onFailure(Throwable arg) {
