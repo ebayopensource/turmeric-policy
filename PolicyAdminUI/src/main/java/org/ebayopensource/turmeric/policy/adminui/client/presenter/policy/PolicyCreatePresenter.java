@@ -74,6 +74,7 @@ import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.view.client.MultiSelectionModel;
 
 public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
@@ -481,7 +482,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 								view.getSubjectContentView()
 										.getSelectedSubjectAssignments()
 										.clear();
-
+								view.getSubjectContentView().getSelectionModel()
+										.clear();
 								view.getSubjectContentView().setAssignments(
 										subjectAssignments);
 								// add back in the subject type as being
@@ -922,7 +924,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 										.clear();
 								view.getResourceContentView().setAssignments(
 										resourceAssignments);
-
+								view.getResourceContentView().getSelectionModel()
+										.clear();
 							}
 						}
 					}
@@ -1042,6 +1045,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		ListBox getResourceLevelBox();
 
 		ListBox getResourceNameBox();
+		
+		MultiSelectionModel<Resource> getSelectionModel();
 
 		HasClickHandlers getAddResourceButton();
 
@@ -1079,6 +1084,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 		String getGroupSearchTerm();
 
+		MultiSelectionModel<PolicySubjectAssignment> getSelectionModel();
+		
 		List<String> getSelectedSubjectGroups();
 
 		List<String> getSelectedExclusionSG();

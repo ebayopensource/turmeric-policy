@@ -48,6 +48,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -561,9 +562,9 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 				@Override
 				public void onBrowserEvent(Context context, Element elem,
 						NativeEvent event) {
-					// TODO Auto-generated method stub
 					super.onBrowserEvent(context, elem, event);
 					selected = !selected;
+					selectionModel.clear();
 					for (Resource visibleItem : cellTable.getVisibleItems()) {
 						selectionModel.setSelected(visibleItem, selected);
 					}
@@ -767,6 +768,10 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			return delButton;
 		}
 
+		public MultiSelectionModel<Resource> getSelectionModel() {
+			return selectionModel;
+		}
+		
 		@Override
 		public ListBox getResourceTypeBox() {
 			return resourceAssignmentWidget.getResourceTypeBox();
@@ -997,6 +1002,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 						NativeEvent event) {
 					super.onBrowserEvent(context, elem, event);
 					selected = !selected;
+					selectionModel.clear();
 					for (PolicySubjectAssignment visibleItem : cellTable
 							.getVisibleItems()) {
 						selectionModel.setSelected(visibleItem, selected);
@@ -1212,6 +1218,10 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 					.setAvailableSubjectTypes(availableSubjectTypes);
 		}
 
+		public MultiSelectionModel<PolicySubjectAssignment> getSelectionModel() {
+			return selectionModel;
+		}
+		
 		public void setAvailableSubjectGroups(List<String> list) {
 			subjectAssignmentWidget.setAvailableGroups(list);
 		}
