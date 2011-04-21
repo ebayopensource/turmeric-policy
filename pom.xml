@@ -39,5 +39,6 @@
 		<module>PolicyProviderImpl</module>
                 <module>integration-tests</module>
 		<module>PolicyAdminUI</module>
+		<module>policy-adminui-dist</module>
 	</modules>
 </project>
