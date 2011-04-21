@@ -81,11 +81,11 @@ public class PlcExportServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
-		String json = (String) request.getAttribute("RESULT");
+		String result = (String) request.getAttribute("RESULT");
 		Boolean error = (Boolean) request.getAttribute("ERROR");
 
 		
-		if (json == null && error == null) {
+		if (result == null && error == null) {
 
 			final Continuation continuation = ContinuationSupport
 					.getContinuation(request);
@@ -129,12 +129,10 @@ public class PlcExportServlet extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		} else {
 			final String filename = getFileName(exportedEntity);
-			// (request);
-			String csv = json; // convertToCSV(request, json);
 			response.setContentType(MimeTypes.TEXT_HTML);
 			response.setHeader("Content-disposition", "attachment; filename="
 					+ filename);
-			response.getOutputStream().write(csv.getBytes());
+			response.getOutputStream().write(result.getBytes());
 		}
 	}
 
@@ -157,7 +155,7 @@ public class PlcExportServlet extends HttpServlet {
 		sb.append("&X-TURMERIC-OPERATION-NAME=findPolicies");
 		sb.append("&X-TURMERIC-USECASE-NAME=TMC");
 		sb.append("&X-TURMERIC-REQUEST-DATA-FORMAT=NV");
-		sb.append("&X-TURMERIC-RESPONSE-DATA-FORMAT=JSON");
+		sb.append("&X-TURMERIC-RESPONSE-DATA-FORMAT=XML");
 		sb.append("&nvns:ns1=http://www.ebayopensource.org/turmeric/security/v1/services&nvns:ns2=urn:oasis:names:tc:xacml:2.0:policy:schema:os");
 
 		for (int i = 0; i < params.length - 3; i++) {
@@ -190,7 +188,7 @@ public class PlcExportServlet extends HttpServlet {
 		sb.append("&X-TURMERIC-OPERATION-NAME=findSubjectGroups");
 		sb.append("&X-TURMERIC-USECASE-NAME=TMC");
 		sb.append("&X-TURMERIC-REQUEST-DATA-FORMAT=NV");
-		sb.append("&X-TURMERIC-RESPONSE-DATA-FORMAT=JSON");
+		sb.append("&X-TURMERIC-RESPONSE-DATA-FORMAT=XML");
 		sb.append("&nvns:ns1=http://www.ebayopensource.org/turmeric/security/v1/services&nvns:ns2=urn:oasis:names:tc:xacml:2.0:policy:schema:os");
 
 		for (int i = 0; i < params.length - 3; i++) {
@@ -207,7 +205,7 @@ public class PlcExportServlet extends HttpServlet {
 		name.append(entity);
 		name.append("_bulk_");
 		name.append(dateFormat.format(new Date()));
-		name.append(".json");
+		name.append(".xml");
 
 		return name.toString();
 	}
@@ -231,7 +229,6 @@ public class PlcExportServlet extends HttpServlet {
 				if (content == null) {
 					request.setAttribute("ERROR", Boolean.TRUE);
 				} else {
-					// convert json content to csv
 					request.setAttribute("RESULT", content);
 				}
 
