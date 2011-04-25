@@ -187,6 +187,7 @@ public class SubjectGroupAssignmentWidget extends Composite {
     private void positionSubjectsFields () {
     	subjectTable.setWidget(1, 0, selectBoxes);
     	subjectTable.getFlexCellFormatter().setColSpan(1, 0, 3);
+
     }
     
     private void createSearchFields (){
@@ -206,14 +207,9 @@ public class SubjectGroupAssignmentWidget extends Composite {
     	subjectNameLabel = new Label(PolicyAdminUIUtil.policyAdminConstants.subjectName()+":");
     	subjectTable.setWidget(0,0, subjectNameLabel);
     	subjectTable.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_LEFT);
+    	subjectTable.getCellFormatter().setHorizontalAlignment(1,0,HasHorizontalAlignment.ALIGN_CENTER);
+    	
     	subjectTable.setWidget(0,1,searchBox);
     	subjectTable.setWidget(0,2, searchButton);
- 
-//    	
-//    	subjectNameLabel = new Label(PolicyAdminUIUtil.policyAdminConstants.subjectName()+":");
-//    	table.setWidget(1,0, subjectNameLabel);
-//        table.getCellFormatter().setHorizontalAlignment(1, 0, HasHorizontalAlignment.ALIGN_LEFT);
-//        table.setWidget(1,1,searchBox);
-//        table.setWidget(1,2, searchButton);
      }
 }

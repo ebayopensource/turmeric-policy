@@ -18,6 +18,7 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 
@@ -140,17 +141,21 @@ public class PolicySubjectAssignmentWidget extends SubjectGroupAssignmentWidget 
     
     protected void positionGroupsFields() {
         subjectGroupTable.setWidget(1, 0, selectGroups);
-        subjectGroupTable.getFlexCellFormatter().setColSpan(1, 0, 3);                
+        subjectGroupTable.getFlexCellFormatter().setColSpan(1, 0, 3);   
+        subjectGroupTable.getCellFormatter().setHorizontalAlignment(1,0,HasHorizontalAlignment.ALIGN_CENTER);
+
     }
     
     protected void positionExclusionSubjectFields() {
     	 subjectTable.setWidget(2, 0, selectExclusionSubjects);
-    	 subjectTable.getFlexCellFormatter().setColSpan(2, 0, 3);         
+    	 subjectTable.getFlexCellFormatter().setColSpan(2, 0, 3);
+    	 subjectTable.getCellFormatter().setHorizontalAlignment(2,0,HasHorizontalAlignment.ALIGN_CENTER);
     }
    
     protected void positionExclusionSGFields() {
     	subjectGroupTable.setWidget(2, 0, selectExclusionSG);
     	subjectGroupTable.getFlexCellFormatter().setColSpan(2, 0, 3);         
+    	subjectGroupTable.getCellFormatter().setHorizontalAlignment(2,0,HasHorizontalAlignment.ALIGN_CENTER);
    }
     
     /**

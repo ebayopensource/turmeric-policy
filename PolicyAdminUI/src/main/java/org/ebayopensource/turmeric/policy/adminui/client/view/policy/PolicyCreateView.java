@@ -1111,7 +1111,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 			subjectAssignmentPopup = new PopupPanel();
 			subjectAssignmentPopup.setGlassEnabled(true);
-			subjectAssignmentPopup.setWidth("800px");
+			subjectAssignmentPopup.setWidth("1000px");
 			subjectAssignmentPopup.setHeight("300px");
 
 			addSubjectButton = new Button(PolicyAdminUIUtil.constants.apply(),
@@ -1130,6 +1130,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			subjectAssignmentButtonPanel.add(cancelSubjectButton);
 
 			Grid subjectAssignmentGrid = new Grid(3, 1);
+			
 			Label title = new Label(
 					PolicyAdminUIUtil.policyAdminConstants
 							.assignSubjectsAndSubjectGroups());
@@ -1139,7 +1140,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			subjectAssignmentGrid.setWidget(1, 0, subjectAssignmentWidget);
 			subjectAssignmentGrid.getCellFormatter().setVerticalAlignment(1, 0,
 					HasVerticalAlignment.ALIGN_TOP);
-
+			
 			subjectAssignmentGrid.setWidget(2, 0, subjectAssignmentButtonPanel);
 			subjectAssignmentGrid.getCellFormatter().setVerticalAlignment(2, 0,
 					HasVerticalAlignment.ALIGN_BOTTOM);

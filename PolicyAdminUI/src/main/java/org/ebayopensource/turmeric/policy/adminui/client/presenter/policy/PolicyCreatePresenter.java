@@ -52,6 +52,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectKey
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectMatchType;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectMatchTypeImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectQuery;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectQuery.SubjectTypeKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectType;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter;
 import org.ebayopensource.turmeric.policy.adminui.client.util.PolicyKeysUtil;
@@ -183,7 +184,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 						key.setType(view.getSubjectContentView()
 								.getSubjectType());
 
-						SubjectQuery query = new SubjectQuery();
+						final SubjectQuery query = new SubjectQuery();
 						query.setSubjectKeys(Collections.singletonList(key));
 
 						if ("USER".equals(key.getType())) {
@@ -244,18 +245,47 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 											List<Subject> subjects = response
 													.getSubjects();
 											List<String> names = new ArrayList<String>();
-											if (subjects != null) {
-												for (Subject s : subjects)
-													names.add(s.getName());
-											}
 
+											if (subjects != null) {
+												if (subjects.size() > 0) {
+													for (Subject s : subjects) {
+														names.add(s.getName());
+													}
+												} else {
+													final String newSubjectName = query
+															.getSubjectKeys()
+															.get(0).getName();
+													final String newSubjectType = query
+															.getSubjectKeys()
+															.get(0).getType();
+													if (!newSubjectName
+															.endsWith("%")) {
+														if (Window
+																.confirm(PolicyAdminUIUtil.policyAdminConstants
+																		.createInternalSubjects())) {
+															createInternalSubject(
+																	newSubjectName,
+																	newSubjectType);
+															names.add(newSubjectName);
+
+														}
+													}
+												}
+											}
 											view.getSubjectContentView()
-													.setAvailableSubjects(
-															getSubjectNames(subjects));
+													.setAvailableSubjects(names);
 
 											view.getSubjectContentView()
 													.setAvailableExclusionSubjects(
-															getSubjectNames(subjects));
+															names);
+
+											// view.getSubjectContentView()
+											// .setAvailableSubjects(
+											// getSubjectNames(subjects));
+											//
+											// view.getSubjectContentView()
+											// .setAvailableExclusionSubjects(
+											// getSubjectNames(subjects));
 										}
 
 									});
@@ -482,8 +512,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 								view.getSubjectContentView()
 										.getSelectedSubjectAssignments()
 										.clear();
-								view.getSubjectContentView().getSelectionModel()
-										.clear();
+								view.getSubjectContentView()
+										.getSelectionModel().clear();
 								view.getSubjectContentView().setAssignments(
 										subjectAssignments);
 								// add back in the subject type as being
@@ -924,9 +954,41 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 										.clear();
 								view.getResourceContentView().setAssignments(
 										resourceAssignments);
-								view.getResourceContentView().getSelectionModel()
-										.clear();
+								view.getResourceContentView()
+										.getSelectionModel().clear();
 							}
+						}
+					}
+				});
+
+	}
+
+	private void createInternalSubject(final String subjectName,
+			final String subjectType) {
+
+		List<Subject> subjects = new ArrayList<Subject>();
+		SubjectImpl subject = new SubjectImpl();
+		subject.setName(subjectName);
+		subject.setType(subjectType);
+		subjects.add(subject);
+
+		service.createSubjects(subjects,
+				new AsyncCallback<PolicyQueryService.CreateSubjectsResponse>() {
+
+					public void onSuccess(final CreateSubjectsResponse result) {
+						// do nothing, subjects has been
+						// stored,
+						// we can continue...
+					}
+
+					public void onFailure(final Throwable arg) {
+						if (arg.getLocalizedMessage().contains("500")) {
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(PolicyAdminUIUtil.policyAdminConstants
+											.genericErrorMessage()));
+						} else {
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(arg.getLocalizedMessage()));
 						}
 					}
 				});
@@ -1045,7 +1107,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		ListBox getResourceLevelBox();
 
 		ListBox getResourceNameBox();
-		
+
 		MultiSelectionModel<Resource> getSelectionModel();
 
 		HasClickHandlers getAddResourceButton();
@@ -1085,7 +1147,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		String getGroupSearchTerm();
 
 		MultiSelectionModel<PolicySubjectAssignment> getSelectionModel();
-		
+
 		List<String> getSelectedSubjectGroups();
 
 		List<String> getSelectedExclusionSG();
@@ -1434,8 +1496,10 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		if (s.getSubjectMatchTypes() == null) {
 			s.setType(type);
 			s.setName(name);
-			createInternalSubject(new ArrayList<Subject>(
-					Collections.singletonList(s)));
+			if("USER".equals(type)){
+				createExternalAsInternalSubject(new ArrayList<Subject>(
+						Collections.singletonList(s)));
+			}
 			fetchSubjects();
 			fetchSubjectGroups();
 		}
@@ -1560,7 +1624,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		return p;
 	}
 
-	protected void createInternalSubject(final List<Subject> subjects) {
+	protected void createExternalAsInternalSubject(final List<Subject> subjects) {
 		List<SubjectKey> keys = new ArrayList<SubjectKey>();
 		for (Subject subj : subjects) {
 			SubjectKey key = new SubjectKey();

@@ -47,9 +47,9 @@ public class SelectBoxesWidget extends Composite {
         
         availableBox = new ListBox(isAvailableMulti);
         selectedBox = new ListBox(isSelectedMulti);
-        availableBox.setWidth("130px");
+        availableBox.setWidth("200px");
         availableBox.setHeight("80px");
-        selectedBox.setWidth("130px");
+        selectedBox.setWidth("200px");
         selectedBox.setHeight("80px");
         
         //arrows
@@ -73,12 +73,17 @@ public class SelectBoxesWidget extends Composite {
         grid.setWidget(0, 2, selectedLabel);
         grid.setWidget(1, 0, availableBox);
         grid.getCellFormatter().setHorizontalAlignment(1,0, HasHorizontalAlignment.ALIGN_CENTER);
+        
         Grid arrowGrid = new Grid(2,1);
         arrowGrid.setWidget(0,0,addButton);
         arrowGrid.setWidget(1,0,delButton);
+        arrowGrid.setWidth("80px");
+        arrowGrid.getCellFormatter().setHorizontalAlignment(0,0, HasHorizontalAlignment.ALIGN_CENTER);
+        arrowGrid.getCellFormatter().setHorizontalAlignment(1,0, HasHorizontalAlignment.ALIGN_CENTER);
         grid.setWidget(1, 1, arrowGrid);
         grid.getCellFormatter().setVerticalAlignment(1, 1, HasVerticalAlignment.ALIGN_MIDDLE);
         grid.getCellFormatter().setHorizontalAlignment(1,1, HasHorizontalAlignment.ALIGN_CENTER);
+        
         grid.setWidget(1, 2, selectedBox);
         grid.getCellFormatter().setHorizontalAlignment(1,2, HasHorizontalAlignment.ALIGN_CENTER);
         panel.add(grid);

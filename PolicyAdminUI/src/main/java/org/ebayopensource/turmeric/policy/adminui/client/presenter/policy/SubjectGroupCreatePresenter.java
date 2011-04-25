@@ -39,6 +39,7 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -114,14 +115,15 @@ public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 				service = (PolicyQueryService) serviceMap
 						.get(SupportedService.POLICY_QUERY_SERVICE);
 				SubjectKey key = new SubjectKey();
-				String name = SubjectGroupCreatePresenter.this.view
+				final String searchTerm = SubjectGroupCreatePresenter.this.view
 						.getSearchTerm();
-				if (name != null && !name.trim().equals(""))
-					key.setName(name);
+				if (searchTerm != null && !searchTerm.trim().equals("")){
+					key.setName(searchTerm);
+				}
 				key.setType(SubjectGroupCreatePresenter.this.view
 						.getSubjectType());
 
-				SubjectQuery query = new SubjectQuery();
+				final SubjectQuery query = new SubjectQuery();
 				query.setSubjectKeys(Collections.singletonList(key));
 
 				if ("USER".equals(key.getType())) {
@@ -181,8 +183,20 @@ public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 											.getSubjects();
 									List<String> names = new ArrayList<String>();
 									if (subjects != null) {
-										for (Subject s : subjects)
-											names.add(s.getName());
+										if(subjects.size() > 0){
+											for (Subject s : subjects){
+												names.add(s.getName());
+											}
+										}else {
+											final String newSubjectName = query.getSubjectKeys().get(0).getName();
+											final String newSubjectType  = query.getSubjectKeys().get(0).getType();
+											if(! newSubjectName.endsWith("%")){
+												if(Window.confirm(PolicyAdminUIUtil.policyAdminConstants.createInternalSubjects())){
+													createInternalSubject(newSubjectName, newSubjectType);
+													names.add(newSubjectName);
+												}
+											}
+										}
 									}
 									view.setAvailableSubjects(names);
 								}
@@ -224,7 +238,7 @@ public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 						subject.setName(sbName);
 						subjects.add(subject);
 					}
-					createInternalSubject(subjects);
+					createExternalAsInternalSubject(subjects);
 				}
 
 				// user wants to create the Subject Group
@@ -313,7 +327,7 @@ public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 		});
 	}
 
-	private void createInternalSubject(final List<Subject> subjects) {
+	private void createExternalAsInternalSubject(final List<Subject> subjects) {
 
 		List<SubjectKey> keys = new ArrayList<SubjectKey>();
 		for (Subject subj : subjects) {
@@ -374,6 +388,43 @@ public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 				});
 
 	}
+	
+	
+	private void createInternalSubject(final String subjectName, final String subjectType) {
+
+		List<Subject> subjects = new ArrayList<Subject>();
+		SubjectImpl subject = new SubjectImpl();
+		subject.setName(subjectName);
+		subject.setType(subjectType);
+		subjects.add(subject);
+		
+		service.createSubjects(
+				subjects,
+				new AsyncCallback<PolicyQueryService.CreateSubjectsResponse>() {
+
+					public void onSuccess(
+							final CreateSubjectsResponse result) {
+						// do nothing, subjects has been
+						// stored,
+						// we can continue...
+					}
+
+					public void onFailure(
+							final Throwable arg) {
+						if (arg.getLocalizedMessage()
+								.contains("500")) {
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(PolicyAdminUIUtil.policyAdminConstants
+											.genericErrorMessage()));
+						} else {
+							view.error(PolicyAdminUIUtil.messages.serverError(arg
+									.getLocalizedMessage()));
+						}
+					}
+				});
+			
+	}
+
 
 	@Override
 	public void go(HasWidgets container, final HistoryToken token) {

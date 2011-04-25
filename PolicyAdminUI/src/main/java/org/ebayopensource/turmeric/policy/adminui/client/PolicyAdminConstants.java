@@ -309,6 +309,9 @@ public interface PolicyAdminConstants extends Constants {
     
     @DefaultStringValue("Delete selected items?")
     public String deleteSelected();
+    
+    @DefaultStringValue("Subject not found. Do you want to create it?")
+    public String createInternalSubjects();
 
     /*
      * Generic Error message. This message should never be shown  unless 
