@@ -68,21 +68,6 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.ebayopensource.turmeric.client</groupId>
-			<artifactId>GroupMembershipServiceConsumer</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.ebayopensource.turmeric.impl</groupId>
-			<artifactId>GroupMembershipServiceImpl</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.ebayopensource.turmeric.intf</groupId>
-			<artifactId>GroupMembershipService</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.ebayopensource.turmeric.policy.tests</groupId>
 			<artifactId>PolicyTestUtils</artifactId>
 			<version>${project.version}</version>

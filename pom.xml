@@ -28,10 +28,7 @@
        </scm>
 
 	<modules>
-		<module>GroupMembershipService</module>
-		<module>GroupMembershipServiceConsumer</module>
 		<module>PolicyProvider</module>
-		<module>GroupMembershipServiceImpl</module>
 		<module>PolicyService</module>
 		<module>PolicyServiceConsumer</module>
 		<module>PolicyServiceImpl</module>
