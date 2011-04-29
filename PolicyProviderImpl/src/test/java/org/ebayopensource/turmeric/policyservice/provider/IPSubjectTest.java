@@ -28,7 +28,17 @@ import org.ebayopensource.turmeric.utils.jpa.EntityManagerContext;
 import org.junit.Test;
 
 
+/**
+ * The Class IPSubjectTest.
+ */
 public class IPSubjectTest extends SubjectTestBase {
+    
+    /**
+	 * Gets the subject test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
     @Test
     public void getSubjectTest() throws Exception {
         SubjectKey userKey = getUserKey("jdoe");
@@ -71,6 +81,12 @@ public class IPSubjectTest extends SubjectTestBase {
          }
     }
     
+    /**
+	 * Creates the subject test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
     @Test
     public void createSubjectTest() throws Exception {
         SubjectKey userKey = getUserKey("jdoe");
@@ -91,6 +107,12 @@ public class IPSubjectTest extends SubjectTestBase {
         }
     }
 
+    /**
+	 * Delete subject test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
     @Test
     public void deleteSubjectTest() throws Exception
     {
@@ -111,6 +133,12 @@ public class IPSubjectTest extends SubjectTestBase {
         }
     }
     
+    /**
+	 * Creates the subject group test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
     @Test
     public void createSubjectGroupTest() throws Exception
     {
@@ -142,6 +170,12 @@ public class IPSubjectTest extends SubjectTestBase {
         }
     }
     
+    /**
+	 * Gets the subject group test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
     @Test
     public void getSubjectGroupTest() throws Exception {
         createSubjectGroupTest();
@@ -177,6 +211,12 @@ public class IPSubjectTest extends SubjectTestBase {
         assertEquals(groupId, resBySubject.keySet().toArray(new Long[1])[0]);
     }
     
+    /**
+	 * Update subject group test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
     @Test
     public void updateSubjectGroupTest() throws Exception
     {
@@ -214,6 +254,12 @@ public class IPSubjectTest extends SubjectTestBase {
         }
     }
     
+    /**
+	 * Gets the subject assignment of subject group test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
     @Test
     public void getSubjectAssignmentOfSubjectGroupTest() throws Exception
     {
@@ -237,6 +283,12 @@ public class IPSubjectTest extends SubjectTestBase {
         assertEquals("gateway", subjectList[1].getSubjectName());
     }
 
+    /**
+	 * Delete subject group test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
     @Test
     public void deleteSubjectGroupTest() throws Exception {
         createSubjectGroupTest();
@@ -260,6 +312,12 @@ public class IPSubjectTest extends SubjectTestBase {
         }
     }
         
+    /**
+	 * Gets the subject type info test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
     @Test
     public void getSubjectTypeInfoTest() throws Exception {
         IPSubject subjType = new IPSubject();

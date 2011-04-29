@@ -40,12 +40,27 @@ import org.ebayopensource.turmeric.utils.jpa.PersistenceContext;
 import org.ebayopensource.turmeric.utils.jpa.model.AuditContext;
 
 
+/**
+ * The Class ResourceBase.
+ */
 public abstract class ResourceBase implements ResourceTypeProvider {
+	
+	/** The factory. */
 	protected EntityManagerFactory factory;
+	
+	/** The impl. */
 	protected ResourceTypeProvider impl;
 
+	/**
+	 * Gets the resource type.
+	 * 
+	 * @return the resource type
+	 */
 	public abstract String getResourceType();
 
+	/**
+	 * Instantiates a new resource base.
+	 */
 	public ResourceBase() {
 		factory = PersistenceContext
 				.createEntityManagerFactory("policyservice");
@@ -59,15 +74,27 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 				interfaces, new JPAAroundAdvice(factory, target));
 	}
 
+	/**
+	 * The Class ResourceBaseImpl.
+	 */
 	public static class ResourceBaseImpl implements ResourceTypeProvider {
 		private final ResourceDAO resourceDAO;
 		private final String resourceType;
 
+		/**
+		 * Instantiates a new resource base impl.
+		 * 
+		 * @param resourceType
+		 *            the resource type
+		 */
 		public ResourceBaseImpl(final String resourceType) {
 			this.resourceType = resourceType;
 			resourceDAO = new ResourceDAOImpl();
 		}
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policyservice.provider.ResourceTypeProvider#createResource(org.ebayopensource.turmeric.security.v1.services.Resource, org.ebayopensource.turmeric.policyservice.provider.common.OperationEditObject, org.ebayopensource.turmeric.security.v1.services.SubjectKey)
+		 */
 		@Override
 		public ResourceKey createResource(final Resource resource,
 				final OperationEditObject operationEditObject,
@@ -141,6 +168,9 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 			return operationKeyList;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policyservice.provider.ResourceTypeProvider#updateResource(org.ebayopensource.turmeric.security.v1.services.Resource, org.ebayopensource.turmeric.policyservice.provider.common.OperationEditObject, org.ebayopensource.turmeric.security.v1.services.SubjectKey)
+		 */
 		@Override
 		public ResourceKey updateResource(final Resource resource,
 				final OperationEditObject operationEditObject,
@@ -200,6 +230,9 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policyservice.provider.ResourceTypeProvider#deleteResource(java.lang.Long)
+		 */
 		@Override
 		public void deleteResource(final Long resourceId)
 				throws PolicyFinderException, PolicyDeleteException {
@@ -230,6 +263,9 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policyservice.provider.ResourceTypeProvider#getResourceInfoById(java.lang.Long)
+		 */
 		@Override
 		public Resource getResourceInfoById(final Long resourceId)
 				throws PolicyFinderException {
@@ -243,6 +279,9 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 			
 		}
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policyservice.provider.ResourceTypeProvider#getResourceInfoByName(java.lang.String)
+		 */
 		@Override
 		public Resource getResourceInfoByName(final String resourceName)
 				throws PolicyFinderException {
@@ -254,6 +293,9 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policyservice.provider.ResourceTypeProvider#getResourceInfoByType()
+		 */
 		@Override
 		public Map<Long, Resource> getResourceInfoByType()
 				throws PolicyFinderException {
@@ -271,6 +313,9 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 			return result;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policyservice.provider.ResourceTypeProvider#getOperationById(java.lang.String, java.lang.Long)
+		 */
 		@Override
 		public Operation getOperationById(final String resourceName,
 				final Long operationId) throws PolicyFinderException {
@@ -287,6 +332,9 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policyservice.provider.ResourceTypeProvider#getOperationByName(java.lang.String, java.lang.String)
+		 */
 		@Override
 		public Operation getOperationByName(final String resourceName,
 				final String operationName) throws PolicyFinderException {
@@ -300,6 +348,9 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 		
 		}
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policyservice.provider.ResourceTypeProvider#getOperationByResourceId(java.lang.Long)
+		 */
 		@Override
 		public List<Operation> getOperationByResourceId(final Long resourceId)
 				throws PolicyFinderException {
@@ -316,6 +367,9 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 
 		}
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policyservice.provider.ResourceTypeProvider#getResourceInfoByOperationId(java.lang.Long)
+		 */
 		@Override
 		public Resource getResourceInfoByOperationId(final Long operationId)
 				throws PolicyFinderException {
@@ -327,6 +381,9 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policyservice.provider.ResourceTypeProvider#getAuditHistory(org.ebayopensource.turmeric.security.v1.services.ResourceKey, javax.xml.datatype.XMLGregorianCalendar, javax.xml.datatype.XMLGregorianCalendar)
+		 */
 		@Override
 		public List<EntityHistory> getAuditHistory(
 				final ResourceKey resourceKey,
@@ -386,6 +443,9 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 	            return entityHistory;			
 		}
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policyservice.provider.ResourceTypeProvider#getAuditHistory(org.ebayopensource.turmeric.security.v1.services.OperationKey, javax.xml.datatype.XMLGregorianCalendar, javax.xml.datatype.XMLGregorianCalendar)
+		 */
 		@Override
 		public List<EntityHistory> getAuditHistory(
 				final OperationKey operationKey,
@@ -458,19 +518,29 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 		       
 		       
 		       
-		       
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 */
 		public void audit(final ResourceKey resourceKey,
 				final String operationType, final SubjectKey loginSubject)
 				throws PolicyFinderException {
 		    resourceDAO.audit(resourceKey, operationType, loginSubject);
 		}
-		
+
+		/**
+		 * {@inheritDoc}
+		 */
 		public void audit(final OperationKey operationKey,
 				final String operationType, final SubjectKey loginSubject)
 				throws PolicyFinderException {
 		    resourceDAO.audit(operationKey, operationType, loginSubject);
 		}
         
+        /* (non-Javadoc)
+         * @see org.ebayopensource.turmeric.policyservice.provider.ResourceTypeProvider#getMetaData(java.lang.String)
+         */
         @Override
         public List<KeyValuePair> getMetaData(String queryValue) throws PolicyFinderException {
             if (queryValue.equals("Type"))
@@ -489,12 +559,18 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 	// The following methods are needed to allow wrapping this class with JPA
 	// transaction wrapper
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public ResourceKey createResource(final Resource resource,
 			final OperationEditObject operationEditObject,
 			final SubjectKey createdBy) throws PolicyCreationException {
 		return impl.createResource(resource, operationEditObject, createdBy);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public ResourceKey updateResource(final Resource resource,
 			final OperationEditObject operationEditObject,
 			final SubjectKey modifiedBy) throws PolicyUpdateException,
@@ -502,69 +578,108 @@ public abstract class ResourceBase implements ResourceTypeProvider {
 		return impl.updateResource(resource, operationEditObject, modifiedBy);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void deleteResource(final Long resourceId)
 			throws PolicyFinderException, PolicyDeleteException {
 		impl.deleteResource(resourceId);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Resource getResourceInfoById(final Long resourceId)
 			throws PolicyFinderException {
 		return impl.getResourceInfoById(resourceId);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Resource getResourceInfoByName(final String resourceName)
 			throws PolicyFinderException {
 		return impl.getResourceInfoByName(resourceName);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Map<Long, Resource> getResourceInfoByType()
 			throws PolicyFinderException {
 		return impl.getResourceInfoByType();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Operation getOperationById(final String resourceName,
 			final Long operationId) throws PolicyFinderException {
 		return impl.getOperationById(resourceName, operationId);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Operation getOperationByName(final String resourceName,
 			final String operationName) throws PolicyFinderException {
 		return impl.getOperationByName(resourceName, operationName);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Operation> getOperationByResourceId(final Long resourceId)
 			throws PolicyFinderException {
 		return impl.getOperationByResourceId(resourceId);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Resource getResourceInfoByOperationId(final Long operationId)
 			throws PolicyFinderException {
 		return impl.getResourceInfoByOperationId(operationId);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<EntityHistory> getAuditHistory(final ResourceKey resourceKey,
 			final XMLGregorianCalendar startDate,
 			final XMLGregorianCalendar endDate) throws PolicyFinderException {
 		return impl.getAuditHistory(resourceKey, startDate, endDate);
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<EntityHistory> getAuditHistory(final OperationKey operationKey,
 			final XMLGregorianCalendar startDate,
 			final XMLGregorianCalendar endDate) throws PolicyFinderException {
 		return impl.getAuditHistory(operationKey, startDate, endDate);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.ResourceTypeProvider#getMetaData(java.lang.String)
+	 */
 	@Override
 	public List<KeyValuePair> getMetaData(String queryValue) throws PolicyFinderException {
 	    return impl.getMetaData(queryValue);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void audit(final ResourceKey resourceKey,
 			final String operationType, final SubjectKey loginSubject)
 			throws PolicyFinderException {
 		impl.audit(resourceKey, operationType, loginSubject);
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void audit(final OperationKey operationKey,
 			final String operationType, final SubjectKey loginSubject)
 			throws PolicyFinderException {

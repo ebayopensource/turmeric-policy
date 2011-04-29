@@ -19,51 +19,105 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 
+/**
+ * The Class AuthenticationProviderImplTest.
+ */
 public class AuthenticationProviderImplTest {
 
 	private static AuthenticationProvider authenticationProvider;
 	
+	/**
+	 * Inits the class.
+	 */
 	@BeforeClass
 	public static void initClass() {
 		authenticationProvider = new AuthenticationProviderImpl(new AuthenticationFilePolicyProvider());
 	}
 	
+	/**
+	 * Test get authentication policy_ null request.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test(expected=org.ebayopensource.turmeric.policyservice.exceptions.PolicyProviderException.class)
 	public void testGetAuthenticationPolicy_NullRequest() throws Exception {
 		authenticationProvider.getAuthenticationPolicy(null);
 	}
 	
+	/**
+	 * Test get authentication policy_ null resource name.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test(expected=org.ebayopensource.turmeric.policyservice.exceptions.PolicyProviderException.class)
 	public void testGetAuthenticationPolicy_NullResourceName() throws Exception {
 		authenticationProvider.getAuthenticationPolicy(createRequest(null, "r1-o2", "t1"));
 	}
 	
+	/**
+	 * Test get authentication policy_ blank resource name.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test(expected=org.ebayopensource.turmeric.policyservice.exceptions.PolicyProviderException.class)
 	public void testGetAuthenticationPolicy_BlankResourceName() throws Exception {
 		authenticationProvider.getAuthenticationPolicy(createRequest("", "r1-o2", "t1"));
 	}
 	
+	/**
+	 * Test get authentication policy_ null operation name.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test(expected=org.ebayopensource.turmeric.policyservice.exceptions.PolicyProviderException.class)
 	public void testGetAuthenticationPolicy_NullOperationName() throws Exception {
 		authenticationProvider.getAuthenticationPolicy(createRequest("r1", null, "t1"));
 	}
 	
+	/**
+	 * Test get authentication policy_ blank operation name.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test(expected=org.ebayopensource.turmeric.policyservice.exceptions.PolicyProviderException.class)
 	public void testGetAuthenticationPolicy_BlankOperationName() throws Exception {
 		authenticationProvider.getAuthenticationPolicy(createRequest("r1", "", "t1"));
 	}
 	
+	/**
+	 * Test get authentication policy_ null resource type.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test(expected=org.ebayopensource.turmeric.policyservice.exceptions.PolicyProviderException.class)
 	public void testGetAuthenticationPolicy_NullResourceType() throws Exception {
 		authenticationProvider.getAuthenticationPolicy(createRequest("r1", "r1-o2", null));
 	}
 	
+	/**
+	 * Test get authentication policy_ blank resource type.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test(expected=org.ebayopensource.turmeric.policyservice.exceptions.PolicyProviderException.class)
 	public void testGetAuthenticationPolicy_BlankResourceType() throws Exception {
 		authenticationProvider.getAuthenticationPolicy(createRequest("r1", "r1-o2", ""));
 	}
 	
 	// operation found - expected to return associated authentication methods
+	/**
+	 * Test get authentication policy_ operation found.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void testGetAuthenticationPolicy_OperationFound() throws Exception {
 		GetAuthenticationPolicyRequest req = createRequest("r1", "r1-o1", "t1");
@@ -74,6 +128,12 @@ public class AuthenticationProviderImplTest {
 	}
 	
 	// operation not found - expected to return the default authentication method
+	/**
+	 * Test get authentication policy_ operation not found.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void testGetAuthenticationPolicy_OperationNotFound() throws Exception {
 		GetAuthenticationPolicyRequest req = createRequest("r1", "r1-o3", "t1");
@@ -84,6 +144,12 @@ public class AuthenticationProviderImplTest {
 	}
 	
 	// resource not found - expected to return empty collection
+	/**
+	 * Test get authentication policy_ resource not found.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void testGetAuthenticationPolicy_ResourceNotFound() throws Exception {
 		GetAuthenticationPolicyRequest req = createRequest("r1", "r1-o1", "t2");

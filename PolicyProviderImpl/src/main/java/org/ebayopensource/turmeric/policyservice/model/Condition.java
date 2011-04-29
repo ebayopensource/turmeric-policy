@@ -17,14 +17,24 @@ import javax.persistence.ManyToOne;
 import org.ebayopensource.turmeric.utils.jpa.model.AuditablePersistent;
 
 /**
- * @author gbaal
+ * The Class Condition.
  * 
+ * @author gbaal
  */
 @Entity(name="ConditionTbl")
 public class Condition extends AuditablePersistent {
 	
+	/**
+	 * Instantiates a new condition.
+	 */
 	public Condition() { }
 
+	/**
+	 * Instantiates a new condition.
+	 * 
+	 * @param expression
+	 *            the expression
+	 */
 	public Condition(Expression expression) {
 		super();
 		this.expression = expression;
@@ -34,10 +44,21 @@ public class Condition extends AuditablePersistent {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Expression expression;
 
+	/**
+	 * Gets the expression.
+	 * 
+	 * @return the expression
+	 */
 	public Expression getExpression() {
 		return expression;
 	}
 
+	/**
+	 * Sets the expression.
+	 * 
+	 * @param expression
+	 *            the new expression
+	 */
 	public void setExpression(Expression expression) {
 		this.expression = expression;
 	}

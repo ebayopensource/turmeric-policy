@@ -9,8 +9,14 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.policyservice.provider;
 
+/**
+ * The Class URLResource.
+ */
 public class URLResource extends ResourceBase {
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.ResourceBase#getResourceType()
+	 */
 	@Override
 	public String getResourceType() {
 		return "URL";

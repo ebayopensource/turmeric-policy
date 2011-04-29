@@ -15,14 +15,25 @@ import org.ebayopensource.turmeric.utils.jpa.PersistenceContext;
 import org.junit.After;
 import org.junit.Before;
 
+/**
+ * The Class AbstractJPATest.
+ */
 public abstract class AbstractJPATest {
+    
+    /** The factory. */
     protected EntityManagerFactory factory;
     
+    /**
+	 * Inits the entity manager factory.
+	 */
     @Before
     public void initEntityManagerFactory() {
         factory = PersistenceContext.createEntityManagerFactory("policyservice");
     }
 
+    /**
+	 * Destroy entity manager factory.
+	 */
     @After
     public void destroyEntityManagerFactory() {
         PersistenceContext.close();

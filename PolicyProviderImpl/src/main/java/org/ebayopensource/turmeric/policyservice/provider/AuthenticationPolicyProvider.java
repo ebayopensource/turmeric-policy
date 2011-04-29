@@ -11,7 +11,24 @@ package org.ebayopensource.turmeric.policyservice.provider;
 
 import org.ebayopensource.turmeric.utils.config.PolicyProvider;
 
+/**
+ * The Interface AuthenticationPolicyProvider.
+ */
 interface AuthenticationPolicyProvider extends PolicyProvider {
+	
+	/**
+	 * Gets the authn policy by resource.
+	 * 
+	 * @param resourceName
+	 *            the resource name
+	 * @param operationName
+	 *            the operation name
+	 * @param resourceType
+	 *            the resource type
+	 * @return the authn policy by resource
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	AuthenticationProviderInfo getAuthnPolicyByResource(String resourceName, String operationName, String resourceType)
 			throws org.ebayopensource.turmeric.utils.config.exceptions.PolicyProviderException;
 }

@@ -19,24 +19,41 @@ import org.ebayopensource.turmeric.security.v1.services.GetAuthenticationPolicyR
 
 
 /**
+ * The Class AuthenticationProviderImpl.
+ * 
  * @author mgorovoy
- *
  */
 public class AuthenticationProviderImpl implements AuthenticationProvider {
 
 	private AuthenticationPolicyProvider policyProvider;
 	
+	/**
+	 * Instantiates a new authentication provider impl.
+	 */
 	public AuthenticationProviderImpl() {
 		this.policyProvider = new AuthenticationFilePolicyProvider();
 	}
 	
+	/**
+	 * Instantiates a new authentication provider impl.
+	 * 
+	 * @param policyProvider
+	 *            the policy provider
+	 */
 	public AuthenticationProviderImpl(AuthenticationPolicyProvider policyProvider) {
 		this.policyProvider = policyProvider;
 	}
 	
     /**
-     * @see org.ebayopensource.turmeric.policyservice.provider.AuthenticationProvider#getAuthenticationPolicy(org.ebayopensource.turmeric.security.v1.services.GetAuthenticationPolicyRequest)
-     */
+	 * Gets the authentication policy.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the authentication policy
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 * @see org.ebayopensource.turmeric.policyservice.provider.AuthenticationProvider#getAuthenticationPolicy(org.ebayopensource.turmeric.security.v1.services.GetAuthenticationPolicyRequest)
+	 */
     @Override
     public GetAuthenticationPolicyResponse getAuthenticationPolicy(
                     GetAuthenticationPolicyRequest request) throws PolicyProviderException {

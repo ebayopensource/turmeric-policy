@@ -16,21 +16,46 @@ import javax.persistence.Enumerated;
 import org.ebayopensource.turmeric.utils.jpa.model.AuditablePersistent;
 
 /**
- * @author gbaal
+ * The Class PrimitiveValue.
  * 
+ * @author gbaal
  */
 @Entity
 public class PrimitiveValue extends AuditablePersistent {
+	
+	/**
+	 * Sets the value.
+	 * 
+	 * @param value
+	 *            the new value
+	 */
 	public void setValue(String value) {
 		this.value = value;
 	}
 
+	/**
+	 * Sets the type.
+	 * 
+	 * @param type
+	 *            the new type
+	 */
 	public void setType(SupportedPrimitive type) {
 		this.type = type;
 	}
 
+	/**
+	 * Instantiates a new primitive value.
+	 */
 	public PrimitiveValue() {}
 	
+	/**
+	 * Instantiates a new primitive value.
+	 * 
+	 * @param value
+	 *            the value
+	 * @param type
+	 *            the type
+	 */
 	public PrimitiveValue(String value, SupportedPrimitive type) {
 		super();
 		this.value = value;
@@ -41,10 +66,20 @@ public class PrimitiveValue extends AuditablePersistent {
 	@Enumerated(EnumType.ORDINAL)
 	private SupportedPrimitive type;
 
+	/**
+	 * Gets the value.
+	 * 
+	 * @return the value
+	 */
 	public String getValue() {
 		return value;
 	}
 
+	/**
+	 * Gets the type.
+	 * 
+	 * @return the type
+	 */
 	public SupportedPrimitive getType() {
 		return type;
 	}

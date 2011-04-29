@@ -10,21 +10,44 @@
 package org.ebayopensource.turmeric.policyservice.model;
 
 /**
- * @author gbaal
+ * The Enum SupportedPrimitive.
  * 
+ * @author gbaal
  */
 public enum SupportedPrimitive {
-	STRING("string"), BOOLEAN("boolean");
+	
+	/** The STRING. */
+	STRING("string"), 
+ /** The BOOLEAN. */
+ BOOLEAN("boolean");
 	private final String value;
 
+	/**
+	 * Instantiates a new supported primitive.
+	 * 
+	 * @param v
+	 *            the v
+	 */
 	SupportedPrimitive(String v) {
 		value = v;
 	}
 
+	/**
+	 * Value.
+	 * 
+	 * @return the string
+	 */
 	public String value() {
 		return value;
 	}
 
+	/**
+	 * From value.
+	 * 
+	 * @param v
+	 *            the v
+	 * @return the supported primitive
+	 */
 	public static SupportedPrimitive fromValue(String v) {
 		for (SupportedPrimitive c : SupportedPrimitive.values()) {
 			if (c.value.equals(v)) {

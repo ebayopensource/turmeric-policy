@@ -58,14 +58,30 @@ import org.ebayopensource.turmeric.utils.jpa.PersistenceContext;
 import org.ebayopensource.turmeric.utils.jpa.model.AuditContext;
 
 
+/**
+ * The Class ListPolicyBase.
+ */
 public abstract class ListPolicyBase  implements PolicyTypeProvider {
     private final EntityManagerFactory factory;
     private final PolicyTypeProvider impl;
 
+    /**
+	 * Gets the policy type.
+	 * 
+	 * @return the policy type
+	 */
     protected abstract String getPolicyType();
     
+    /**
+	 * Gets the action.
+	 * 
+	 * @return the action
+	 */
     protected abstract String getAction();
     
+    /**
+	 * Instantiates a new list policy base.
+	 */
     public ListPolicyBase() {
         factory = PersistenceContext.createEntityManagerFactory("policyservice");
         
@@ -1160,6 +1176,9 @@ public abstract class ListPolicyBase  implements PolicyTypeProvider {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#updatePolicy(org.ebayopensource.turmeric.security.v1.services.Policy, org.ebayopensource.turmeric.policyservice.provider.common.PolicyEditObject, org.ebayopensource.turmeric.security.v1.services.SubjectKey)
+     */
     @Override
     public PolicyKey updatePolicy(Policy inputPolicy, PolicyEditObject policyEditObject,
                     SubjectKey modifiedBy) throws PolicyUpdateException, PolicyCreationException,
@@ -1167,133 +1186,202 @@ public abstract class ListPolicyBase  implements PolicyTypeProvider {
         return impl.updatePolicy(inputPolicy, policyEditObject, modifiedBy);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#createPolicy(org.ebayopensource.turmeric.security.v1.services.Policy, org.ebayopensource.turmeric.policyservice.provider.common.PolicyEditObject, org.ebayopensource.turmeric.security.v1.services.SubjectKey)
+     */
     @Override
     public PolicyKey createPolicy(Policy inputPolicy, PolicyEditObject policyEditObject,
                     SubjectKey createdBy) throws PolicyCreationException, PolicyUpdateException {
         return impl.createPolicy(inputPolicy, policyEditObject, createdBy);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#deletePolicy(java.lang.Long)
+     */
     @Override
     public void deletePolicy(Long policyId) throws PolicyDeleteException, PolicyUpdateException {
         impl.deletePolicy(policyId);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#getRuleAssignmentOfPolicy(java.lang.Long, org.ebayopensource.turmeric.security.v1.services.QueryCondition)
+     */
     @Override
     public Map<Long, Rule> getRuleAssignmentOfPolicy(Long policyId, QueryCondition queryCondition)
                     throws PolicyFinderException {
         return impl.getRuleAssignmentOfPolicy(policyId, queryCondition);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#isRuleNameUsed(java.lang.String)
+     */
     @Override
     public boolean isRuleNameUsed(String ruleName) throws PolicyFinderException {
         return impl.isRuleNameUsed(ruleName);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#isRuleRequired()
+     */
     @Override
     public boolean isRuleRequired() throws PolicyProviderException {
         return impl.isRuleRequired();
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#isRuleValid(org.ebayopensource.turmeric.security.v1.services.Rule)
+     */
     @Override
     public boolean isRuleValid(Rule rule) throws PolicyProviderException {
         return impl.isRuleValid(rule);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#getResourceAssignmentOfPolicy(java.lang.Long, org.ebayopensource.turmeric.security.v1.services.QueryCondition)
+     */
     @Override
     public Map<Long, Resource> getResourceAssignmentOfPolicy(Long policyId,
                     QueryCondition queryCondition) throws PolicyFinderException {
         return impl.getResourceAssignmentOfPolicy(policyId, queryCondition);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#getOperationAssignmentOfPolicy(java.lang.Long, org.ebayopensource.turmeric.security.v1.services.QueryCondition)
+     */
     @Override
     public Map<Long, Operation> getOperationAssignmentOfPolicy(Long policyId,
                     QueryCondition queryCondition) throws PolicyFinderException {
         return impl.getOperationAssignmentOfPolicy(policyId, queryCondition);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#getSubjectAssignmentOfPolicy(java.lang.Long, org.ebayopensource.turmeric.security.v1.services.QueryCondition)
+     */
     @Override
     public Map<Long, Subject> getSubjectAssignmentOfPolicy(Long policyId,
                     QueryCondition queryCondition) throws PolicyFinderException {
         return impl.getSubjectAssignmentOfPolicy(policyId, queryCondition);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#getExclusionSubjectAssignmentOfPolicy(java.lang.Long, org.ebayopensource.turmeric.security.v1.services.QueryCondition)
+     */
     @Override
     public Map<Long, Subject> getExclusionSubjectAssignmentOfPolicy(Long policyId,
                     QueryCondition queryCondition) throws PolicyFinderException {
         return impl.getExclusionSubjectAssignmentOfPolicy(policyId, queryCondition);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#getSubjectTypeAssignmentOfPolicy(java.lang.Long, org.ebayopensource.turmeric.security.v1.services.QueryCondition)
+     */
     @Override
     public Map<Long, SubjectTypeInfo> getSubjectTypeAssignmentOfPolicy(Long policyId,
                     QueryCondition queryCondition) throws PolicyFinderException {
         return impl.getSubjectTypeAssignmentOfPolicy(policyId, queryCondition);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#getSubjectGroupAssignmentOfPolicy(java.lang.Long, org.ebayopensource.turmeric.security.v1.services.QueryCondition)
+     */
     @Override
     public Map<Long, SubjectGroup> getSubjectGroupAssignmentOfPolicy(Long policyId,
                     QueryCondition queryCondition) throws PolicyFinderException {
         return impl.getSubjectGroupAssignmentOfPolicy(policyId, queryCondition);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#getExclusionSubjectGroupAssignmentOfPolicy(java.lang.Long, org.ebayopensource.turmeric.security.v1.services.QueryCondition)
+     */
     @Override
     public Map<Long, SubjectGroup> getExclusionSubjectGroupAssignmentOfPolicy(Long policyId,
                     QueryCondition queryCondition) throws PolicyFinderException {
         return impl.getExclusionSubjectGroupAssignmentOfPolicy(policyId, queryCondition);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#findPolicyInfoBySubject(java.util.Set, org.ebayopensource.turmeric.security.v1.services.QueryCondition)
+     */
     @Override
     public Map<Long, Policy> findPolicyInfoBySubject(Set<Long> subjectId,
                     QueryCondition queryCondition) throws PolicyFinderException {
         return impl.findPolicyInfoBySubject(subjectId, queryCondition);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#findPolicyInfoByExclusionSubject(java.util.Set, org.ebayopensource.turmeric.security.v1.services.QueryCondition)
+     */
     @Override
     public Map<Long, Policy> findPolicyInfoByExclusionSubject(Set<Long> subjectId,
                     QueryCondition queryCondition) throws PolicyFinderException {
         return impl.findPolicyInfoByExclusionSubject(subjectId, queryCondition);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#findPolicyInfoBySubjectGroup(java.util.Set, org.ebayopensource.turmeric.security.v1.services.QueryCondition)
+     */
     @Override
     public Map<Long, Policy> findPolicyInfoBySubjectGroup(Set<Long> subjectGroupId,
                     QueryCondition queryCondition) throws PolicyFinderException {
         return impl.findPolicyInfoBySubjectGroup(subjectGroupId, queryCondition);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#findPolicyInfoByExclusionSubjectGroup(java.util.Set, org.ebayopensource.turmeric.security.v1.services.QueryCondition)
+     */
     @Override
     public Map<Long, Policy> findPolicyInfoByExclusionSubjectGroup(Set<Long> subjectGroupId,
                     QueryCondition queryCondition) throws PolicyProviderException {
         return impl.findPolicyInfoByExclusionSubjectGroup(subjectGroupId, queryCondition);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#findPolicyInfoBySubjectType(java.util.Set, org.ebayopensource.turmeric.security.v1.services.QueryCondition)
+     */
     @Override
     public Map<Long, Policy> findPolicyInfoBySubjectType(Set<String> subjectType,
                     QueryCondition queryCondition) throws PolicyFinderException {
         return impl.findPolicyInfoBySubjectType(subjectType, queryCondition);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#findPolicyInfoByOperation(java.util.Set, org.ebayopensource.turmeric.security.v1.services.QueryCondition)
+     */
     @Override
     public Map<Long, Policy> findPolicyInfoByOperation(Set<Long> operationId,
                     QueryCondition queryCondition) throws PolicyFinderException {
         return impl.findPolicyInfoByOperation(operationId, queryCondition);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#findPolicyInfoByResource(java.util.Set, org.ebayopensource.turmeric.security.v1.services.QueryCondition)
+     */
     @Override
     public Map<Long, Policy> findPolicyInfoByResource(Set<Long> resourceId,
                     QueryCondition queryCondition) throws PolicyFinderException {
         return impl.findPolicyInfoByResource(resourceId, queryCondition);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#findPolicyInfo(org.ebayopensource.turmeric.security.v1.services.PolicyKey, java.lang.String, org.ebayopensource.turmeric.security.v1.services.QueryCondition)
+     */
     @Override
     public Map<Long, Policy> findPolicyInfo(PolicyKey policyKey, String effect,
                     QueryCondition queryCondition) throws PolicyFinderException {
         return impl.findPolicyInfo(policyKey, effect, queryCondition);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#getPolicyInfo(java.lang.Long)
+     */
     @Override
     public Policy getPolicyInfo(Long policyId) throws PolicyFinderException {
         return impl.getPolicyInfo(policyId);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#getPolicyInfo(java.lang.String)
+     */
     @Override
     public Policy getPolicyInfo(String policyName) throws PolicyFinderException {
     	try {
@@ -1304,45 +1392,69 @@ public abstract class ListPolicyBase  implements PolicyTypeProvider {
     	return null;
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#isUpdateRequired(java.util.Date)
+     */
     @Override
     public boolean isUpdateRequired(Date lastUpdated) throws PolicyProviderException {
         return impl.isUpdateRequired(lastUpdated);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#validatePolicy(org.ebayopensource.turmeric.security.v1.services.Policy, org.ebayopensource.turmeric.security.v1.services.QueryCondition)
+     */
     @Override
     public boolean validatePolicy(Policy policy, QueryCondition queryCondition)
                     throws PolicyProviderException {
         return impl.validatePolicy(policy, queryCondition);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#getAuditHistory(org.ebayopensource.turmeric.security.v1.services.PolicyKey, javax.xml.datatype.XMLGregorianCalendar, javax.xml.datatype.XMLGregorianCalendar)
+     */
     @Override
     public List<EntityHistory> getAuditHistory(PolicyKey policyKey, XMLGregorianCalendar startDate,
                     XMLGregorianCalendar endDate) throws PolicyFinderException {
         return impl.getAuditHistory(policyKey, startDate, endDate);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#audit(org.ebayopensource.turmeric.security.v1.services.PolicyKey, java.lang.String, org.ebayopensource.turmeric.security.v1.services.SubjectKey)
+     */
     @Override
     public void audit(PolicyKey policyKey, String operationType, SubjectKey loginSubject)
                     throws PolicyFinderException {
         impl.audit(policyKey, operationType, loginSubject);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#applyQueryCondition(org.ebayopensource.turmeric.policyservice.provider.common.PolicyBuilderObject, org.ebayopensource.turmeric.security.v1.services.QueryCondition)
+     */
     @Override
     public PolicyBuilderObject applyQueryCondition(PolicyBuilderObject builderObject,
                     QueryCondition queryCondition) {
         return impl.applyQueryCondition(builderObject, queryCondition);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#allowResourceLevel()
+     */
     @Override
     public boolean allowResourceLevel() {
         return impl.allowResourceLevel();
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#allowGlobalLevel()
+     */
     @Override
     public boolean allowGlobalLevel() {
         return impl.allowGlobalLevel();
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#getMetaData(java.lang.String)
+     */
     @Override
     public List<KeyValuePair> getMetaData(String queryValue) throws PolicyFinderException {
         return impl.getMetaData(queryValue);

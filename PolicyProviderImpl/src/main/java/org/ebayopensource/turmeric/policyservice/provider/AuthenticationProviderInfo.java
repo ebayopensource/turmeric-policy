@@ -14,11 +14,10 @@ import java.util.List;
 /**
  * AuthenticationProviderInfo
  * 
- * Container for authentication methods with its
- * corresponding resource and operation
+ * Container for authentication methods with its corresponding resource and
+ * operation
  * 
- * Code derived from EBay reference codes
- *
+ * Code derived from EBay reference codes.
  */
 class AuthenticationProviderInfo {
 	private String resourceName;
@@ -26,38 +25,85 @@ class AuthenticationProviderInfo {
 	private String operationName;
 	private List<String> authenticationMethods;
 
+	/**
+	 * Gets the resource name.
+	 * 
+	 * @return the resource name
+	 */
 	public String getResourceName() {
 		return resourceName;
 	}
 
+	/**
+	 * Sets the resource name.
+	 * 
+	 * @param resourceName
+	 *            the new resource name
+	 */
 	public void setResourceName(String resourceName) {
 		this.resourceName = resourceName;
 	}
 
+	/**
+	 * Gets the resource type.
+	 * 
+	 * @return the resource type
+	 */
 	public String getResourceType() {
 		return resourceType;
 	}
 	
+	/**
+	 * Sets the resource type.
+	 * 
+	 * @param resourceType
+	 *            the new resource type
+	 */
 	public void setResourceType(String resourceType) {
 		this.resourceType = resourceType;
 	}
 
+	/**
+	 * Gets the operation name.
+	 * 
+	 * @return the operation name
+	 */
 	public String getOperationName() {
 		return operationName;
 	}
 	
+	/**
+	 * Sets the operation name.
+	 * 
+	 * @param operationName
+	 *            the new operation name
+	 */
 	public void setOperationName(String operationName) {
 		this.operationName = operationName;
 	}
 
+	/**
+	 * Gets the authentication methods.
+	 * 
+	 * @return the authentication methods
+	 */
 	public List<String> getAuthenticationMethods() {
 		return authenticationMethods;
 	}
 	
+	/**
+	 * Sets the authentication methods.
+	 * 
+	 * @param authenticationMethods
+	 *            the new authentication methods
+	 */
 	public void setAuthenticationMethods(List<String> authenticationMethods) {
 		this.authenticationMethods = authenticationMethods;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		StringBuilder buffer = new StringBuilder();

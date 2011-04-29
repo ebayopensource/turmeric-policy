@@ -21,12 +21,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author gbaal
+ * The Class RuleDaoTest.
  * 
+ * @author gbaal
  */
 public class RuleDaoTest extends AbstractJPATest {
+	
+	/** The rule dao. */
 	RuleDAO ruleDAO;
 
+	/**
+	 * Inits the dao.
+	 */
 	@Before
 	public void initDAO() {
 		ClassLoader classLoader = RuleDAO.class.getClassLoader();
@@ -70,6 +76,9 @@ public class RuleDaoTest extends AbstractJPATest {
 		return expression;
 	}
 
+	/**
+	 * Find condition by id test.
+	 */
 	@Test
 	public void findConditionByIdTest() {
 		Condition condition = createCondition();
@@ -78,6 +87,9 @@ public class RuleDaoTest extends AbstractJPATest {
 		assertNotNull(ruleDAO.findConditionById(condition.getId()));
 	}
 
+	/**
+	 * Find condition by rule id test.
+	 */
 	@Test
 	public void findConditionByRuleIdTest() {
 		Rule rule = createRule();
@@ -86,6 +98,9 @@ public class RuleDaoTest extends AbstractJPATest {
 		assertNotNull(ruleDAO.findConditionByRuleId(rule.getId()));
 	}
 
+	/**
+	 * Find expression by condition id test.
+	 */
 	@Test
 	public void findExpressionByConditionIdTest() {
 		Condition condition = createCondition();
@@ -94,6 +109,9 @@ public class RuleDaoTest extends AbstractJPATest {
 		assertNotNull(ruleDAO.findExpressionByConditionId(condition.getId()));
 	}
 
+	/**
+	 * Find expression by id test.
+	 */
 	@Test
 	public void findExpressionByIdTest() {
 		Expression expression = createExpression();
@@ -102,6 +120,9 @@ public class RuleDaoTest extends AbstractJPATest {
 		assertNotNull(ruleDAO.findExpressionById(expression.getId()));
 	}
 
+	/**
+	 * Find expression by name test.
+	 */
 	@Test
 	public void findExpressionByNameTest() {
 		Expression expression = createExpression();
@@ -110,6 +131,9 @@ public class RuleDaoTest extends AbstractJPATest {
 		assertNotNull(ruleDAO.findExpressionByName(expression.getName()));
 	}
 
+	/**
+	 * Find primitive value by expression id test.
+	 */
 	@Test
 	public void findPrimitiveValueByExpressionIdTest() {
 		Expression expression = createExpression();
@@ -119,6 +143,9 @@ public class RuleDaoTest extends AbstractJPATest {
 				.getId()));
 	}
 
+	/**
+	 * Find primitive value by id test.
+	 */
 	@Test
 	public void findPrimitiveValueByIdTest() {
 		PrimitiveValue primitiveValue = createPrimitiveValue();
@@ -128,6 +155,9 @@ public class RuleDaoTest extends AbstractJPATest {
 
 	}
 
+	/**
+	 * Find rule by id test.
+	 */
 	@Test
 	public void findRuleByIdTest() {
 		Rule rule = createRule();
@@ -136,6 +166,9 @@ public class RuleDaoTest extends AbstractJPATest {
 		assertNotNull(ruleDAO.findRuleById(rule.getId()));
 	}
 
+	/**
+	 * Find rule by name test.
+	 */
 	@Test
 	public void findRuleByNameTest() {
 		Rule rule = createRule();
@@ -144,6 +177,9 @@ public class RuleDaoTest extends AbstractJPATest {
 		assertNotNull(ruleDAO.findRuleByName(rule.getRuleName()));
 	}
 
+	/**
+	 * Persist condition test.
+	 */
 	@Test
 	public void persistConditionTest() {
 		Condition condition = createCondition();
@@ -152,6 +188,9 @@ public class RuleDaoTest extends AbstractJPATest {
 
 	}
 
+	/**
+	 * Persist expression test.
+	 */
 	@Test
 	public void persistExpressionTest() {
 		Expression expression = createExpression();
@@ -160,6 +199,9 @@ public class RuleDaoTest extends AbstractJPATest {
 
 	}
 
+	/**
+	 * Persist primitive value test.
+	 */
 	@Test
 	public void persistPrimitiveValueTest() {
 		PrimitiveValue primitiveValue = createPrimitiveValue();
@@ -168,6 +210,9 @@ public class RuleDaoTest extends AbstractJPATest {
 
 	}
 
+	/**
+	 * Persist rule test.
+	 */
 	@Test
 	public void persistRuleTest() {
 		Rule rule = createRule();
@@ -176,6 +221,9 @@ public class RuleDaoTest extends AbstractJPATest {
 
 	}
 
+	/**
+	 * Removes the primitive value.
+	 */
 	@Test
 	public void removePrimitiveValue() {
 		PrimitiveValue primitiveValue = createPrimitiveValue();
@@ -187,6 +235,9 @@ public class RuleDaoTest extends AbstractJPATest {
 
 	}
 
+	/**
+	 * Removes the rule.
+	 */
 	@Test
 	public void removeRule() {
 		Rule rule = createRule();
@@ -199,6 +250,9 @@ public class RuleDaoTest extends AbstractJPATest {
 		assertNull(ruleDAO.findRuleByName(name));
 	}
 
+	/**
+	 * Checks if is rule name used test.
+	 */
 	@Test
 	public void isRuleNameUsedTest() {
 		Rule rule = createRule();
@@ -210,6 +264,9 @@ public class RuleDaoTest extends AbstractJPATest {
 
 
 
+	/**
+	 * Checks if is rule valid test.
+	 */
 	@Test
 	public void isRuleValidTest() {
 		Rule rule = createRule();

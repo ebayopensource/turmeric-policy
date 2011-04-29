@@ -19,11 +19,21 @@ import org.ebayopensource.turmeric.runtime.common.impl.utils.LogManager;
 import org.ebayopensource.turmeric.security.v1.services.SubjectGroup;
 
 
+/**
+ * The Class PolicyServiceUtils.
+ */
 public class PolicyServiceUtils
 {
 	private static Logger s_Logger = LogManager.getInstance(PolicyServiceUtils.class);
 	
 
+	/**
+	 * Gets the subject group id.
+	 * 
+	 * @param sg
+	 *            the sg
+	 * @return the subject group id
+	 */
 	public static Long getSubjectGroupId(SubjectGroup sg )
 	{	
 		SubjectMatchType matchType = sg.getSubjectMatch();
@@ -31,6 +41,13 @@ public class PolicyServiceUtils
 		return getIdFromSubjectMatch(matchType);
 	}
 	
+	/**
+	 * Gets the id from subject match.
+	 * 
+	 * @param matchType
+	 *            the match type
+	 * @return the id from subject match
+	 */
 	public static Long getIdFromSubjectMatch(SubjectMatchType matchType)
 	{
 		Long subjectId = null;

@@ -28,13 +28,17 @@ import org.ebayopensource.turmeric.utils.jpa.PersistenceContext;
 
 
 /**
+ * The Class GroupMembershipProviderImpl.
+ * 
  * @author mgorovoy
- *
  */
 public class GroupMembershipProviderImpl implements GroupMembershipProvider {
     private final EntityManagerFactory factory;
     private final GroupMembershipProvider impl;
      
+    /**
+	 * Instantiates a new group membership provider impl.
+	 */
     public GroupMembershipProviderImpl() {
         factory = PersistenceContext.createEntityManagerFactory("policyservice");
         
@@ -126,18 +130,27 @@ public class GroupMembershipProviderImpl implements GroupMembershipProvider {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.groupmembershipservice.provider.GroupMembershipProvider#getSubjectGroupsBySubject(org.ebayopensource.turmeric.security.v1.services.SubjectType)
+     */
     @Override
     public List<SubjectGroupType> getSubjectGroupsBySubject(SubjectType subject)
                     throws GroupMembershipException {
         return impl.getSubjectGroupsBySubject(subject);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.groupmembershipservice.provider.GroupMembershipProvider#getSubjectGroupByKey(org.ebayopensource.turmeric.security.v1.services.SubjectGroupKeyType)
+     */
     @Override
     public GroupMembersType getSubjectGroupByKey(SubjectGroupKeyType subjectGroupKey)
                     throws GroupMembershipException {
         return impl.getSubjectGroupByKey(subjectGroupKey);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.groupmembershipservice.provider.GroupMembershipProvider#getCalculatedSubjectGroup(org.ebayopensource.turmeric.security.v1.services.SubjectGroupType)
+     */
     @Override
     public SubjectGroupType getCalculatedSubjectGroup(SubjectGroupType subjectGroup)
                     throws GroupMembershipException {

@@ -20,6 +20,9 @@ import javax.persistence.ManyToMany;
 
 import org.ebayopensource.turmeric.utils.jpa.model.AuditablePersistent;
 
+/**
+ * The Class Policy.
+ */
 @Entity
 public class Policy extends AuditablePersistent{
     private String policyName;
@@ -50,39 +53,108 @@ public class Policy extends AuditablePersistent{
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Rule> rules = new ArrayList<Rule>();
 
+	/**
+	 * Instantiates a new policy.
+	 */
 	public Policy() {}
     
+    /**
+	 * Instantiates a new policy.
+	 * 
+	 * @param policyName
+	 *            the policy name
+	 * @param policyType
+	 *            the policy type
+	 * @param description
+	 *            the description
+	 */
     public Policy(String policyName, String policyType, String description) {
         this.policyName = policyName;
         this.policyType = policyType;
         this.description = description;
     }
     
+    /**
+	 * Gets the policy name.
+	 * 
+	 * @return the policy name
+	 */
     public String getPolicyName() {
         return policyName;
     }
+    
+    /**
+	 * Sets the policy name.
+	 * 
+	 * @param policyName
+	 *            the new policy name
+	 */
     public void setPolicyName(String policyName) {
         this.policyName = policyName;
     }
+    
+    /**
+	 * Gets the policy type.
+	 * 
+	 * @return the policy type
+	 */
     public String getPolicyType() {
         return policyType;
     }
+    
+    /**
+	 * Sets the policy type.
+	 * 
+	 * @param policyType
+	 *            the new policy type
+	 */
     public void setPolicyType(String policyType) {
         this.policyType = policyType;
     }
+    
+    /**
+	 * Gets the description.
+	 * 
+	 * @return the description
+	 */
     public String getDescription() {
         return description;
     }
+    
+    /**
+	 * Sets the description.
+	 * 
+	 * @param description
+	 *            the new description
+	 */
     public void setDescription(String description) {
         this.description = description;
     }
+    
+    /**
+	 * Checks if is active.
+	 * 
+	 * @return true, if is active
+	 */
     public boolean isActive() {
         return active;
     }
+    
+    /**
+	 * Sets the active.
+	 * 
+	 * @param active
+	 *            the new active
+	 */
     public void setActive(boolean active) {
         this.active = active;
     }
 
+    /**
+	 * Gets the resources.
+	 * 
+	 * @return the resources
+	 */
     public List<Resource> getResources() {
         if (resources == null) {
             resources = new ArrayList<Resource>();
@@ -90,6 +162,11 @@ public class Policy extends AuditablePersistent{
         return resources;
     }
     
+    /**
+	 * Gets the operations.
+	 * 
+	 * @return the operations
+	 */
     public List<Operation> getOperations() {
         if (operations == null) {
             operations = new ArrayList<Operation>();
@@ -97,6 +174,11 @@ public class Policy extends AuditablePersistent{
         return operations;
     }
     
+    /**
+	 * Gets the subjects.
+	 * 
+	 * @return the subjects
+	 */
     public List<Subject> getSubjects() {
         if (subjects == null) {
             subjects = new ArrayList<Subject>();
@@ -104,6 +186,11 @@ public class Policy extends AuditablePersistent{
         return subjects;
     }
     
+    /**
+	 * Gets the subject groups.
+	 * 
+	 * @return the subject groups
+	 */
     public List<SubjectGroup> getSubjectGroups() {
         if (subjectGroups == null) {
             subjectGroups = new ArrayList<SubjectGroup>();
@@ -111,6 +198,11 @@ public class Policy extends AuditablePersistent{
         return subjectGroups;
     }
 
+    /**
+	 * Gets the exclusion subjects.
+	 * 
+	 * @return the exclusion subjects
+	 */
     public List<Subject> getExclusionSubjects() {
         if (exclusionSubjects == null) {
             exclusionSubjects = new ArrayList<Subject>();
@@ -118,6 +210,11 @@ public class Policy extends AuditablePersistent{
         return exclusionSubjects;
     }
 
+    /**
+	 * Gets the exclusion subject groups.
+	 * 
+	 * @return the exclusion subject groups
+	 */
     public List<SubjectGroup> getExclusionSubjectGroups() {
         if (exclusionSubjectGroups == null) {
             exclusionSubjectGroups = new ArrayList<SubjectGroup>();
@@ -125,6 +222,11 @@ public class Policy extends AuditablePersistent{
         return exclusionSubjectGroups;
     }
     
+    /**
+	 * Gets the rules.
+	 * 
+	 * @return the rules
+	 */
     public List<Rule> getRules() {
         if (rules == null) {
             rules = new ArrayList<Rule>();

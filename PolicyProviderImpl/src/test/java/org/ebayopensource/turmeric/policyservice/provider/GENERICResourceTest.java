@@ -29,6 +29,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+/**
+ * The Class GENERICResourceTest.
+ */
 public class GENERICResourceTest extends ResourceTestBase {
 
 	private OperationEditObject operationEditObject;
@@ -37,6 +40,9 @@ public class GENERICResourceTest extends ResourceTestBase {
 	private Resource resource;
 	private SubjectKey userKey;
 
+	/**
+	 * Setup.
+	 */
 	@Before
 	public void setup() {
 		operationEditObject = EasyMock.createMock(OperationEditObject.class);
@@ -46,6 +52,12 @@ public class GENERICResourceTest extends ResourceTestBase {
 				"GENERIC");
 	}
 
+	/**
+	 * Creates the resource test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void createResourceTest() throws Exception {
 
@@ -79,6 +91,12 @@ public class GENERICResourceTest extends ResourceTestBase {
 
 	}
 
+	/**
+	 * Update resource test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void updateResourceTest() throws Exception {
 
@@ -140,6 +158,12 @@ public class GENERICResourceTest extends ResourceTestBase {
 
 	}
 
+	/**
+	 * Delete resource test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void deleteResourceTest() throws Exception {
 
@@ -172,6 +196,12 @@ public class GENERICResourceTest extends ResourceTestBase {
 		}
 	}
 
+	/**
+	 * Creates the empty resource test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void createEmptyResourceTest() throws Exception {
 		userKey = getUserKey("jdoe");
@@ -200,6 +230,12 @@ public class GENERICResourceTest extends ResourceTestBase {
 		}
 	}
 
+	/**
+	 * Creates the another empty resource test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void createAnotherEmptyResourceTest() throws Exception {
 		userKey = getUserKey("jdoe");

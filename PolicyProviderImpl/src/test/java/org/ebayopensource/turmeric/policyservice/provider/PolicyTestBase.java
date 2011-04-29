@@ -23,6 +23,9 @@ import org.ebayopensource.turmeric.utils.jpa.AbstractDAO;
 import org.ebayopensource.turmeric.utils.jpa.JPAAroundAdvice;
 import org.junit.Before;
 
+/**
+ * The Class PolicyTestBase.
+ */
 public abstract class PolicyTestBase extends AbstractJPATest{
     private TestDAO testDAO;
     
@@ -54,6 +57,9 @@ public abstract class PolicyTestBase extends AbstractJPATest{
         {"globalwl", "WHITELIST", "Global Whitelist Polic0y"},
     };
     
+    /**
+	 * Inits the dao.
+	 */
     @Before
     public void initDAO() {
         ClassLoader classLoader = TestDAO.class.getClassLoader();
@@ -64,6 +70,9 @@ public abstract class PolicyTestBase extends AbstractJPATest{
         initDatabase();
     }
     
+    /**
+	 * Inits the database.
+	 */
     protected void initDatabase() {
         for (String[] subjectField : subjectData) {
             testDAO.persistEntity(new Subject(subjectField[0], subjectField[1], subjectField[2], subjectField[3], 0, subjectField[4]));
@@ -92,11 +101,28 @@ public abstract class PolicyTestBase extends AbstractJPATest{
         }
     }
 
+    /**
+	 * The Interface TestDAO.
+	 */
     public static interface TestDAO {
+        
+        /**
+		 * Persist entity.
+		 * 
+		 * @param entity
+		 *            the entity
+		 */
         public void persistEntity(Object entity);
     }
     
+    /**
+	 * The Class TestDAOImpl.
+	 */
     public static class TestDAOImpl extends AbstractDAO implements TestDAO{
+        
+        /* (non-Javadoc)
+         * @see org.ebayopensource.turmeric.utils.jpa.AbstractDAO#persistEntity(java.lang.Object)
+         */
         public void persistEntity(Object entity) {
             try {
                 super.persistEntity(entity);

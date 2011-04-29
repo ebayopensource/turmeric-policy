@@ -13,10 +13,19 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+/**
+ * The Class AuthenticationFilePolicyProviderTest.
+ */
 public class AuthenticationFilePolicyProviderTest {
 
 	private AuthenticationPolicyProvider policyProvider;
 	
+	/**
+	 * Test get authn policy by resource_ default configs.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void testGetAuthnPolicyByResource_DefaultConfigs() throws Exception {
 		policyProvider = new AuthenticationFilePolicyProvider();
@@ -24,6 +33,12 @@ public class AuthenticationFilePolicyProviderTest {
 		testGetAuthnPolicyByResourceCommonScenarios();
 	}
 	
+	/**
+	 * Test get authn policy by resource_ custom configs.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void testGetAuthnPolicyByResource_CustomConfigs() throws Exception {
 		policyProvider = new AuthenticationFilePolicyProvider("AnotherAuthenticationPolicy.xml", "AuthenticationPolicy.xsd", "authentication-policy");

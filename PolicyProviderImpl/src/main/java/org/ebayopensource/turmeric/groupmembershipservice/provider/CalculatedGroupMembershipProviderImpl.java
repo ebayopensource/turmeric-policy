@@ -14,15 +14,22 @@ import org.ebayopensource.turmeric.utils.config.impl.BaseFilePolicyProvider;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+/**
+ * The Class CalculatedGroupMembershipProviderImpl.
+ */
 public class CalculatedGroupMembershipProviderImpl extends
 		BaseFilePolicyProvider {
 	
+	/** The Constant CALCULATED_SUBJECT_GROUP_CONFIG_FILENAME. */
 	protected static final String CALCULATED_SUBJECT_GROUP_CONFIG_FILENAME = "CalculatedSubjectGroupConfig.xml";
 
+	/** The Constant CALCULATED_SUBJECT_GROUP_CONFIG_SCHEMA. */
 	protected static final String CALCULATED_SUBJECT_GROUP_CONFIG_SCHEMA = "CalculatedSubjectGroupConfig.xsd";
 
+	/** The Constant CALCULATED_SUBJECT_GROUP_CONFIG_ROOT_ELEMENT. */
 	protected static final String CALCULATED_SUBJECT_GROUP_CONFIG_ROOT_ELEMENT = "subject-group-config";
 
+	/** The m_subject group to subject group class info cache. */
 	protected Map<String, SubjectGroupType> m_subjectGroupToSubjectGroupClassInfoCache = new HashMap<String, SubjectGroupType>();
 	
 	private static Logger s_logger = LogManager.getInstance(CalculatedGroupMembershipProviderImpl.class);
@@ -32,26 +39,43 @@ public class CalculatedGroupMembershipProviderImpl extends
 	private CalculatedGroupMembershipProviderImpl() {	
 	}
 	
+	/**
+	 * Gets the single instance of CalculatedGroupMembershipProviderImpl.
+	 * 
+	 * @return single instance of CalculatedGroupMembershipProviderImpl
+	 */
 	public static CalculatedGroupMembershipProviderImpl getInstance() {
 		return s_instance;
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.utils.config.impl.BaseFilePolicyProvider#getPolicyFileName()
+	 */
 	@Override
 	protected String getPolicyFileName() {
 		return m_policyPath  + CALCULATED_SUBJECT_GROUP_CONFIG_FILENAME;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.utils.config.impl.BaseFilePolicyProvider#getPolicyRootElement()
+	 */
 	@Override
 	protected String getPolicyRootElement() {
 		return CALCULATED_SUBJECT_GROUP_CONFIG_ROOT_ELEMENT;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.utils.config.impl.BaseFilePolicyProvider#getPolicySchemaName()
+	 */
 	@Override
 	protected String getPolicySchemaName() {
 		return m_schemaPath + CALCULATED_SUBJECT_GROUP_CONFIG_SCHEMA;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.utils.config.impl.BaseFilePolicyProvider#mapPolicyData(org.w3c.dom.Element)
+	 */
 	@Override
 	protected void mapPolicyData(Element policyData)
 			throws PolicyProviderException {
@@ -96,24 +120,51 @@ public class CalculatedGroupMembershipProviderImpl extends
 		
 	}
 	
+	/**
+	 * Gets the calculated subject group config file name.
+	 * 
+	 * @return the calculated subject group config file name
+	 */
 	public String getCalculatedSubjectGroupConfigFileName() {
 		return m_policyPath + CALCULATED_SUBJECT_GROUP_CONFIG_FILENAME;
 	}
 
+	/**
+	 * Gets the calculated subject group config schema name.
+	 * 
+	 * @return the calculated subject group config schema name
+	 */
 	public String getCalculatedSubjectGroupConfigSchemaName() {
 		return m_schemaPath + CALCULATED_SUBJECT_GROUP_CONFIG_SCHEMA;
 	}
 
+	/**
+	 * Gets the calculated subject group config root element.
+	 * 
+	 * @return the calculated subject group config root element
+	 */
 	public String getCalculatedSubjectGroupConfigRootElement() {
 		return CALCULATED_SUBJECT_GROUP_CONFIG_ROOT_ELEMENT;
 	}
 
+	/**
+	 * Gets the calculated sg.
+	 * 
+	 * @param subjectGroup
+	 *            the subject group
+	 * @return the calculated sg
+	 */
 	public SubjectGroupType getCalculatedSG(SubjectGroupType subjectGroup) {
 
 		return m_subjectGroupToSubjectGroupClassInfoCache.get(subjectGroup.getCalculator());
 		
 	}
 	
+	/**
+	 * Gets the all calculated s gs.
+	 * 
+	 * @return the all calculated s gs
+	 */
 	public Collection<SubjectGroupType> getAllCalculatedSGs() {
 		return m_subjectGroupToSubjectGroupClassInfoCache.values();
 	}

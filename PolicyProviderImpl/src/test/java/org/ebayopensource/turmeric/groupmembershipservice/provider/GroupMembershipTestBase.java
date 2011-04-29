@@ -20,6 +20,9 @@ import org.ebayopensource.turmeric.utils.jpa.AbstractDAO;
 import org.ebayopensource.turmeric.utils.jpa.JPAAroundAdvice;
 import org.junit.Before;
 
+/**
+ * The Class GroupMembershipTestBase.
+ */
 public abstract class GroupMembershipTestBase extends AbstractJPATest{
     private TestDAO testDAO;
     private static final String[][] typeData = {
@@ -42,6 +45,9 @@ public abstract class GroupMembershipTestBase extends AbstractJPATest{
         {"Admins", "USER", "Administrators", "1"},
     };
     
+    /**
+	 * Inits the dao.
+	 */
     @Before
     public void initDAO() {
         ClassLoader classLoader = TestDAO.class.getClassLoader();
@@ -52,6 +58,9 @@ public abstract class GroupMembershipTestBase extends AbstractJPATest{
         initDatabase();
     }
     
+    /**
+	 * Inits the database.
+	 */
     protected void initDatabase() {
         for (String[] type : typeData) {
             testDAO.persistEntity(new SubjectType(type[0], type[1], false));
@@ -77,11 +86,28 @@ public abstract class GroupMembershipTestBase extends AbstractJPATest{
             
     }
 
+    /**
+	 * The Interface TestDAO.
+	 */
     public static interface TestDAO {
+        
+        /**
+		 * Persist entity.
+		 * 
+		 * @param entity
+		 *            the entity
+		 */
         public void persistEntity(Object entity);
     }
     
+    /**
+	 * The Class TestDAOImpl.
+	 */
     public static class TestDAOImpl extends AbstractDAO implements TestDAO{
+        
+    	/**
+    	 * {@inheritDoc}
+    	 */
         public void persistEntity(Object entity) {
             try {
                 super.persistEntity(entity);

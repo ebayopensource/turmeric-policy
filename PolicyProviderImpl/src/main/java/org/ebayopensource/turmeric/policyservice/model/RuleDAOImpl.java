@@ -12,51 +12,79 @@ package org.ebayopensource.turmeric.policyservice.model;
 import org.ebayopensource.turmeric.utils.jpa.AbstractDAO;
 
 /**
- * @author muguerza
+ * The Class RuleDAOImpl.
  * 
+ * @author muguerza
  */
 public class RuleDAOImpl extends AbstractDAO implements RuleDAO {
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.model.RuleDAO#persistRule(org.ebayopensource.turmeric.policyservice.model.Rule)
+	 */
 	@Override
 	public void persistRule(Rule rule) {
 		persistEntity(rule);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.model.RuleDAO#persistCondition(org.ebayopensource.turmeric.policyservice.model.Condition)
+	 */
 	@Override
 	public void persistCondition(Condition condition) {
 		persistEntity(condition);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.model.RuleDAO#persistExpression(org.ebayopensource.turmeric.policyservice.model.Expression)
+	 */
 	@Override
 	public void persistExpression(Expression expression) {
 		persistEntity(expression);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.model.RuleDAO#persistPrimitiveValue(org.ebayopensource.turmeric.policyservice.model.PrimitiveValue)
+	 */
 	@Override
 	public void persistPrimitiveValue(PrimitiveValue primitiveValue) {
 		persistEntity(primitiveValue);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.model.RuleDAO#findRuleById(long)
+	 */
 	@Override
 	public Rule findRuleById(long id) {
 		return findEntity(Rule.class, id);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.model.RuleDAO#findConditionById(long)
+	 */
 	@Override
 	public Condition findConditionById(long conditionId) {
 		return findEntity(Condition.class, conditionId);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.model.RuleDAO#findExpressionById(long)
+	 */
 	@Override
 	public Expression findExpressionById(long expressionId) {
 		return findEntity(Expression.class, expressionId);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.model.RuleDAO#findPrimitiveValueById(long)
+	 */
 	@Override
 	public PrimitiveValue findPrimitiveValueById(long primitiveValueId) {
 		return findEntity(PrimitiveValue.class, primitiveValueId);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.model.RuleDAO#findConditionByRuleId(long)
+	 */
 	@Override
 	public Condition findConditionByRuleId(long ruleId) {
 		Rule rule = findRuleById(ruleId);
@@ -66,6 +94,9 @@ public class RuleDAOImpl extends AbstractDAO implements RuleDAO {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.model.RuleDAO#findExpressionByConditionId(long)
+	 */
 	@Override
 	public Expression findExpressionByConditionId(long conditionId) {
 		Condition condition = findConditionById(conditionId);
@@ -75,6 +106,9 @@ public class RuleDAOImpl extends AbstractDAO implements RuleDAO {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.model.RuleDAO#findPrimitiveValueByExpressionId(long)
+	 */
 	@Override
 	public PrimitiveValue findPrimitiveValueByExpressionId(long expressionId) {
 		Expression expression = findExpressionById(expressionId);
@@ -84,28 +118,43 @@ public class RuleDAOImpl extends AbstractDAO implements RuleDAO {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.model.RuleDAO#findExpressionByName(java.lang.String)
+	 */
 	@Override
 	public Expression findExpressionByName(String expressionName) {
 		return getSingleResultOrNull(Expression.class, "name", expressionName);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.model.RuleDAO#removeRule(long)
+	 */
 	@Override
 	public void removeRule(long ruleId) {
 		removeEntity(Rule.class, ruleId);
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.model.RuleDAO#removePrimitiveValue(long)
+	 */
 	@Override
 	public void removePrimitiveValue(long primitiveValueId) {
 		removeEntity(PrimitiveValue.class, primitiveValueId);
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.model.RuleDAO#findRuleByName(java.lang.String)
+	 */
 	@Override
 	public Rule findRuleByName(String name) {
 		return getSingleResultOrNull(Rule.class, "ruleName", name);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.model.RuleDAO#isRuleNameUsed(java.lang.String)
+	 */
 	@Override
 	public boolean isRuleNameUsed(String ruleName) {
 		return findRuleByName(ruleName) != null;
@@ -113,6 +162,9 @@ public class RuleDAOImpl extends AbstractDAO implements RuleDAO {
 
 
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.model.RuleDAO#isRuleValid(org.ebayopensource.turmeric.policyservice.model.Rule, boolean)
+	 */
 	@Override
 	public boolean isRuleValid(Rule rule,boolean allowNull) {
 		// value should not be null as well as the type

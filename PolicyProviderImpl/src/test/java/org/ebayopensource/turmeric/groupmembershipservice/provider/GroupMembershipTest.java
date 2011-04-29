@@ -11,7 +11,17 @@ import org.ebayopensource.turmeric.security.v1.services.SubjectGroupType;
 import org.ebayopensource.turmeric.security.v1.services.SubjectType;
 import org.junit.Test;
 
+/**
+ * The Class GroupMembershipTest.
+ */
 public class GroupMembershipTest extends GroupMembershipTestBase {
+    
+    /**
+	 * Gets the subject groups by subject test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
     @Test
     public void getSubjectGroupsBySubjectTest() throws Exception {
         SubjectType adminSubject = new SubjectType();
@@ -31,6 +41,12 @@ public class GroupMembershipTest extends GroupMembershipTestBase {
         assertEquals("Everyone", groups.get(0).getName());
     }
 
+    /**
+	 * Gets the subject group by key.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
     @Test
     public void getSubjectGroupByKey() throws Exception {
         SubjectGroupKeyType subjectGroupKey = new SubjectGroupKeyType();

@@ -23,6 +23,9 @@ import org.ebayopensource.turmeric.utils.jpa.JPAAroundAdvice;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * The Class ResourceDAOTest.
+ */
 public class ResourceDAOTest extends AbstractJPATest {
 
 	private ResourceDAO resourceDAO;
@@ -42,6 +45,9 @@ public class ResourceDAOTest extends AbstractJPATest {
 	private static final String SERVICE_TYPE = "SERVICE";
 	private static final String GENERIC_TYPE = "GENERIC";
 
+	/**
+	 * Inits the dao.
+	 */
 	@Before
 	public void initDAO() {
 		ClassLoader classLoader = ResourceDAO.class.getClassLoader();
@@ -65,6 +71,12 @@ public class ResourceDAOTest extends AbstractJPATest {
 		op4 = new Operation("operation_name_4", "op_description_4");
 	}
 
+	/**
+	 * Test persist resource.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void testPersistResource() throws Exception {
 
@@ -82,6 +94,12 @@ public class ResourceDAOTest extends AbstractJPATest {
 		}
 	}
 
+	/**
+	 * Test persist operation.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void testPersistOperation() throws Exception {
 
@@ -99,6 +117,12 @@ public class ResourceDAOTest extends AbstractJPATest {
 		}
 	}
 
+	/**
+	 * Test find resource by id.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void testFindResourceById() throws Exception {
 		resourceDAO.persistResource(rs1);
@@ -108,6 +132,12 @@ public class ResourceDAOTest extends AbstractJPATest {
 		assertEquals("resource_name_1", resource.getResourceName());
 	}
 
+	/**
+	 * Test find resource by type.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void testFindResourceByType() throws Exception {
 
@@ -120,6 +150,12 @@ public class ResourceDAOTest extends AbstractJPATest {
 		assertEquals(2, resources.size());
 	}
 
+	/**
+	 * Test find resource by name.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void testFindResourceByName() throws Exception {
 
@@ -132,6 +168,12 @@ public class ResourceDAOTest extends AbstractJPATest {
 		assertEquals("resource_name_2", resource.getResourceName());
 	}
 
+	/**
+	 * Test find operation by id.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void testFindOperationById() throws Exception {
 		resourceDAO.persistOperation(op1);
@@ -141,6 +183,12 @@ public class ResourceDAOTest extends AbstractJPATest {
 		assertEquals("operation_name_1", operation.getOperationName());
 	}
 
+	/**
+	 * Find operation by name.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void findOperationByName() throws Exception {
 
@@ -157,6 +205,12 @@ public class ResourceDAOTest extends AbstractJPATest {
 		assertEquals("operation_name_2", operation.getOperationName());
 	}
 	
+	/**
+	 * Find operation by name service typetest.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void findOperationByNameServiceTypetest() throws Exception {
 
@@ -174,6 +228,12 @@ public class ResourceDAOTest extends AbstractJPATest {
 		assertEquals("operation_name_4", operation.getOperationName());
 	}
 
+	/**
+	 * Find operation by resource id.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void findOperationByResourceId() throws Exception {
 		Set<Operation> operations_for_rs1 = new HashSet<Operation>();
@@ -196,6 +256,12 @@ public class ResourceDAOTest extends AbstractJPATest {
 
 	}
 
+	/**
+	 * Find resource by operation id.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void findResourceByOperationId() throws Exception {
 		Set<Operation> operations = new HashSet<Operation>();
@@ -211,6 +277,12 @@ public class ResourceDAOTest extends AbstractJPATest {
 		assertEquals("resource_name_1", resource.getResourceName());
 	}
 
+	/**
+	 * Removes the resource.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void removeResource() throws Exception {
 		Set<Operation> operations = new HashSet<Operation>();
@@ -240,6 +312,12 @@ public class ResourceDAOTest extends AbstractJPATest {
 
 	}
 
+	/**
+	 * Removes the operation.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void removeOperation() throws Exception {
         EntityManagerContext.open(factory);

@@ -35,7 +35,17 @@ import org.ebayopensource.turmeric.security.v1.services.SupportedPrimitive;
 import org.ebayopensource.turmeric.utils.jpa.EntityManagerContext;
 import org.junit.Test;
 
+/**
+ * The Class RLPolicyTest.
+ */
 public class RLPolicyTest extends PolicyTestBase {
+    
+    /**
+	 * Creates the policy test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
     @Test
     public void createPolicyTest() throws Exception {
         SubjectKey userKey = getUserKey("jdoe");
@@ -152,6 +162,13 @@ public class RLPolicyTest extends PolicyTestBase {
         
         return userKey;        
     }
+	
+	/**
+	 * Checks if is rule name used test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void isRuleNameUsedTest() throws Exception{
 	       SubjectKey userKey = getUserKey("jdoe");
@@ -175,6 +192,13 @@ public class RLPolicyTest extends PolicyTestBase {
 	        assertTrue(rule.getRuleName()+" should  be present in db ",rlp.isRuleNameUsed(rule.getRuleName()));
 		  
 	}
+	
+	/**
+	 * Checks if is rule required test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void isRuleRequiredTest() throws Exception{
 		RLPolicy rlp = new RLPolicy();
@@ -183,6 +207,13 @@ public class RLPolicyTest extends PolicyTestBase {
 		assertTrue(rlp.isRuleRequired());
 		assertFalse(policy.isRuleRequired());		  
 	}
+	
+	/**
+	 * Checks if is rule valid.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Test
 	public void isRuleValid() throws Exception{
 		RLPolicy rlp = new RLPolicy();

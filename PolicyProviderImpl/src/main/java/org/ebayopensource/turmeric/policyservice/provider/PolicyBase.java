@@ -43,9 +43,27 @@ import org.ebayopensource.turmeric.security.v1.services.SubjectKey;
 import org.ebayopensource.turmeric.security.v1.services.SubjectTypeInfo;
 
 
+/**
+ * The Class PolicyBase.
+ */
 public abstract class PolicyBase implements PolicyTypeProvider {
+	
+	/**
+	 * Gets the policy type.
+	 * 
+	 * @return the policy type
+	 */
 	protected abstract String getPolicyType();
 	
+	/**
+	 * Gets the query value.
+	 * 
+	 * @param queryCondition
+	 *            the query condition
+	 * @param queryType
+	 *            the query type
+	 * @return the query value
+	 */
 	protected String getQueryValue(QueryCondition queryCondition,
             String queryType) {
         if (queryCondition != null) {
@@ -57,9 +75,9 @@ public abstract class PolicyBase implements PolicyTypeProvider {
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#createPolicy(org.ebayopensource.turmeric.services.Policy, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List)
-     */
+	/**
+	 * {@inheritDoc}
+	 */
     public PolicyKey createPolicy(
             Policy inputPolicy,
             PolicyEditObject policyEditObject,
@@ -78,8 +96,8 @@ public abstract class PolicyBase implements PolicyTypeProvider {
         }
     }
 
-	/* (non-Javadoc)
-     * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#updatePolicy(java.lang.Long, org.ebayopensource.turmeric.services.Policy, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List)
+    /**
+     * {@inheritDoc}
      */
     public PolicyKey updatePolicy(
             Policy inputPolicy,
@@ -113,6 +131,21 @@ public abstract class PolicyBase implements PolicyTypeProvider {
 
     }
 
+	/**
+	 * Update resources of policy.
+	 * 
+	 * @param policyId
+	 *            the policy id
+	 * @param resourcesEditObject
+	 *            the resources edit object
+	 * @return true, if successful
+	 * @throws PolicyCreationException
+	 *             the policy creation exception
+	 * @throws PolicyUpdateException
+	 *             the policy update exception
+	 * @throws PolicyDeleteException
+	 *             the policy delete exception
+	 */
 	protected boolean updateResourcesOfPolicy(
             Long policyId,
             ResourcesEditObject resourcesEditObject)
@@ -154,6 +187,21 @@ public abstract class PolicyBase implements PolicyTypeProvider {
         return isModified;
     }
 
+	/**
+	 * Update subjects of policy.
+	 * 
+	 * @param policyId
+	 *            the policy id
+	 * @param policyEditObject
+	 *            the policy edit object
+	 * @return true, if successful
+	 * @throws PolicyCreationException
+	 *             the policy creation exception
+	 * @throws PolicyUpdateException
+	 *             the policy update exception
+	 * @throws PolicyDeleteException
+	 *             the policy delete exception
+	 */
 	protected boolean updateSubjectsOfPolicy(
             Long policyId,
             SubjectsEditObject policyEditObject)
@@ -237,6 +285,9 @@ public abstract class PolicyBase implements PolicyTypeProvider {
         return isModified;
     }
 
+	/**
+	 * {@inheritDoc}
+	 */
     public PolicyBuilderObject applyQueryCondition(
             PolicyBuilderObject builderObject,
             QueryCondition queryCondition) {
@@ -282,6 +333,15 @@ public abstract class PolicyBase implements PolicyTypeProvider {
         return builderObject;
     }
 
+    /**
+	 * Mask ids.
+	 * 
+	 * @param <T>
+	 *            the generic type
+	 * @param objs
+	 *            the objs
+	 * @return the map
+	 */
     protected <T> Map<Long, T> maskIds(Map<Long, T> objs) {
         Map<Long, T> maskedObjs = new HashMap<Long, T>();
         for (Long id : objs.keySet()) {
@@ -291,65 +351,253 @@ public abstract class PolicyBase implements PolicyTypeProvider {
         return maskedObjs;
     }
 
+    /**
+	 * Mask high order bits.
+	 * 
+	 * @param l
+	 *            the l
+	 * @return the long
+	 */
     protected Long maskHighOrderBits(Long l) {
         return Long.valueOf(l.intValue() & 0x7fffffff);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public abstract List<EntityHistory> getAuditHistory(PolicyKey policyKey,
                     XMLGregorianCalendar startDate, XMLGregorianCalendar endDate)
                     throws PolicyFinderException;
 
+    /**
+     * {@inheritDoc}
+     */
     public abstract void audit(PolicyKey policyKey, String operationType, SubjectKey loginSubject)
                     throws PolicyFinderException;
 
+    /**
+	 * Creates the policy info.
+	 * 
+	 * @param inputPolicy
+	 *            the input policy
+	 * @param createdBy
+	 *            the created by
+	 * @return the policy key
+	 * @throws PolicyCreationException
+	 *             the policy creation exception
+	 */
     protected abstract PolicyKey createPolicyInfo(Policy inputPolicy, SubjectKey createdBy)
                     throws PolicyCreationException;
 
+    /**
+	 * Update policy info.
+	 * 
+	 * @param inputPolicy
+	 *            the input policy
+	 * @param modifiedBy
+	 *            the modified by
+	 * @return the policy key
+	 * @throws PolicyUpdateException
+	 *             the policy update exception
+	 */
     protected abstract PolicyKey updatePolicyInfo(Policy inputPolicy, SubjectKey modifiedBy)
                     throws PolicyUpdateException;
 
+    /**
+	 * Update rule of policy.
+	 * 
+	 * @param policyId
+	 *            the policy id
+	 * @param removeList
+	 *            the remove list
+	 * @param addList
+	 *            the add list
+	 * @return true, if successful
+	 * @throws PolicyUpdateException
+	 *             the policy update exception
+	 */
     protected abstract boolean updateRuleOfPolicy(Long policyId, List<Rule> removeList,
                     List<Rule> addList) throws PolicyUpdateException;
 
+    /**
+	 * Adds the operation assignment of policy.
+	 * 
+	 * @param policyId
+	 *            the policy id
+	 * @param addOperationList
+	 *            the add operation list
+	 * @throws PolicyUpdateException
+	 *             the policy update exception
+	 */
     protected abstract void addOperationAssignmentOfPolicy(Long policyId,
                     List<Long> addOperationList) throws PolicyUpdateException;
 
+    /**
+	 * Removes the operation assignment of policy.
+	 * 
+	 * @param policyId
+	 *            the policy id
+	 * @param removeOperationList
+	 *            the remove operation list
+	 * @throws PolicyUpdateException
+	 *             the policy update exception
+	 */
     protected abstract void removeOperationAssignmentOfPolicy(Long policyId,
                     List<Long> removeOperationList) throws PolicyUpdateException;
 
+    /**
+	 * Adds the resource assignment of policy.
+	 * 
+	 * @param policyId
+	 *            the policy id
+	 * @param addResourceList
+	 *            the add resource list
+	 * @throws PolicyUpdateException
+	 *             the policy update exception
+	 */
     protected abstract void addResourceAssignmentOfPolicy(Long policyId, List<Long> addResourceList)
                     throws PolicyUpdateException;
 
+    /**
+	 * Removes the resource assignment of policy.
+	 * 
+	 * @param policyId
+	 *            the policy id
+	 * @param removeResourceList
+	 *            the remove resource list
+	 * @throws PolicyUpdateException
+	 *             the policy update exception
+	 */
     protected abstract void removeResourceAssignmentOfPolicy(Long policyId,
                     List<Long> removeResourceList) throws PolicyUpdateException;
 
+    /**
+	 * Adds the exclusion subject group assignment of policy.
+	 * 
+	 * @param policyId
+	 *            the policy id
+	 * @param addExclusionSubjectGroupList
+	 *            the add exclusion subject group list
+	 * @throws PolicyUpdateException
+	 *             the policy update exception
+	 */
     protected abstract void addExclusionSubjectGroupAssignmentOfPolicy(Long policyId,
                     List<Long> addExclusionSubjectGroupList) throws PolicyUpdateException;
 
+    /**
+	 * Removes the exclusion subject group assignment of policy.
+	 * 
+	 * @param policyId
+	 *            the policy id
+	 * @param removeExclusionSubjectGroupList
+	 *            the remove exclusion subject group list
+	 * @throws PolicyUpdateException
+	 *             the policy update exception
+	 */
     protected abstract void removeExclusionSubjectGroupAssignmentOfPolicy(Long policyId,
                     List<Long> removeExclusionSubjectGroupList) throws PolicyUpdateException;
 
+    /**
+	 * Adds the subject group assignment of policy.
+	 * 
+	 * @param policyId
+	 *            the policy id
+	 * @param addSubjectGroupList
+	 *            the add subject group list
+	 * @throws PolicyUpdateException
+	 *             the policy update exception
+	 */
     protected abstract void addSubjectGroupAssignmentOfPolicy(Long policyId,
                     List<Long> addSubjectGroupList) throws PolicyUpdateException;
 
+    /**
+	 * Removes the subject group assignment of policy.
+	 * 
+	 * @param policyId
+	 *            the policy id
+	 * @param removeSubjectGroupList
+	 *            the remove subject group list
+	 * @throws PolicyUpdateException
+	 *             the policy update exception
+	 */
     protected abstract void removeSubjectGroupAssignmentOfPolicy(Long policyId,
                     List<Long> removeSubjectGroupList) throws PolicyUpdateException;
 
+    /**
+	 * Adds the exclusion subject assignment of policy.
+	 * 
+	 * @param policyId
+	 *            the policy id
+	 * @param addExclusionSubjectList
+	 *            the add exclusion subject list
+	 * @throws PolicyUpdateException
+	 *             the policy update exception
+	 */
     protected abstract void addExclusionSubjectAssignmentOfPolicy(Long policyId,
                     List<Long> addExclusionSubjectList) throws PolicyUpdateException;
 
+    /**
+	 * Removes the exclusion subject assignment of policy.
+	 * 
+	 * @param policyId
+	 *            the policy id
+	 * @param removeExclusionSubjectList
+	 *            the remove exclusion subject list
+	 * @throws PolicyUpdateException
+	 *             the policy update exception
+	 */
     protected abstract void removeExclusionSubjectAssignmentOfPolicy(Long policyId,
                     List<Long> removeExclusionSubjectList) throws PolicyUpdateException;
 
+    /**
+	 * Adds the subject assignment of policy.
+	 * 
+	 * @param policyId
+	 *            the policy id
+	 * @param addSubjectList
+	 *            the add subject list
+	 * @throws PolicyUpdateException
+	 *             the policy update exception
+	 */
     protected abstract void addSubjectAssignmentOfPolicy(Long policyId, List<Long> addSubjectList)
                     throws PolicyUpdateException;
 
+    /**
+	 * Removes the subject assignment of policy.
+	 * 
+	 * @param policyId
+	 *            the policy id
+	 * @param removeSubjectList
+	 *            the remove subject list
+	 * @throws PolicyUpdateException
+	 *             the policy update exception
+	 */
     protected abstract void removeSubjectAssignmentOfPolicy(Long policyId,
                     List<Long> removeSubjectList) throws PolicyUpdateException;
 
+    /**
+	 * Adds the subject type assignment of policy.
+	 * 
+	 * @param policyId
+	 *            the policy id
+	 * @param addSubjectTypeList
+	 *            the add subject type list
+	 * @throws PolicyUpdateException
+	 *             the policy update exception
+	 */
     protected abstract void addSubjectTypeAssignmentOfPolicy(Long policyId,
                     List<Long> addSubjectTypeList) throws PolicyUpdateException;
 
+    /**
+	 * Removes the subject type assignment of policy.
+	 * 
+	 * @param policyId
+	 *            the policy id
+	 * @param removeSubjectTypeList
+	 *            the remove subject type list
+	 * @throws PolicyUpdateException
+	 *             the policy update exception
+	 */
     protected abstract void removeSubjectTypeAssignmentOfPolicy(Long policyId,
                     List<Long> removeSubjectTypeList) throws PolicyUpdateException;
 }

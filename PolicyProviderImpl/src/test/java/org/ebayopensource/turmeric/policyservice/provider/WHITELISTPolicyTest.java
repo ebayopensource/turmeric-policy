@@ -37,7 +37,17 @@ import org.ebayopensource.turmeric.security.v1.services.SubjectKey;
 import org.ebayopensource.turmeric.utils.jpa.EntityManagerContext;
 import org.junit.Test;
 
+/**
+ * The Class WHITELISTPolicyTest.
+ */
 public class WHITELISTPolicyTest extends PolicyTestBase {
+    
+    /**
+	 * Creates the policy test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
     @Test
     public void createPolicyTest() throws Exception {
         SubjectKey userKey = getUserKey("jdoe");
@@ -106,6 +116,12 @@ public class WHITELISTPolicyTest extends PolicyTestBase {
         }
     }
     
+    /**
+	 * Update policy test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
     @Test
     public void updatePolicyTest() throws Exception {
         createPolicyTest();
@@ -191,6 +207,12 @@ public class WHITELISTPolicyTest extends PolicyTestBase {
         }
     }
     
+    /**
+	 * Delete policy test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
     @Test
     public void deletePolicyTest() throws Exception {
         WHITELISTPolicy wlp = new WHITELISTPolicy();
@@ -210,6 +232,12 @@ public class WHITELISTPolicyTest extends PolicyTestBase {
         }
     }
     
+    /**
+	 * Find policy test.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
     @Test
     public void findPolicyTest() throws Exception {
         createPolicyTest();

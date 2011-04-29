@@ -17,16 +17,30 @@ import javax.persistence.ManyToOne;
 import org.ebayopensource.turmeric.utils.jpa.model.AuditablePersistent;
 
 /**
- * @author gbaal
+ * The Class Expression.
  * 
+ * @author gbaal
  */
 @Entity
 public class Expression  extends AuditablePersistent{
 	
 	
 
+	/**
+	 * Instantiates a new expression.
+	 */
 	public Expression() { }
 	
+	/**
+	 * Instantiates a new expression.
+	 * 
+	 * @param primitiveValue
+	 *            the primitive value
+	 * @param comment
+	 *            the comment
+	 * @param name
+	 *            the name
+	 */
 	public Expression(PrimitiveValue primitiveValue, String comment, String name) {
 		super();
 		this.primitiveValue = primitiveValue;
@@ -40,19 +54,43 @@ public class Expression  extends AuditablePersistent{
 	// private Variable variable;
 	// private Function function;
 	private String comment;
+	
+	/** The name. */
 	protected String name;
 
+	/**
+	 * Gets the primitive value.
+	 * 
+	 * @return the primitive value
+	 */
 	public PrimitiveValue getPrimitiveValue() {
 		return primitiveValue;
 	}
 
+	/**
+	 * Gets the comment.
+	 * 
+	 * @return the comment
+	 */
 	public String getComment() {
 		return comment;
 	}
 
+	/**
+	 * Gets the name.
+	 * 
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
+	
+	/**
+	 * Sets the primitive value.
+	 * 
+	 * @param primitiveValue
+	 *            the new primitive value
+	 */
 	public void setPrimitiveValue(PrimitiveValue primitiveValue) {
 		this.primitiveValue = primitiveValue;
 	}

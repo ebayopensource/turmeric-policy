@@ -9,7 +9,14 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.policyservice.provider;
 
+/**
+ * The Class APPSubject.
+ */
 public class APPSubject extends SubjectBase {
+    
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.SubjectBase#getSubjectType()
+     */
     @Override
     public String getSubjectType() {
         return "APP";

@@ -11,9 +11,19 @@ import org.ebayopensource.turmeric.policyservice.model.SupportedPrimitive;
 import org.ebayopensource.turmeric.policyservice.model.EffectType;
 import org.ebayopensource.turmeric.security.v1.services.KeyValuePair;
 
+/**
+ * The Class RuleHelper.
+ */
 public class RuleHelper {
     private RuleHelper() {}
     
+    /**
+	 * Convert.
+	 * 
+	 * @param jpaRules
+	 *            the jpa rules
+	 * @return the list
+	 */
     public static List<org.ebayopensource.turmeric.security.v1.services.Rule> convert(List<Rule> jpaRules){
     	List<org.ebayopensource.turmeric.security.v1.services.Rule>  rules = new ArrayList<org.ebayopensource.turmeric.security.v1.services.Rule>();
     	if(jpaRules!=null){
@@ -30,6 +40,13 @@ public class RuleHelper {
     	return rules;
     }
    
+    /**
+	 * Convert.
+	 * 
+	 * @param jpaRule
+	 *            the jpa rule
+	 * @return the org.ebayopensource.turmeric.security.v1.services. rule
+	 */
     public static org.ebayopensource.turmeric.security.v1.services.Rule convert(Rule jpaRule){
     	// for now check all
         if(jpaRule==null || jpaRule.getCondition()==null || jpaRule.getCondition().getExpression()==null || jpaRule.getCondition().getExpression().getPrimitiveValue()==null){
@@ -99,6 +116,13 @@ public class RuleHelper {
     	return supportedPrimitive;
     }
 
+    /**
+	 * Convert.
+	 * 
+	 * @param rule
+	 *            the rule
+	 * @return the rule
+	 */
     public static Rule convert(final org.ebayopensource.turmeric.security.v1.services.Rule rule) {
         if(rule==null || rule.getCondition()==null || rule.getCondition().getExpression()==null || rule.getCondition().getExpression().getPrimitiveValue()==null){
             return null;
@@ -124,6 +148,13 @@ public class RuleHelper {
                         convert(rule.getCondition()), notifyEmails, notifyActive);
     }
     
+    /**
+	 * Convert.
+	 * 
+	 * @param condition
+	 *            the condition
+	 * @return the condition
+	 */
     public static Condition convert(final org.ebayopensource.turmeric.security.v1.services.Condition condition) {
         org.ebayopensource.turmeric.policyservice.model.Condition conditionResult = null;
         if(null != condition){
@@ -134,17 +165,38 @@ public class RuleHelper {
         return conditionResult ;
     }
     
+    /**
+	 * Convert.
+	 * 
+	 * @param expression
+	 *            the expression
+	 * @return the expression
+	 */
     public static Expression convert(final org.ebayopensource.turmeric.security.v1.services.Expression expression) {
         return new org.ebayopensource.turmeric.policyservice.model.Expression(
                 convert(expression.getPrimitiveValue()), expression.getComment(), expression.getName());
     }
     
+    /**
+	 * Convert.
+	 * 
+	 * @param pv
+	 *            the pv
+	 * @return the primitive value
+	 */
     public static PrimitiveValue convert(final org.ebayopensource.turmeric.security.v1.services.PrimitiveValue pv) {
         
         return new org.ebayopensource.turmeric.policyservice.model.PrimitiveValue(
                 pv.getValue(), (pv.getType()==null?SupportedPrimitive.STRING:org.ebayopensource.turmeric.policyservice.model.SupportedPrimitive.fromValue(pv.getType().value())));
     }
     
+    /**
+	 * Convert.
+	 * 
+	 * @param effectType
+	 *            the effect type
+	 * @return the effect type
+	 */
     public static EffectType convert(final org.ebayopensource.turmeric.security.v1.services.EffectType effectType) {
         return EffectType.valueOf(effectType.name());
     }

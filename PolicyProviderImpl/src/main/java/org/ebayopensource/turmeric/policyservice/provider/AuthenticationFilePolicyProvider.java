@@ -29,11 +29,10 @@ import org.w3c.dom.NodeList;
 /**
  * AuthenticationFilePolicyProvider
  * 
- * A policy provider that parses policy given the XML configuration and
- * its corresponding schema XSD
+ * A policy provider that parses policy given the XML configuration and its
+ * corresponding schema XSD
  * 
- * Code derived from EBay reference codes
- *
+ * Code derived from EBay reference codes.
  */
 public class AuthenticationFilePolicyProvider extends BaseFilePolicyProvider implements AuthenticationPolicyProvider {
 	
@@ -52,10 +51,23 @@ public class AuthenticationFilePolicyProvider extends BaseFilePolicyProvider imp
 	private String policyRootElement;
 	private Map<Resource, OperationHolder> m_operationHolderMap;
 	
+	/**
+	 * Instantiates a new authentication file policy provider.
+	 */
 	public AuthenticationFilePolicyProvider() {
 		this(AUTHN_POLICY_FILENAME, AUTHN_POLICY_SCHEMA, POLICY_ROOT_ELEMENT);
 	}
 	
+	/**
+	 * Instantiates a new authentication file policy provider.
+	 * 
+	 * @param policyFile
+	 *            the policy file
+	 * @param policySchema
+	 *            the policy schema
+	 * @param policyRootElement
+	 *            the policy root element
+	 */
 	AuthenticationFilePolicyProvider(String policyFile, String policySchema, String policyRootElement) {
 		super();
 		this.policyFile = policyFile;
@@ -63,21 +75,33 @@ public class AuthenticationFilePolicyProvider extends BaseFilePolicyProvider imp
 		this.policyRootElement = policyRootElement;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.utils.config.impl.BaseFilePolicyProvider#getPolicyFileName()
+	 */
 	@Override
 	public String getPolicyFileName() {
 		return RELATIVE_CONFIG_PATH + "/" + policyFile;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.utils.config.impl.BaseFilePolicyProvider#getPolicySchemaName()
+	 */
 	@Override
 	public String getPolicySchemaName() {
 		return RELATIVE_SCHEMA_PATH + "/" + policySchema;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.utils.config.impl.BaseFilePolicyProvider#getPolicyRootElement()
+	 */
 	@Override
 	public String getPolicyRootElement() {
 		return policyRootElement;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.utils.config.impl.BaseFilePolicyProvider#mapPolicyData(org.w3c.dom.Element)
+	 */
 	@Override
 	protected void mapPolicyData(Element policyData) throws PolicyProviderException {
 		m_operationHolderMap = new HashMap<Resource, OperationHolder>();
@@ -135,10 +159,17 @@ public class AuthenticationFilePolicyProvider extends BaseFilePolicyProvider imp
 	}
 
 	/**
-	 * Return the authentication policy associated to this resource/operation
-	 * @param resource
-	 * @param operation
-	 * @return
+	 * Return the authentication policy associated to this resource/operation.
+	 * 
+	 * @param resourceName
+	 *            the resource name
+	 * @param operationName
+	 *            the operation name
+	 * @param resourceType
+	 *            the resource type
+	 * @return the authn policy by resource
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
 	 */
 	public AuthenticationProviderInfo getAuthnPolicyByResource(String resourceName, String operationName, String resourceType) throws PolicyProviderException {
 		

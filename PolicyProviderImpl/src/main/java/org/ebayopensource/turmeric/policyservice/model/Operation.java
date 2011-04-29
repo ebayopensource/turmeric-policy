@@ -16,6 +16,9 @@ import javax.persistence.ManyToOne;
 
 import org.ebayopensource.turmeric.utils.jpa.model.AuditablePersistent;
 
+/**
+ * The Class Operation.
+ */
 @Entity
 public class Operation extends AuditablePersistent {
  
@@ -27,31 +30,70 @@ public class Operation extends AuditablePersistent {
     private Resource resource;
 
 
+	/**
+	 * Instantiates a new operation.
+	 */
 	protected Operation(){
 	}
 	
+	/**
+	 * Instantiates a new operation.
+	 * 
+	 * @param operationName
+	 *            the operation name
+	 * @param description
+	 *            the description
+	 */
 	public Operation( final String operationName, final String description) {
 		this.operationName = operationName;
 		this.description = description;
 	}
 
     
+	/**
+	 * Gets the operation name.
+	 * 
+	 * @return the operation name
+	 */
 	public String getOperationName() {
 		return operationName;
 	}
 
+	/**
+	 * Sets the operation name.
+	 * 
+	 * @param operationName
+	 *            the new operation name
+	 */
 	public void setOperationName(final String operationName) {
 		this.operationName = operationName;
 	}
 
+	/**
+	 * Gets the description.
+	 * 
+	 * @return the description
+	 */
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 * Sets the description.
+	 * 
+	 * @param description
+	 *            the new description
+	 */
 	public void setDescription(final String description) {
 		this.description = description;
 	}
 
+	/**
+	 * Sets the resource.
+	 * 
+	 * @param resource
+	 *            the new resource
+	 */
 	public void setResource(final Resource resource) {
 		this.resource = resource;
 		if(!resource.getOperations().contains(this)){
@@ -59,6 +101,11 @@ public class Operation extends AuditablePersistent {
 		}
 	}
 
+	/**
+	 * Gets the resource.
+	 * 
+	 * @return the resource
+	 */
 	public Resource getResource() {
 		return resource;
 	}

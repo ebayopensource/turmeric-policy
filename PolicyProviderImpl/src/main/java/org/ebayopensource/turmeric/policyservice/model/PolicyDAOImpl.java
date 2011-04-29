@@ -25,78 +25,130 @@ import org.ebayopensource.turmeric.security.v1.services.SubjectKey;
 import org.ebayopensource.turmeric.utils.jpa.AbstractDAO;
 import org.ebayopensource.turmeric.utils.jpa.model.AuditInfo;
 
+/**
+ * The Class PolicyDAOImpl.
+ */
 public class PolicyDAOImpl extends AbstractDAO implements PolicyDAO {
     
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#persistPolicy(org.ebayopensource.turmeric.policyservice.model.Policy)
+     */
     @Override
     public void persistPolicy(Policy policy) {
         persistEntity(policy);
     }
     
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#removePolicy(long)
+     */
     @Override
     public void removePolicy(long id) {
         removeEntity(Policy.class, id);
     }
 
+   /* (non-Javadoc)
+    * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#findPolicyById(java.lang.Long)
+    */
    @Override
     public Policy findPolicyById(Long id) {
         return findEntity(Policy.class, id);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#findPolicyByName(java.lang.String)
+     */
     @Override
     public Policy findPolicyByName(String name) {
         return getSingleResultOrNull(Policy.class, "policyName", name);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#findOperationById(java.lang.Long)
+     */
     @Override
     public Operation findOperationById(Long id) {
         return findEntity(Operation.class, id);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#findResourceById(java.lang.Long)
+     */
     @Override
     public Resource findResourceById(Long id) {
         return findEntity(Resource.class, id);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#findSubjectById(java.lang.Long)
+     */
     @Override
     public Subject findSubjectById(Long id) {
         return findEntity(Subject.class, id);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#findSubjectGroupById(java.lang.Long)
+     */
     @Override
     public SubjectGroup findSubjectGroupById(Long id) {
         return findEntity(SubjectGroup.class, id);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#findPolicyBySubjectId(java.lang.Long, java.lang.String)
+     */
     @Override
     public List<Policy> findPolicyBySubjectId(Long subjectId, String policyType) {
         return findEntityByMemberId(Policy.class, "policyType", policyType, "subjects", subjectId);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#findPolicyBySubjectGroupId(java.lang.Long, java.lang.String)
+     */
     @Override
     public List<Policy> findPolicyBySubjectGroupId(Long subjGrpId, String policyType) {
         return findEntityByMemberId(Policy.class, "policyType", policyType, "subjectGroups", subjGrpId);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#findPolicyByOperationId(java.lang.Long, java.lang.String)
+     */
     @Override
     public List<Policy> findPolicyByOperationId(Long opId, String policyType) {
         return findEntityByMemberId(Policy.class, "policyType", policyType, "operations", opId);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#findPolicyByResourceId(java.lang.Long, java.lang.String)
+     */
     @Override
     public List<Policy> findPolicyByResourceId(Long resId, String policyType) {
         return findEntityByMemberId(Policy.class, "policyType", policyType, "resources", resId);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#findAllByName(java.lang.String, java.lang.String)
+     */
     @Override
     public List<Policy> findAllByName(String name, String policyType) {
         return getWildcardResultList(Policy.class, "policyType", policyType, "policyName", name);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#findAllByType(java.lang.String)
+     */
     @Override
     public List<Policy> findAllByType(String policyType) {
         return getResultList(Policy.class, "policyType", policyType);
     }
 
+    /**
+	 * Convert.
+	 * 
+	 * @param policy
+	 *            the policy
+	 * @return the policy
+	 */
     public static Policy convert(org.ebayopensource.turmeric.security.v1.services.Policy policy){
         Boolean value;
         if(policy == null){
@@ -125,6 +177,15 @@ public class PolicyDAOImpl extends AbstractDAO implements PolicyDAO {
         return jpaPolicy;
     }
 
+    /**
+	 * Convert.
+	 * 
+	 * @param jpaPolicy
+	 *            the jpa policy
+	 * @return the org.ebayopensource.turmeric.security.v1.services. policy
+	 * @throws PolicyFinderException
+	 *             the policy finder exception
+	 */
     public static org.ebayopensource.turmeric.security.v1.services.Policy convert(Policy jpaPolicy)
             throws PolicyFinderException {
         if( jpaPolicy==null) {
@@ -163,28 +224,43 @@ public class PolicyDAOImpl extends AbstractDAO implements PolicyDAO {
         return policy;
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#getPolicyHistory(long, java.util.Date, java.util.Date)
+     */
     @Override
     public List<AuditHistory> getPolicyHistory(long policyId, Date start, Date end) {
         return getResultList(AuditHistory.class, "category", Category.POLICY.name(), 
                         "entityId", policyId, "auditInfo.createdOn", start, end);
     }
     
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#getPolicyHistory(java.lang.String, java.util.Date, java.util.Date)
+     */
     @Override
     public List<AuditHistory> getPolicyHistory(String policyType, Date start, Date end) {
         return getResultList(AuditHistory.class, "category", Category.POLICY.name(), 
                         "entityType", policyType, "auditInfo.createdOn", start, end);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#audit(org.ebayopensource.turmeric.security.v1.services.PolicyKey, java.lang.String, org.ebayopensource.turmeric.security.v1.services.SubjectKey)
+     */
     @Override
     public void audit(PolicyKey policyKey, String operationType, SubjectKey loginSubject) {
         persistEntity(AuditHistory.newRecord(policyKey, operationType, loginSubject));
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#findPolicyByExclusionSubjectId(java.lang.Long, java.lang.String)
+     */
     @Override
     public List<Policy> findPolicyByExclusionSubjectId(Long subjectId, String policyType) {
         return findEntityByMemberId(Policy.class, "policyType", policyType, "exclusionSubjects", subjectId);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#findPolicyByExclusionSubjectGroupId(java.lang.Long, java.lang.String)
+     */
     @Override
     public List<Policy> findPolicyByExclusionSubjectGroupId(Long subjGrpId, String policyType) {
         return findEntityByMemberId(Policy.class, "policyType", policyType, "exclusionSubjectGroups", subjGrpId);

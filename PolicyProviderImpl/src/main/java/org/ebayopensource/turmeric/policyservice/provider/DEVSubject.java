@@ -9,7 +9,14 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.policyservice.provider;
 
+/**
+ * The Class DEVSubject.
+ */
 public class DEVSubject extends SubjectBase {
+    
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.provider.SubjectBase#getSubjectType()
+     */
     @Override
     public String getSubjectType() {
         return "DEV";

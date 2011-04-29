@@ -47,12 +47,23 @@ import org.ebayopensource.turmeric.utils.jpa.JPAAroundAdvice;
 import org.ebayopensource.turmeric.utils.jpa.PersistenceContext;
 import org.ebayopensource.turmeric.utils.jpa.model.AuditContext;
 
+/**
+ * The Class SubjectBase.
+ */
 public abstract class SubjectBase implements SubjectTypeProvider {
 	private final EntityManagerFactory factory;
 	private final SubjectTypeProvider impl;
 
+	/**
+	 * Gets the subject type.
+	 * 
+	 * @return the subject type
+	 */
 	protected abstract String getSubjectType();
 
+	/**
+	 * Instantiates a new subject base.
+	 */
 	public SubjectBase() {
 		factory = PersistenceContext
 				.createEntityManagerFactory("policyservice");
@@ -619,80 +630,122 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 	// The following methods are needed to allow wrapping this class with JPA
 	// transaction wrapper
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#getSubjectById(java.lang.Long)
+	 */
 	@Override
 	public Map<Long, Subject> getSubjectById(Long id)
 			throws PolicyFinderException {
 		return impl.getSubjectById(id);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#getSubjectByName(java.lang.String)
+	 */
 	@Override
 	public Map<Long, Subject> getSubjectByName(String name)
 			throws PolicyFinderException {
 		return impl.getSubjectByName(name);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#getSubjectByType()
+	 */
 	@Override
 	public Map<Long, Subject> getSubjectByType() throws PolicyFinderException {
 		return impl.getSubjectByType();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#createSubject(org.ebayopensource.turmeric.security.v1.services.Subject, org.ebayopensource.turmeric.security.v1.services.SubjectKey)
+	 */
 	@Override
 	public SubjectKey createSubject(Subject subject, SubjectKey createdBy)
 			throws PolicyCreationException {
 		return impl.createSubject(subject, createdBy);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#deleteSubject(java.lang.Long)
+	 */
 	@Override
 	public void deleteSubject(Long subjectId) throws PolicyDeleteException {
 		impl.deleteSubject(subjectId);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#findSubjectGroupInfoBySubject(java.lang.Long)
+	 */
 	@Override
 	public Map<Long, SubjectGroup> findSubjectGroupInfoBySubject(Long subjectId)
 			throws PolicyFinderException {
 		return impl.findSubjectGroupInfoBySubject(subjectId);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#getSubjectGroupInfoById(java.lang.Long)
+	 */
 	@Override
 	public Map<Long, SubjectGroup> getSubjectGroupInfoById(Long id)
 			throws PolicyFinderException {
 		return impl.getSubjectGroupInfoById(id);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#getSubjectGroupInfoByName(java.lang.String)
+	 */
 	@Override
 	public Map<Long, SubjectGroup> getSubjectGroupInfoByName(String name)
 			throws PolicyFinderException {
 		return impl.getSubjectGroupInfoByName(name);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#getSubjectGroupInfoByType()
+	 */
 	@Override
 	public Map<Long, SubjectGroup> getSubjectGroupInfoByType()
 			throws PolicyFinderException {
 		return impl.getSubjectGroupInfoByType();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#isExternalSubjectType()
+	 */
 	@Override
 	public boolean isExternalSubjectType() throws PolicyProviderException {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#getExternalSubjectByName(java.lang.String)
+	 */
 	@Override
 	public Set<Subject> getExternalSubjectByName(String name)
 			throws PolicyFinderException {
 		return impl.getExternalSubjectByName(name);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#getExternalSubjectById(java.lang.Long)
+	 */
 	@Override
 	public Subject getExternalSubjectById(Long id) throws PolicyFinderException {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#getSubjectAssignmentOfSubjectGroup(java.lang.Long)
+	 */
 	@Override
 	public Map<Long, Subject> getSubjectAssignmentOfSubjectGroup(
 			Long subjectGroupId) throws PolicyFinderException {
 		return impl.getSubjectAssignmentOfSubjectGroup(subjectGroupId);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#createSubjectGroup(org.ebayopensource.turmeric.security.v1.services.SubjectGroup, org.ebayopensource.turmeric.policyservice.provider.common.SubjectGroupEditObject, org.ebayopensource.turmeric.security.v1.services.SubjectKey)
+	 */
 	@Override
 	public SubjectGroupKey createSubjectGroup(SubjectGroup subjectGroup,
 			SubjectGroupEditObject subjectGroupEditObject, SubjectKey createdBy)
@@ -701,6 +754,9 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 				createdBy);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#updateSubjectGroup(org.ebayopensource.turmeric.security.v1.services.SubjectGroup, org.ebayopensource.turmeric.policyservice.provider.common.SubjectGroupEditObject, org.ebayopensource.turmeric.security.v1.services.SubjectKey)
+	 */
 	@Override
 	public SubjectGroupKey updateSubjectGroup(SubjectGroup subjectGroup,
 			SubjectGroupEditObject subjectGroupEditObject, SubjectKey createdBy)
@@ -709,6 +765,9 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 				createdBy);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#deleteSubjectGroup(java.lang.Long)
+	 */
 	@Override
 	public void deleteSubjectGroup(Long subjectGroupId)
 			throws PolicyDeleteException, PolicyUpdateException,
@@ -716,17 +775,26 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 		impl.deleteSubjectGroup(subjectGroupId);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#getGroupCalculator(java.lang.String)
+	 */
 	@Override
 	public GroupCalculatorInfo getGroupCalculator(String calculator)
 			throws PolicyProviderException {
 		return impl.getGroupCalculator(calculator);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#getSubjectTypeInfo()
+	 */
 	@Override
 	public SubjectTypeInfo getSubjectTypeInfo() throws PolicyProviderException {
 		return impl.getSubjectTypeInfo();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#getAuditHistory(org.ebayopensource.turmeric.security.v1.services.SubjectGroupKey, javax.xml.datatype.XMLGregorianCalendar, javax.xml.datatype.XMLGregorianCalendar)
+	 */
 	@Override
 	public List<EntityHistory> getAuditHistory(SubjectGroupKey subjectGroupKey,
 			XMLGregorianCalendar startDate, XMLGregorianCalendar endDate)
@@ -734,6 +802,9 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 		return impl.getAuditHistory(subjectGroupKey, startDate, endDate);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#getAuditHistory(org.ebayopensource.turmeric.security.v1.services.SubjectKey, javax.xml.datatype.XMLGregorianCalendar, javax.xml.datatype.XMLGregorianCalendar)
+	 */
 	@Override
 	public List<EntityHistory> getAuditHistory(SubjectKey subjectKey,
 			XMLGregorianCalendar startDate, XMLGregorianCalendar endDate)
@@ -741,24 +812,36 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 		return impl.getAuditHistory(subjectKey, startDate, endDate);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#audit(org.ebayopensource.turmeric.security.v1.services.SubjectKey, java.lang.String, org.ebayopensource.turmeric.security.v1.services.SubjectKey)
+	 */
 	@Override
 	public void audit(SubjectKey subjectKey, String operationType,
 			SubjectKey loginSubject) throws PolicyFinderException {
 		impl.audit(subjectKey, operationType, loginSubject);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#audit(org.ebayopensource.turmeric.security.v1.services.SubjectGroupKey, java.lang.String, org.ebayopensource.turmeric.security.v1.services.SubjectKey)
+	 */
 	@Override
 	public void audit(SubjectGroupKey subjectGroupKey, String operationType,
 			SubjectKey loginSubject) throws PolicyFinderException {
 		impl.audit(subjectGroupKey, operationType, loginSubject);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#getGroupCalculators()
+	 */
 	@Override
 	public List<GroupCalculatorInfo> getGroupCalculators()
 			throws PolicyFinderException {
 		return impl.getGroupCalculators();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider#getMetaData(java.lang.String)
+	 */
 	@Override
 	public List<KeyValuePair> getMetaData(String queryValue)
 			throws PolicyFinderException {

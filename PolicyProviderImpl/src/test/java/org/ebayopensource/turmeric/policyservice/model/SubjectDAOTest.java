@@ -18,9 +18,15 @@ import org.ebayopensource.turmeric.utils.jpa.JPAAroundAdvice;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * The Class SubjectDAOTest.
+ */
 public class SubjectDAOTest extends AbstractJPATest {
     private SubjectDAO subjectDAO;
 
+    /**
+	 * Inits the dao.
+	 */
     @Before
     public void initDAO() {
         ClassLoader classLoader = SubjectDAO.class.getClassLoader();
@@ -29,6 +35,12 @@ public class SubjectDAOTest extends AbstractJPATest {
         subjectDAO = (SubjectDAO) Proxy.newProxyInstance(classLoader, interfaces, new JPAAroundAdvice(factory, target));
     }
 
+    /**
+	 * Test persist subject.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
     @Test
     public void testPersistSubject() throws Exception {
         Subject subject = new Subject("subject_name", "subject_type", "subject_description", "", 0, "");
@@ -43,6 +55,12 @@ public class SubjectDAOTest extends AbstractJPATest {
         }
     }
 
+    /**
+	 * Test find subject by id.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
     @Test
     public void testFindSubjectById() throws Exception {
         Subject subject = new Subject("subject_name", "subject_type", "subject_description", "", 0, "");
