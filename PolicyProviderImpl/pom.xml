@@ -27,6 +27,12 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.ebayopensource.turmeric.groupmembership</groupId>
+      <artifactId>GroupMembershipProviderInterface</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>org.ebayopensource.turmeric.utils</groupId>
       <artifactId>turmeric-utils-jpa</artifactId>
       <version>${turmeric-jpa-utils-version}</version>
