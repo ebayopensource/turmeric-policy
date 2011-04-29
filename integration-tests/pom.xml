@@ -16,6 +16,7 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>PolicyTestUtils</module>
+		<module>GroupMembershipTests</module>
 	</modules>
   <profiles>
     <profile>
