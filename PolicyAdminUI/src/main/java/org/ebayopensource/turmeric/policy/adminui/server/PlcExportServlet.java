@@ -1,10 +1,10 @@
 package org.ebayopensource.turmeric.policy.adminui.server;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
@@ -18,11 +18,14 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
-import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminConstants;
-import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIConstants;
-import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
+import org.apache.xerces.jaxp.validation.XMLSchemaFactory;
+import org.apache.xerces.parsers.DOMParser;
+import org.apache.xerces.parsers.XMLParser;
 import org.eclipse.jetty.client.ContentExchange;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.continuation.Continuation;
@@ -32,6 +35,13 @@ import org.eclipse.jetty.http.HttpSchemes;
 import org.eclipse.jetty.http.HttpURI;
 import org.eclipse.jetty.http.MimeTypes;
 import org.eclipse.jetty.io.Buffer;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
+
+import com.google.gwt.core.client.GWT;
 
 public class PlcExportServlet extends HttpServlet {
 
@@ -44,7 +54,6 @@ public class PlcExportServlet extends HttpServlet {
 	private HttpClient client;
 	private String policyServiceURL;
 	private String exportedEntity;
-
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -64,10 +73,10 @@ public class PlcExportServlet extends HttpServlet {
 		if (config.getInitParameter("expSGPrefix") != null) {
 			expSGPrefix = config.getInitParameter("expSGPrefix");
 		}
-		
-		System.err.println("expPolicyPrefix =" + expPolicyPrefix);
-		System.err.println("expSGPrefix =" + expSGPrefix);
-		
+
+		GWT.log("expPolicyPrefix =" + expPolicyPrefix);
+		GWT.log("expSGPrefix =" + expSGPrefix);
+
 		client = new HttpClient();
 		client.setConnectorType(HttpClient.CONNECTOR_SELECT_CHANNEL);
 		try {
@@ -84,7 +93,6 @@ public class PlcExportServlet extends HttpServlet {
 		String result = (String) request.getAttribute("RESULT");
 		Boolean error = (Boolean) request.getAttribute("ERROR");
 
-		
 		if (result == null && error == null) {
 
 			final Continuation continuation = ContinuationSupport
@@ -94,14 +102,16 @@ public class PlcExportServlet extends HttpServlet {
 			String tmp = request.getRequestURI();
 
 			if (request.getQueryString() != null) {
-				tmp += "?" ;
+				tmp += "?";
 			}
 			HttpURI uri = null;
 			if (tmp.startsWith(expPolicyPrefix)) {
 				try {
 					uri = new HttpURI(new URI(policyServiceURL
-							+ tmp.substring(expPolicyPrefix.length())).normalize()
-							.toString() + parseExportPolicyQuery(request.getQueryString(), response));
+							+ tmp.substring(expPolicyPrefix.length()))
+							.normalize().toString()
+							+ parseExportPolicyQuery(request.getQueryString(),
+									response));
 					exportedEntity = "Policy";
 				} catch (URISyntaxException e) {
 					throw new MalformedURLException(e.getMessage());
@@ -110,7 +120,9 @@ public class PlcExportServlet extends HttpServlet {
 				try {
 					uri = new HttpURI(new URI(policyServiceURL
 							+ tmp.substring(expSGPrefix.length())).normalize()
-							.toString() + parseExportSGQuery(request.getQueryString(), response));
+							.toString()
+							+ parseExportSGQuery(request.getQueryString(),
+									response));
 					exportedEntity = "SG";
 				} catch (URISyntaxException e) {
 					throw new MalformedURLException(e.getMessage());
@@ -136,8 +148,8 @@ public class PlcExportServlet extends HttpServlet {
 		}
 	}
 
-	private String parseExportPolicyQuery(String queryString, HttpServletResponse response)
-			throws IOException {
+	private String parseExportPolicyQuery(String queryString,
+			HttpServletResponse response) throws IOException {
 		// eg: 1&71&100&BLACKLIST&admin&admin
 		String[] params = queryString.split("&");
 
@@ -192,14 +204,16 @@ public class PlcExportServlet extends HttpServlet {
 		sb.append("&nvns:ns1=http://www.ebayopensource.org/turmeric/security/v1/services&nvns:ns2=urn:oasis:names:tc:xacml:2.0:policy:schema:os");
 
 		for (int i = 0; i < params.length - 3; i++) {
-			sb.append("&ns1:subjectGroupQuery.ns1:subjectGroupKey(" + i + ").ns1:subjectGroupId=" + params[i]);
-			sb.append("&ns1:subjectGroupQuery.ns1:subjectGroupKey(" + i + ").ns1:subjectType=" + params[params.length - 3]);
+			sb.append("&ns1:subjectGroupQuery.ns1:subjectGroupKey(" + i
+					+ ").ns1:subjectGroupId=" + params[i]);
+			sb.append("&ns1:subjectGroupQuery.ns1:subjectGroupKey(" + i
+					+ ").ns1:subjectType=" + params[params.length - 3]);
 		}
 
 		sb.append("&ns1:subjectGroupQuery.ns1:includeSubjects=true");
 		return sb.toString();
 	}
-	
+
 	private String getFileName(final String entity) {
 		StringBuffer name = new StringBuffer();
 		name.append(entity);
@@ -229,7 +243,32 @@ public class PlcExportServlet extends HttpServlet {
 				if (content == null) {
 					request.setAttribute("ERROR", Boolean.TRUE);
 				} else {
-					request.setAttribute("RESULT", content);
+
+					//TODO validate it against XSD
+					
+//					try {
+//
+//						final ServletContext context = getServletContext();
+//
+//						String schemaLang = "http://www.w3.org/2001/XMLSchema";
+//						// get validation driver:
+//						SchemaFactory factory = XMLSchemaFactory
+//								.newInstance(schemaLang);
+//						// create schema by reading it from an XSD file:
+//						final InputStream importexportAsStream = context
+//								.getResourceAsStream("/importexport.xsd");
+//
+//						final StreamSource importExportSource = new StreamSource(
+//								importexportAsStream);
+//						final Schema schema = factory
+//								.newSchema(importExportSource);
+//						Validator validator = schema.newValidator();
+//						validator.validate(new StreamSource(content));
+//						request.setAttribute("RESULT", content);
+//					} catch (Exception e) {
+//						System.out.println(e);
+//						request.setAttribute("ERROR", Boolean.TRUE);
+//					}
 				}
 
 				continuation.resume();

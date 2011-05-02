@@ -1,0 +1,4153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="qualified"
+	targetNamespace="http://www.ebayopensource.org/turmeric/security/v1/services"
+	xmlns:tns="http://www.ebayopensource.org/turmeric/security/v1/services"
+	xmlns:xacml="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+	xmlns:Q1="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+	xmlns:Q2="http://www.ebayopensource.org/turmeric/common/v1/types">
+ 
+	<xs:import namespace="urn:oasis:names:tc:xacml:2.0:policy:schema:os" schemaLocation="policy.xsd"/>
+	<xs:import namespace="http://www.ebayopensource.org/turmeric/common/v1/types" schemaLocation="commontypes.xsd"/>
+
+	<xs:complexType abstract="true" name="BasePolicyServiceRequest">
+		<xs:annotation>
+			<xs:documentation>
+				This is the base class for request container for
+				all operations in Policy Service.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="resourceName" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The name of the resource which will be used
+								for the request.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<callName>getAuthenticationPolicy</callName>
+									<context>GetAuthenticationPolicyRequest</context>
+									<requiredInput>Conditionally</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="0" name="operationName" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The name of the operation which will be used
+								for the request.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<callName>getAuthenticationPolicy</callName>
+									<context>GetAuthenticationPolicyRequest</context>
+									<requiredInput>Conditionally</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="0" name="resourceType" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The type of the resource which will be used
+								for the request.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<callName>getAuthenticationPolicy</callName>
+									<context>GetAuthenticationPolicyRequest</context>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType abstract="true" name="BasePolicyServiceResponse">
+		<xs:annotation>
+			<xs:documentation>
+				Base response container for all service
+				operations in Authorization Service.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetAuthenticationPolicyRequest">
+		<xs:annotation>
+			<xs:documentation>
+				Request container for the getAuthenticationPolicy
+				call.
+				GetAuthenticationPolicyRequest is used to get an
+				authentication policy based on the
+				provided criteria. The parameters for the criteria are defined in
+				BasePolicyServiceRequest.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:BasePolicyServiceRequest">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetAuthenticationPolicyResponse">
+		<xs:annotation>
+			<xs:documentation>
+				Response container for the getAuthenticationPolicy call.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:BasePolicyServiceResponse">
+				<xs:sequence>
+					<xs:element maxOccurs="1" minOccurs="0" name="policy"
+						type="tns:AuthenticationPolicy">
+						<xs:annotation>
+							<xs:documentation>
+								Response container for the authentication policy. Only returned when
+								the call
+								is succesful. One policy could be returned if the give
+								criteria in the request
+								could be satisfied. No policy will be
+								returned otherwise.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<callName>getAuthenticationPolicy</callName>
+									<context>GetAuthenticationPolicyResponse</context>
+									<returned>Conditionally</returned>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SubjectType">
+		<xs:sequence>
+			<xs:element name="domain" type="xs:string" />
+			<xs:element name="value" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SubjectGroupType">
+		<xs:sequence>
+			<xs:element name="domain" type="xs:string" />
+			<xs:element name="name" type="xs:string" />
+		</xs:sequence>
+		<xs:attribute name="calculator" type="xs:string" use="optional" />
+	</xs:complexType>
+	<xs:complexType name="BasePolicy">
+		<xs:annotation>
+			<xs:documentation>
+				The base container type of policies.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="0" name="resourceName"
+				type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The name of the resouce that the policie
+						contains.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<maxOccurs>1</maxOccurs>
+						<callInfo>
+							<callName>getAuthenticationPolicy</callName>
+							<context>AuthenticationPolicy</context>
+							<returned>Conditionally</returned>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="operationName"
+				type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The name of the operation that the policie
+						contains.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<maxOccurs>1</maxOccurs>
+						<callInfo>
+							<callName>getAuthenticationPolicy</callName>
+							<context>AuthenticationPolicy</context>
+							<returned>Conditionally</returned>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="resourceType"
+				type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The type of the resource that the policie
+						contains.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<maxOccurs>1</maxOccurs>
+						<callInfo>
+							<callName>getAuthenticationPolicy</callName>
+							<context>AuthenticationPolicy</context>
+							<returned>Conditionally</returned>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AuthenticationPolicy">
+		<xs:annotation>
+			<xs:documentation>
+				The policy container for an AuthenticationPolicy.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:BasePolicy">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0"
+						name="authenticationScheme" type="xs:string" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="getAuthenticationPolicyRequest" nillable="true"
+		type="tns:GetAuthenticationPolicyRequest">
+		<xs:annotation>
+			<xs:documentation>
+				The request container for getAuthenticationPolicy call
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>getAuthenticationPolicy</callName>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getAuthenticationPolicyResponse" nillable="true"
+		type="tns:GetAuthenticationPolicyResponse">
+		<xs:annotation>
+			<xs:documentation>
+				The response container for getAuthenticationPolicy call
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>getAuthenticationPolicy</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="Property">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The name of the property
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>1</minOccurs>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="value" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The value of the property
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>1</minOccurs>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Properties">
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element name="entries" type="tns:Property">
+				<xs:annotation>
+					<xs:documentation>
+						A list of properties.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="PolicySet" type="tns:PolicySet">
+		<xs:annotation>
+			<xs:documentation>
+				The container for a list of policies. It is
+				returned when the request call
+				is succesful. It may contain zero or
+				more policies based on the different
+				criteria given in the request.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>0</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>findPolicies</callName>
+					<contest>findPoliciesResponse</contest>
+					<returned>Conditionally</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="PolicySet">
+		<xs:sequence>
+			<xs:element ref="xacml:Description" minOccurs="0" />
+			<xs:element ref="tns:Policy" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="PolicySetId" type="xs:anyURI" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					The id of the policy set
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Version" type="xacml:VersionType"
+			default="1.0">
+			<xs:annotation>
+				<xs:documentation>
+					The version of the policy set
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="PolicyCombiningAlgId" type="xs:anyURI"
+			use="required">
+			<xs:annotation>
+				<xs:documentation>
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="LastModified" type="xs:dateTime">
+			<xs:annotation>
+				<xs:documentation>
+					The date of the most recently modified policy returned in the set.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<!-- -->
+	<xs:element name="Policy" type="tns:Policy">
+		<xs:annotation>
+			<xs:documentation>
+				The policy container. It contains all information
+				of the policy, including a
+				target and rules.
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<minOccurs>0</minOccurs>
+					<maxOccurs>1</maxOccurs>
+					<callName>findPolicies</callName>
+					<context>findPoliciesResponse</context>
+					<returned>Conditionally</returned>
+				</callInfo>
+				<callInfo>
+					<callName>createPolicy</callName>
+					<context>CreatePolicyRequest</context>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+				<callInfo>
+					<callName>updatePolicy</callName>
+					<context>UpdatePolicyRequest</context>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+				<callInfo>
+					<callName>validatePolicy</callName>
+					<context>ValidatePolicyRequest</context>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="Policy">
+		<xs:sequence>
+			<xs:element ref="xacml:Description" minOccurs="0" />
+			<xs:element ref="tns:Target" />
+			<xs:element ref="tns:Rule" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="PolicyId" type="xs:long">
+			<xs:annotation>
+				<xs:documentation>
+					The unique ID of the policy.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Version" type="xacml:VersionType"
+			default="1.0">
+			<xs:annotation>
+				<xs:documentation>
+					The Version number of the policy
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="RuleCombiningAlgId" type="xs:anyURI">
+			<xs:annotation>
+				<xs:documentation>
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="PolicyType" type="xs:token" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					The type of the policy. The policy type values are AUTHN, AUTHZ, RL,
+					BLACKLIST and WHITELIST.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="LastModified" type="xs:dateTime">
+			<xs:annotation>
+				<xs:documentation>
+					The nearest date which the policy was modified.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="PolicyName" type="xs:token">
+			<xs:annotation>
+				<xs:documentation>
+					The name of the policy
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Active" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>
+					TRUE if the policy is active, otherwise false.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="CreatedBy" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					The subject's name who created this policy
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="LastModifiedBy" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					The subject's name who modified this policy most recently.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<!-- -->
+	<xs:element name="Rule" type="tns:Rule">
+		<xs:annotation>
+			<xs:documentation>
+				The rule container. There could be zero or
+				multiple rules associated with a policy.
+				If the type of policy is
+				not relevent with rules, the number of rules will be zero.
+				Otherwise, generally only one active rule will be associated with
+				the policy.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>0</minOccurs>
+				<callInfo>
+					<callName>createPolicy</callName>
+					<callName>updatePolicy</callName>
+					<callName>validatePolicy</callName>
+					<context>Policy</context>
+					<requiredInput>Conditionally</requiredInput>
+				</callInfo>
+				<callInfo>
+					<callName>findPolicies</callName>
+					<context>Policy</context>
+					<returned>Conditionally</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="Rule">
+		<xs:sequence>
+			<xs:element ref="xacml:Description" minOccurs="0" />
+			<!-- <xs:element ref="tns:Target" minOccurs="0"/> -->
+			<xs:element ref="tns:Condition" minOccurs="0" />
+			<xs:element name="Attribute" type="tns:KeyValuePair"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						The attribute list of the rule. every attribute is a type of a
+						name-value pair.
+						There could be zero or more attributes in a
+						rule.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<callInfo>
+							<callName>createPolicy</callName>
+							<callName>updatePolicy</callName>
+							<callName>validatePolicy</callName>
+							<context>Rule</context>
+							<requiredInput>No</requiredInput>
+						</callInfo>
+						<callInfo>
+							<callName>findPolicies</callName>
+							<context>Rule</context>
+							<returned>Conditionally</returned>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="RuleId" type="xs:long">
+			<xs:annotation>
+				<xs:documentation>
+					The unique ID of the rule.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Effect" type="tns:EffectType" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					The effect of a rule. It defines the action
+					which the rule performs.
+					This attribute is mandatory for the rule. Please refer to EffectType
+					for details.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="RuleName" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					The unique name of the rule.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Priority" type="xs:int">
+			<xs:annotation>
+				<xs:documentation>
+					The priority level of the rule. Less value means
+					higher priority.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Version" type="xs:int">
+			<xs:annotation>
+				<xs:documentation>
+					The version number of the rule.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<!-- <xs:attribute name="SubjectType" type="tns:SubjectDomain"/> -->
+		<xs:attribute name="RolloverPeriod" type="xs:long">
+			<xs:annotation>
+				<xs:documentation>
+					The time period (in seconds) after which the
+					count for the rate limiting policy
+					should be reset. The available
+					options are 3600 or 86500(24 hrs)
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="EffectDuration" type="xs:long">
+			<xs:annotation>
+				<xs:documentation>
+					The time period (in seconds) for which the
+					effect on violation of the
+					rate limiting policy should be enforced.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ConditionDuration" type="xs:long">
+			<xs:annotation>
+				<xs:documentation>
+					The effective duration of the condtion (in
+					seconds)
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<!-- <xs:attribute name="ApplyToIndividual" type="xs:boolean" default="false"></xs:attribute> 
+			<xs:attribute name="ApplyToEach" type="xs:boolean" default="false"></xs:attribute> 
+			<xs:attribute name="ApplyToAll" type="xs:boolean" default="false"></xs:attribute> -->
+	</xs:complexType>
+	<!-- -->
+	<xs:simpleType name="EffectType">
+		<xs:annotation>
+			<xs:documentation>
+				Effect defines the type actions will be used in certain condition.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Allow">
+				<xs:annotation>
+					<xs:documentation>
+						Allows the request to pass
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Flag">
+				<xs:annotation>
+					<xs:documentation>
+						No operation will be performed. But a flag of
+						such situation will be marked.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Challenge">
+				<xs:annotation>
+					<xs:documentation>
+						A GIF image will be send to the client as the
+						challenge.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Block">
+				<xs:annotation>
+					<xs:documentation>
+						Block the incoming request
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Softlimit">
+				<xs:annotation>
+					<xs:documentation>
+						No operation will be performed. But the user
+						will be warned that the threshold
+						was crossed.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- -->
+	<!--<xs:simpleType name="SubjectDomain"> <xs:restriction base="xs:string"> 
+		<xs:enumeration value="EBAYUSER"/> <xs:enumeration value="EBAYAPP"/> <xs:enumeration 
+		value="EBAYDEV"/> <xs:enumeration value="CSUSER"/> <xs:enumeration value="CSAPP"/> 
+		<xs:enumeration value="CSDEV"/> <xs:enumeration value="IP"/> <xs:enumeration 
+		value="POOL"/> <xs:enumeration value="MACHINE"/> <xs:enumeration value="SERVICE"/> 
+		<xs:enumeration value="PROXY"/> <xs:enumeration value="PROCESS"/> </xs:restriction> 
+		</xs:simpleType> -->
+	<xs:simpleType name="UpdateMode">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="REPLACE">
+				<xs:annotation>
+					<xs:documentation>
+						Existing attributes of this policy will be updated to the new passed in
+						data.
+						In REPLACE mode, all existing joined detail objects will be
+						removed and
+						the input objects will take place.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UPDATE">
+				<xs:annotation>
+					<xs:documentation>
+						Existing attributes of this policy will be updated to the new passed in
+						data.
+						In UPDATE mode, if newly input objects were already
+						assigned to the policy,
+						they will be updated according to the
+						request. If not, they will be assigned to
+						this policy.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DELETE">
+				<xs:annotation>
+					<xs:documentation>
+						Existing attributes of this policy will be updated to the new passed in
+						data.
+						In DELETE mode, the input objects will be un-assigned from
+						the policy. If the
+						object is already not assigned, it will be
+						ignored.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- <xs:simpleType name="ResourceType"> <xs:restriction base="xs:string"> 
+		<xs:enumeration value="SERVICE"/> <xs:enumeration value="WEB"/> </xs:restriction> 
+		</xs:simpleType> -->
+	<!-- -->
+	<xs:element name="Target" type="tns:Target">
+		<xs:annotation>
+			<xs:documentation>
+				The target container. There is only one target for each policy. A
+				target may
+				contain some resources, subjects or events.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>0</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>createPolicy</callName>
+					<callName>updatePolicy</callName>
+					<callName>validatePolicy</callName>
+					<context>Policy</context>
+					<requiredInput>No</requiredInput>
+				</callInfo>
+				<callInfo>
+					<callName>findPolicies</callName>
+					<context>Policy</context>
+					<returned>Conditionally</returned>
+					>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="Target">
+		<xs:sequence>
+			<xs:element ref="tns:Resources" minOccurs="0" />
+			<xs:element ref="tns:Subjects" minOccurs="0" />
+			<xs:element ref="tns:Events" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- -->
+	<xs:element name="Subjects" type="tns:Subjects">
+		<xs:annotation>
+			<xs:documentation>
+				A list of subjects. The number of subjects could be zero or more.
+				A
+				subject also contains a list of subjects and a list subject
+				groups.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>0</minOccurs>
+				<callInfo>
+					<callName>updatePolicy</callName>
+					<callName>createPolicy</callName>
+					<callName>validatePolicy</callName>
+					<context>Target</context>
+					<requiredInput>No</requiredInput>
+				</callInfo>
+				<callInfo>
+					<callName>findPolicies</callName>
+					<context>Policy</context>
+					<returned>Conditionally</returned>
+					>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="Subjects">
+		<xs:sequence>
+			<!-- <xs:element name="Subject" type="xacml:SubjectType" minOccurs="0" 
+				maxOccurs="unbounded"/> -->
+			<!-- <xs:element name="Subject" type="xacml:SubjectType" minOccurs="0" 
+				maxOccurs="unbounded"> <xs:complexType> <xs:attribute name="SubjectType" 
+				type="tns:SubjectDomain"/> </xs:complexType> </xs:element> -->
+			<xs:element name="Subject" minOccurs="0" type="tns:Subject"
+				maxOccurs="unbounded">
+				<!-- <xs:complexType> <xs:complexContent> <xs:extension base="xacml:SubjectType"> 
+					<xs:attribute name="SubjectType" type="xs:string" /> <xs:attribute name="SubjectName" 
+					type="xs:string" use="required" /> <xs:attribute name="subjectId" type="xs:long"> 
+					</xs:attribute> </xs:extension> </xs:complexContent> </xs:complexType> -->
+			</xs:element>
+			<xs:element ref="tns:SubjectGroup" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- -->
+	<xs:element name="Subject" type="tns:Subject">
+		<xs:annotation>
+			<xs:documentation>
+				The subject container. The number of subjects could be zero or more.
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>createPolicy</callName>
+					<callName>updatePolicy</callName>
+					<callName>validatePolicy</callName>
+					<context>Subjects</context>
+					<requiredInput>No</requiredInput>
+				</callInfo>
+				<callInfo>
+					<minOccurs>0</minOccurs>
+					<callName>findPolicies</callName>
+					<context>Subjects</context>
+					<returned>Conditionally</returned>
+				</callInfo>
+				<callInfo>
+					<callName>createSubjects</callName>
+					<context>CreateSubjectsRequest</context>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+				<callInfo>
+					<callName>createSubjectGroups</callName>
+					<context>SubjectGroup</context>
+					<requiredInput>No</requiredInput>
+				</callInfo>
+				<callInfo>
+					<minOccurs>0</minOccurs>
+					<callName>findSubjectGroups</callName>
+					<context>SubjectGroup</context>
+					<returned>Conditionally</returned>
+				</callInfo>
+				<callInfo>
+					<minOccurs>0</minOccurs>
+					<callName>findSubjects</callName>
+					<context>FindSubjectsResponse</context>
+					<returned>Conditionally</returned>
+				</callInfo>
+
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="Subject">
+		<xs:complexContent>
+			<xs:extension base="xacml:SubjectType">
+				<xs:sequence>
+					<xs:element name="extendedMetadata" type="tns:KeyValuePair"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								This is used for additional attributes for the subject. e.g email
+								address
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<callName></callName>
+									<context></context>
+									<requiredInput></requiredInput>
+									<returned></returned>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<!--xs:attribute name="SubjectId" type="xs:long"/ -->
+				<xs:attribute name="SubjectName" type="xs:token" use="required">
+					<xs:annotation>
+						<xs:documentation>
+							Unique name of the subject
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="SubjectType" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>
+							Type of the subject, in string format.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Description" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Description of the subject
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="IpMask" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="ExternalSubjectId" type="xs:long">
+					<xs:annotation>
+						<xs:documentation>
+							Only available when this subject is external.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="LastUpdatedDate" type="xs:dateTime">
+					<xs:annotation>
+						<xs:documentation>
+							The nearest date when the subject was modified.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="CreatedBy" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							The subject name who created this subject.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="EmailContact" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>
+							The email address of the subject.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- -->
+	<xs:element name="SubjectGroup" type="tns:SubjectGroup">
+		<xs:annotation>
+			<xs:documentation>
+				The subject group container. The number of subject groups could be
+				zero or more.
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>createPolicy</callName>
+					<callName>updatePolicy</callName>
+					<callName>validatePolicy</callName>
+					<context>Subjects</context>
+					<requiredInput>No</requiredInput>
+				</callInfo>
+				<callInfo>
+					<callName>createSubjectGroups</callName>
+					<context>CreateSubjectGroupsRequest</context>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+				<callInfo>
+					<minOccurs>0</minOccurs>
+					<callName>findPolicies</callName>
+					<context>Subjects</context>
+					<returned>Conditionally</returned>
+				</callInfo>
+				<callInfo>
+					<minOccurs>0</minOccurs>
+					<callName>findSubjectGroups</callName>
+					<context>FindSubjectGroupsResponse</context>
+					<returned>Conditionally</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="SubjectGroup">
+		<xs:sequence>
+			<xs:element ref="tns:Subject" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element ref="xacml:SubjectMatch" minOccurs="0" />
+		</xs:sequence>
+		<!--xs:attribute name="SubjectGroupId" type="xs:long"/ -->
+		<xs:attribute name="SubjectGroupName" type="xs:string"
+			use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Unique name of the subject group
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="SubjectType" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Type of the subject group, in string format.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="SubjectGroupCalculator" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Only used when the name of this subject group is calculated.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ApplyToEach" type="xs:boolean"
+			default="false">
+			<xs:annotation>
+				<xs:documentation>
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ApplyToAll" type="xs:boolean"
+			default="false">
+			<xs:annotation>
+				<xs:documentation>
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="LastUpdatedDate" type="xs:dateTime">
+			<xs:annotation>
+				<xs:documentation>
+					The nearest date when the subject group was modified.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="CreatedBy" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					The name of subject who created this subject group.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="LastModifiedBy" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					The name of the subject who modified this subject group most
+					recently.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Description" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Description of the subject group
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<!-- -->
+
+	<xs:complexType name="KeyValuePair">
+		<xs:annotation>
+			<xs:documentation>
+				Key value pair container.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="key" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						Unique name of the pair
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>1</minOccurs>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="value" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						Value of the pair
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>1</minOccurs>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="Resources" type="tns:Resources">
+		<xs:annotation>
+			<xs:documentation>
+				A list of resources. The number of resources could be zero or more.
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>updatePolicy</callName>
+					<callName>createPolicy</callName>
+					<callName>validatePolicy</callName>
+					<context>Target</context>
+					<requiredInput>No</requiredInput>
+				</callInfo>
+				<callInfo>
+					<callName>findPolicies</callName>
+					<context>Target</context>
+					<returned>Conditionally</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="Resources">
+		<xs:sequence>
+			<xs:element ref="tns:Resource" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- -->
+	<xs:element name="Resource" type="tns:Resource">
+		<xs:annotation>
+			<xs:documentation>
+				The resource container
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>updatePolicy</callName>
+					<callName>createPolicy</callName>
+					<callName>validatePolicy</callName>
+					<context>Resources</context>
+					<requiredInput>No</requiredInput>
+				</callInfo>
+				<callInfo>
+					<callName>createResources</callName>
+					<context>CreateResourcesRequest</context>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+				<callInfo>
+					<minOccurs>0</minOccurs>
+					<callName>findPolicies</callName>
+					<context>Resources</context>
+					<returned>Conditionally</returned>
+				</callInfo>
+				<callInfo>
+					<minOccurs>0</minOccurs>
+					<callName>findResources</callName>
+					<context>FindResourcesResponse</context>
+					<returned>Conditinally</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="Resource">
+		<xs:sequence>
+			<xs:element ref="tns:Operation" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="ResourceId" type="xs:long">
+			<xs:annotation>
+				<xs:documentation>
+					The unique ID of the resource.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ResourceName" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					The unique name of the resource
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ResourceType" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					The type of the resource in string format.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Description" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					The descriptio of the resource
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<!-- -->
+	<xs:element name="Operation" type="tns:Operation">
+		<xs:annotation>
+			<xs:documentation>
+				The list of operatoins assigned to this resource.
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>createPolicy</callName>
+					<callName>updatePolicy</callName>
+					<callName>validatePolicy</callName>
+					<context>Resource</context>
+					<requiredInput>No</requiredInput>
+				</callInfo>
+				<callInfo>
+					<minOccurs>0</minOccurs>
+					<callName>getOperations</callName>
+					<context>GetOperationsResponse</context>
+					<returned>Conditionally</returned>
+				</callInfo>
+				<callInfo>
+					<callName>findPolicies</callName>
+					<context>Resource</context>
+					<returned>Conditionally</returned>
+				</callInfo>
+				<callInfo>
+					<callName>updateResource</callName>
+					<context>Resource</context>
+					<requiredInput>Conditionally</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="Operation">
+		<xs:attribute name="OperationId" type="xs:long">
+			<xs:annotation>
+				<xs:documentation>
+					The unique ID of the operation.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="OperationName" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					The unique name of the operation.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ResourceId" type="xs:long">
+			<xs:annotation>
+				<xs:documentation>
+					The ID of the resource which this operation is assigned to. This
+					attribute should not
+					always be null when it is returned in a
+					response.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Description" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					The description of the resource.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<!-- -->
+	<xs:element name="Events" type="tns:Events">
+		<xs:annotation>
+			<xs:documentation>
+				A list of events. The number of events could be zero or more.
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>updatePolicy</callName>
+					<callName>createPolicy</callName>
+					<callName>validatePolicy</callName>
+					<context>Target</context>
+					<requiredInput>No</requiredInput>
+				</callInfo>
+				<callInfo>
+					<minOccurs>0</minOccurs>
+					<callName>findPolicies</callName>
+					<context>Target</context>
+					<returned>Conditionally</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="Events">
+		<xs:sequence>
+			<xs:element ref="tns:Event" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- -->
+	<xs:element name="Event" type="tns:Event">
+	</xs:element>
+	<xs:complexType name="Event">
+		<xs:attribute name="EventId" type="xs:long">
+			<xs:annotation>
+				<xs:documentation>
+					The ID of the event.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="EventName" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					The name of the event.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="EventType" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					The type of the event.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<!-- -->
+	<xs:element name="Expression" type="tns:Expression">
+		<xs:annotation>
+			<xs:documentation>
+				The expression container.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>0</minOccurs>
+				<callInfo>
+					<callName>createPolicy</callName>
+					<callName>updatePolicy</callName>
+					<callName>validatePolicy</callName>
+					<context>Rule</context>
+					<requiredInput>Conditionally</requiredInput>
+				</callInfo>
+				<callInfo>
+					<callName>findPolicies</callName>
+					<context>Rule</context>
+					<returned>Conditionally</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<!-- -->
+	<xs:element name="Condition" type="tns:Condition">
+		<xs:annotation>
+			<xs:documentation>
+				The condition of this rule. It consists an expression.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>0</minOccurs>
+				<callInfo>
+					<callName>createPolicy</callName>
+					<callName>updatePolicy</callName>
+					<callName>validatePolicy</callName>
+					<context>Rule</context>
+					<requiredInput>Conditionally</requiredInput>
+				</callInfo>
+				<callInfo>
+					<callName>findPolicies</callName>
+					<context>Rule</context>
+					<returned>Conditionally</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="Condition">
+		<xs:sequence>
+			<xs:element ref="tns:Expression" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- -->
+	<xs:complexType name="PrimitiveValue">
+		<xs:attribute name="value" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="type" type="tns:SupportedPrimitive"
+			use="required">
+			<xs:annotation>
+				<xs:documentation>
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="Variable">
+		<xs:attribute name="type" type="tns:SupportedPrimitive"
+			use="required">
+			<xs:annotation>
+				<xs:documentation>
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="src" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="name" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="SupportedPrimitive">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="int">
+				<xs:annotation>
+					<xs:documentation>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ipV4">
+				<xs:annotation>
+					<xs:documentation>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="string">
+				<xs:annotation>
+					<xs:documentation>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="boolean">
+				<xs:annotation>
+					<xs:documentation>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Function">
+		<xs:sequence>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:choice>
+					<xs:element name="Variable" type="tns:Variable"
+						maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EnumeratedTypeValue" type="tns:EnumeratedTypeValue">
+						<xs:annotation>
+							<xs:documentation>
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PrimitiveValue" type="tns:PrimitiveValue">
+						<xs:annotation>
+							<xs:documentation>
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Function" type="tns:Function">
+						<xs:annotation>
+							<xs:documentation>
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:sequence>
+			<xs:element name="Comment" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+		<xs:attribute name="id" type="tns:AllBuiltInFunctions"
+			use="required">
+			<xs:annotation>
+				<xs:documentation>
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="AllBuiltInFunctions">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AND">
+				<xs:annotation>
+					<xs:documentation>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="EQ">
+				<xs:annotation>
+					<xs:documentation>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="F">
+				<xs:annotation>
+					<xs:documentation>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GT">
+				<xs:annotation>
+					<xs:documentation>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MemberOf">
+				<xs:annotation>
+					<xs:documentation>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NEQ">
+				<xs:annotation>
+					<xs:documentation>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="OR">
+				<xs:annotation>
+					<xs:documentation>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Expression">
+		<xs:choice>
+			<xs:sequence>
+				<xs:choice>
+					<xs:element name="PrimitiveValue" type="tns:PrimitiveValue">
+						<xs:annotation>
+							<xs:documentation>
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Variable" type="tns:Variable">
+						<xs:annotation>
+							<xs:documentation>
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Function" type="tns:Function">
+						<xs:annotation>
+							<xs:documentation>
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+				<xs:element name="Comment" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:choice>
+		<xs:attribute name="name">
+			<xs:annotation>
+				<xs:documentation>
+				</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="ANDMemberOfSample">
+						<xs:annotation>
+							<xs:documentation>
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="ANDSample">
+						<xs:annotation>
+							<xs:documentation>
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="EQSample2">
+						<xs:annotation>
+							<xs:documentation>
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="SimpleFunction1">
+						<xs:annotation>
+							<xs:documentation>
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="name">
+						<xs:annotation>
+							<xs:documentation>
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="simpleValue">
+						<xs:annotation>
+							<xs:documentation>
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="simplestExpression">
+						<xs:annotation>
+							<xs:documentation>
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="EnumeratedTypeValue">
+		<xs:attribute name="value" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="InternalIPGroup">
+						<xs:annotation>
+							<xs:documentation>
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="type" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Group">
+						<xs:annotation>
+							<xs:documentation>
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="PolicyKey">
+		<xs:annotation>
+			<xs:documentation>
+				The policy identification information.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="policyId" type="xs:long" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Unique ID of a policy. In general, policyName does not need to be
+						present if
+						this field is provided.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<maxOccurs>1</maxOccurs>
+						<callInfo>
+							<requiredInput>Conditionally</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="policyName" type="xs:token" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The name of a policy. If a policyID is not set, this field must be
+						provided.
+						The name could contain % characters for wildcard
+						search. (Note: Some policy service
+						calls do not support this
+						feature.)
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<maxOccurs>1</maxOccurs>
+						<callInfo>
+							<maxLength>256</maxLength>
+							<requiredInput>Conditionally</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="policyType" type="xs:token">
+				<xs:annotation>
+					<xs:documentation>
+						The type of the policy. The policy type values are AUTHN, AUTHZ,
+						RL,
+						WHITELIST, BLACKLIST. This field is required.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>1</minOccurs>
+						<maxOccurs>1</maxOccurs>
+						<callInfo>
+							<maxLength>256</maxLength>
+							<requiredInput>Yes</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="createPolicyRequest" type="tns:CreatePolicyRequest">
+		<xs:annotation>
+			<xs:documentation>
+				Request container for policy creation.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>createPolicy</callName>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="createPolicyResponse" type="tns:CreatePolicyResponse">
+		<xs:annotation>
+			<xs:documentation>
+				Response container returned by the create policy call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>createPolicy</callName>
+					<returned>Always</returned>
+					>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CreatePolicyRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="policy" type="tns:Policy">
+						<xs:annotation>
+							<xs:documentation>
+								The policy data which is to be created.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CreatePolicyResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse">
+				<xs:sequence>
+					<xs:element name="policyId" type="xs:long">
+						<xs:annotation>
+							<xs:documentation>
+								The policy ID which has been successfully
+								create. This data is available only
+								when the call is
+								successful.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<returned>Conditionally</returned>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="validatePolicyRequest" type="tns:ValidatePolicyRequest">
+		<xs:annotation>
+			<xs:documentation>
+				Request container of the policy validation call
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>validatePolicy</callName>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="validatePolicyResponse" type="tns:ValidatePolicyResponse">
+		<xs:annotation>
+			<xs:documentation>
+				Response container returned by the policy validation call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>validatePolicy</callName>
+					<returned>Always</returned>
+					>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="ValidatePolicyRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="policy" type="tns:Policy">
+						<xs:annotation>
+							<xs:documentation>
+								The policy data to be validated.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="scope" type="tns:QueryCondition"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								A list of key value pairs used to pass specific information to
+								the server. Please
+								refer to QueryCondition for details
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ValidatePolicyResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse">
+				<xs:sequence>
+					<xs:element name="validationStatus" type="xs:boolean"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The return status of the policy validation call. True means the
+								policy
+								is valid, otherwise False.
+							</xs:documentation>
+							<xs:appinfo>
+								<callInfo>
+									<returned>Always</returned>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="updatePolicyRequest" type="tns:UpdatePolicyRequest">
+		<xs:annotation>
+			<xs:documentation>
+				Request container for update policy call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>updatePolicy</callName>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="updatePolicyResponse" type="tns:UpdatePolicyResponse">
+		<xs:annotation>
+			<xs:documentation>
+				Response container returned by the update policy call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>updatePolicy</callName>
+					<returned>Always</returned>
+					>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="deletePolicyRequest" type="tns:DeletePolicyRequest">
+		<xs:annotation>
+			<xs:documentation>
+				Request container for delete policy call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>deletePolicy</callName>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="deletePolicyResponse" type="tns:DeletePolicyResponse">
+		<xs:annotation>
+			<xs:documentation>
+				Response container returned by the delete policy call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>deletePolicy</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getResourcesRequest" type="tns:GetResourcesRequest">
+		<xs:annotation>
+			<xs:documentation>
+				Request container for get resources call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>getResources</callName>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getResourcesResponse" type="tns:GetResourcesResponse">
+		<xs:annotation>
+			<xs:documentation>
+				Response container returned by the get resources call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>getResources</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getOperationsRequest" type="tns:GetOperationsRequest">
+		<xs:annotation>
+			<xs:documentation>
+				Request container for get operation call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>getOperations</callName>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getOperationsResponse" type="tns:GetOperationsResponse">
+		<xs:annotation>
+			<xs:documentation>
+				Response container returned by the get operations call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>getOperations</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="createSubjectsRequest" type="tns:CreateSubjectsRequest">
+		<xs:annotation>
+			<xs:documentation>
+				Request container for create subjects call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>createSubjects</callName>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="createSubjectsResponse" type="tns:CreateSubjectsResponse">
+		<xs:annotation>
+			<xs:documentation>
+				Response container returned by the create subjects call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>createSubjects</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="createSubjectGroups" type="tns:CreateSubjectGroupsRequest">
+		<xs:annotation>
+			<xs:documentation>
+				Request container for create subject groups call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>createSubjectGroups</callName>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="createSubjectGroupsResponse" type="tns:CreateSubjectGroupsResponse">
+		<xs:annotation>
+			<xs:documentation>
+				Response container returned by the create subject groups call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>createSubjectGroups</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="findSubjectsRequest" type="tns:FindSubjectsRequest">
+		<xs:annotation>
+			<xs:documentation>
+				Request container for find subjects call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>findSubjects</callName>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="findSubjectsResponse" type="tns:FindSubjectsResponse">
+		<xs:annotation>
+			<xs:documentation>
+				Response container returned by the find subjects call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>findSubjects</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="findExternalSubjectsRequest" type="tns:FindExternalSubjectsRequest">
+		<xs:annotation>
+			<xs:documentation>
+				Request container for find external subjects call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>findExternalSubjects</callName>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="findExternalSubjectsResponse" type="tns:FindExternalSubjectsResponse">
+		<xs:annotation>
+			<xs:documentation>
+				Response container returned by the find external subjects call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>findExternalSubjects</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="findSubjectGroupsRequest" type="tns:FindSubjectGroupsRequest">
+		<xs:annotation>
+			<xs:documentation>
+				Request container for find subject groups call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>findSubjectGroups</callName>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="findSubjectGroupsResponse" type="tns:FindSubjectGroupsResponse">
+		<xs:annotation>
+			<xs:documentation>
+				Response container returned by the find subject groups call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>findSubjectGroups</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="createExternalSubjectReferencesRequest"
+		type="tns:CreateExternalSubjectReferenceRequest">
+		<xs:annotation>
+			<xs:documentation>
+				Request container for create external subject references call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>createExternalSubjectResferences</callName>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="createExternalSubjectReferencesResponse"
+		type="tns:CreateExternalSubjectReferencesResponse">
+		<xs:annotation>
+			<xs:documentation>
+				Response container returned by the create external subject references
+				call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>createExternalSubjectReferences</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="UpdatePolicyRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="updateMode" type="tns:UpdateMode">
+						<xs:annotation>
+							<xs:documentation>
+								The update mode can be UPDATE, DELETE, or REPLACE. Please refer
+								to UpdateMode for details.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="policy" type="tns:Policy">
+						<xs:annotation>
+							<xs:documentation>
+								The policy data which is to be updated.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DeletePolicyRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="policyKey" type="tns:PolicyKey">
+						<xs:annotation>
+							<xs:documentation>
+								The policy identification information. Please refer to PolicyKey
+								for details.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetResourcesRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="resourceKey" type="tns:ResourceKey"
+						maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								The resource identification information. Please refer to
+								ResourceKey for details.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="paginationHandler" type="tns:PaginationHandler">
+						<xs:annotation>
+							<xs:documentation>
+								For pagination support
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetOperationsRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="resourceKey" type="tns:ResourceKey"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								The resource identification information. Please refer to
+								ResourceKey for details.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<!--xs:element name="operations" type="tns:Operation" -->
+					<xs:element name="operationKey" type="tns:OperationKey"
+						maxOccurs="unbounded" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The operation identification information. Please refer to
+								OperationKey for details.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="paginationHandler" type="tns:PaginationHandler">
+						<xs:annotation>
+							<xs:documentation>
+								For pagination support
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CreateSubjectsRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="subjects" type="tns:Subject"
+						minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								The data for the subjects which need to be created. The number of
+								subjects to be created must be
+								at least one.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CreateSubjectsResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse">
+				<xs:sequence>
+					<xs:element name="subjectIds" type="xs:long" maxOccurs="unbounded"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The IDs of the newly created subjects. This field will be
+								available
+								only when the call was successful.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<returned>Conditionally</returned>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CreateSubjectGroupsRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="subjectGroups" type="tns:SubjectGroup"
+						minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								The data for the subject groups which need to be created. The
+								number of subject groups
+								to be created must be at least one.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CreateSubjectGroupsResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse">
+				<xs:sequence>
+					<xs:element name="subjectGroupIds" type="xs:long"
+						maxOccurs="unbounded" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The IDs of the newly created subjectgroups. This field will be
+								available
+								only when the call was successful. Otherwise, the number of the
+								IDs is zero.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<returned>Conditionally</returned>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DeletePolicyResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse" />
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetOperationsResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse">
+				<xs:sequence>
+					<xs:element name="operations" type="tns:Operation"
+						maxOccurs="unbounded" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The data of the operations returned by a successful getOperation
+								call. If the call
+								fails, the number of operations will be zero.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<returned>Conditionally</returned>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetResourcesResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse">
+				<xs:sequence>
+					<xs:element name="resources" type="tns:Resource"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								The data of the resource returned by a successful getResources
+								call. If the call
+								fails, the number of operations will be zero.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<returned>Conditionally</returned>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="UpdatePolicyResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse" />
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CreateExternalSubjectReferenceRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="subject" type="tns:Subject" minOccurs="1"
+						maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								The data of the subject to be created. The number of subjects
+								must be at
+								least one.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CreateExternalSubjectReferencesResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse">
+				<xs:sequence>
+					<xs:element name="subjectIds" type="xs:long" maxOccurs="unbounded"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The IDs of the newly created external subject references. This
+								field will be
+								available only when the call was successful.
+								Otherwise, the number of the IDs
+								is zero.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<returned>Conditionally</returned>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="FindSubjectsRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="subjectQuery" type="tns:SubjectQuery">
+						<xs:annotation>
+							<xs:documentation>
+								Query used to fetch the subjects. Please refer to SubjectQuery for
+								details.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>Always</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="paginationHandler" type="tns:PaginationHandler">
+						<xs:annotation>
+							<xs:documentation>
+								Configurations for pagination support. Please refer to PaginationHandler for
+								details.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="FindSubjectGroupsRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="subjectGroupQuery" type="tns:SubjectGroupQuery">
+						<xs:annotation>
+							<xs:documentation>
+								Query used to fetch the subject groups. Please refer to
+								SubjectGroupQuery for details.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>Always</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="paginationHandler" type="tns:PaginationHandler">
+						<xs:annotation>
+							<xs:documentation>
+								Configurations for pagination support. Please refer to PaginationHandler for
+								details.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="FindExternalSubjectsRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="subjectQuery" type="tns:SubjectQuery">
+						<xs:annotation>
+							<xs:documentation>
+								Query used to fetch the subjects. Please refer to SubjectQuery for
+								details.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>Always</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="paginationHandler" type="tns:PaginationHandler"
+						minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Configurations for pagination support. Please refer to PaginationHandler for
+								details.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="FindSubjectsResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse">
+				<xs:sequence>
+					<xs:element name="subjects" type="tns:Subject"
+						maxOccurs="unbounded" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The data of the subjects returned by a
+								successful findSubjects call. If the call
+								fails, the number of
+								subjects will be zero.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<returned>Conditionally</returned>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="FindSubjectGroupsResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse">
+				<xs:sequence>
+					<xs:element name="subjectGroups" type="tns:SubjectGroup"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								The data of the subject groups returned by a
+								successful findSubjectGroups call.
+								If the call fails, the
+								number of subject groups will be zero.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<returned>Conditionally</returned>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="FindExternalSubjectsResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse">
+				<xs:sequence>
+					<xs:element name="subjects" type="tns:Subject"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								The data of the subjects returned by a
+								successful findExternalSubjects call.
+								If the call fails, the
+								number of subjects will be zero.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<returned>Conditionally</returned>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SubjectKey">
+		<xs:sequence>
+			<xs:element name="subjectType" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The type of the subject in string format. This is required.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>1</minOccurs>
+						<callInfo>
+							<requiredInput>Yes</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectName" type="xs:token" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The unique name of the subject.
+						Either the subject id or subject
+						name should be available for the key.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<callInfo>
+							<requiredInput>Conditionally</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectId" type="xs:long" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The unique ID of the subject.
+						Either the subject id or subject name
+						should be available for the key.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<callInfo>
+							<requiredInput>Conditionally</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SubjectGroupKey">
+		<xs:sequence>
+			<xs:element name="subjectType" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The type of the subject group in string format. This is required.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>1</minOccurs>
+						<callInfo>
+							<requiredInput>Yes</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectGroupName" type="xs:token"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The unique name of the subject group.
+						Either the subject group id or
+						subject group name should be available for the key.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<callInfo>
+							<requiredInput>Conditionally</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectGroupId" type="xs:long"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The unique ID of the subject group.
+						Either the subject group id or
+						subject group name should be available for the key.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<callInfo>
+							<requiredInput>Conditionally</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SubjectQuery">
+		<xs:sequence>
+			<xs:element name="subjectKey" type="tns:SubjectKey"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						A list of the subject identification used as the search criteria.
+						The server
+						will loop through each element for matching subjects.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<callInfo>
+							<requiredInput>Conditionally</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SubjectGroupQuery">
+		<xs:sequence>
+			<xs:element name="subjectGroupKey" type="tns:SubjectGroupKey"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						A list of the subject group identification used as the search
+						criteria. The server
+						will loop through each element for matching subject groups.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<callInfo>
+							<requiredInput>Conditionally</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="includeSubjects" type="xs:boolean"
+				default="false">
+				<xs:annotation>
+					<xs:documentation>
+						Indicates if associated subjects need to be returned.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<default>false</default>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ResourceKey">
+		<xs:sequence>
+			<xs:element name="resourceId" type="xs:long" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The unique ID of the resuouce.
+						Either the resource id or resource
+						name should be available for the key.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<callInfo>
+							<requiredInput>Conditionally</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="resourceType" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The type of the resuouce.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>1</minOccurs>
+						<callInfo>
+							<requiredInput>Yes</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="resourceName" type="xs:token" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The name of the resource.
+						Either the resource id or resource name
+						should be available for the key.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<callInfo>
+							<requiredInput>Conditionally</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OperationKey">
+		<xs:sequence>
+			<xs:element name="operationId" type="xs:long" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The unique ID of the operation.
+						Either the operation id or operation
+						name should be available for the key.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<callInfo>
+							<requiredInput>Conditionally</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="operationName" type="xs:token"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The name of the operation.
+						Either the operation id or operation name
+						should be available for the key.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<callInfo>
+							<requiredInput>Conditionally</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="resourceName" type="xs:token">
+				<xs:annotation>
+					<xs:documentation>
+						The name of the resource which this operation is assigned to.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>1</minOccurs>
+						<callInfo>
+							<requiredInput>Yes</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="resourceType" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The type of the operation/resource.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>1</minOccurs>
+						<callInfo>
+							<requiredInput>Yes</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="findPoliciesRequest" type="tns:FindPoliciesRequest">
+		<xs:annotation>
+			<xs:documentation>
+				The request container for find policies call.
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>findPolicies</callName>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="findPoliciesResponse" type="tns:FindPoliciesResponse">
+		<xs:annotation>
+			<xs:documentation>
+				The response container for find policies call.
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>findPolicies</callName>
+					<returned>No</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="FindPoliciesRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="lastUpdatedDate" type="xs:dateTime"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Return only the policies are updated since this date
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<!-- <xs:element name="policyType" type="xs:token" maxOccurs="unbounded" 
+						minOccurs="0"> </xs:element> -->
+					<xs:element name="policyKey" type="tns:PolicyKey"
+						maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								The policy identification used as search criteria. Policies with
+								these
+								identifications, if there is any, will be returned.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="resourceKey" type="tns:ResourceKey"
+						maxOccurs="unbounded" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The resource identification used as search criteria. Policies
+								with these
+								resources assigned, if there is any, will be
+								returned.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="operationKey" type="tns:OperationKey"
+						maxOccurs="unbounded" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The operation identification used as search criteria. Policies
+								with these
+								operations assigned, if there is any, will be
+								returned.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="subjectKey" type="tns:SubjectKey"
+						maxOccurs="unbounded" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The subject identification used as search criteria. Policies with
+								these subject assigned, if there is any, will be returned.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="subjectGroupKey" type="tns:SubjectGroupKey"
+						maxOccurs="unbounded" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The subject group identification used as
+								search ctieria. Policies with these
+								subject group assigned, if
+								there is any, will be returned.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="outputSelector" type="tns:PolicyOutputSelector"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Indicates what need to be returned by the call. Please refer to
+								PolicyOutputSelector
+								for details.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<default>ALL</default>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="paginationHandler" type="tns:PaginationHandler"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								For pagination support. Please refer to PaginationHandler for
+								details.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="queryCondition" type="tns:QueryCondition"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								A list of key value pairs used to pass specific information to
+								the server. Please
+								refer to QueryCondition for details
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="PolicyOutputSelector">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ALL">
+				<xs:annotation>
+					<xs:documentation>
+						All policy related information are requested,
+						including policy, resources, operations,
+						subjects, subject groups
+						and rules if applicable.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="RESOURCES">
+				<xs:annotation>
+					<xs:documentation>
+						Only policy and assigned resources are
+						requested, including policy, resources and
+						operations.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SUBJECTS">
+				<xs:annotation>
+					<xs:documentation>
+						Only policy and assigned subjects are
+						requested, including policy, subjects and
+						subject groups.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="RULES">
+				<xs:annotation>
+					<xs:documentation>
+						Only policy and assigned rules are requested.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SUBJECTGROUPS">
+				<xs:annotation>
+					<xs:documentation>
+						Not implemented
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="FindPoliciesResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse">
+				<xs:sequence>
+					<xs:element name="policySet" type="tns:PolicySet">
+						<xs:annotation>
+							<xs:documentation>
+								A list of policies as the result of the
+								findPolicies call. It is only avaliable
+								when the call succeeds.
+								The number of policies could be zero or more.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<returned>Conditionally</returned>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PaginationHandler">
+		<xs:sequence>
+			<xs:element name="pageSize" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>
+						Indicates the number of records in each page.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="pageCount" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="totalCount" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="nextPageNumber" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="pageHandler" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="QueryCondition">
+		<xs:sequence>
+			<xs:element name="resolution" type="tns:Resolution">
+				<xs:annotation>
+					<xs:documentation>
+						Logic operation of the condition. Please refer to Resolution for
+						details.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<callInfo>
+							<requiredInput>No</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="query" type="tns:Query" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						A the list name-value pairs. Please refer to Query for details.
+					</xs:documentation>
+					<xs:appinfo>
+						<minOccurs>0</minOccurs>
+						<callInfo>
+							<requiredInput>No</requiredInput>
+						</callInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Resolution">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AND">
+				<xs:annotation>
+					<xs:documentation>
+						Logic AND will be applied to the query conditions.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="OR">
+				<xs:annotation>
+					<xs:documentation>
+						Logic OR will be applied to the query conditions.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Query">
+		<xs:sequence>
+			<xs:element name="QueryType" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						Name of the query.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QueryValue" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						Value of the query.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:attribute name="NewAttribute" type="xs:string" />
+	<xs:element name="deleteOperationsResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="out" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="deleteResourcesResponse" type="tns:DeleteResourcesResponse">
+		<xs:annotation>
+			<xs:documentation>
+				The response container for delete operations
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>deleteResources</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="createOperationsResponse">
+		<xs:annotation>
+			<xs:documentation>
+				The response container for create operations
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>createOperations</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="out" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="createResourcesResponse" type="tns:CreateResourcesResponse">
+		<xs:annotation>
+			<xs:documentation>
+				The response container for create operations
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>createResources</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="deleteSubjectsResponse" type="tns:DeleteSubjectsResponse">
+		<xs:annotation>
+			<xs:documentation>
+				The response container for delete subjects
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>deleteSubjects</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="deleteSubjectGroupsResponse" type="tns:DeleteSubjectGroupsResponse">
+		<xs:annotation>
+			<xs:documentation>
+				The response container for delete subject groups
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>deleteSubjectGroups</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="deleteOperationsRequest" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>
+				The request container for delete operations
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>deleteOperations</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="deleteResourcesRequest" type="tns:DeleteResourcesRequest">
+		<xs:annotation>
+			<xs:documentation>
+				The request container for delete operations
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>deleteResources</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="parameters" type="xs:string">
+	</xs:element>
+	<xs:element name="createOperationsRequest" type="xs:string">
+	</xs:element>
+	<xs:element name="createResourcesRequest" type="tns:CreateResourcesRequest">
+		<xs:annotation>
+			<xs:documentation>
+				The request container for create resources
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>createResources</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="deleteSubjectsRequest" type="tns:DeleteSubjectsRequest">
+		<xs:annotation>
+			<xs:documentation>
+				The request container for delete subjects
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>deleteSubjects</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="deleteSubjectGroupsRequest" type="tns:DeleteSubjectGroupsRequest">
+		<xs:annotation>
+			<xs:documentation>
+				The request container for delete subject groups
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>deleteSubjectGroups</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getEntityHistoryResponse" type="tns:getEntityHistoryResponse">
+		<xs:annotation>
+			<xs:documentation>
+				The response container for getEntityHistory
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>getEntityHistory</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getEntityHistoryRequest" type="tns:getEntityHistoryRequest">
+		<xs:annotation>
+			<xs:documentation>
+				The request container for getEntityHistory
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>getEntityHistory</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:complexType name="getEntityHistoryRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="startDate" type="xs:dateTime"
+						minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Return the history information which is not earlier than this date.
+								Required
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="endDate" type="xs:dateTime" minOccurs="1"
+						maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Return the policy history information which is not later than this
+								date. Required
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="policyKey" type="tns:PolicyKey"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								Return the policy history information which is associated with these
+								policies.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="resourceKey" type="tns:ResourceKey"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								Return the policy history information which is associated with these
+								resources.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="operationKey" type="tns:OperationKey"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								Return the policy history information which is associated with these
+								operations.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="subjectKey" type="tns:SubjectKey"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								Return the policy history information which is associated with these
+								subjects.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="subjectGroupKey" type="tns:SubjectGroupKey"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								Return the policy history information which is associated with these
+								subject groups.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="getEntityHistoryResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse">
+				<xs:sequence>
+					<xs:element name="entityHistories" type="tns:EntityHistory"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								A list of EntityHistory returned by the getEntityHistory call
+								if the call is succesfful.
+								The number of entityHistory returned will be zero or more.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<callInfo>
+									<returned>Conditionally</returned>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="EntityHistory">
+		<xs:sequence>
+			<xs:element name="comments" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The comments of this eneity history.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="loginSubject" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The name of the subject who created this entity history.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="auditDate" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>
+						The date of this history was created.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="auditType" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The type of this entity history.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ipAddress" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The IP address of the subject
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DeleteSubjectGroupsRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="subjectGroupKey" type="tns:SubjectGroupKey"
+						maxOccurs="unbounded" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The list of subject group identifications for the subject groups
+								which are
+								to be deleted.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DeleteSubjectGroupsResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DeleteSubjectsRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="subjectKey" type="tns:SubjectKey"
+						maxOccurs="unbounded" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The list of identifications for the subjects which are
+								to be deleted.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DeleteSubjectsResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="CreateResourcesRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="resources" type="tns:Resource"
+						minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								The data of the resources which are to be created. The number of
+								the
+								resources should be at least one.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="CreateResourcesResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse">
+				<xs:sequence>
+					<xs:element name="resourceIds" type="xs:long" minOccurs="0"
+						maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								The resource IDs which were created. If the call was successful,
+								more
+								than one IDs are expected to be returned . If the call failed,
+								zero IDs
+								will be returned.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DeleteResourcesRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="resourceKey" type="tns:ResourceKey"
+						maxOccurs="unbounded" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The list of identifications for the resources which are
+								to be deleted.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DeleteResourcesResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="updateResourcesResponse" type="tns:UpdateResourcesResponse">
+		<xs:annotation>
+			<xs:documentation>
+				The response container for updateResources
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>updateResources</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="updateResourcesRequest" type="tns:UpdateResourcesRequest">
+		<xs:annotation>
+			<xs:documentation>
+				The request container for updateResources
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>updateResources</callName>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:complexType name="UpdateResourcesRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="updateMode" type="tns:UpdateMode">
+						<xs:annotation>
+							<xs:documentation>
+								The mode used for the update. Please refer to UpdateMode for
+								details.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="resources" type="tns:Resource"
+						minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								The data of the resources which are to be updated. The number of
+								the
+								resources should be at least one.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="UpdateResourcesResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse" />
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- <xs:complexType name="SubjectTypes"> <xs:sequence> <xs:element name="subjectType" 
+		type="tns:SubjectTypeDetail" maxOccurs="unbounded" minOccurs="0"></xs:element> 
+		</xs:sequence> </xs:complexType> <xs:complexType name="SubjectTypeDetail"> 
+		<xs:sequence> <xs:element name="subjectTypeId" type="xs:long"></xs:element> 
+		<xs:element name="subjectTypeName" type="xs:string"> </xs:element> <xs:element 
+		name="description" type="xs:string"></xs:element> <xs:element name="external" 
+		type="xs:boolean"></xs:element> </xs:sequence> </xs:complexType> <xs:complexType 
+		name="GroupCalculators"> <xs:sequence> <xs:element name="groupCalculator" 
+		type="tns:GroupCalculator" maxOccurs="unbounded" minOccurs="0"></xs:element> 
+		</xs:sequence> </xs:complexType> <xs:complexType name="GroupCalculator"> 
+		<xs:sequence> <xs:element name="subjectType" type="xs:string"></xs:element> 
+		<xs:element name="name" type="xs:string"></xs:element> <xs:element name="description" 
+		type="xs:string"></xs:element> </xs:sequence> </xs:complexType> -->
+	<xs:element name="updateSubjectGroupsResponse" type="tns:UpdateSubjectGroupsResponse">
+		<xs:annotation>
+			<xs:documentation>
+				The response container for update subject groups
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>updateSubjectGroups</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="updateSubjectGroupsRequest" type="tns:UpdateSubjectGroupsRequest">
+		<xs:annotation>
+			<xs:documentation>
+				The request container for update subject groups
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>updateSUbjectGroups</callName>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:complexType name="UpdateSubjectGroupsRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="subjectGroups" type="tns:SubjectGroup"
+						maxOccurs="unbounded" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The data of the subject groups which are to be updated. The
+								number of the
+								subject groups should be at least one.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="updateMode" type="tns:UpdateMode">
+						<xs:annotation>
+							<xs:documentation>
+								The mode used for the update. Please refer to UpdateMode for
+								details.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="UpdateSubjectGroupsResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse" />
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="getMetaDataResponse" type="tns:GetMetaDataResponse">
+		<xs:annotation>
+			<xs:documentation>
+				The response container for getMetaData call
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>getMetaData</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getMetaDataRequest" type="tns:GetMetaDataRequest">
+		<xs:annotation>
+			<xs:documentation>
+				The request container for getMetaData call
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>getMeatData</callName>
+					<requiredInput>Yes</requiredInput>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:complexType name="GetMetaDataRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="queryCondition" type="tns:QueryCondition">
+						<xs:annotation>
+							<xs:documentation>
+								A list of key value pairs used to pass specific information to
+								the server. Please
+								refer to QueryCondition for details
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>0</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>No</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+
+				</xs:sequence>
+
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="GetMetaDataResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse">
+				<xs:sequence>
+					<xs:element name="metadataValue" type="tns:KeyValuePair"
+						minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SubjectTypeInfo">
+		<xs:sequence>
+			<xs:element name="id" type="xs:long">
+				<xs:annotation>
+					<xs:documentation>
+						The unique ID of the subject type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The unique Name of the subject type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The subject type's description.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="external" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>
+						True if this subject is external. False if it
+						is internal.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GroupCalculatorInfo">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The name of the group calculator.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectTypeName" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The subject type of the calculator
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						Description
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="enablePolicyResponse" type="tns:EnablePolicyResponse">
+		<xs:annotation>
+			<xs:documentation>
+				Response container returned by the enable policy call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>enablePolicy</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="enablePolicyRequest" type="tns:EnablePolicyRequest">
+		<xs:annotation>
+			<xs:documentation>
+				The request container for enable policy
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>enablePolicy</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:complexType name="EnablePolicyRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="policyKey" type="tns:PolicyKey">
+						<xs:annotation>
+							<xs:documentation>
+								The policy identification information. Please refer to PolicyKey
+								for details.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="disablePolicyRequest" type="tns:DisablePolicyRequest">
+		<xs:annotation>
+			<xs:documentation>
+				The request container for disable policy
+			</xs:documentation>
+			<xs:appinfo>
+				<callInfo>
+					<callName>disablePolicy</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="disablePolicyResponse" type="tns:DisablePolicyResponse">
+		<xs:annotation>
+			<xs:documentation>
+				Response container returned by the disable policy call.
+			</xs:documentation>
+			<xs:appinfo>
+				<minOccurs>1</minOccurs>
+				<maxOccurs>1</maxOccurs>
+				<callInfo>
+					<callName>disablePolicy</callName>
+					<returned>Always</returned>
+				</callInfo>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:complexType name="DisablePolicyRequest">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseRequest">
+				<xs:sequence>
+					<xs:element name="policyKey" type="tns:PolicyKey">
+						<xs:annotation>
+							<xs:documentation>
+								The policy identification information. Please refer to PolicyKey
+								for details.
+							</xs:documentation>
+							<xs:appinfo>
+								<minOccurs>1</minOccurs>
+								<maxOccurs>1</maxOccurs>
+								<callInfo>
+									<requiredInput>Yes</requiredInput>
+								</callInfo>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DisablePolicyResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="EnablePolicyResponse">
+		<xs:complexContent>
+			<xs:extension base="Q2:BaseResponse"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>
