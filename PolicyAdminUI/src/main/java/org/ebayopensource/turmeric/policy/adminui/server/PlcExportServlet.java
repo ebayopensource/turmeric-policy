@@ -250,7 +250,7 @@ public class PlcExportServlet extends HttpServlet {
 //								.newSchema(importExportSource);
 //						Validator validator = schema.newValidator();
 //						validator.validate(new StreamSource(content));
-//						request.setAttribute("RESULT", content);
+						request.setAttribute("RESULT", content);
 //					} catch (Exception e) {
 //						System.out.println(e);
 //						request.setAttribute("ERROR", Boolean.TRUE);
