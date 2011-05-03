@@ -11,6 +11,7 @@ package org.ebayopensource.turmeric.policy.adminui.client.presenter.policy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -110,13 +111,28 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 						for (GenericPolicy policy : policies) {
 							resourceAssignments = new ArrayList<Resource>();
 							resourceAssignments.addAll(policy.getResources());
-
+							
+							if(assignedUniqueResources == null){
+								assignedUniqueResources = new HashSet<String>();
+							}
+							for (Resource assignment : resourceAssignments){
+								assignedUniqueResources.add(assignment
+										.getResourceType()
+										+ assignment.getResourceName());
+							}
+							
 							view.getResourceContentView().setAssignments(
 									resourceAssignments);
 
 							subjectAssignments = new ArrayList<PolicySubjectAssignment>();
 							subjectAssignments
 									.addAll(fetchSubjectAndSGAssignment(policy));
+							
+							for(PolicySubjectAssignment assignment : subjectAssignments){
+								subjectTypes.remove(assignment.getSubjectType());
+							}
+							view.getSubjectContentView().setAvailableSubjectTypes(subjectTypes);
+														
 							view.getSubjectContentView().setAssignments(
 									subjectAssignments);
 							view.setPolicyName(policy.getName());
@@ -190,6 +206,7 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 			GenericPolicy policy) {
 		//HashMap<subject type, arraylist of assigned subjects>
 		HashMap<String, List<Subject>> sAssignMap = new HashMap<String, List<Subject>>();
+		
 		for (Subject subject : policy.getSubjects()) {
 			String type = subject.getType();
 			if (!sAssignMap.containsKey(type)) {

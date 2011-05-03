@@ -313,6 +313,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 						// remove the assignment from the list of assignments
 						// while it is being edited
+
 						subjectAssignments.remove(editSubjectAssignment);
 						// update the display
 						view.getSubjectContentView().setAssignments(
@@ -597,6 +598,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 						assignment.setSubjectGroups(groups);
 						assignment.setExclusionSubjectGroups(exclSg);
 						subjectAssignments.add(assignment);
+
+				
 						view.getSubjectContentView().setAssignments(
 								subjectAssignments);
 						// take the SubjectType of the assignment out of the
@@ -876,6 +879,9 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 								operations.add(op);
 							}
 							assignment.setOpList(operations);
+							assignedUniqueResources.add(assignment
+									.getResourceType()
+									+ assignment.getResourceName());
 							resourceAssignments.add(assignment);
 
 						} else if (ResourceLevel.GLOBAL.name().equals(
@@ -1626,6 +1632,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 	protected void createExternalAsInternalSubject(final List<Subject> subjects) {
 		List<SubjectKey> keys = new ArrayList<SubjectKey>();
+
 		for (Subject subj : subjects) {
 			SubjectKey key = new SubjectKey();
 			key.setName(subj.getName());
