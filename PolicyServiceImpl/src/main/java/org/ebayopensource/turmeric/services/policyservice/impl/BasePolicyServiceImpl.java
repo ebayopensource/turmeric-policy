@@ -58,12 +58,26 @@ import org.ebayopensource.turmeric.security.v1.services.UpdateMode;
 import org.ebayopensource.turmeric.services.policyservice.provider.config.PolicyServiceProviderFactory;
 
 
+/**
+ * The Class BasePolicyServiceImpl.
+ */
 class BasePolicyServiceImpl 
 {
-	 final int maxResourceNameLength = 128;
+	 
+ 	/** The max resource name length. */
+ 	final int maxResourceNameLength = 128;
 	 
 	 
-	 protected List<SubjectTypeInfo> getSubjectTypes() throws ServiceException, org.ebayopensource.turmeric.policyservice.exceptions.PolicyProviderException
+	 /**
+	 * Gets the subject types.
+	 * 
+	 * @return the subject types
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
+ 	protected List<SubjectTypeInfo> getSubjectTypes() throws ServiceException, org.ebayopensource.turmeric.policyservice.exceptions.PolicyProviderException
 	 {	
 		List<SubjectTypeInfo> retList = new ArrayList<SubjectTypeInfo>();
 		Set<String> subjectTypes= PolicyServiceProviderFactory.getSubjectTypes();	
@@ -77,7 +91,14 @@ class BasePolicyServiceImpl
 		return retList;
 	}
 	 
-	 protected List<String> getPolicyTypes() throws ServiceException
+	 /**
+	 * Gets the policy types.
+	 * 
+	 * @return the policy types
+	 * @throws ServiceException
+	 *             the service exception
+	 */
+ 	protected List<String> getPolicyTypes() throws ServiceException
 	 {	
 		List<String> ret = new ArrayList<String>();
 		 for (String type: PolicyServiceProviderFactory.getPolicyTypes())
@@ -86,6 +107,17 @@ class BasePolicyServiceImpl
 		 return ret;	
 	 }
 	 
+    /**
+	 * Gets the resource.
+	 * 
+	 * @param key
+	 *            the key
+	 * @return the resource
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
     protected Map<Long, Resource> getResource(ResourceKey key) throws ServiceException, PolicyProviderException
     {
     	Map<Long, Resource> result = new HashMap<Long, Resource>();
@@ -122,6 +154,17 @@ class BasePolicyServiceImpl
     	return result;
     }
 	
+	/**
+	 * Gets the policy info.
+	 * 
+	 * @param policyKey
+	 *            the policy key
+	 * @return the policy info
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected Policy getPolicyInfo(PolicyKey policyKey)
 		throws ServiceException, PolicyProviderException 
 	{
@@ -248,6 +291,20 @@ class BasePolicyServiceImpl
 			}
 		}
 	}
+	
+	/**
+	 * Creates the subject group.
+	 * 
+	 * @param inputSubjectGroup
+	 *            the input subject group
+	 * @param loginSubject
+	 *            the login subject
+	 * @return the subject group key
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected SubjectGroupKey createSubjectGroup(SubjectGroup inputSubjectGroup,SubjectKey loginSubject)
 		throws ServiceException, PolicyProviderException 
 	{
@@ -269,6 +326,23 @@ class BasePolicyServiceImpl
 		return subjectGroupKey;
 	}
 	
+	/**
+	 * Update subject group.
+	 * 
+	 * @param inputSubjectGroup
+	 *            the input subject group
+	 * @param currSubjectGroup
+	 *            the curr subject group
+	 * @param updatemode
+	 *            the updatemode
+	 * @param loginSubject
+	 *            the login subject
+	 * @return the subject group key
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected SubjectGroupKey updateSubjectGroup(
 			SubjectGroup inputSubjectGroup, 
 			SubjectGroup currSubjectGroup,
@@ -292,6 +366,20 @@ class BasePolicyServiceImpl
 	
 		return ret;
 	}
+	
+	/**
+	 * Creates the policy.
+	 * 
+	 * @param inputPolicy
+	 *            the input policy
+	 * @param loginSubject
+	 *            the login subject
+	 * @return the policy key
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected PolicyKey createPolicy(Policy inputPolicy, SubjectKey loginSubject)
 		throws ServiceException, PolicyProviderException 
 	{
@@ -312,6 +400,16 @@ class BasePolicyServiceImpl
 		return policyKey;
 	}
 	
+	/**
+	 * Delete policy.
+	 * 
+	 * @param policyKey
+	 *            the policy key
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected void deletePolicy(PolicyKey policyKey) 
 		throws ServiceException, PolicyProviderException 
 	{
@@ -324,6 +422,23 @@ class BasePolicyServiceImpl
 		provider.deletePolicy(policyKey.getPolicyId());
 	}
 	
+	/**
+	 * Update policy.
+	 * 
+	 * @param inputPolicy
+	 *            the input policy
+	 * @param currPolicy
+	 *            the curr policy
+	 * @param updateMode
+	 *            the update mode
+	 * @param loginSubject
+	 *            the login subject
+	 * @return the policy key
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected PolicyKey updatePolicy(Policy inputPolicy, Policy currPolicy, UpdateMode updateMode, SubjectKey loginSubject) 
 		throws ServiceException, PolicyProviderException 
 	{
@@ -364,7 +479,7 @@ class BasePolicyServiceImpl
 				inputPolicy.getRule(),
 				updateMode
 				);
-		//FIXME
+		
 		ResourcesEditObject resourcesEditObject = validateResourcesOfPolicy(
 				provider,
 				currPolicy,  
@@ -387,6 +502,17 @@ class BasePolicyServiceImpl
 		return policyEditObject;
 	}
 	
+	/**
+	 * Validate policy info.
+	 * 
+	 * @param policy
+	 *            the policy
+	 * @return the policy
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected Policy validatePolicyInfo(
 			Policy policy)
 		throws ServiceException, PolicyProviderException 
@@ -414,6 +540,21 @@ class BasePolicyServiceImpl
 	}
 	
 	
+    /**
+	 * Creates the subject.
+	 * 
+	 * @param subject
+	 *            the subject
+	 * @param externalOnly
+	 *            the external only
+	 * @param loginSubject
+	 *            the login subject
+	 * @return the subject key
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
     protected SubjectKey createSubject(Subject subject, boolean externalOnly, SubjectKey loginSubject) throws ServiceException, PolicyProviderException
     {
 	    String type = subject.getSubjectType();
@@ -457,6 +598,17 @@ class BasePolicyServiceImpl
 	
     }
 
+    /**
+	 * Delete subject.
+	 * 
+	 * @param key
+	 *            the key
+	 * @return the long
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
     protected Long deleteSubject(SubjectKey key) throws ServiceException, PolicyProviderException
     {
     	if (getSubjectInfo(key) == null)
@@ -502,6 +654,15 @@ class BasePolicyServiceImpl
 			throwInvalidInputException("calculator is not defined for: " + calc);		
 	}
 	
+	/**
+	 * Gets the subject group calculateor.
+	 * 
+	 * @return the subject group calculateor
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected List<GroupCalculatorInfo> getSubjectGroupCalculateor() throws ServiceException, PolicyProviderException
 	{
 		List<GroupCalculatorInfo> ret = new ArrayList<GroupCalculatorInfo>();
@@ -521,6 +682,17 @@ class BasePolicyServiceImpl
 		return ret;
 	}
 
+	/**
+	 * Delete subject group.
+	 * 
+	 * @param key
+	 *            the key
+	 * @return the subject group key
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected SubjectGroupKey deleteSubjectGroup(SubjectGroupKey key) 
 		throws ServiceException, PolicyProviderException
 	{
@@ -555,6 +727,18 @@ class BasePolicyServiceImpl
 		
 		return key;
 	}
+	
+	/**
+	 * Gets the subject group info.
+	 * 
+	 * @param subjectGroupKey
+	 *            the subject group key
+	 * @return the subject group info
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected SubjectGroup getSubjectGroupInfo(SubjectGroupKey subjectGroupKey) 
 		throws ServiceException, PolicyProviderException
 	{	
@@ -584,6 +768,14 @@ class BasePolicyServiceImpl
 		return subjectGroup;
 	}
 
+	/**
+	 * Throw invalid input exception.
+	 * 
+	 * @param errString
+	 *            the err string
+	 * @throws ServiceException
+	 *             the service exception
+	 */
 	protected void throwInvalidInputException(String errString) throws ServiceException {
 		throw new ServiceException(
 				ErrorUtils.createErrorData(
@@ -696,6 +888,17 @@ class BasePolicyServiceImpl
         }
 	}
 	
+	/**
+	 * Validate subject group info.
+	 * 
+	 * @param subjectGroup
+	 *            the subject group
+	 * @return the subject group
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected SubjectGroup validateSubjectGroupInfo(
 			SubjectGroup subjectGroup)
 		throws ServiceException, PolicyProviderException 
@@ -1073,6 +1276,19 @@ class BasePolicyServiceImpl
 		return ruleEditObject;
 	}
 	
+	/**
+	 * Creates the resource.
+	 * 
+	 * @param resource
+	 *            the resource
+	 * @param loginSubject
+	 *            the login subject
+	 * @return the resource key
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected ResourceKey createResource(Resource resource, SubjectKey loginSubject)
 		throws ServiceException, PolicyProviderException 
 	{
@@ -1086,6 +1302,21 @@ class BasePolicyServiceImpl
 		return provider.createResource(resource, operationEditObject,loginSubject);
 	}
 	
+	/**
+	 * Update resource.
+	 * 
+	 * @param resource
+	 *            the resource
+	 * @param updateMode
+	 *            the update mode
+	 * @param loginSubject
+	 *            the login subject
+	 * @return the resource key
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected ResourceKey updateResource(Resource resource, UpdateMode updateMode, SubjectKey loginSubject)
 		throws ServiceException, PolicyProviderException 
 	{
@@ -1143,6 +1374,17 @@ class BasePolicyServiceImpl
 
 	}
     
+	/**
+	 * Gets the operation.
+	 * 
+	 * @param key
+	 *            the key
+	 * @return the operation
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected Operation getOperation(OperationKey key) throws ServiceException, PolicyProviderException 
 	{
 		ResourceTypeProvider provider = PolicyServiceProviderFactory.getResourceTypeProvider(key.getResourceType()); 
@@ -1167,6 +1409,17 @@ class BasePolicyServiceImpl
 		return operation;
 	}
     
+    /**
+	 * Delete resource.
+	 * 
+	 * @param resourceKey
+	 *            the resource key
+	 * @return the resource key
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
     protected ResourceKey deleteResource(ResourceKey resourceKey)
 		throws ServiceException, PolicyProviderException 
 	{
@@ -1206,6 +1459,17 @@ class BasePolicyServiceImpl
 	}
     
 
+   /**
+	 * Gets the subject info.
+	 * 
+	 * @param key
+	 *            the key
+	 * @return the subject info
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
    protected Subject getSubjectInfo(SubjectKey key) 
 		throws ServiceException, PolicyProviderException
 	{
@@ -1230,6 +1494,17 @@ class BasePolicyServiceImpl
 		return subject;
 	}
 	
+	/**
+	 * Find external subject.
+	 * 
+	 * @param subjectKey
+	 *            the subject key
+	 * @return the sets the
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected Set<Subject> findExternalSubject(SubjectKey subjectKey) throws ServiceException, PolicyProviderException
 	{	
     	SubjectTypeProvider provider = PolicyServiceProviderFactory.
@@ -1239,6 +1514,18 @@ class BasePolicyServiceImpl
     	Set<Subject> map = provider.getExternalSubjectByName(name);
     	return map;
     }
+	
+	/**
+	 * Find subject.
+	 * 
+	 * @param subjectKey
+	 *            the subject key
+	 * @return the map
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected Map<Long, Subject> findSubject(SubjectKey subjectKey) throws ServiceException, PolicyProviderException
 	{
 		Map<Long, Subject> finalMap = new HashMap<Long, Subject>();
@@ -1266,6 +1553,17 @@ class BasePolicyServiceImpl
 		return finalMap;
 	}
 	
+	/**
+	 * Find subject group.
+	 * 
+	 * @param key
+	 *            the key
+	 * @return the map
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected Map<Long, SubjectGroup> findSubjectGroup(SubjectGroupKey key) throws ServiceException,  PolicyProviderException
 	{
 		Map<Long, SubjectGroup> finalMap = new HashMap<Long, SubjectGroup>();
@@ -1297,6 +1595,17 @@ class BasePolicyServiceImpl
 		return finalMap;
 	}
 	
+	/**
+	 * Gets the subjects.
+	 * 
+	 * @param key
+	 *            the key
+	 * @return the subjects
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected Map<Long, Subject> getSubjects(SubjectGroupKey key) throws ServiceException,  PolicyProviderException
 	{
 		SubjectTypeProvider provider = PolicyServiceProviderFactory.getSubjectTypeProvider(key.getSubjectType());
@@ -1317,6 +1626,20 @@ class BasePolicyServiceImpl
 		
 	}	
 	
+	/**
+	 * Audit.
+	 * 
+	 * @param object
+	 *            the object
+	 * @param operationType
+	 *            the operation type
+	 * @param loginSubject
+	 *            the login subject
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyFinderException
+	 *             the policy finder exception
+	 */
 	protected void audit(Object object, String operationType, SubjectKey loginSubject) throws ServiceException,PolicyFinderException 
 	{
 		if (object instanceof PolicyKey)
@@ -1434,6 +1757,17 @@ class BasePolicyServiceImpl
 		return null;
 	}
 
+	/**
+	 * Gets the resource info.
+	 * 
+	 * @param resourceKey
+	 *            the resource key
+	 * @return the resource info
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected Resource getResourceInfo(ResourceKey resourceKey) 
 		throws ServiceException,  PolicyProviderException
 	{
@@ -1589,6 +1923,15 @@ class BasePolicyServiceImpl
 		}						
 	}
 	
+	/**
+	 * Gets the login subject.
+	 * 
+	 * @return the login subject
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 * @throws ServiceException
+	 *             the service exception
+	 */
 	protected SubjectKey getLoginSubject() throws  PolicyProviderException, ServiceException
 	{
 		MessageContext messageContext = MessageContextAccessor.getContext();
@@ -1627,6 +1970,21 @@ class BasePolicyServiceImpl
 		return null;
 	}
 	   
+	/**
+	 * Gets the entity history.
+	 * 
+	 * @param object
+	 *            the object
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
+	 * @return the entity history
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected List<EntityHistory> getEntityHistory(Object object, XMLGregorianCalendar startDate, XMLGregorianCalendar endDate) throws ServiceException, PolicyProviderException
     {
 
@@ -1667,6 +2025,19 @@ class BasePolicyServiceImpl
     	return null;
     }
 
+	/**
+	 * Enable policy.
+	 * 
+	 * @param policyKey
+	 *            the policy key
+	 * @param loginSubject
+	 *            the login subject
+	 * @return the policy key
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	protected PolicyKey enablePolicy(PolicyKey policyKey, SubjectKey loginSubject)
 		throws ServiceException, PolicyProviderException 
 	{

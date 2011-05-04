@@ -24,18 +24,37 @@ import org.ebayopensource.turmeric.security.v1.services.Subject;
 import org.ebayopensource.turmeric.security.v1.services.SubjectGroup;
 
 
+/**
+ * The Class Utils.
+ */
 class Utils
 {
 	private static Logger s_Logger = LogManager.getInstance(Utils.class);
 	
-	 static void setSubjectGroupId(SubjectGroup sg, Long id)
+	 /**
+	 * Sets the subject group id.
+	 * 
+	 * @param sg
+	 *            the sg
+	 * @param id
+	 *            the id
+	 */
+ 	static void setSubjectGroupId(SubjectGroup sg, Long id)
 	{
 		SubjectMatchType subjectMatchType = null;
 		subjectMatchType= getSubjectMatchType(id);
 		sg.setSubjectMatch( subjectMatchType );
 	}
 	
-	 static void setExclusionSubjectGroupId(SubjectGroup sg, Long id)
+	 /**
+	 * Sets the exclusion subject group id.
+	 * 
+	 * @param sg
+	 *            the sg
+	 * @param id
+	 *            the id
+	 */
+ 	static void setExclusionSubjectGroupId(SubjectGroup sg, Long id)
 	{
 		SubjectMatchType subjectMatchType = null;
 		String idString = "(?!" + id + ")";
@@ -43,7 +62,15 @@ class Utils
 
 		sg.setSubjectMatch( subjectMatchType );
 	}
-	 static SubjectMatchType getSubjectMatchType(Long id)
+	 
+ 	/**
+	 * Gets the subject match type.
+	 * 
+	 * @param id
+	 *            the id
+	 * @return the subject match type
+	 */
+ 	static SubjectMatchType getSubjectMatchType(Long id)
 	{
 		SubjectMatchType subjectMatchType = new SubjectMatchType();
 		subjectMatchType.setMatchId( "urn:oasis:names:tc:xacml:1.0:function:integer-equal" );
@@ -59,7 +86,14 @@ class Utils
 		return subjectMatchType;
 	}
 	
-	 static SubjectMatchType getSubjectMatchType(String idStr)
+	 /**
+	 * Gets the subject match type.
+	 * 
+	 * @param idStr
+	 *            the id str
+	 * @return the subject match type
+	 */
+ 	static SubjectMatchType getSubjectMatchType(String idStr)
 	{
 		SubjectMatchType subjectMatchType = new SubjectMatchType();
         subjectMatchType.setMatchId( "urn:oasis:names:tc:xacml:1.0:function:string-regexp-match" );
@@ -76,14 +110,30 @@ class Utils
 		return subjectMatchType;
 	}
 		
-	 static void setSubjectId(Subject subject, Long id)
+	 /**
+	 * Sets the subject id.
+	 * 
+	 * @param subject
+	 *            the subject
+	 * @param id
+	 *            the id
+	 */
+ 	static void setSubjectId(Subject subject, Long id)
 	{
 		SubjectMatchType subjectMatchType = null;
 		subjectMatchType= getSubjectMatchType(id);
 		subject.getSubjectMatch().add( subjectMatchType );
 	}
 	
-	 static void setExclusionSubjectId(Subject subject, Long id)
+	 /**
+	 * Sets the exclusion subject id.
+	 * 
+	 * @param subject
+	 *            the subject
+	 * @param id
+	 *            the id
+	 */
+ 	static void setExclusionSubjectId(Subject subject, Long id)
 	{
 		SubjectMatchType subjectMatchType = null;
 		String idString = "(?!" + id + ")";
@@ -91,13 +141,26 @@ class Utils
 		subject.getSubjectMatch().add( subjectMatchType );
 	}
 	
-	 static void setAllSubjectId(Subject subject) {
+	 /**
+	 * Sets the all subject id.
+	 * 
+	 * @param subject
+	 *            the new all subject id
+	 */
+ 	static void setAllSubjectId(Subject subject) {
 		String idString = "[0-9]+";
 		SubjectMatchType subjectMatchType = getSubjectMatchType(idString);
 		subject.getSubjectMatch().add( subjectMatchType );
 	}
 
-	 static Long getSubjectId(Subject subject)
+	 /**
+	 * Gets the subject id.
+	 * 
+	 * @param subject
+	 *            the subject
+	 * @return the subject id
+	 */
+ 	static Long getSubjectId(Subject subject)
 	{
 		Long id = null;
 		Iterator<SubjectMatchType> iter = subject.getSubjectMatch().iterator();
@@ -111,14 +174,28 @@ class Utils
 		return id;
 	}
 	
-	 static Long getSubjectGroupId(SubjectGroup sg )
+	 /**
+	 * Gets the subject group id.
+	 * 
+	 * @param sg
+	 *            the sg
+	 * @return the subject group id
+	 */
+ 	static Long getSubjectGroupId(SubjectGroup sg )
 	{	
 		SubjectMatchType matchType = sg.getSubjectMatch();
 		
 		return getIdFromSubjectMatch(matchType);
 	}
 	
-	 static Long getIdFromSubjectMatch(SubjectMatchType matchType)
+	 /**
+	 * Gets the id from subject match.
+	 * 
+	 * @param matchType
+	 *            the match type
+	 * @return the id from subject match
+	 */
+ 	static Long getIdFromSubjectMatch(SubjectMatchType matchType)
 	{
 		Long subjectId = null;
 		
@@ -152,19 +229,40 @@ class Utils
 		return subjectId;
 	}
 	
-	 static boolean isExclusion(Subject subject)
+	 /**
+	 * Checks if is exclusion.
+	 * 
+	 * @param subject
+	 *            the subject
+	 * @return true, if is exclusion
+	 */
+ 	static boolean isExclusion(Subject subject)
 	{
 		List<SubjectMatchType> subjectMatchs = subject.getSubjectMatch();
 		return isExclusion(subjectMatchs);
 	}
 	
-	 static boolean isSubjectType(Subject subject)
+	 /**
+	 * Checks if is subject type.
+	 * 
+	 * @param subject
+	 *            the subject
+	 * @return true, if is subject type
+	 */
+ 	static boolean isSubjectType(Subject subject)
 	{
 		List<SubjectMatchType> subjectMatchs = subject.getSubjectMatch();
 		return isSubjectType(subjectMatchs);
 	}
 	
-	 static boolean isExclusion(SubjectGroup subjectGroup)
+	 /**
+	 * Checks if is exclusion.
+	 * 
+	 * @param subjectGroup
+	 *            the subject group
+	 * @return true, if is exclusion
+	 */
+ 	static boolean isExclusion(SubjectGroup subjectGroup)
 	{
 		SubjectMatchType subjectMatchType = subjectGroup.getSubjectMatch();
 		List<SubjectMatchType> subjectMatchs = new ArrayList<SubjectMatchType>();
@@ -172,7 +270,14 @@ class Utils
 		return isExclusion(subjectMatchs);
 	}
 	
-	 static boolean isExclusion(List<SubjectMatchType> matchTypes) {
+	 /**
+	 * Checks if is exclusion.
+	 * 
+	 * @param matchTypes
+	 *            the match types
+	 * @return true, if is exclusion
+	 */
+ 	static boolean isExclusion(List<SubjectMatchType> matchTypes) {
 		boolean isExclusion = false;
 		for (SubjectMatchType matchType : matchTypes) {
 			if (matchType != null && "urn:oasis:names:tc:xacml:1.0:function:string-regexp-match".equals(matchType.getMatchId())) {
@@ -184,7 +289,14 @@ class Utils
 		return isExclusion;
 	}
 	
-	 static boolean isSubjectType(List<SubjectMatchType> matchTypes) {
+	 /**
+	 * Checks if is subject type.
+	 * 
+	 * @param matchTypes
+	 *            the match types
+	 * @return true, if is subject type
+	 */
+ 	static boolean isSubjectType(List<SubjectMatchType> matchTypes) {
 		boolean isSubjectType = false;
 		for (SubjectMatchType matchType : matchTypes) {
 			if (matchType != null && "urn:oasis:names:tc:xacml:1.0:function:string-regexp-match".equals(matchType.getMatchId())) {

@@ -35,10 +35,26 @@ import org.ebayopensource.turmeric.security.v1.services.Target;
 import org.ebayopensource.turmeric.security.v1.services.UpdateMode;
 
 
+/**
+ * The Class SelfProvisioningPolicy.
+ */
 class SelfProvisioningPolicy extends BasePolicyServiceImpl {
 
+	/** The Constant AUTHZ_POLICY_TYPE. */
 	static final String AUTHZ_POLICY_TYPE = "AUTHZ";
 	//after a subjecGroup/policy be created, should call this one
+	/**
+	 * Creates the provisioning policy.
+	 * 
+	 * @param object
+	 *            the object
+	 * @param loginSubject
+	 *            the login subject
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	void createProvisioningPolicy( Object object, SubjectKey loginSubject) throws ServiceException, PolicyProviderException
 	{
 		if (loginSubject == null)
@@ -116,6 +132,20 @@ class SelfProvisioningPolicy extends BasePolicyServiceImpl {
 		}
 	}
 
+	/**
+	 * Update provisioning policy.
+	 * 
+	 * @param oldName
+	 *            the old name
+	 * @param object
+	 *            the object
+	 * @param loginSubject
+	 *            the login subject
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	void updateProvisioningPolicy(String oldName, Object object, SubjectKey loginSubject) throws ServiceException, PolicyProviderException
 	{
 		String policyNameToken = null;
@@ -194,6 +224,18 @@ class SelfProvisioningPolicy extends BasePolicyServiceImpl {
 	}
 
 	//after a subjecGroup/policy be deleted, should call this one
+	/**
+	 * Delete provisioning policy.
+	 * 
+	 * @param object
+	 *            the object
+	 * @param loginSubject
+	 *            the login subject
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
 	void deleteProvisioningPolicy(
 			Object object,
 			SubjectKey loginSubject) throws ServiceException, PolicyProviderException

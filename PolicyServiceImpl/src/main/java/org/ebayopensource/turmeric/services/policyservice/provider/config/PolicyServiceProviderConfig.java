@@ -17,25 +17,41 @@ import org.ebayopensource.turmeric.utils.config.BaseConfigHolder;
 
 
 /**
- * This class represents the ratelimiter service provider configuration
+ * This class represents the ratelimiter service provider configuration.
  * 
  * @author rpallikonda
  */
 public class PolicyServiceProviderConfig extends BaseConfigHolder {
 	
+	/** The m_default. */
 	String m_default;
+	
+	/** The m_configs. */
 	Map<String, PolicyServiceProvider> m_configs = new HashMap<String, PolicyServiceProvider>();
 	
+	/**
+	 * The Class PolicyServiceProvider.
+	 */
 	public static class PolicyServiceProvider {
+		
+		/** The m_policy type2 provider class name map. */
 		public Map<String, String> m_policyType2ProviderClassNameMap = new HashMap<String,String>();
+		
+		/** The m_subject type2 provider class name map. */
 		public Map<String, String> m_subjectType2ProviderClassNameMap = new HashMap<String,String>();
+		
+		/** The m_resource type2 provider class name map. */
 		public Map<String, String> m_resourceType2ProviderClassNameMap = new HashMap<String,String>();
+		
+		/** The m_authn provider class name. */
 		public String m_authnProviderClassName;
 	}
 
 	private static final char NL = '\n';
 
 	/**
+	 * Gets the default provider.
+	 * 
 	 * @return m_default The default provider name
 	 */
 	public String getDefaultProvider() {
@@ -44,20 +60,34 @@ public class PolicyServiceProviderConfig extends BaseConfigHolder {
 	
 	
 	/**
-	 * @param className
-	 *            the m_default to set
+	 * Sets the default provider.
+	 * 
+	 * @param providerKey
+	 *            the new default provider
 	 */
 	public void setDefaultProvider(String providerKey) {
 		checkReadOnly();
 		m_default = providerKey;
 	}
 	
+	/**
+	 * Sets the provider.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param provider
+	 *            the provider
+	 */
 	public void setProvider(String name, PolicyServiceProvider provider) {
 		checkReadOnly();
 		m_configs.put(name, provider);
 	}
 	
 	/**
+	 * Gets the policy type providers.
+	 * 
+	 * @param providerName
+	 *            the provider name
 	 * @return the m_policyType2ProviderClassNameMap or copy as needed
 	 */
 	public Map<String, String> getPolicyTypeProviders(String providerName) {
@@ -75,6 +105,10 @@ public class PolicyServiceProviderConfig extends BaseConfigHolder {
 	
 	
 	/**
+	 * Gets the subject type providers.
+	 * 
+	 * @param providerName
+	 *            the provider name
 	 * @return the m_subjectType2ProviderClassNameMap or copy as needed
 	 */
 	public Map<String, String> getSubjectTypeProviders(String providerName) {
@@ -91,6 +125,10 @@ public class PolicyServiceProviderConfig extends BaseConfigHolder {
 	
 	
 	/**
+	 * Gets the resource type providers.
+	 * 
+	 * @param providerName
+	 *            the provider name
 	 * @return the m_resourceType2ProviderClassNameMap or copy as needed
 	 */
 	public Map<String, String> getResourceTypeProviders(String providerName) {
@@ -105,6 +143,13 @@ public class PolicyServiceProviderConfig extends BaseConfigHolder {
 		return resourceTypeProviderMap;
 	}
 	
+	/**
+	 * Gets the authentication provider.
+	 * 
+	 * @param providerName
+	 *            the provider name
+	 * @return the authentication provider
+	 */
 	public String getAuthenticationProvider(String providerName) {
 		if (providerName == null) // implies default
 			providerName = m_default;
@@ -124,6 +169,11 @@ public class PolicyServiceProviderConfig extends BaseConfigHolder {
 	}
 	
 
+	/**
+	 * Copy.
+	 * 
+	 * @return the policy service provider config
+	 */
 	public PolicyServiceProviderConfig copy() {
 		PolicyServiceProviderConfig result = new PolicyServiceProviderConfig();
 		result.m_default = m_default;
@@ -140,6 +190,12 @@ public class PolicyServiceProviderConfig extends BaseConfigHolder {
 		return result;
 	}
 
+	/**
+	 * Dump.
+	 * 
+	 * @param sb
+	 *            the sb
+	 */
 	public void dump(StringBuffer sb) {
 		sb.append("========== Policy Service Provider Config =========="+"\n");
 		// TODO: implement the dumping

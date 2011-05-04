@@ -20,14 +20,22 @@ import org.w3c.dom.NodeList;
 
 
 
+/**
+ * The Class PolicyServiceProviderConfigMapper.
+ */
 public class PolicyServiceProviderConfigMapper {
 
 	/**
-	 * Map subject group service configuration
+	 * Map subject group service configuration.
+	 * 
 	 * @param filename
-	 * @param groupMembershipConfig
+	 *            the filename
+	 * @param topLevel
+	 *            the top level
 	 * @param dst
-	 * @throws Exception
+	 *            the dst
+	 * @throws ConfigurationException
+	 *             the configuration exception
 	 */
 	public static void map(String filename, Element topLevel, PolicyServiceProviderConfig dst) throws ConfigurationException {
 	
@@ -37,6 +45,18 @@ public class PolicyServiceProviderConfigMapper {
 		mapPolicyServiceProviderConfig(filename, topLevel, dst);
 	}
 	
+	/**
+	 * Map policy service provider config.
+	 * 
+	 * @param filename
+	 *            the filename
+	 * @param policyServiceConfigProvider
+	 *            the policy service config provider
+	 * @param dst
+	 *            the dst
+	 * @throws ConfigurationException
+	 *             the configuration exception
+	 */
 	public static void mapPolicyServiceProviderConfig(String filename, Element policyServiceConfigProvider, PolicyServiceProviderConfig dst) throws ConfigurationException {
 		try {
 			

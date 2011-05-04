@@ -37,8 +37,8 @@ import org.ebayopensource.turmeric.services.policyservice.provider.config.Policy
 
 
 /**
- * PolicyBuilder just deals with the construction of a Policy object
- *
+ * PolicyBuilder just deals with the construction of a Policy object.
+ * 
  * @author stecheng
  */
  class PolicyBuilder {
@@ -48,13 +48,29 @@ import org.ebayopensource.turmeric.services.policyservice.provider.config.Policy
 	private Map<Long, Resource> resourceMap = new HashMap<Long, Resource>();
 	private PolicyBuilderObject m_builderObject = new PolicyBuilderObject();
 	
-	 PolicyBuilder(FindPolicyRequestHelper request, 
+	 /**
+	 * Instantiates a new policy builder.
+	 * 
+	 * @param request
+	 *            the request
+	 * @param policy
+	 *            the policy
+	 */
+ 	PolicyBuilder(FindPolicyRequestHelper request, 
 			Policy policy) {
 		m_request = request;
 		m_policy = policy;
 	}
 
-	 void populatePolicy() throws ServiceException, PolicyProviderException {
+	 /**
+	 * Populate policy.
+	 * 
+	 * @throws ServiceException
+	 *             the service exception
+	 * @throws PolicyProviderException
+	 *             the policy provider exception
+	 */
+ 	void populatePolicy() throws ServiceException, PolicyProviderException {
 		addTargetsToPolicy();
 		if (m_request.outputRules())
 			addRulesToPolicy();

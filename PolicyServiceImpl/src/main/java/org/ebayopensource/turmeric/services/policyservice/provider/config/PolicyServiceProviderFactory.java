@@ -28,14 +28,22 @@ import org.ebayopensource.turmeric.utils.ReflectionUtils;
 
 
 /**
+ * A factory for creating PolicyServiceProvider objects.
  * 
  * @author rpallikonda
- *
  */
 public class PolicyServiceProviderFactory {
 	
 	private static Logger s_Logger = LogManager.getInstance(PolicyServiceProviderFactory.class);
 	
+	/**
+	 * Initialize.
+	 * 
+	 * @param provider
+	 *            the provider
+	 * @throws ServiceException
+	 *             the service exception
+	 */
 	public static synchronized void initialize(String provider) throws ServiceException {
 	
 		if (isInitialized) {
@@ -142,6 +150,15 @@ public class PolicyServiceProviderFactory {
 					configMngr.getConfigFileName()});
 	}
 	
+	/**
+	 * Gets the policy type provider.
+	 * 
+	 * @param type
+	 *            the type
+	 * @return the policy type provider
+	 * @throws ServiceException
+	 *             the service exception
+	 */
 	public static PolicyTypeProvider getPolicyTypeProvider(String type) throws ServiceException {
 		if(type == null)
 		{
@@ -156,6 +173,15 @@ public class PolicyServiceProviderFactory {
 		
 	}
 	
+	/**
+	 * Gets the subject type provider.
+	 * 
+	 * @param type
+	 *            the type
+	 * @return the subject type provider
+	 * @throws ServiceException
+	 *             the service exception
+	 */
 	public static SubjectTypeProvider getSubjectTypeProvider(String type) throws ServiceException {
 		if(type == null)
 		{
@@ -169,6 +195,15 @@ public class PolicyServiceProviderFactory {
 		return provider;
 	}
 	
+	/**
+	 * Gets the resource type provider.
+	 * 
+	 * @param type
+	 *            the type
+	 * @return the resource type provider
+	 * @throws ServiceException
+	 *             the service exception
+	 */
 	public static ResourceTypeProvider getResourceTypeProvider(String type) throws ServiceException {
 		if(type == null)
 		{
@@ -182,6 +217,13 @@ public class PolicyServiceProviderFactory {
 		return provider;
 	}
 	
+	/**
+	 * Gets the authentication provider.
+	 * 
+	 * @return the authentication provider
+	 * @throws ServiceException
+	 *             the service exception
+	 */
 	public static AuthenticationProvider getAuthenticationProvider() throws ServiceException {
 		if (!isInitialized) {
 			// Not initialized
@@ -192,6 +234,13 @@ public class PolicyServiceProviderFactory {
 		return s_authnProvider;
 	}
 	
+	/**
+	 * Gets the subject types.
+	 * 
+	 * @return the subject types
+	 * @throws ServiceException
+	 *             the service exception
+	 */
 	public static Set<String> getSubjectTypes() throws ServiceException {
 		if (!isInitialized) {
 			// Not initialized
@@ -202,6 +251,13 @@ public class PolicyServiceProviderFactory {
 		return s_subjectTypeProviderMap.keySet();
 	}
 	
+	/**
+	 * Gets the resource types.
+	 * 
+	 * @return the resource types
+	 * @throws ServiceException
+	 *             the service exception
+	 */
 	public static Set<String> getResourceTypes() throws ServiceException {
 		if (!isInitialized) {
 			// Not initialized
@@ -212,6 +268,13 @@ public class PolicyServiceProviderFactory {
 		return s_resourceTypeProviderMap.keySet();
 	}
 	
+	/**
+	 * Gets the policy types.
+	 * 
+	 * @return the policy types
+	 * @throws ServiceException
+	 *             the service exception
+	 */
 	public static Set<String> getPolicyTypes() throws ServiceException {
 		if (!isInitialized) {
 			// Not initialized

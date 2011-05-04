@@ -120,6 +120,9 @@ import org.ebayopensource.turmeric.services.policyservice.provider.config.Policy
 import org.ebayopensource.turmeric.utils.ContextUtils;
  
 
+/**
+ * The Class PolicyServiceImpl.
+ */
 public class PolicyServiceImpl extends SelfProvisioningPolicy
     implements PolicyService
 {	
@@ -129,8 +132,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
 		"META-INF/soa/services/config/PolicyService/service_provider.properties";
 	private static final String s_providerPropKey = "preferred-provider";
 
+	/** The create type. */
 	static String createType = "create";
+	
+	/** The update type. */
 	static String updateType = "update";
+	
+	/** The delete type. */
 	static String deleteType = "delete";
 	 
 	static {
@@ -162,8 +170,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
 	}
 	
     /**
-     * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#deletePolicy(org.ebayopensource.turmeric.security.v1.services.DeletePolicyRequest)
-     */
+	 * Delete policy.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the delete policy response
+	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#deletePolicy(org.ebayopensource.turmeric.security.v1.services.DeletePolicyRequest)
+	 */
 	@Override
     public DeletePolicyResponse deletePolicy(DeletePolicyRequest request) {
     	
@@ -249,6 +262,11 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
 
 
 	/**
+	 * Find policies.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the find policies response
 	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#findPolicies(org.ebayopensource.turmeric.security.v1.services.FindPoliciesRequest)
 	 */
 	@Override
@@ -775,6 +793,11 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
 
 
 	/**
+	 * Gets the authentication policy.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the authentication policy
 	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#getAuthenticationPolicy(org.ebayopensource.turmeric.security.v1.services.GetAuthenticationPolicyRequest)
 	 */
 	@Override
@@ -794,8 +817,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
     }
 
     /**
-     * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#getResources(org.ebayopensource.turmeric.security.v1.services.GetResourcesRequest)
-     */
+	 * Gets the resources.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the resources
+	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#getResources(org.ebayopensource.turmeric.security.v1.services.GetResourcesRequest)
+	 */
 	@Override
     public GetResourcesResponse getResources(GetResourcesRequest request) {
     	GetResourcesResponse response = new GetResourcesResponse();
@@ -823,8 +851,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
     }
    
     /**
-     * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#createResources(org.ebayopensource.turmeric.security.v1.services.CreateResourcesRequest)
-     */
+	 * Creates the resources.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the creates the resources response
+	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#createResources(org.ebayopensource.turmeric.security.v1.services.CreateResourcesRequest)
+	 */
 	@Override
     public CreateResourcesResponse createResources(CreateResourcesRequest request) {
     	
@@ -857,8 +890,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
     }
 
     /**
-     * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#createExternalSubjectReferences(org.ebayopensource.turmeric.security.v1.services.CreateExternalSubjectReferenceRequest)
-     */
+	 * Creates the external subject references.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the creates the external subject references response
+	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#createExternalSubjectReferences(org.ebayopensource.turmeric.security.v1.services.CreateExternalSubjectReferenceRequest)
+	 */
 	@Override
     public CreateExternalSubjectReferencesResponse createExternalSubjectReferences(CreateExternalSubjectReferenceRequest request) {
         
@@ -894,8 +932,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
     }
 
     /**
-     * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#createPolicy(org.ebayopensource.turmeric.security.v1.services.CreatePolicyRequest)
-     */
+	 * Creates the policy.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the creates the policy response
+	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#createPolicy(org.ebayopensource.turmeric.security.v1.services.CreatePolicyRequest)
+	 */
 	@Override
     public CreatePolicyResponse createPolicy(CreatePolicyRequest request) {
     	CreatePolicyResponse response = new CreatePolicyResponse();
@@ -927,8 +970,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
     }
     
     /**
-     * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#findExternalSubjects(org.ebayopensource.turmeric.security.v1.services.FindExternalSubjectsRequest)
-     */
+	 * Find external subjects.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the find external subjects response
+	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#findExternalSubjects(org.ebayopensource.turmeric.security.v1.services.FindExternalSubjectsRequest)
+	 */
 	@Override
     public FindExternalSubjectsResponse findExternalSubjects(FindExternalSubjectsRequest request) {
     	FindExternalSubjectsResponse response = new FindExternalSubjectsResponse();
@@ -959,8 +1007,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
     }
 
     /**
-     * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#getMetaData(org.ebayopensource.turmeric.security.v1.services.GetMetaDataRequest)
-     */
+	 * Gets the meta data.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the meta data
+	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#getMetaData(org.ebayopensource.turmeric.security.v1.services.GetMetaDataRequest)
+	 */
 	@Override
     public GetMetaDataResponse getMetaData(GetMetaDataRequest request) 
     {
@@ -1030,8 +1083,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
     }
 
     /**
-     * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#deleteSubjectGroups(org.ebayopensource.turmeric.security.v1.services.DeleteSubjectGroupsRequest)
-     */
+	 * Delete subject groups.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the delete subject groups response
+	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#deleteSubjectGroups(org.ebayopensource.turmeric.security.v1.services.DeleteSubjectGroupsRequest)
+	 */
 	@Override
     public DeleteSubjectGroupsResponse deleteSubjectGroups(DeleteSubjectGroupsRequest request) {
     	DeleteSubjectGroupsResponse response = new DeleteSubjectGroupsResponse();
@@ -1064,8 +1122,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
     }    
 
     /**
-     * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#updatePolicy(org.ebayopensource.turmeric.security.v1.services.UpdatePolicyRequest)
-     */
+	 * Update policy.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the update policy response
+	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#updatePolicy(org.ebayopensource.turmeric.security.v1.services.UpdatePolicyRequest)
+	 */
 	@Override
     public UpdatePolicyResponse updatePolicy(UpdatePolicyRequest request) {
     	UpdatePolicyResponse response = new UpdatePolicyResponse();
@@ -1105,9 +1168,15 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
     	
     	return response;
     }
+    
     /**
-     * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#findSubjects(org.ebayopensource.turmeric.security.v1.services.FindSubjectsRequest)
-     */
+	 * Find subjects.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the find subjects response
+	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#findSubjects(org.ebayopensource.turmeric.security.v1.services.FindSubjectsRequest)
+	 */
 	@Override
     public FindSubjectsResponse findSubjects(FindSubjectsRequest request) {
     	FindSubjectsResponse response = new FindSubjectsResponse();
@@ -1145,8 +1214,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
     }
 
     /**
-     * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#createSubjects(org.ebayopensource.turmeric.security.v1.services.CreateSubjectsRequest)
-     */
+	 * Creates the subjects.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the creates the subjects response
+	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#createSubjects(org.ebayopensource.turmeric.security.v1.services.CreateSubjectsRequest)
+	 */
 	@Override
     public CreateSubjectsResponse createSubjects(CreateSubjectsRequest request) {
     	CreateSubjectsResponse response = new CreateSubjectsResponse();
@@ -1176,6 +1250,11 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
     }
  
 	/**
+	 * Gets the entity history.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the entity history
 	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#getEntityHistory(org.ebayopensource.turmeric.security.v1.services.GetEntityHistoryRequest)
 	 */
 	@Override
@@ -1259,8 +1338,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
 	}
 
     /**
-     * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#updateSubjectGroups(org.ebayopensource.turmeric.security.v1.services.UpdateSubjectGroupsRequest)
-     */
+	 * Update subject groups.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the update subject groups response
+	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#updateSubjectGroups(org.ebayopensource.turmeric.security.v1.services.UpdateSubjectGroupsRequest)
+	 */
 	@Override
     public UpdateSubjectGroupsResponse updateSubjectGroups(UpdateSubjectGroupsRequest request) {
     	UpdateSubjectGroupsResponse response = new UpdateSubjectGroupsResponse();
@@ -1302,8 +1386,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
     }
     
     /**
-     * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#createSubjectGroups(org.ebayopensource.turmeric.security.v1.services.CreateSubjectGroupsRequest)
-     */
+	 * Creates the subject groups.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the creates the subject groups response
+	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#createSubjectGroups(org.ebayopensource.turmeric.security.v1.services.CreateSubjectGroupsRequest)
+	 */
 	@Override
     public CreateSubjectGroupsResponse createSubjectGroups(CreateSubjectGroupsRequest request) {
     	CreateSubjectGroupsResponse response = new CreateSubjectGroupsResponse();
@@ -1346,8 +1435,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
     
 
     /**
-     * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#updateResources(org.ebayopensource.turmeric.security.v1.services.UpdateResourcesRequest)
-     */
+	 * Update resources.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the update resources response
+	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#updateResources(org.ebayopensource.turmeric.security.v1.services.UpdateResourcesRequest)
+	 */
 	@Override
     public UpdateResourcesResponse updateResources(UpdateResourcesRequest request) {
     	UpdateResourcesResponse response = new UpdateResourcesResponse();
@@ -1383,8 +1477,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
     
 
     /**
-     * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#getOperations(org.ebayopensource.turmeric.security.v1.services.GetOperationsRequest)
-     */
+	 * Gets the operations.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the operations
+	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#getOperations(org.ebayopensource.turmeric.security.v1.services.GetOperationsRequest)
+	 */
 	@Override
     public GetOperationsResponse getOperations(GetOperationsRequest request) {
     	GetOperationsResponse response = new GetOperationsResponse();
@@ -1453,8 +1552,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
     }
     
     /**
-     * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#deleteSubjects(org.ebayopensource.turmeric.security.v1.services.DeleteSubjectsRequest)
-     */
+	 * Delete subjects.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the delete subjects response
+	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#deleteSubjects(org.ebayopensource.turmeric.security.v1.services.DeleteSubjectsRequest)
+	 */
 	@Override
     public DeleteSubjectsResponse deleteSubjects(DeleteSubjectsRequest request) {
     	DeleteSubjectsResponse response = new DeleteSubjectsResponse();
@@ -1484,8 +1588,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
     }
 
     /**
-     * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#validatePolicy(org.ebayopensource.turmeric.security.v1.services.ValidatePolicyRequest)
-     */
+	 * Validate policy.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the validate policy response
+	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#validatePolicy(org.ebayopensource.turmeric.security.v1.services.ValidatePolicyRequest)
+	 */
 	@Override
     public ValidatePolicyResponse validatePolicy(ValidatePolicyRequest request) 
     {
@@ -1511,8 +1620,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
     }
  
     /**
-     * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#deleteResources(org.ebayopensource.turmeric.security.v1.services.DeleteResourcesRequest)
-     */
+	 * Delete resources.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the delete resources response
+	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#deleteResources(org.ebayopensource.turmeric.security.v1.services.DeleteResourcesRequest)
+	 */
 	@Override
     public DeleteResourcesResponse deleteResources(DeleteResourcesRequest request) {
     	DeleteResourcesResponse response = new DeleteResourcesResponse();
@@ -1545,6 +1659,11 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
 
 	
 	/**
+	 * Find subject groups.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the find subject groups response
 	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#findSubjectGroups(org.ebayopensource.turmeric.security.v1.services.FindSubjectGroupsRequest)
 	 */
 	@Override
@@ -1602,6 +1721,11 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
 
 
 	/**
+	 * Disable policy.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the disable policy response
 	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#disablePolicy(org.ebayopensource.turmeric.security.v1.services.DisablePolicyRequest)
 	 */
 	@Override
@@ -1648,6 +1772,11 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
 
 
 	/**
+	 * Enable policy.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the enable policy response
 	 * @see org.ebayopensource.turmeric.policyservice.intf.PolicyService#enablePolicy(org.ebayopensource.turmeric.security.v1.services.EnablePolicyRequest)
 	 */
 	@Override
