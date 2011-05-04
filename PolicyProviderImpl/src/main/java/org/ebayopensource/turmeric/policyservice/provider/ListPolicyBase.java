@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2006-2010 eBay Inc. All Rights Reserved.
+ * Copyright (c) 2006-2011 eBay Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -92,7 +92,10 @@ public abstract class ListPolicyBase  implements PolicyTypeProvider {
     }
     
     private class ListPolicyBaseImpl extends PolicyBase {
-        protected final PolicyDAO policyDAO;
+        private static final String ADMIN_POLICY_SUPER_POLICY = "Admin_Policy_SuperPolicy";
+		private static final String POLICY_SERVICE_NAME = "PolicyService";
+		private static final String SUPER_POLICY_NAME = "SuperPolicy";
+		protected final PolicyDAO policyDAO;
         protected final String policyType;
         protected final RuleDAO ruleDAO;
         
@@ -224,9 +227,28 @@ public abstract class ListPolicyBase  implements PolicyTypeProvider {
             }
         }
     
+        /* (non-Javadoc)
+         * @see org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider#deletePolicy(java.lang.Long)
+         */
         @Override
         public void deletePolicy(Long policyId) throws PolicyDeleteException, PolicyUpdateException {
+           if (cannotDeletePolicy(policyId)) {
+        	   throw new PolicyDeleteException(Category.POLICY, policyType, "This a required policy and can not be deleted, or was not found.");
+           }
            policyDAO.removePolicy(policyId); 
+        }
+        
+        private boolean cannotDeletePolicy(Long policyId) {
+            org.ebayopensource.turmeric.policyservice.model.Policy jpaPolicy = 
+                    policyDAO.findPolicyById(policyId);
+            if (jpaPolicy == null) {
+            	return true;
+            }
+            
+            String policyName = jpaPolicy.getPolicyName();            
+        	return (SUPER_POLICY_NAME.equals(policyName) ||
+        		    POLICY_SERVICE_NAME.equals(policyName) ||
+        		    ADMIN_POLICY_SUPER_POLICY.equals(policyName));
         }
     
         @Override
@@ -1075,7 +1097,14 @@ public abstract class ListPolicyBase  implements PolicyTypeProvider {
 			// not going to implement this method in initial phase.
 			return false;
 		}
-        //  use to validate QueryCondition 
+		
+        /**
+         * Use to validate QueryCondition.
+         *  
+         * @param condition the query condition
+         * @param policy the policy
+         * @throws PolicyValidationException the PolicyValidationException
+         */
     	public void validateQueryCondition(QueryCondition condition,Policy policy) throws PolicyValidationException
     		 {
     		if (condition == null) {
