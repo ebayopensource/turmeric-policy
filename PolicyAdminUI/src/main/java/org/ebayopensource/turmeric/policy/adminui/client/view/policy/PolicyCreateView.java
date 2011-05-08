@@ -305,7 +305,9 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 				PolicyAdminUIUtil.policyAdminConstants.enable());
 		policyStatus.addItem(PolicyAdminUIUtil.policyAdminConstants.disable(),
 				PolicyAdminUIUtil.policyAdminConstants.disable());
-
+		//Turmeric-1401
+		policyStatus.setEnabled(false);
+		
 		initializeExtraFields();
 
 		// CONTENT

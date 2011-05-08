@@ -48,6 +48,7 @@ public class HistoryToken {
     public final static String SRCH_POLICY_TYPE = "plcytyp";
     public final static String SRCH_POLICY_NAME = "plcynm";
     
+    public final static String POLICY_STATUS_EDITABLE = "plcy_sts_edit";
 
     
 	private String presenterId;

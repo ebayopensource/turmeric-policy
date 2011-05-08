@@ -15,8 +15,12 @@ public abstract class PolicyEditView extends PolicyCreateView implements
 	@Override
 	public void setPolicyDesc(final String policyDesc) {
 		this.policyDesc.setText(policyDesc);
-	}
+	} 
 	
+	public void setStatusListboxEnabled(boolean enabled){
+		this.getPolicyStatusList().setEnabled(enabled);
+	}
+
 	@Override
 	public void setPolicyName(final String policyName) {
 		this.policyName.setText(policyName);

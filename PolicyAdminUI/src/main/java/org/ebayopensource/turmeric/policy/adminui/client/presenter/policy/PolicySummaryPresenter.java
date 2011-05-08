@@ -349,6 +349,7 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 							} else if ("RL".equals(policyType)) {
 								subPresenter = RLPolicyEditPresenter.PRESENTER_ID;
 							}
+							
 							HistoryToken token = makeToken(
 									PolicyController.PRESENTER_ID, subPresenter,
 									null);
@@ -356,7 +357,16 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 									String.valueOf(entry.getKey().getId()));
 							token.addValue(HistoryToken.SELECTED_POLICY_TOKEN_TYPE,
 									String.valueOf(entry.getKey().getType()));
-	
+							
+							if((entry.getKey().getEnabled() && permissions.get(entry.getKey()).contains(UserAction.POLICY_DISABLE)
+									|| (!entry.getKey().getEnabled() && permissions.get(entry.getKey()).contains(UserAction.POLICY_ENABLE)))){
+								token.addValue(HistoryToken.POLICY_STATUS_EDITABLE,
+										"true");
+							}else{
+								token.addValue(HistoryToken.POLICY_STATUS_EDITABLE,
+									"false");
+							}
+							
 							History.newItem(token.toString(), true);
 						}
 						break;

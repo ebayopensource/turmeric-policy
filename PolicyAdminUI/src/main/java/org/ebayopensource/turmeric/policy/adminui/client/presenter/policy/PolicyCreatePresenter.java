@@ -1021,6 +1021,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 		String getExtraFieldValue(int order);
 
+		void setStatusListboxEnabled(boolean enable);
+
 		void setExtraFieldValue(int order, String value, boolean append);
 
 		void setUserActions(List<UserAction> permittedActions);

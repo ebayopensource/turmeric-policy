@@ -60,14 +60,19 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 	 * Interface definitions
 	 */
 	public interface PolicyEditDisplay extends PolicyCreateDisplay {
-
 	}
 
 	@Override
 	public void go(HasWidgets container, final HistoryToken token) {
 		super.go(container, token);
-
+		validateEnablingPrivileges(token);
 		loadAssignments(token);
+	}
+
+	//TURMERIC-1402 - To check privileges for updating Status at edition time
+	private void validateEnablingPrivileges(final HistoryToken token) {
+		final String statusEditable = token.getValue(HistoryToken.POLICY_STATUS_EDITABLE);
+		this.view.setStatusListboxEnabled(Boolean.parseBoolean(statusEditable));
 	}
 
 	private void loadAssignments(final HistoryToken token) {

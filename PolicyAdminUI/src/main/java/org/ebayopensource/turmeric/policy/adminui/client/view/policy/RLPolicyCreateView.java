@@ -157,5 +157,11 @@ public class RLPolicyCreateView extends PolicyCreateView implements
 
 	}
 
+	@Override
+	public void setStatusListboxEnabled(boolean enable) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }

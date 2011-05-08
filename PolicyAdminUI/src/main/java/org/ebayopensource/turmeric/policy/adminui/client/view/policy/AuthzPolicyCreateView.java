@@ -76,8 +76,11 @@ public class AuthzPolicyCreateView extends PolicyCreateView {
 		
 	}
 
-
-
+	@Override
+	public void setStatusListboxEnabled(boolean enable) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
 

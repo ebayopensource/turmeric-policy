@@ -66,5 +66,11 @@ public class BLPolicyCreateView extends PolicyCreateView {
 		
 	}
 
+	@Override
+	public void setStatusListboxEnabled(boolean enable) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
