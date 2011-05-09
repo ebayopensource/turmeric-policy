@@ -23,6 +23,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPol
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
+import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericPager;
 
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.Cell.Context;
@@ -949,9 +950,9 @@ public class PolicySummaryView extends AbstractGenericView implements
 			});
 			
 			
-			SimplePager pagerAbove = new SimplePager();
+			TurmericPager pagerAbove = new TurmericPager();
 			pagerAbove.setDisplay(cellTable);
-			SimplePager pagerBelow = new SimplePager();
+			TurmericPager pagerBelow = new TurmericPager();
 			pagerBelow.setDisplay(cellTable);
 			
 						

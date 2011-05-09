@@ -19,6 +19,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.EntityHist
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.HistoryChangeSummaryPresenter.HistoryChangeSummaryDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
+import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericPager;
 
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -202,7 +203,7 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
 	        cellTable.setSelectionModel(selectionModel);
 	        dataProvider = new ListDataProvider<EntityHistory>();
 	        dataProvider.addDataDisplay(cellTable);
-            SimplePager pager = new SimplePager();
+            TurmericPager pager = new TurmericPager();
             pager.setDisplay(cellTable);
 
 	        //column for when

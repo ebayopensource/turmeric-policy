@@ -23,6 +23,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGro
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
+import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericPager;
 
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.Cell.Context;
@@ -558,7 +559,7 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 				}
 			});
 
-			SimplePager pager = new SimplePager();
+			TurmericPager pager = new TurmericPager();
 			pager.setDisplay(cellTable);
 
 			FlexTable actionTable = new FlexTable();

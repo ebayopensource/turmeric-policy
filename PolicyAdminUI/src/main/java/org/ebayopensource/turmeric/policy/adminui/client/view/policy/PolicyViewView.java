@@ -26,6 +26,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.Policy
 import org.ebayopensource.turmeric.policy.adminui.client.util.PolicyExtraFieldsUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
+import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericPager;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericStackPanel;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -271,7 +272,7 @@ public class PolicyViewView extends ResizeComposite implements
 
 			dataProvider = new ListDataProvider<Resource>();
 			dataProvider.addDataDisplay(cellTable);
-			final SimplePager pager = new SimplePager();
+			final TurmericPager pager = new TurmericPager();
 			pager.setDisplay(cellTable);
 			// resource type
 			final TextColumn<Resource> resourceTypeCol = new TextColumn<Resource>() {
@@ -354,7 +355,7 @@ public class PolicyViewView extends ResizeComposite implements
 		private ProvidesKey<PolicySubjectAssignment> keyProvider;
 		private ListDataProvider<PolicySubjectAssignment> dataProvider;
 		private Grid subjectGrid;
-		private SimplePager pager;
+		private TurmericPager pager;
 
 		public SubjectContentView() {
 			mainPanel = new SimplePanel();
@@ -393,7 +394,7 @@ public class PolicyViewView extends ResizeComposite implements
 			dataProvider = new ListDataProvider<PolicySubjectAssignment>();
 			dataProvider.addDataDisplay(cellTable);
 
-			pager = new SimplePager();
+			pager = new TurmericPager();
 			pager.setDisplay(cellTable);
 			// text column for type
 			final TextColumn<PolicySubjectAssignment> typeCol = new TextColumn<PolicySubjectAssignment>() {

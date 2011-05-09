@@ -28,6 +28,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.Policy
 import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.SelectBoxesWidget;
+import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericPager;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericStackPanel;
 
 import com.google.gwt.cell.client.Cell;
@@ -35,6 +36,7 @@ import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
@@ -47,6 +49,7 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
@@ -539,7 +542,9 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 					});
 			dataProvider = new ListDataProvider<Resource>();
 			dataProvider.addDataDisplay(cellTable);
-			SimplePager pager = new SimplePager();
+		    
+			TurmericPager pager = new TurmericPager();
+			
 			pager.setDisplay(cellTable);
 
 			// checkbox column for selection
@@ -632,7 +637,6 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 			cellTable.addColumn(resourceOpsCol,
 					PolicyAdminUIUtil.policyAdminConstants.operations());
-
 			summaryGrid.setWidget(1, 0, cellTable);
 			summaryGrid.setWidget(2, 0, pager);
 
@@ -865,7 +869,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		private ListDataProvider<PolicySubjectAssignment> dataProvider;
 		private Grid subjectGrid;
 		private Grid actionGrid;
-		private SimplePager pager;
+		private TurmericPager pager;
 		private PushButton editButton;
 		private PushButton delButton;
 		private List<UserAction> permissions;
@@ -973,7 +977,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			dataProvider = new ListDataProvider<PolicySubjectAssignment>();
 			dataProvider.addDataDisplay(cellTable);
 
-			pager = new SimplePager();
+			pager = new TurmericPager();
 			pager.setDisplay(cellTable);
 
 			// checkbox column for selection
