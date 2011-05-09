@@ -27,8 +27,7 @@
 	   			   BadgerFish convention.
 	   * skip-root		-  Skip the root XML element.
 	   * jsonp	        -  Enable JSONP; the JSON output will be prepended with 
-				   the value of the jsonp parameter and wrapped in parentheses.
-		*one_policy     - Selects first Policy element  
+				   the value of the jsonp parameter and wrapped in parentheses.  
 
 	   Credits: 
 		Chick Markley (chick@diglib.org) - Octal number & numbers with terminating period.
@@ -47,7 +46,6 @@
 	<xsl:param name="use-rayfish" as="xs:boolean" select="false()"/>
 	<xsl:param name="jsonp" as="xs:string" select="''"/>
 	<xsl:param name="skip-root" as="xs:boolean" select="false()"/>
-	<xsl:param name="one_policy" as="xs:boolean" select="true()"/>
 	<!--
 		If you import or include the stylesheet in your own stylesheet you
 		can use this function to transform any XML node to JSON.

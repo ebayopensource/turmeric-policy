@@ -7,12 +7,13 @@
 <!-- -->
 <!-- http://www.apache.org/licenses/LICENSE-2.0 -->
 <!-- ================================================================== -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.ebayopensource.turmeric.policy</groupId>
 		<artifactId>turmeric-policy-parent</artifactId>
-        	<version>1.0.0.1-SNAPSHOT</version>
+		<version>1.0.0.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>org.ebayopensource.turmeric.policy</groupId>
@@ -105,9 +106,9 @@
 					<style>detailed</style>
 					<inplace>true</inplace>
 					<gwtVersion>${gwt.version}</gwtVersion>
-                    <buildOutputDirectory>${basedir}/war/WEB-INF/classes</buildOutputDirectory>
+					<buildOutputDirectory>${basedir}/war/WEB-INF/classes</buildOutputDirectory>
 					<warSourceDirectory>${basedir}/war</warSourceDirectory>
-                    <hostedWebapp>${basedir}/war</hostedWebapp>
+					<hostedWebapp>${basedir}/war</hostedWebapp>
 				</configuration>
 				<executions>
 					<execution>
@@ -129,12 +130,12 @@
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
 			<version>${jetty.version}</version>
-                        <exclusions>
-                          <exclusion>
-                            <groupId>javax.servlet</groupId>
-                            <artifactId>servlet-api</artifactId>
-                          </exclusion>
-                        </exclusions>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
@@ -159,15 +160,26 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-        	<groupId>com.google.gwt</groupId>
-        	<artifactId>gwt-dev</artifactId>
-        	<version>${gwt.version}</version>
-        	<scope>provided</scope>
-		</dependency> 
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<version>${gwt.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.saxon</groupId>
+			<artifactId>saxon</artifactId>
+			<version>9.1.0.8</version>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 </project>

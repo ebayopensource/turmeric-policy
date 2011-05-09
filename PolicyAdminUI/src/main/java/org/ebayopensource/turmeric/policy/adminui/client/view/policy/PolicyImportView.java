@@ -9,6 +9,7 @@
 package org.ebayopensource.turmeric.policy.adminui.client.view.policy;
 
 import org.ebayopensource.turmeric.policy.adminui.client.Display;
+import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyImportPresenter.PolicyImportDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
@@ -16,14 +17,24 @@ import org.ebayopensource.turmeric.policy.adminui.client.view.common.FooterWidge
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.HeaderWidget;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyMenuWidget;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.MenuDisplay;
+import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericStackPanel;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class PolicyImportView extends AbstractGenericView implements PolicyImportDisplay {
@@ -35,6 +46,9 @@ public class PolicyImportView extends AbstractGenericView implements PolicyImpor
 	private Display contentView;
 	private HasClickHandlers logoutComponent;
 	
+	
+	
+
 	public PolicyImportView() {
 		mainPanel = new DockLayoutPanel(Unit.PX);
 		initWidget(mainPanel);
@@ -60,7 +74,9 @@ public class PolicyImportView extends AbstractGenericView implements PolicyImpor
 	
 	private class ContentView extends AbstractGenericView implements Display {
 		private SimplePanel mainPanel;
-		
+		private FormPanel form;
+				
+
 		public ContentView() {
 			mainPanel = new SimplePanel();
 			initWidget(mainPanel);
@@ -75,11 +91,63 @@ public class PolicyImportView extends AbstractGenericView implements PolicyImpor
 		@Override
 		public void initialize() {
 			mainPanel.clear();
+			TurmericStackPanel panel = new TurmericStackPanel();
 			
-			mainPanel.add(new Label("policy import here"));
+			form = new FormPanel();
+			form.setEncoding(FormPanel.ENCODING_MULTIPART);
+			form.setMethod(FormPanel.METHOD_POST);
+	        // form.setAction(/* WHAT SHOULD I PUT HERE */);
+			getFileUploaderWidget(form);
+			panel.add(form,PolicyAdminUIUtil.policyAdminConstants.importAction());
+			
+			mainPanel.add(panel);
+
 		}
+		
+		public FormPanel getForm() {
+			return form;
+		}
+
+		private Widget getFileUploaderWidget(final FormPanel form ) {
+			
+	        VerticalPanel holder = new VerticalPanel();
+	        final FileUpload fu =  new FileUpload();
+	        
+	        fu.setName("upload");
+	        holder.add(fu);
+	        holder.add(new Button(PolicyAdminUIUtil.policyAdminConstants.importAction(), new ClickHandler() {
+	                public void onClick(ClickEvent event) {
+	                        if(!fu.getFilename().isEmpty() &&   
+	                    	    Window.confirm("Import policies from " + fu.getFilename() + "?")){
+	                        	form.submit();
+	                        }
+	                }
+	        }));
+
+	        form.addSubmitHandler(new FormPanel.SubmitHandler() {
+	                public void onSubmit(SubmitEvent event) {
+	                    	
+
+	                }
+	        });
+
+	        form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
+	                public void onSubmitComplete(SubmitCompleteEvent event) {
+	                        Window.alert("Success");
+	                }
+	        });
+
+	        form.add(holder);
+
+	        return form;
+	    }
+
+	
 	}
 
+
+	
+	
 	public void activate() {
 		contentView.activate();
 		this.setVisible(true);
@@ -89,6 +157,8 @@ public class PolicyImportView extends AbstractGenericView implements PolicyImpor
 		return menuView;
 	}
 
+	
+	
 	public Display getContentView() {
 		return contentView;
 	}
@@ -100,4 +170,9 @@ public class PolicyImportView extends AbstractGenericView implements PolicyImpor
 	public UserAction getActionSelected() {
 		return UserAction.POLICY_IMPORT;
 	}
+	
+	public FormPanel getForm() {
+		return ((ContentView)contentView).getForm();
+	}
+	
 }
