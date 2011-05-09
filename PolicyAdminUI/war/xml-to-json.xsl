@@ -2,7 +2,8 @@
 <xsl:stylesheet version="2.0" 
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:json="http://json.org/">
+	xmlns:json="http://json.org/"
+	xmlns:ns1="http://www.ebayopensource.org/turmeric/security/v1/services">
 
 	<xsl:output indent="no" omit-xml-declaration="yes" method="text" encoding="utf-8"/>
 	<xsl:strip-space elements="*"/>
@@ -27,6 +28,7 @@
 	   * skip-root		-  Skip the root XML element.
 	   * jsonp	        -  Enable JSONP; the JSON output will be prepended with 
 				   the value of the jsonp parameter and wrapped in parentheses.
+		*one_policy     - Selects first Policy element  
 
 	   Credits: 
 		Chick Markley (chick@diglib.org) - Octal number & numbers with terminating period.
@@ -45,7 +47,7 @@
 	<xsl:param name="use-rayfish" as="xs:boolean" select="false()"/>
 	<xsl:param name="jsonp" as="xs:string" select="''"/>
 	<xsl:param name="skip-root" as="xs:boolean" select="false()"/>
-	
+	<xsl:param name="one_policy" as="xs:boolean" select="true()"/>
 	<!--
 		If you import or include the stylesheet in your own stylesheet you
 		can use this function to transform any XML node to JSON.
@@ -118,7 +120,7 @@
 			<xsl:copy-of select="if (not($use-rayfish)) then json:create-node($input, false()) else json:create-simple-node($input/child::node())"/>
 		</json:object>
 	</xsl:template>
-
+	
 	<xsl:function name="json:create-simple-node-member" as="node()">
 		<xsl:param name="type" as="xs:string"/>
 		<xsl:param name="value"/>
@@ -138,7 +140,6 @@
 			<json:array/>
 		</xsl:variable>	
 
-		<xsl:variable name="children">
 			<json:array>
 				<xsl:for-each select="$node/@*">
 					<json:array-value>
@@ -161,7 +162,6 @@
 					</json:array-value>
 				</xsl:for-each>
 			</json:array>
-		</xsl:variable>			
 		<!-- <xsl:copy-of select="json:create-simple-node-member('#children', $children)"/> -->
 	</xsl:function>
 
