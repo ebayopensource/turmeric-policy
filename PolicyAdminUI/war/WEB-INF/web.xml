@@ -43,6 +43,25 @@
 	     <url-pattern>/xprtPlc/sg</url-pattern>    
     </servlet-mapping>  
  
+  <servlet>  
+     	<servlet-name>PlcImportServlet</servlet-name>  
+     	<servlet-class>org.ebayopensource.turmeric.policy.adminui.server.PlcImportServlet</servlet-class>
+     	<init-param>
+       		<param-name>impPolicyPrefix</param-name><param-value>/importPlc/policy</param-value>
+      	</init-param>  
+      	<init-param>
+       		<param-name>impSGPrefix</param-name><param-value>/importPlc/sg</param-value>
+      	</init-param>
+      <init-param>
+        <param-name>PolicyServiceURL</param-name><param-value>https://localhost:8443/security/PolicyServiceV1</param-value>
+      </init-param>
+    </servlet>  
+    
+    <servlet-mapping>  
+	     <servlet-name>PlcImportServlet</servlet-name>  
+	     <url-pattern>/importPlc/policy</url-pattern>
+	     <url-pattern>/importPlc/sg</url-pattern>    
+    </servlet-mapping>  
  
   <!--Proxy for the PolicyEnforcementService -->
   <servlet>
