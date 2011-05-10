@@ -13,6 +13,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyImportPresenter.PolicyImportDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
+import org.ebayopensource.turmeric.policy.adminui.client.view.common.FileUploaderWidget;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.FooterWidget;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.HeaderWidget;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyMenuWidget;
@@ -79,6 +80,7 @@ public class PolicyImportView extends AbstractGenericView implements PolicyImpor
 
 		public ContentView() {
 			mainPanel = new SimplePanel();
+			mainPanel.setWidth("100%");
 			initWidget(mainPanel);
 			
 			initialize();
@@ -92,15 +94,18 @@ public class PolicyImportView extends AbstractGenericView implements PolicyImpor
 		public void initialize() {
 			mainPanel.clear();
 			TurmericStackPanel panel = new TurmericStackPanel();
+			panel.setWidth("100%");
+			VerticalPanel vp = new VerticalPanel();
 			
 			form = new FormPanel();
 			form.setEncoding(FormPanel.ENCODING_MULTIPART);
 			form.setMethod(FormPanel.METHOD_POST);
-	        // form.setAction(/* WHAT SHOULD I PUT HERE */);
-			getFileUploaderWidget(form);
-			panel.add(form,PolicyAdminUIUtil.policyAdminConstants.importAction());
-			
-			mainPanel.add(panel);
+
+			FileUploaderWidget.getFileUploaderWidget(form, PolicyAdminUIUtil.policyAdminConstants.policies());
+			panel.add(form,PolicyAdminUIUtil.policyAdminConstants.importPolicyAction());
+			vp.add(panel);
+			vp.add(new Label(PolicyAdminUIUtil.policyAdminConstants.importConditionalFileMsg()));
+			mainPanel.add(vp);
 
 		}
 		
@@ -108,41 +113,6 @@ public class PolicyImportView extends AbstractGenericView implements PolicyImpor
 			return form;
 		}
 
-		private Widget getFileUploaderWidget(final FormPanel form ) {
-			
-	        VerticalPanel holder = new VerticalPanel();
-	        final FileUpload fu =  new FileUpload();
-	        
-	        fu.setName("upload");
-	        holder.add(fu);
-	        holder.add(new Button(PolicyAdminUIUtil.policyAdminConstants.importAction(), new ClickHandler() {
-	                public void onClick(ClickEvent event) {
-	                        if(!fu.getFilename().isEmpty() &&   
-	                    	    Window.confirm("Import policies from " + fu.getFilename() + "?")){
-	                        	form.submit();
-	                        }
-	                }
-	        }));
-
-	        form.addSubmitHandler(new FormPanel.SubmitHandler() {
-	                public void onSubmit(SubmitEvent event) {
-	                    	
-
-	                }
-	        });
-
-	        form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
-	                public void onSubmitComplete(SubmitCompleteEvent event) {
-	                        Window.alert("Success");
-	                }
-	        });
-
-	        form.add(holder);
-
-	        return form;
-	    }
-
-	
 	}
 
 

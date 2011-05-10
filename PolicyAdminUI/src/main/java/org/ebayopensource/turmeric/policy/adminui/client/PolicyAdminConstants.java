@@ -124,6 +124,18 @@ public interface PolicyAdminConstants extends Constants {
 	@DefaultStringValue("Import")
 	public String importAction();
 	
+	@DefaultStringValue("Import Policy")
+	public String importPolicyAction();
+	
+	@DefaultStringValue("Import Subject Group")
+	public String importSGAction();
+	
+	@DefaultStringValue("from")
+	public String from();
+	
+	@DefaultStringValue("<< Selected file must be in XML format. One item per xml file >>")
+	public String importConditionalFileMsg();
+	
 	@DefaultStringValue("All Policies")
 	public String allPolicies();
 	

@@ -15,6 +15,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.event.LogoutEvent;
 import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter;
+import org.ebayopensource.turmeric.policy.adminui.client.shared.AppUser;
 import org.ebayopensource.turmeric.policy.adminui.client.shared.AppUserRole;
 import org.ebayopensource.turmeric.policy.adminui.client.util.PolicyMenuUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.PolicyPageTemplateDisplay;
@@ -22,6 +23,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTempl
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 public class SubjectGroupImportPresenter extends AbstractGenericPresenter {
@@ -33,6 +35,7 @@ public class SubjectGroupImportPresenter extends AbstractGenericPresenter {
 	protected Map<SupportedService, PolicyAdminUIService> serviceMap;
 	
 	public interface SubjectGroupImportDisplay extends PolicyPageTemplateDisplay {
+		FormPanel getForm();
 	}
 	
 	public SubjectGroupImportPresenter(HandlerManager eventBus, SubjectGroupImportDisplay view, Map<SupportedService, PolicyAdminUIService> serviceMap) {
@@ -62,5 +65,15 @@ public class SubjectGroupImportPresenter extends AbstractGenericPresenter {
 		container.clear();
 		this.view.activate();
 		container.add(this.view.asWidget());
+		
+		StringBuffer importUrl = new StringBuffer();
+		importUrl.append("/importPlc/sg?");
+		
+		AppUser user = AppUser.getUser();
+		importUrl.append(user.getUsername() + "&");
+		importUrl.append(user.getPassword());
+		
+		this.view.getForm().setAction(importUrl.toString());
+		
 	}
 }

@@ -9,22 +9,19 @@
 package org.ebayopensource.turmeric.policy.adminui.client.view.policy;
 
 import org.ebayopensource.turmeric.policy.adminui.client.Display;
+import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupImportPresenter.SubjectGroupImportDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.FooterWidget;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.HeaderWidget;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyMenuWidget;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.MenuDisplay;
+import org.ebayopensource.turmeric.policy.adminui.client.view.common.FileUploaderWidget;
+import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericStackPanel;
 
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.SplitLayoutPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class SubjectGroupImportView extends AbstractGenericView implements SubjectGroupImportDisplay {
@@ -45,6 +42,7 @@ public class SubjectGroupImportView extends AbstractGenericView implements Subje
 	public void initialize() {
 		mainPanel.clear();
 		mainPanel.add(initContentView());
+
 	}
 	
 	
@@ -57,6 +55,7 @@ public class SubjectGroupImportView extends AbstractGenericView implements Subje
 	
 	private class ContentView extends AbstractGenericView implements Display {
 		private SimplePanel mainPanel;
+		private FormPanel form;
 		
 		public ContentView() {
 			mainPanel = new SimplePanel();
@@ -72,9 +71,26 @@ public class SubjectGroupImportView extends AbstractGenericView implements Subje
 		@Override
 		public void initialize() {
 			mainPanel.clear();
+			TurmericStackPanel panel = new TurmericStackPanel();
+			panel.setWidth("100%");
+			VerticalPanel vp = new VerticalPanel();
 			
-			mainPanel.add(new Label("subject group import here"));
+			form = new FormPanel();
+			form.setEncoding(FormPanel.ENCODING_MULTIPART);
+			form.setMethod(FormPanel.METHOD_POST);
+
+			FileUploaderWidget.getFileUploaderWidget(form, PolicyAdminUIUtil.policyAdminConstants.subjectGroups());
+			panel.add(form,PolicyAdminUIUtil.policyAdminConstants.importSGAction());
+			vp.add(panel);
+			vp.add(new Label(PolicyAdminUIUtil.policyAdminConstants.importConditionalFileMsg()));
+			mainPanel.add(vp);
 		}
+		
+		
+		public FormPanel getForm() {
+			return form;
+		}
+
 	}
 
 	public void activate() {
@@ -91,4 +107,9 @@ public class SubjectGroupImportView extends AbstractGenericView implements Subje
 	public UserAction getActionSelected() {
 		return UserAction.SUBJECT_GROUP_IMPORT;
 	}
+	
+	public FormPanel getForm() {
+		return ((ContentView)contentView).getForm();
+	}
+	
 }

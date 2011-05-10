@@ -5,9 +5,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -38,17 +38,20 @@ import org.eclipse.jetty.http.HttpURI;
 import org.eclipse.jetty.io.Buffer;
 import org.eclipse.jetty.io.ByteArrayBuffer;
 
+
 public class PlcImportServlet extends HttpServlet {
 
 	private String impPolicyPrefix;
 	private String impSGPrefix;
 	private HttpClient client;
 	private String policyServiceURL;
+	private HttpURI uri;
+	private String incomingJson;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		
+
 		if (config.getInitParameter("PolicyServiceURL") != null) {
 			policyServiceURL = config.getInitParameter("PolicyServiceURL");
 		}
@@ -98,66 +101,39 @@ public class PlcImportServlet extends HttpServlet {
 						"Invalid url: " + request.getQueryString());
 			}
 
-			HttpURI uri = null;
+			ByteArrayOutputStream importData = parseInputStream(request,
+					response);
+
 			if (tmp.startsWith(impPolicyPrefix)) {
-
-				ByteArrayOutputStream importData = parseInputStream(request,
-						response);
-
 				String partialURL = getPartialUrl("createPolicy",
 						RequestFormat.JSON, params);
 
+				incomingJson = parseFile(importData, "/importpolicy.xsl");
+
 				try {
-					System.setProperty(
-							"javax.xml.transform.TransformerFactory",
-							"net.sf.saxon.TransformerFactoryImpl");
-
-					// read data
-					final ServletContext context = getServletContext();
-					final InputStream importJSONTemplateAsStream = context
-							.getResourceAsStream("/importpolicy.xsl");
-					// Create a transform factory instance.
-					TransformerFactory tfactory = TransformerFactory
-							.newInstance();
-					// Create a transformer for the stylesheet.
-					Transformer transformer;
-
-					transformer = tfactory.newTransformer(new StreamSource(
-							importJSONTemplateAsStream));
-
-					StringWriter importDataJson = new StringWriter();
-					StreamResult streamResult = new StreamResult(importDataJson);
-					InputStream inputStream = new ByteArrayInputStream(
-							importData.toString().getBytes("UTF-8"));
-
-					StreamSource streamSource = new StreamSource(inputStream);
-					// importData.toString());
-
-					transformer.transform(streamSource, streamResult);
-
-					String incomingJson = importDataJson.toString()
-							.substring(1);
-
 					uri = new HttpURI(new URI(policyServiceURL
 							+ tmp.substring(impPolicyPrefix.length()))
 							.normalize().toString() + partialURL.toString());
-
-					send(request, response, continuation, uri, incomingJson);
-
-				} catch (TransformerConfigurationException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-
-				} catch (TransformerException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				} catch (URISyntaxException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
+
 			} else if (tmp.startsWith(impSGPrefix)) {
-				// TODO import SG here
+				String partialURL = getPartialUrl("createSubjectGroups",
+						RequestFormat.JSON, params);
+
+				incomingJson = parseFile(importData, "/importsg.xsl");
+
+				try {
+					uri = new HttpURI(new URI(policyServiceURL
+							+ tmp.substring(impSGPrefix.length()))
+							.normalize().toString() + partialURL.toString());
+				} catch (URISyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 			} else {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
@@ -165,12 +141,61 @@ public class PlcImportServlet extends HttpServlet {
 				return;
 			}
 
+			send(request, response, continuation, uri, incomingJson);
+
 			return;
 		}
 
 		if (error != null) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	private String parseFile(final ByteArrayOutputStream importData,
+			final String xsl) {
+		System.setProperty("javax.xml.transform.TransformerFactory",
+				"net.sf.saxon.TransformerFactoryImpl");
+		String incomingJson = null;
+		// read data
+		final ServletContext context = getServletContext();
+		final InputStream importJSONTemplateAsStream = context
+				.getResourceAsStream(xsl);
+		// Create a transform factory instance.
+		TransformerFactory tfactory = TransformerFactory.newInstance();
+		// Create a transformer for the stylesheet.
+		Transformer transformer;
+
+		try {
+			transformer = tfactory.newTransformer(new StreamSource(
+					importJSONTemplateAsStream));
+
+			StringWriter importDataJson = new StringWriter();
+			StreamResult streamResult = new StreamResult(importDataJson);
+			InputStream inputStream;
+			inputStream = new ByteArrayInputStream(importData.toString()
+					.getBytes("UTF-8"));
+
+			StreamSource streamSource = new StreamSource(inputStream);
+			// importData.toString());
+
+			transformer.transform(streamSource, streamResult);
+			incomingJson = importDataJson.toString().substring(1);
+			if (incomingJson == null) {
+				throw new TransformerException("Invalid importing file!");
+			}
+		} catch (TransformerConfigurationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return incomingJson;
 	}
 
 	public String getPartialUrl(String operation, RequestFormat format,
@@ -291,11 +316,9 @@ public class PlcImportServlet extends HttpServlet {
 				+ "p://www.ebayopensource.org/turmeric/common/v1/types\",\"jsonns.xs\":\"http://www.w3.org/2001/XMLSchema\",\"jsonns.xsi\":\"htt"
 				+ "p://www.w3.org/2001/XMLSchema-instance\", \"ns1.createPolicyRequest\":{ ");
 
+				
 		content.append(contentRequest);
 		content.append("}");
-
-		System.out.println("uri:" + uri);
-		System.out.println("content" + content);
 
 		exchange.setURL(uri.toString());
 
