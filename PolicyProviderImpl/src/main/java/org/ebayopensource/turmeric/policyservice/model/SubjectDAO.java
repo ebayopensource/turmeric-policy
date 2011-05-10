@@ -77,6 +77,16 @@ public interface SubjectDAO {
 	 */
 	List<BasicAuth> findExternalSubjects();
     
+	/**
+	 * Find external subject by name.
+	 * 
+	 * @param name
+	 *            the name
+	 * @return the subject list
+	 */
+	List<BasicAuth> findExternalSubjectsByName(String name);
+
+    
     /**
 	 * Find subject by type.
 	 * 

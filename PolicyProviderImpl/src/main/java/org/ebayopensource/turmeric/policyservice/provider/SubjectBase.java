@@ -239,7 +239,7 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 			Set<Subject> result = new HashSet<Subject>();
 
 			List<BasicAuth> externalSubjects = subjectDAO
-					.findExternalSubjects();
+					.findExternalSubjectsByName(name);
 
 			if (externalSubjects != null) {
 				for (BasicAuth basicAuth : externalSubjects) {

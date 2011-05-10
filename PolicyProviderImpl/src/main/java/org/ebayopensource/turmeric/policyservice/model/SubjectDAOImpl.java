@@ -396,4 +396,9 @@ public class SubjectDAOImpl extends AbstractDAO implements SubjectDAO {
 		return subject;
 
 	}
+
+	@Override
+	public List<BasicAuth> findExternalSubjectsByName(String name) {
+		return getWildcardResultList(BasicAuth.class, "subjectName", name);
+	}
 }
