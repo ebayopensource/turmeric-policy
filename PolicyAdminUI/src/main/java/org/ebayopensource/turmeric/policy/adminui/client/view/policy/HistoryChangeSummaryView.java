@@ -17,6 +17,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.Display;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.EntityHistory;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.HistoryChangeSummaryPresenter.HistoryChangeSummaryDisplay;
+import org.ebayopensource.turmeric.policy.adminui.client.util.DateFormatUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericPager;
@@ -73,11 +74,15 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
 	   
 	        fromLabel = new Label("From:");
 	        fromText = new DateBox();
+	        fromText.setValue(DateFormatUtil.resetTo12am(new Date()));
+	        fromText.setFormat(DateFormatUtil.SHORT_DATE_FORMAT);
 	        fromText.addStyleName("date-select-panel-item");
 	        fromText.getDatePicker().addStyleName("turmeric");
 
 	        toLabel = new Label("To:");
 	        toText = new DateBox();
+	        toText.setValue(DateFormatUtil.resetTo1159pm(new Date()));
+	        toText.setFormat(DateFormatUtil.SHORT_DATE_FORMAT);
 	        toText.addStyleName("date-select-panel-item");
 	        toText.getDatePicker().addStyleName("turmeric");
 	        
@@ -102,8 +107,8 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
 	    }
 	    
 	    public void clear () {
-	    	fromText.setValue(new Date(System.currentTimeMillis()-24*60*60*1000));
-	    	toText.setValue(new Date(System.currentTimeMillis()));
+	    	fromText.setValue(DateFormatUtil.resetTo12am(new Date(System.currentTimeMillis()-24*60*60*1000)));
+	    	toText.setValue(DateFormatUtil.resetTo1159pm(new Date(System.currentTimeMillis())));
 	    	entityBox.setSelectedIndex(-1);
 	    }
 	    
@@ -113,12 +118,13 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
 	    }
 	    
 	    public long getTo() {
-	        return (toText.getValue().getTime());
+	        return (DateFormatUtil.resetTo1159pm(toText.getValue()).getTime());
 
 	    }
 
 	    public long getFrom() {
-	        return (fromText.getValue().getTime());
+	    	
+	        return (DateFormatUtil.resetTo12am(fromText.getValue()).getTime());
 	    }
 
 	    public String getEntity() {

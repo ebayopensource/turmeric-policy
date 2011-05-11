@@ -11,9 +11,10 @@ package org.ebayopensource.turmeric.policy.adminui.client.util;
 import java.util.Date;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.datepicker.client.DateBox;
 
 public class DateFormatUtil {
-	
+	public static DateBox.DefaultFormat SHORT_DATE_FORMAT = new DateBox.DefaultFormat(DateTimeFormat.getFormat("yyyy MMM dd"));
 	private static final String CONSOLE_DATE_FORMAT = "dd MMM yyyy hh:mm:ss aa";
 	private static final DateTimeFormat CONSOLE_DATE_FORMATTER = DateTimeFormat.getFormat(CONSOLE_DATE_FORMAT);
 	
@@ -22,5 +23,21 @@ public class DateFormatUtil {
 			return "";
 		}
 		return CONSOLE_DATE_FORMATTER.format(date);
+	}
+	
+	public static Date resetTo12am(Date date){
+		Date result = new Date(date.getTime());
+		result.setHours(00);
+		result.setMinutes(00);
+		result.setSeconds(00);
+		return result;
+	}
+
+	public static Date resetTo1159pm(Date value) {
+		Date result = new Date(value.getTime());
+		result.setHours(23);
+		result.setMinutes(59);
+		result.setSeconds(59);
+		return result;
 	}
 }

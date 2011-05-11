@@ -31,6 +31,7 @@
   <source path='client'/>
   <source path='shared'/>
   <extend-property name="locale" values="it"/>
+  <inherits name="com.google.gwt.junit.JUnit"/>
   
 
 
