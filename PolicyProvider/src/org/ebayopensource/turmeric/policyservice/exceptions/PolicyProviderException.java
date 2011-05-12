@@ -47,7 +47,11 @@ public class PolicyProviderException extends Exception {
 		/**
 		 * Query related exception
 		 */
-		QUERY
+		QUERY,
+		/**
+		 * Subject Type related exception.
+		 */
+		SUBJECTTYPE,
 	};
 	
 	/**
