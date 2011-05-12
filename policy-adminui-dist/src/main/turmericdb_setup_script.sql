@@ -624,8 +624,30 @@ CREATE TABLE `Policy_Subject` (
 
 LOCK TABLES `Policy_Subject` WRITE;
 /*!40000 ALTER TABLE `Policy_Subject` DISABLE KEYS */;
-INSERT INTO `Policy_Subject` VALUES (1,1),(6,2),(4,3),(5,5),(6,5),(6,4),(3,3),(8,1),(71,7),(8,7),(73,1);
+INSERT INTO `Policy_Subject` VALUES (1,1),(6,2),(4,3),(6,5),(6,4),(3,3),(8,1),(71,7),(8,7),(73,1);
 /*!40000 ALTER TABLE `Policy_Subject` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Policy_SubjectType`
+--
+
+DROP TABLE IF EXISTS `Policy_SubjectType`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Policy_SubjectType` (
+  `Policy_id` bigint(20) NOT NULL,
+  `subjectTypes_id` bigint(20) NOT NULL,
+  KEY `FK5E0FB31FAB44C2E` (`subjectTypes_id`),
+  KEY `FK5E0FB31FD5D8832B` (`Policy_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+LOCK TABLES `Policy_SubjectType` WRITE;
+/*!40000 ALTER TABLE `Policy_SubjectType` DISABLE KEYS */;
+INSERT INTO `Policy_SubjectType` VALUES (1,3);
+/*!40000 ALTER TABLE `Policy_SubjectType` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -866,6 +888,8 @@ CREATE TABLE `SubjectType` (
 
 LOCK TABLES `SubjectType` WRITE;
 /*!40000 ALTER TABLE `SubjectType` DISABLE KEYS */;
+INSERT INTO `SubjectType` VALUES (1,'admin','2010-12-14 10:49:55',NULL,NULL,'USER','','USER'),(2,'admin','2010-12-14 11:08:27',NULL,NULL,'IP','','IP'),(3,'admin','2010-12-14 10:49:55',NULL,NULL,'DEV','','DEV'),(4,'admin','2010-12-29 17:38:46',NULL,NULL,'APP','','APP');
+
 /*!40000 ALTER TABLE `SubjectType` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
