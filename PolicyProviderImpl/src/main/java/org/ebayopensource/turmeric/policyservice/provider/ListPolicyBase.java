@@ -980,22 +980,73 @@ public abstract class ListPolicyBase  implements PolicyTypeProvider {
 
         @Override
         protected void addSubjectTypeAssignmentOfPolicy(Long policyId,
-                        List<Long> addSubjectTypeList) {
-            // N/A (check with pzhao)
+                        List<Long> addSubjectTypeList)
+        		throws PolicyUpdateException {
+        	 long id = -1;
+             try {
+                 org.ebayopensource.turmeric.policyservice.model.Policy jpaPolicy = 
+                     policyDAO.findPolicyById(policyId);
+                 List<org.ebayopensource.turmeric.policyservice.model.SubjectType> jpaSubjectTypes = 
+                     jpaPolicy.getSubjectTypes();
+                 for (Long subjectTypeId : addSubjectTypeList) {
+                     id = subjectTypeId;
+                     org.ebayopensource.turmeric.policyservice.model.SubjectType jpaSubjectType =
+                         policyDAO.findSubjectTypeById(subjectTypeId);
+                     jpaSubjectTypes.add(jpaSubjectType);
+                 }
+             }
+             catch (Exception ex) {
+                 throw new PolicyUpdateException((id<0 ? Category.POLICY:Category.SUBJECTTYPE), policyType,
+                                 (id<0 ? policyId:id), "Failed to assign subject type to policy", ex);
+             }
+        	
         }
     
         @Override
         protected void removeSubjectTypeAssignmentOfPolicy(Long policyId,
-                List<Long> removeSubjectTypeList) {
-            // N/A (check with pzhao)
+        		List<Long> subjectTypeList)
+        throws PolicyUpdateException {
+        	long id = -1;
+            try {
+                org.ebayopensource.turmeric.policyservice.model.Policy jpaPolicy = 
+                    policyDAO.findPolicyById(policyId);
+                List<org.ebayopensource.turmeric.policyservice.model.SubjectType> jpaSubjectTypes = 
+                    jpaPolicy.getSubjectTypes();
+                for (Long subjectTypeId : subjectTypeList) {
+                    id = subjectTypeId;
+                    org.ebayopensource.turmeric.policyservice.model.SubjectType jpaSubjectType =
+                        policyDAO.findSubjectTypeById(subjectTypeId);
+                    jpaSubjectTypes.remove(jpaSubjectType);
+                }
+            }
+            catch (Exception ex) {
+                throw new PolicyUpdateException((id<0 ? Category.POLICY:Category.SUBJECTTYPE), policyType,
+                                (id<0 ? policyId:id), "Failed to unassign subject type from policy", ex);
+            }
         }
     
         @Override
         public Map<Long, SubjectTypeInfo> getSubjectTypeAssignmentOfPolicy(
                 Long policyId, QueryCondition queryCondition)
                 throws PolicyFinderException {
-            // N/A (check with pzhao)
-            return null;
+        	 long id = -1;
+             Map<Long, SubjectTypeInfo> result = new HashMap<Long, SubjectTypeInfo>();
+             try {
+                 org.ebayopensource.turmeric.policyservice.model.Policy jpaPolicy = 
+                     policyDAO.findPolicyById(policyId);
+                 List<org.ebayopensource.turmeric.policyservice.model.SubjectType> jpaSubjectTypes = 
+                     jpaPolicy.getSubjectTypes();
+                 for (org.ebayopensource.turmeric.policyservice.model.SubjectType jpaSubjectType : jpaSubjectTypes) {
+                     id = jpaSubjectType.getId();
+                     result.put(Long.valueOf(id), SubjectDAOImpl.convert(jpaSubjectType));
+                     id = -1;
+                 }
+             }
+             catch (Exception ex) {
+                 throw new PolicyFinderException((id<0 ? Category.POLICY:Category.SUBJECTTYPE), policyType,
+                                 (id<0 ? policyId:id), "Failed to retrieve subject types assignment of policy", ex);
+             }
+             return result;
         }
 
 		@Override

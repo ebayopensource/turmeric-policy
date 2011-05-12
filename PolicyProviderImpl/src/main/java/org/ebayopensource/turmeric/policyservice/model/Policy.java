@@ -31,6 +31,9 @@ public class Policy extends AuditablePersistent{
     private boolean active;
     
     @ManyToMany
+    private List<SubjectType> subjectTypes;
+
+    @ManyToMany
     private List<Resource> resources;
 
     @ManyToMany
@@ -184,6 +187,18 @@ public class Policy extends AuditablePersistent{
             subjects = new ArrayList<Subject>();
         }
         return subjects;
+    }
+    
+    /**
+	 * Gets the subject types.
+	 * 
+	 * @return the subject types
+	 */
+    public List<SubjectType> getSubjectTypes() {
+        if (subjectTypes == null) {
+            subjectTypes = new ArrayList<SubjectType>();
+        }
+        return subjectTypes;
     }
     
     /**

@@ -85,6 +85,15 @@ public class PolicyDAOImpl extends AbstractDAO implements PolicyDAO {
     public Subject findSubjectById(Long id) {
         return findEntity(Subject.class, id);
     }
+    
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#findSubjectTypeById(java.lang.Long)
+     */
+    @Override
+    public SubjectType findSubjectTypeById(Long id) {
+        return findEntity(SubjectType.class, id);
+    }
+    
 
     /* (non-Javadoc)
      * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#findSubjectGroupById(java.lang.Long)
@@ -102,6 +111,14 @@ public class PolicyDAOImpl extends AbstractDAO implements PolicyDAO {
         return findEntityByMemberId(Policy.class, "policyType", policyType, "subjects", subjectId);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#findPolicyBySubjectTypeId(java.lang.Long, java.lang.String)
+     */
+    @Override
+    public List<Policy> findPolicyBySubjectTypeId(Long subjectTypeId, String policyType) {
+        return findEntityByMemberId(Policy.class, "policyType", policyType, "subjectTypes", subjectTypeId);
+    }
+    
     /* (non-Javadoc)
      * @see org.ebayopensource.turmeric.policyservice.model.PolicyDAO#findPolicyBySubjectGroupId(java.lang.Long, java.lang.String)
      */

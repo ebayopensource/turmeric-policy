@@ -75,6 +75,16 @@ public interface PolicyDAO {
     public Subject findSubjectById(Long subjectId);
 
     /**
+	 * Find subject type by id.
+	 * 
+	 * @param subjecttype Id
+	 *            the subject type  id
+	 * @return the subjectType
+	 */
+    public SubjectType findSubjectTypeById(Long subjectTypeId);
+
+    
+    /**
 	 * Find subject group by id.
 	 * 
 	 * @param subjectGroupId
@@ -94,6 +104,18 @@ public interface PolicyDAO {
 	 */
     public List<Policy> findPolicyBySubjectId(Long subjectId, String policyType);
 
+    /**
+	 * Find policy by subjectType id.
+	 * 
+	 * @param subjectTypeId
+	 *            the subjectType id
+	 * @param policyType
+	 *            the policy type
+	 * @return the list
+	 */
+    public List<Policy> findPolicyBySubjectTypeId(Long subjectTypeId, String policyType);
+
+    
     /**
 	 * Find policy by subject group id.
 	 * 

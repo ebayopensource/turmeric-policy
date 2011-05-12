@@ -27,6 +27,7 @@ import org.ebayopensource.turmeric.policyservice.provider.USERSubject;
 import org.ebayopensource.turmeric.policyservice.provider.utils.PolicyServiceUtils;
 import org.ebayopensource.turmeric.security.v1.services.SubjectGroupKey;
 import org.ebayopensource.turmeric.security.v1.services.SubjectKey;
+import org.ebayopensource.turmeric.security.v1.services.SubjectTypeInfo;
 import org.ebayopensource.turmeric.utils.jpa.AbstractDAO;
 import org.ebayopensource.turmeric.utils.jpa.model.AuditInfo;
 
@@ -257,6 +258,26 @@ public class SubjectDAOImpl extends AbstractDAO implements SubjectDAO {
 			}
 		}
 
+		return result;
+	}
+	
+	/**
+	 * Convert.
+	 * 
+	 * @param jpaSubjectType
+	 *            the jpa subject Type
+	 * @return the org.ebayopensource.turmeric.security.v1.services.subjectTypeInfo
+	 * @throws PolicyFinderException
+	 *             the policy finder exception
+	 */
+	public static org.ebayopensource.turmeric.security.v1.services.SubjectTypeInfo convert(
+			SubjectType jpaSubjectType) throws PolicyFinderException {
+		org.ebayopensource.turmeric.security.v1.services.SubjectTypeInfo result = new org.ebayopensource.turmeric.security.v1.services.SubjectTypeInfo();
+
+		result.setName(jpaSubjectType.getName());
+		result.setDescription(jpaSubjectType.getDescription());
+		result.setId(jpaSubjectType.getId());
+		
 		return result;
 	}
 
