@@ -21,7 +21,6 @@ public class PolicySubjectAssignment {
     private List<Subject> exclusionSubjects;
     private List<SubjectGroup> subjectGroups;
     private List<SubjectGroup> exclusionSubjectGroups;
-
     
 
 	public List<Subject> getExclusionSubjects() {
@@ -54,4 +53,6 @@ public class PolicySubjectAssignment {
 	public void setExclusionSubjectGroups(List<SubjectGroup> exclusionSubjectGroups) {
 		this.exclusionSubjectGroups = exclusionSubjectGroups;
 	}
+	
+	
 }

@@ -418,7 +418,8 @@ public class PolicyViewView extends ResizeComposite implements
 					}
 					ArrayList<String> namesList = new ArrayList<String>();
 					for (Subject subject : assignment.getSubjects()) {
-						namesList.add(subject.getName());
+						//name = null means apply all subject for that type 
+						namesList.add((subject.getName()==null ? PolicyAdminUIUtil.policyAdminConstants.all() : subject.getName()));
 					}
 
 					return namesList;

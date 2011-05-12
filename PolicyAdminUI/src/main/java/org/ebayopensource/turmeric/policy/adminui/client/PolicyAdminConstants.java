@@ -88,6 +88,9 @@ public interface PolicyAdminConstants extends Constants {
 	@DefaultStringValue ("Selected Subjects")
 	public String selectedSubjects();
 	
+	@DefaultStringValue ("Select All Subjects")
+	public String selectAllSubjects();
+	
 	@DefaultStringValue ("Subjects")
 	public String subjects();
 	
@@ -138,6 +141,10 @@ public interface PolicyAdminConstants extends Constants {
 	
 	@DefaultStringValue("All Policies")
 	public String allPolicies();
+
+	@DefaultStringValue("All")
+	public String all();
+
 	
 	@DefaultStringValue("Summary")
 	public String summary();
@@ -325,6 +332,9 @@ public interface PolicyAdminConstants extends Constants {
     @DefaultStringValue("Subject not found. Do you want to create it?")
     public String createInternalSubjects();
 
+    @DefaultStringValue("('Selected Subject' will not be saved)")
+    public String selectAllsubjectsAlert();
+    
     /*
      * Generic Error message. This message should never be shown  unless 
      * that the error message received from server be improperly set 

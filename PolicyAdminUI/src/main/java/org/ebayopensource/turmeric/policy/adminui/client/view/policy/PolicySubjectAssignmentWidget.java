@@ -17,6 +17,9 @@ import org.ebayopensource.turmeric.policy.adminui.client.view.common.SelectBoxes
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
@@ -37,6 +40,7 @@ public class PolicySubjectAssignmentWidget extends SubjectGroupAssignmentWidget 
     protected Button searchGroupButton;
     protected SelectBoxesWidget selectExclusionSubjects;
     protected SelectBoxesWidget selectExclusionSG;
+    protected CheckBox selectAllSubjectsXB;
     
     public PolicySubjectAssignmentWidget() {
         super();
@@ -45,6 +49,7 @@ public class PolicySubjectAssignmentWidget extends SubjectGroupAssignmentWidget 
     public void setExclusionListVisible(boolean visible){
     	selectExclusionSubjects.setVisible(visible);
     	selectExclusionSG.setVisible(visible);
+    	selectAllSubjectsXB.setVisible(visible);
     }
     
     public List<String> getSelectedGroups () {
@@ -103,10 +108,17 @@ public class PolicySubjectAssignmentWidget extends SubjectGroupAssignmentWidget 
     
     protected void positionFields () {
         super.positionFields();
+        positionSubjectTypeXB();
         positionExclusionSubjectFields();
         positionSubjectGroupCaption();
         table.setWidget(1, 1, subjectGroupCaption);
         
+    }
+    
+    protected void positionSubjectTypeXB(){
+    	FlexTable table  = ((FlexTable)this.panel.getWidget(0));
+    	Grid grid =((Grid) table.getWidget(0, 0));
+    	grid.setWidget(0,2, selectAllSubjectsXB);
     }
     
     protected void positionSubjectGroupCaption(){
@@ -128,6 +140,7 @@ public class PolicySubjectAssignmentWidget extends SubjectGroupAssignmentWidget 
     	createGroupSearchFields();
         createGroupsFields();
         createExclusionSGFields();
+        createSubjectTypeXB();
        	subjectGroupCaption = new CaptionPanel("Subject Groups");
         subjectGroupCaption.setContentWidget(subjectGroupTable);	
     
@@ -173,11 +186,21 @@ public class PolicySubjectAssignmentWidget extends SubjectGroupAssignmentWidget 
         selectExclusionSG = new SelectBoxesWidget(PolicyAdminUIUtil.policyAdminConstants.availableSubjectGroups(), true, PolicyAdminUIUtil.policyAdminConstants.selectedExclusionSG(), true);
     }
 
+    protected void createSubjectTypeXB() {
+        selectAllSubjectsXB = new CheckBox(PolicyAdminUIUtil.policyAdminConstants.selectAllSubjects() + " " + PolicyAdminUIUtil.policyAdminConstants.selectAllsubjectsAlert());
+    }
     
     public List<String> getSelectedExclusionSubjects () {
         return selectExclusionSubjects.getSelections();
     }
     
+    public boolean getSelectAllSubjectsXB() {
+        return selectAllSubjectsXB.getValue().booleanValue();
+    }
+    
+    public void setSelectAllSubjectsXB(boolean selected) {
+        selectAllSubjectsXB.setValue(new Boolean(selected));
+    }
    
     public List<String> getSelectedExclusionSG() {
         return selectExclusionSG.getSelections();

@@ -12,19 +12,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.SupportedService;
-import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken;
+import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ExtraField;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicyImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetPoliciesResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicySubjectAssignment;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.QueryCondition;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource;
@@ -32,14 +32,11 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Rule;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.RuleAttribute;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectType;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetPoliciesResponse;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
@@ -209,20 +206,38 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 
 	private List<PolicySubjectAssignment> fetchSubjectAndSGAssignment(
 			GenericPolicy policy) {
-		//HashMap<subject type, arraylist of assigned subjects>
-		HashMap<String, List<Subject>> sAssignMap = new HashMap<String, List<Subject>>();
-		
+				HashMap<String, List<Subject>> sAssignMap = new HashMap<String, List<Subject>>();
 		for (Subject subject : policy.getSubjects()) {
 			String type = subject.getType();
-			if (!sAssignMap.containsKey(type)) {
-				List list = new ArrayList();
-				list.add(subject);
-				sAssignMap.put(type, list);
-			} else {
-				List list = (List) sAssignMap.get(type);
-				list.add(subject);
-				sAssignMap.put(type, list);
-			}
+			
+//			if(subject.getName() != null){
+				GWT.log("por acaa");
+				if (!sAssignMap.containsKey(type)) {
+					List list = new ArrayList();
+					list.add(subject);
+					sAssignMap.put(type, list);
+				} else {
+					List list = (List) sAssignMap.get(type);
+					list.add(subject);
+					sAssignMap.put(type, list);
+				}
+//			}else{
+//				GWT.log("por allla");
+//				//means it has selectAllSubject activated
+//				SubjectImpl allSb = new SubjectImpl();
+//				allSb.setType(type);
+//				allSb.setName(PolicyAdminUIUtil.policyAdminConstants.all());
+//				if (!sAssignMap.containsKey(type)) {
+//					List list = new ArrayList();
+//					list.add(allSb);
+//					sAssignMap.put(type, list);
+//				} else {
+//					List list = (List) sAssignMap.get(type);
+//					list.add(allSb);
+//					sAssignMap.put(type, list);
+//				}
+//				break;
+//			}
 		}
 
 		HashMap<String, List<Subject>> exclSAssignMap = new HashMap<String, List<Subject>>();
@@ -280,6 +295,8 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 					polSubAssignment.setSubjectType(subjectType);
 				}
 				polSubAssignment.setSubjects(sAssignMap.get(subjectType));
+				
+
 			}
 	
 			if(exclSAssignMap.containsKey(subjectType)){
@@ -318,7 +335,7 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 	public GenericPolicy getPolicy(String name, String type,
 			String description, List<Resource> resources,
 			List<PolicySubjectAssignment> subjectAssignments, boolean enabled,
-			long id, List<Rule> rules) {
+			long id, List<Rule> rules, boolean assignAllSubjects) {
 		GenericPolicyImpl p = new GenericPolicyImpl();
 		p.setName(name);
 		p.setType(type);
@@ -345,34 +362,23 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 			for (PolicySubjectAssignment a : subjectAssignments) {
 
 				if (a.getSubjects() != null) {
-					// external subjects todays are only USER types
-//					if ("USER".equals(a.getSubjectType())) {
-//						createInternalSubject(a.getSubjects());
-//					}
-//					// adding the created subjects (now as internal ones)
-//					List<PolicySubjectAssignment> internalAssignments = view
-//							.getSubjectContentView().getAssignments();
-
 					for (PolicySubjectAssignment policySubjectAssignment : view.getSubjectContentView().getAssignments()) {
-						if (policySubjectAssignment.getSubjects() != null) {
+						//Assigning a subject type to a policy is implemented by assigning 
+						// 1 subject with the subject type selected but with no name. WSDL has no other way 
+						if (assignAllSubjects){
+							SubjectImpl sb = new SubjectImpl();
+							sb.setType(policySubjectAssignment.getSubjectType());
+							subjects.add(sb);
+						}else if (policySubjectAssignment.getSubjects() != null) {
 							subjects.addAll(policySubjectAssignment
 									.getSubjects());
-							break;
 						}
+						break;
 					}
 
 				}
 
 				if (a.getExclusionSubjects() != null) {
-					// external subjects todays are only USER types
-//					if ("USER".equals(a.getSubjectType())) {
-//						createInternalSubject(a.getExclusionSubjects());
-//					}
-//
-//					// adding the created subjects (now as internal ones)
-//					List<PolicySubjectAssignment> internalAssignments = view
-//							.getSubjectContentView().getAssignments();
-
 					for (PolicySubjectAssignment policySubjectAssignment : view.getSubjectContentView().getAssignments()) {
 						if (policySubjectAssignment.getExclusionSubjects() != null) {
 							exclusionSubjects.addAll(policySubjectAssignment

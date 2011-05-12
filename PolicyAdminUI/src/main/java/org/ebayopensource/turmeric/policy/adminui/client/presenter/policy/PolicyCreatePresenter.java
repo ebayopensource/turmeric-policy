@@ -52,7 +52,6 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectKey
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectMatchType;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectMatchTypeImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectQuery;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectQuery.SubjectTypeKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectType;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter;
 import org.ebayopensource.turmeric.policy.adminui.client.util.PolicyKeysUtil;
@@ -310,7 +309,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 						 */
 						editSubjectAssignment = view.getSubjectContentView()
 								.getSelectedSubjectAssignments().get(0);
-
+						
 						// remove the assignment from the list of assignments
 						// while it is being edited
 
@@ -322,9 +321,15 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 						// being edited
 						List<String> typeList = new ArrayList<String>();
 						typeList.add(editSubjectAssignment.getSubjectType());
+						
 						view.getSubjectContentView().setAvailableSubjectTypes(
 								typeList);
-
+						
+						
+//						if(!editSubjectAssignment.getSubjects().isEmpty()){
+//							editSubjectAssignment.getSubjects().clear();
+//						}
+						
 						// get all the subjects of this type
 						SubjectKey skey = new SubjectKey();
 						skey.setType(editSubjectAssignment.getSubjectType());
@@ -530,8 +535,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		this.view.getSubjectContentView().getAddButton()
 				.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
-						// Add a new set of subjects and groups for a given
-						// SubjectType
+						
+						// Add a new set of subjects and groups for a given SubjectType
 						if (subjectAssignments == null) {
 							subjectAssignments = new ArrayList<PolicySubjectAssignment>();
 						}
@@ -546,21 +551,33 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 						assignment.setSubjectType(view.getSubjectContentView()
 								.getSubjectType());
-						// subjects
+						
+						//subject 
 						List<Subject> subjects = new ArrayList<Subject>();
-
-						for (String s : view.getSubjectContentView()
-								.getSelectedSubjects()) {
-							Subject assignedSubject = getSubject(s,
-									assignment.getSubjectType(), false);
-							// let's do a second loading, external subjects
-							// should stored in local now
-							if (assignedSubject.getSubjectMatchTypes() == null) {
-								assignedSubject = getSubject(s,
-										assignment.getSubjectType(), true);
-							}
+						if(view.getSubjectContentView().getSelectAllSubjects()){
+							Subject assignedSubject = getSubjectType(PolicyAdminUIUtil.policyAdminConstants
+									.all(), assignment.getSubjectType(), false);
+							
 							subjects.add(assignedSubject);
-
+//							SubjectTypeInfoImpl  st = new SubjectTypeInfoImpl();
+//							st.setName(assignment.getSubjectType());
+//							ArrayList<SubjectTypeInfo> stList = new ArrayList<SubjectTypeInfo>();
+//							stList.add(st);
+//							assignment.setSubjectTypes(stList);	
+						}else{
+							for (String s : view.getSubjectContentView()
+									.getSelectedSubjects()) {
+								Subject assignedSubject = getSubject(s,
+										assignment.getSubjectType(), false);
+								// let's do a second loading, external subjects
+								// should stored in local now
+								if (assignedSubject.getSubjectMatchTypes() == null) {
+									assignedSubject = getSubject(s,
+											assignment.getSubjectType(), true);
+								}
+								subjects.add(assignedSubject);
+							}
+						
 						}
 						// exclusionSubjects
 						List<Subject> exclusionSubjects = new ArrayList<Subject>();
@@ -609,6 +626,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 								subjectTypes);
 						view.getSubjectContentView().clearAssignmentWidget();
 					}
+				
 				});
 
 		view.getSubjectContentView().getCancelButton()
@@ -1138,6 +1156,10 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	public interface SubjectContentDisplay extends Display {
 		String getSubjectType();
 
+		boolean getSelectAllSubjects();
+		
+		void setSelectAllSubjects(boolean selected);
+
 		HasClickHandlers getGroupSearchButton();
 
 		HasClickHandlers getSubjectSearchButton();
@@ -1458,6 +1480,32 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				});
 	}
 
+	
+	public Subject getSubjectType(String name, String type, final boolean isSubjectType) {
+		final SubjectImpl s = new SubjectImpl();
+		s.setType(type);
+		
+		SubjectMatchTypeImpl smt = new SubjectMatchTypeImpl();
+		AttributeValueImpl attr = new AttributeValueImpl();
+		
+		SubjectAttributeDesignatorImpl designator = new SubjectAttributeDesignatorImpl();
+		smt.setMatchId("urn:oasis:names:tc:xacml:1.0:function:string-regexp-match");
+		attr.setDataType("http://www.w3.org/2001/XMLSchema#string");
+		
+		designator
+				.setAttributeId("urn:oasis:names:tc:xacml:1.0:subject:subject-id");
+		designator.setDataType("http://www.w3.org/2001/XMLSchema#integer");
+		smt.setAttributeValue(attr);
+		smt.setSubjectAttributeDesignator(designator);
+
+		s.setSubjectMatch(new ArrayList<SubjectMatchType>(Collections
+				.singletonList(smt)));
+	
+		return s;
+
+	}
+	
+	
 	public Subject getSubject(String name, String type,
 			final boolean exclusionList) {
 		final SubjectImpl s = new SubjectImpl();
@@ -1596,8 +1644,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 						if (policySubjectAssignment.getSubjects() != null) {
 							subjects.addAll(policySubjectAssignment
 									.getSubjects());
-							break;
 						}
+						break;
 					}
 
 				}

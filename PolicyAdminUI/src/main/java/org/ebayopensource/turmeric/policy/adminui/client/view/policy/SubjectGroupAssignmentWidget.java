@@ -94,6 +94,8 @@ public class SubjectGroupAssignmentWidget extends Composite {
         searchBox.setText("");
     }
     
+   
+	
     public String getSubjectType () {
         int index = subjectTypeBox.getSelectedIndex();
         if (index < 0)
@@ -105,6 +107,7 @@ public class SubjectGroupAssignmentWidget extends Composite {
     public String getSearchTerm () {
         return searchBox.getText();
     }
+     
     public HasValue<String> getSearchBox () {
         return searchBox;
     }
@@ -164,7 +167,7 @@ public class SubjectGroupAssignmentWidget extends Composite {
     
     
     private void positionSubjectTypeFields () {  
-    	Grid searchGrid = new Grid(1,2);
+    	Grid searchGrid = new Grid(1,3);
     	
     	searchGrid.setWidget(0, 0, subjectTypeLabel);
     	searchGrid.setWidget(0, 1, subjectTypeBox);   

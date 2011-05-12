@@ -35,6 +35,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Rule;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.RuleAttribute;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectType;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetPoliciesResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter;
@@ -348,18 +349,36 @@ public class PolicyViewPresenter extends AbstractGenericPresenter {
 
 	private List<PolicySubjectAssignment> fetchSubjectAndSGAssignment(
 			GenericPolicy policy) {
+
 		//HashMap<subject type, arraylist of assigned subjects>
 		HashMap<String, List<Subject>> sAssignMap = new HashMap<String, List<Subject>>();
 		for (Subject subject : policy.getSubjects()) {
 			String type = subject.getType();
-			if (!sAssignMap.containsKey(type)) {
-				List list = new ArrayList();
-				list.add(subject);
-				sAssignMap.put(type, list);
-			} else {
-				List list = (List) sAssignMap.get(type);
-				list.add(subject);
-				sAssignMap.put(type, list);
+			if(subject.getName() != null){
+				if (!sAssignMap.containsKey(type)) {
+					List list = new ArrayList();
+					list.add(subject);
+					sAssignMap.put(type, list);
+				} else {
+					List list = (List) sAssignMap.get(type);
+					list.add(subject);
+					sAssignMap.put(type, list);
+				}
+			}else{
+				//means it has selectAllSubject activated
+				SubjectImpl allSb = new SubjectImpl();
+				allSb.setType(type);
+				allSb.setName(PolicyAdminUIUtil.policyAdminConstants.all());
+				if (!sAssignMap.containsKey(type)) {
+					List list = new ArrayList();
+					list.add(allSb);
+					sAssignMap.put(type, list);
+				} else {
+					List list = (List) sAssignMap.get(type);
+					list.add(allSb);
+					sAssignMap.put(type, list);
+				}
+				break;
 			}
 		}
 
@@ -418,6 +437,7 @@ public class PolicyViewPresenter extends AbstractGenericPresenter {
 					polSubAssignment.setSubjectType(subjectType);
 				}
 				polSubAssignment.setSubjects(sAssignMap.get(subjectType));
+				
 			}
 	
 			if(exclSAssignMap.containsKey(subjectType)){

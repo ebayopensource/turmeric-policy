@@ -1056,7 +1056,8 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 					}
 					ArrayList<String> namesList = new ArrayList<String>();
 					for (Subject subject : assignment.getSubjects()) {
-						namesList.add(subject.getName());
+						//name = null means apply all subject for that type 
+						namesList.add((subject.getName()==null ? PolicyAdminUIUtil.policyAdminConstants.all() : subject.getName()));
 					}
 
 					return namesList;
@@ -1248,7 +1249,15 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		public String getSubjectType() {
 			return subjectAssignmentWidget.getSubjectType();
 		}
-
+		
+		public boolean getSelectAllSubjects() {
+			return subjectAssignmentWidget.getSelectAllSubjectsXB();
+		}
+		
+		public void setSelectAllSubjects(boolean selected) {
+			subjectAssignmentWidget.setSelectAllSubjectsXB(selected);
+		}
+		
 		/**
 		 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.SubjectContentDisplay#getSelectedSubjectGroups()
 		 */
