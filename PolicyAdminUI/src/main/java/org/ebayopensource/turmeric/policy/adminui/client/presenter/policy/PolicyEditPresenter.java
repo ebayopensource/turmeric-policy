@@ -211,7 +211,7 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 			String type = subject.getType();
 			
 //			if(subject.getName() != null){
-				GWT.log("por acaa");
+
 				if (!sAssignMap.containsKey(type)) {
 					List list = new ArrayList();
 					list.add(subject);
@@ -222,7 +222,6 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 					sAssignMap.put(type, list);
 				}
 //			}else{
-//				GWT.log("por allla");
 //				//means it has selectAllSubject activated
 //				SubjectImpl allSb = new SubjectImpl();
 //				allSb.setType(type);
