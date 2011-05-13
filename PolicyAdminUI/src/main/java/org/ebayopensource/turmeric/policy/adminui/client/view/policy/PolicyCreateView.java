@@ -889,6 +889,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 		@Override
 		public void initialize() {
+			
 			subjectGrid = new Grid(3, 1);
 			createButtonMenu();
 			subjectGrid.setWidget(0, 0, actionGrid);
@@ -899,8 +900,13 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			createSubjectAssignmentFields();
 			mainGrid.setWidget(1, 0, subjectGrid);
 			mainGrid.setWidth("60%");
+			
+			
+			
 		}
 
+		
+		
 		protected void createButtonMenu() {
 			// Edit (subject assignment) button - depends on POLICY_EDIT
 			// permission
@@ -1113,6 +1119,14 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			return column;
 		}
 
+		protected boolean  enableAddSubjectButton(){
+			return (this.getSelectAllSubjects()
+					|| !this.getSelectedSubjects().isEmpty()
+					|| !this.getSelectedExclusionSubjects().isEmpty()
+					|| !this.getSelectedSubjectGroups().isEmpty()
+					|| !this.getSelectedExclusionSG().isEmpty());
+		}
+		
 		protected void createSubjectAssignmentFields() {
 			subjectAssignmentWidget = new PolicySubjectAssignmentWidget();
 
@@ -1126,7 +1140,9 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 						@Override
 						public void onClick(ClickEvent paramClickEvent) {
-							subjectAssignmentPopup.hide();
+							if(enableAddSubjectButton()){
+								subjectAssignmentPopup.hide();
+							}
 						}
 					});
 			cancelSubjectButton = new Button(

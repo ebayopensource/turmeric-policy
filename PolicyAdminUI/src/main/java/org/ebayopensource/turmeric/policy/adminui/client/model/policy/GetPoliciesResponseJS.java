@@ -171,7 +171,13 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 				for (int i = 0; i < array.length(); i++){
 					if(array.get(i).getSubjectMatchTypes() != null){
 						for (SubjectMatchType matchType :array.get(i).getSubjectMatchTypes()){
+							//ordinary subjects
 							if("urn:oasis:names:tc:xacml:1.0:function:integer-equal".equals(matchType.getMatchId())){
+								subjects.add(array.get(i));	
+							}
+							//subject type
+							if("urn:oasis:names:tc:xacml:1.0:function:string-regexp-match".equals(matchType.getMatchId())
+									&& array.get(i).getIdFromSubjectMatchAsString().endsWith("+") ){
 								subjects.add(array.get(i));	
 							}
 							break;
@@ -272,7 +278,8 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 				for (int i = 0; i < array.length(); i++){
 					if(array.get(i).getSubjectMatchTypes() != null){
 						for (SubjectMatchType matchType :array.get(i).getSubjectMatchTypes()){
-							if("urn:oasis:names:tc:xacml:1.0:function:string-regexp-match".equals(matchType.getMatchId())){
+							if("urn:oasis:names:tc:xacml:1.0:function:string-regexp-match".equals(matchType.getMatchId())
+									&& !array.get(i).getIdFromSubjectMatchAsString().endsWith("+")){
 								exclusionSubjects.add(array.get(i));	
 							}
 							break;

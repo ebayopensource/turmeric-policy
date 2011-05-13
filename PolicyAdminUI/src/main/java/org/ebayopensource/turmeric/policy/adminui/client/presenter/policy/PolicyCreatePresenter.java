@@ -324,11 +324,18 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 						
 						view.getSubjectContentView().setAvailableSubjectTypes(
 								typeList);
+						//subject type attr values are: [0-9]+ when comes from server, null when it has not been saved yet
+						final boolean selectAllSubjects = (!editSubjectAssignment.getSubjects().isEmpty()
+								&& (editSubjectAssignment.getSubjects().
+										get(0).getSubjectMatchTypes().
+										get(0).getAttributeValue().getValue() == null || 
+										editSubjectAssignment.getSubjects().
+										get(0).getSubjectMatchTypes().
+										get(0).getAttributeValue().getValue().endsWith("+")));
+						
+						view.getSubjectContentView().setSelectAllSubjects(selectAllSubjects);
 						
 						
-//						if(!editSubjectAssignment.getSubjects().isEmpty()){
-//							editSubjectAssignment.getSubjects().clear();
-//						}
 						
 						// get all the subjects of this type
 						SubjectKey skey = new SubjectKey();
@@ -356,10 +363,12 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 											FindSubjectsResponse response) {
 										List<Subject> subjects = response
 												.getSubjects();
-										view.getSubjectContentView()
-												.setSelectedSubjects(
-														getSubjectNames(editSubjectAssignment
-																.getSubjects()));
+										if(! selectAllSubjects){
+											view.getSubjectContentView()
+													.setSelectedSubjects(
+															getSubjectNames(editSubjectAssignment
+																	.getSubjects()));
+										}
 										subjects.removeAll(editSubjectAssignment
 												.getSubjects());
 										view.getSubjectContentView()
@@ -535,98 +544,96 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		this.view.getSubjectContentView().getAddButton()
 				.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
-						
-						// Add a new set of subjects and groups for a given SubjectType
-						if (subjectAssignments == null) {
-							subjectAssignments = new ArrayList<PolicySubjectAssignment>();
-						}
-						PolicySubjectAssignment assignment = null;
-						if (editSubjectAssignment != null) {
-							// we were editing an existing assignment
-							assignment = editSubjectAssignment;
-							editSubjectAssignment = null;
-						} else {
-							assignment = new PolicySubjectAssignment();
-						}
 
-						assignment.setSubjectType(view.getSubjectContentView()
-								.getSubjectType());
-						
-						//subject 
-						List<Subject> subjects = new ArrayList<Subject>();
-						if(view.getSubjectContentView().getSelectAllSubjects()){
-							Subject assignedSubject = getSubjectType(PolicyAdminUIUtil.policyAdminConstants
-									.all(), assignment.getSubjectType(), false);
+						if(completePopulatedForm()){
+							// Add a new set of subjects and groups for a given SubjectType
+							if (subjectAssignments == null) {
+								subjectAssignments = new ArrayList<PolicySubjectAssignment>();
+							}
+							PolicySubjectAssignment assignment = null;
+							if (editSubjectAssignment != null) {
+								// we were editing an existing assignment
+								assignment = editSubjectAssignment;
+								editSubjectAssignment = null;
+							} else {
+								assignment = new PolicySubjectAssignment();
+							}
+	
+							assignment.setSubjectType(view.getSubjectContentView()
+									.getSubjectType());
 							
-							subjects.add(assignedSubject);
-//							SubjectTypeInfoImpl  st = new SubjectTypeInfoImpl();
-//							st.setName(assignment.getSubjectType());
-//							ArrayList<SubjectTypeInfo> stList = new ArrayList<SubjectTypeInfo>();
-//							stList.add(st);
-//							assignment.setSubjectTypes(stList);	
-						}else{
+							//subject 
+							List<Subject> subjects = new ArrayList<Subject>();
+	
+							if(view.getSubjectContentView().getSelectAllSubjects()){
+								Subject assignedSubject = getSubjectType(PolicyAdminUIUtil.policyAdminConstants
+										.all(), assignment.getSubjectType(), false);
+								
+								subjects.add(assignedSubject);
+	
+							}else{
+								for (String s : view.getSubjectContentView()
+										.getSelectedSubjects()) {
+									Subject assignedSubject = getSubject(s,
+											assignment.getSubjectType(), false);
+									// let's do a second loading, external subjects
+									// should stored in local now
+									if (assignedSubject.getSubjectMatchTypes() == null) {
+										assignedSubject = getSubject(s,
+												assignment.getSubjectType(), true);
+									}
+									subjects.add(assignedSubject);
+								}
+							
+							}
+							// exclusionSubjects
+							List<Subject> exclusionSubjects = new ArrayList<Subject>();
 							for (String s : view.getSubjectContentView()
-									.getSelectedSubjects()) {
+									.getSelectedExclusionSubjects()) {
 								Subject assignedSubject = getSubject(s,
-										assignment.getSubjectType(), false);
+										assignment.getSubjectType(), true);
+	
 								// let's do a second loading, external subjects
 								// should stored in local now
 								if (assignedSubject.getSubjectMatchTypes() == null) {
 									assignedSubject = getSubject(s,
 											assignment.getSubjectType(), true);
 								}
-								subjects.add(assignedSubject);
+								exclusionSubjects.add(assignedSubject);
+	
 							}
-						
-						}
-						// exclusionSubjects
-						List<Subject> exclusionSubjects = new ArrayList<Subject>();
-						for (String s : view.getSubjectContentView()
-								.getSelectedExclusionSubjects()) {
-							Subject assignedSubject = getSubject(s,
-									assignment.getSubjectType(), true);
-
-							// let's do a second loading, external subjects
-							// should stored in local now
-							if (assignedSubject.getSubjectMatchTypes() == null) {
-								assignedSubject = getSubject(s,
-										assignment.getSubjectType(), true);
+							// groups
+							List<SubjectGroup> groups = new ArrayList<SubjectGroup>();
+							for (String s : view.getSubjectContentView()
+									.getSelectedSubjectGroups()) {
+								groups.add(getGroup(s, assignment.getSubjectType(),
+										false));
 							}
-							exclusionSubjects.add(assignedSubject);
-
+							// exclusion Subjectgroups
+							List<SubjectGroup> exclSg = new ArrayList<SubjectGroup>();
+							for (String s : view.getSubjectContentView()
+									.getSelectedExclusionSG()) {
+								exclSg.add(getGroup(s, assignment.getSubjectType(),
+										true));
+							}
+	
+							assignment.setSubjects(subjects);
+							assignment.setExclusionSubjects(exclusionSubjects);
+							assignment.setSubjectGroups(groups);
+							assignment.setExclusionSubjectGroups(exclSg);
+							subjectAssignments.add(assignment);
+	
+					
+							view.getSubjectContentView().setAssignments(
+									subjectAssignments);
+							// take the SubjectType of the assignment out of the
+							// list of available types
+							subjectTypes.remove(assignment.getSubjectType());
+							view.getSubjectContentView().setAvailableSubjectTypes(
+									subjectTypes);
+							view.getSubjectContentView().clearAssignmentWidget();
 						}
-						// groups
-						List<SubjectGroup> groups = new ArrayList<SubjectGroup>();
-						for (String s : view.getSubjectContentView()
-								.getSelectedSubjectGroups()) {
-							groups.add(getGroup(s, assignment.getSubjectType(),
-									false));
-						}
-						// exclusion Subjectgroups
-						List<SubjectGroup> exclSg = new ArrayList<SubjectGroup>();
-						for (String s : view.getSubjectContentView()
-								.getSelectedExclusionSG()) {
-							exclSg.add(getGroup(s, assignment.getSubjectType(),
-									true));
-						}
-
-						assignment.setSubjects(subjects);
-						assignment.setExclusionSubjects(exclusionSubjects);
-						assignment.setSubjectGroups(groups);
-						assignment.setExclusionSubjectGroups(exclSg);
-						subjectAssignments.add(assignment);
-
-				
-						view.getSubjectContentView().setAssignments(
-								subjectAssignments);
-						// take the SubjectType of the assignment out of the
-						// list of available types
-						subjectTypes.remove(assignment.getSubjectType());
-						view.getSubjectContentView().setAvailableSubjectTypes(
-								subjectTypes);
-						view.getSubjectContentView().clearAssignmentWidget();
-					}
-				
+					}			
 				});
 
 		view.getSubjectContentView().getCancelButton()
@@ -650,7 +657,16 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				});
 
 	}
-
+					
+	private boolean completePopulatedForm(){
+		SubjectContentDisplay scView = view.getSubjectContentView();
+		return (scView.getSelectAllSubjects()
+				|| !scView.getSelectedSubjects().isEmpty()
+				|| !scView.getSelectedExclusionSubjects().isEmpty()
+				|| !scView.getSelectedSubjectGroups().isEmpty()
+				|| !scView.getSelectedExclusionSG().isEmpty());
+	}
+	
 	private void display() {
 		if (ResourceLevel.GLOBAL.name().equals(
 				view.getResourceContentView().getResourceLevel())) {
@@ -1494,7 +1510,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		
 		designator
 				.setAttributeId("urn:oasis:names:tc:xacml:1.0:subject:subject-id");
-		designator.setDataType("http://www.w3.org/2001/XMLSchema#integer");
+		designator.setDataType("http://www.w3.org/2001/XMLSchema#string");
 		smt.setAttributeValue(attr);
 		smt.setSubjectAttributeDesignator(designator);
 
@@ -1644,8 +1660,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 						if (policySubjectAssignment.getSubjects() != null) {
 							subjects.addAll(policySubjectAssignment
 									.getSubjects());
-						}
 						break;
+						}
 					}
 
 				}
