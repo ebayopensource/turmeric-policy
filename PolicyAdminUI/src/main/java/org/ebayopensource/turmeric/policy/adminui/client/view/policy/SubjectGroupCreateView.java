@@ -323,7 +323,12 @@ public class SubjectGroupCreateView extends AbstractGenericView implements Subje
          * @return the selected subject group calculator name
          */
         public String getSelectedSubjectGroupCalculatorName() {
-            return this.sgCalculators.getItemText(sgCalculators.getSelectedIndex());
+            if (sgCalculators.getSelectedIndex() >= 0) {
+                return this.sgCalculators.getItemText(sgCalculators.getSelectedIndex());
+            }
+            else {
+                return null;
+            }
         }
     }
 

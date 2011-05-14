@@ -538,7 +538,7 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
     @Override
     public void createPolicy(GenericPolicy policy,
                              AsyncCallback<CreatePolicyResponse> callback) {
-        // TODO Auto-generated method stub
+        
         
     }
 
@@ -549,7 +549,7 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
     public void findSubjectGroups(
                                   SubjectGroupQuery query,
                                   AsyncCallback<FindSubjectGroupsResponse> callback) {
-        // TODO Auto-generated method stub
+        
         
     }
 
@@ -559,7 +559,7 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
     @Override
     public void findSubjects(SubjectQuery query,
                              AsyncCallback<FindSubjectsResponse> callback) {
-        // TODO Auto-generated method stub
+        
         
     }
 
@@ -569,7 +569,7 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
     @Override
     public void getMetaData(QueryCondition condition,
                             AsyncCallback<GetMetaDataResponse> callback) {
-        // TODO Auto-generated method stub
+        
         
     }
 
@@ -581,7 +581,7 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
                                     List<SubjectGroup> groups,
                                     UpdateMode mode,
                                     AsyncCallback<UpdateSubjectGroupsResponse> callback) {
-        // TODO Auto-generated method stub
+        
         
     }
 
@@ -591,7 +591,7 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
     @Override
     public void updatePolicy(UpdateMode mode, GenericPolicy policy,
                              AsyncCallback<UpdatePolicyResponse> callback) {
-        // TODO Auto-generated method stub
+        
         
     }
 
@@ -601,13 +601,13 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 			List<OperationKey> opKeys, List<SubjectKey> subjectKeys,
 			List<SubjectGroupKey> subjectGroupKeys,
 			AsyncCallback<GetEntityHistoryResponse> callback) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	public void findExternalSubjects(SubjectQuery query,
 			AsyncCallback<FindExternalSubjectsResponse> callback) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -618,7 +618,7 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 	@Override
 	public void createSubjects(List<Subject> subject,
 			AsyncCallback<CreateSubjectsResponse> callback) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 }
