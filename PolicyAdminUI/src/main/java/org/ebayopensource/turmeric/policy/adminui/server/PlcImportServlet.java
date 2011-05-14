@@ -4,49 +4,41 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.ebayopensource.turmeric.policy.adminui.client.model.AbstractPolicyAdminUIService.RequestFormat;
-import org.eclipse.jetty.client.ContentExchange;
-import org.eclipse.jetty.client.HttpClient;
-import org.eclipse.jetty.continuation.Continuation;
-import org.eclipse.jetty.continuation.ContinuationSupport;
-import org.eclipse.jetty.http.HttpHeaders;
-import org.eclipse.jetty.http.HttpSchemes;
-import org.eclipse.jetty.http.HttpURI;
-import org.eclipse.jetty.io.Buffer;
-import org.eclipse.jetty.io.ByteArrayBuffer;
+import org.ebayopensource.turmeric.security.v1.services.CreatePolicyRequest;
+import org.ebayopensource.turmeric.security.v1.services.CreatePolicyResponse;
+import org.ebayopensource.turmeric.security.v1.services.CreateSubjectGroupsRequest;
+import org.ebayopensource.turmeric.security.v1.services.CreateSubjectGroupsResponse;
+import org.ebayopensource.turmeric.security.v1.services.FindPoliciesResponse;
+import org.ebayopensource.turmeric.security.v1.services.FindSubjectGroupsResponse;
+import org.ebayopensource.turmeric.security.v1.services.Policy;
+import org.ebayopensource.turmeric.security.v1.services.PolicySet;
+import org.ebayopensource.turmeric.security.v1.services.SubjectGroup;
+import org.ebayopensource.turmeric.services.policyservice.intf.gen.BasePolicyServiceConsumer;
 
 
 public class PlcImportServlet extends HttpServlet {
 
 	private String impPolicyPrefix;
 	private String impSGPrefix;
-	private HttpClient client;
+
 	private String policyServiceURL;
-	private HttpURI uri;
-	private String incomingJson;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -63,14 +55,7 @@ public class PlcImportServlet extends HttpServlet {
 			impSGPrefix = config.getInitParameter("impSGPrefix");
 		}
 
-		client = new HttpClient();
-		client.setConnectorType(HttpClient.CONNECTOR_SELECT_CHANNEL);
-
-		try {
-			client.start();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 	}
 
 	public void service(ServletRequest req, ServletResponse res)
@@ -82,10 +67,6 @@ public class PlcImportServlet extends HttpServlet {
 
 		if (result == null && error == null) {
 
-			final Continuation continuation = ContinuationSupport
-					.getContinuation(request);
-			continuation.setTimeout(500000);
-			continuation.suspend();
 			String tmp = request.getRequestURI();
 
 			if (request.getQueryString() == null) {
@@ -101,36 +82,84 @@ public class PlcImportServlet extends HttpServlet {
 						"Invalid url: " + request.getQueryString());
 			}
 
-			ByteArrayOutputStream importData = parseInputStream(request,
+			final ByteArrayOutputStream importData = parseInputStream(request,
 					response);
 
-			if (tmp.startsWith(impPolicyPrefix)) {
-				String partialURL = getPartialUrl("createPolicy",
-						RequestFormat.JSON, params);
+			final BasePolicyServiceConsumer consumer = new BasePolicyServiceConsumer();
 
-				incomingJson = parseFile(importData, "/importpolicy.xsl");
+			if (importData != null) {
+				if (tmp.startsWith(impPolicyPrefix)) {
+					try {
+						PolicySet unmarshalXmlData = unmarshalXmlPolicyData(importData);
 
-				try {
-					uri = new HttpURI(new URI(policyServiceURL
-							+ tmp.substring(impPolicyPrefix.length()))
-							.normalize().toString() + partialURL.toString());
-				} catch (URISyntaxException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+						if (unmarshalXmlData.getPolicy().isEmpty()) {
+							throw new IOException("No policies to import");
+						}
+
+						// Service service;
+						// try {
+						// service = ServiceFactory.create("PolicyService");
+						//
+						// Object responseNew =
+						// service.createDispatch("createPolicy")
+						// .invoke(request);
+						//
+						// } catch (ServiceException e) {
+						// // TODO Auto-generated catch block
+						// e.printStackTrace();
+						// }
+
+						CreatePolicyResponse createPolicyResponse;
+
+						for (Policy policy : unmarshalXmlData.getPolicy()) {
+							CreatePolicyRequest createPolicyRequest = new CreatePolicyRequest();
+							createPolicyRequest.setPolicy(policy);
+							createPolicyResponse = consumer
+									.createPolicy(createPolicyRequest);
+
+							if (createPolicyResponse.getErrorMessage() != null) {
+								response.sendError(
+										HttpServletResponse.SC_CONFLICT,
+										"Policy " + policy.getPolicyName()
+												+ " can not be imported!");
+								break;
+							}
+
+						}
+					} catch (JAXBException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
 				}
-
-
 			} else if (tmp.startsWith(impSGPrefix)) {
-				String partialURL = getPartialUrl("createSubjectGroups",
-						RequestFormat.JSON, params);
-
-				incomingJson = parseFile(importData, "/importsg.xsl");
-
 				try {
-					uri = new HttpURI(new URI(policyServiceURL
-							+ tmp.substring(impSGPrefix.length()))
-							.normalize().toString() + partialURL.toString());
-				} catch (URISyntaxException e) {
+					List<SubjectGroup> unmarshalXmlData = unmarshalXmlSGData(importData);
+
+					if (unmarshalXmlData.isEmpty()) {
+						throw new IOException("No Subject Group to import");
+					}
+
+					CreateSubjectGroupsResponse createSGResponse;
+
+					for (SubjectGroup subjectGroup : unmarshalXmlData) {
+						CreateSubjectGroupsRequest createSGRequest = new CreateSubjectGroupsRequest();
+						createSGRequest.getSubjectGroups().add(subjectGroup);
+						createSGResponse = consumer
+								.createSubjectGroups(createSGRequest);
+
+						if (createSGResponse.getErrorMessage() != null) {
+							response.sendError(
+									HttpServletResponse.SC_CONFLICT,
+									"Subject Group "
+											+ subjectGroup
+													.getSubjectGroupName()
+											+ " can not be imported!");
+							break;
+						}
+
+					}
+				} catch (JAXBException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -141,8 +170,6 @@ public class PlcImportServlet extends HttpServlet {
 				return;
 			}
 
-			send(request, response, continuation, uri, incomingJson);
-
 			return;
 		}
 
@@ -151,74 +178,37 @@ public class PlcImportServlet extends HttpServlet {
 		}
 	}
 
-	private String parseFile(final ByteArrayOutputStream importData,
-			final String xsl) {
-		System.setProperty("javax.xml.transform.TransformerFactory",
-				"net.sf.saxon.TransformerFactoryImpl");
-		String incomingJson = null;
-		// read data
-		final ServletContext context = getServletContext();
-		final InputStream importJSONTemplateAsStream = context
-				.getResourceAsStream(xsl);
-		// Create a transform factory instance.
-		TransformerFactory tfactory = TransformerFactory.newInstance();
-		// Create a transformer for the stylesheet.
-		Transformer transformer;
+	public PolicySet unmarshalXmlPolicyData(final ByteArrayOutputStream xmlInput)
+			throws ServletException, JAXBException, IOException {
+		JAXBContext jc = JAXBContext
+				.newInstance("org.ebayopensource.turmeric.security.v1.services");
 
-		try {
-			transformer = tfactory.newTransformer(new StreamSource(
-					importJSONTemplateAsStream));
+		Unmarshaller u = jc.createUnmarshaller();
+		@SuppressWarnings("unchecked")
+		JAXBElement<FindPoliciesResponse> unmarshalledXML = (JAXBElement<FindPoliciesResponse>) u
+				.unmarshal(new ByteArrayInputStream(xmlInput.toByteArray()));
 
-			StringWriter importDataJson = new StringWriter();
-			StreamResult streamResult = new StreamResult(importDataJson);
-			InputStream inputStream;
-			inputStream = new ByteArrayInputStream(importData.toString()
-					.getBytes("UTF-8"));
+		FindPoliciesResponse findPoliciesResponse = unmarshalledXML.getValue();
 
-			StreamSource streamSource = new StreamSource(inputStream);
-			// importData.toString());
+		return findPoliciesResponse.getPolicySet();
 
-			transformer.transform(streamSource, streamResult);
-			incomingJson = importDataJson.toString().substring(1);
-			if (incomingJson == null) {
-				throw new TransformerException("Invalid importing file!");
-			}
-		} catch (TransformerConfigurationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return incomingJson;
 	}
 
-	public String getPartialUrl(String operation, RequestFormat format,
-			String[] params) {
-		StringBuffer url = new StringBuffer();
+	public List<SubjectGroup> unmarshalXmlSGData(
+			final ByteArrayOutputStream xmlInput) throws ServletException,
+			JAXBException, IOException {
+		JAXBContext jc = JAXBContext
+				.newInstance("org.ebayopensource.turmeric.security.v1.services");
 
-		url.append("X-TURMERIC-SERVICE-NAME=" + "PolicyService");
-		url.append("&X-TURMERIC-OPERATION-NAME=" + operation);
-		url.append("&X-TURMERIC-USECASE-NAME=" + "TMC");
-		url.append("&X-TURMERIC-SECURITY-USERID=" + params[params.length - 2]);
-		url.append("&X-TURMERIC-SECURITY-PASSWORD=" + params[params.length - 1]);
-		switch (format) {
-		case JSON:
-			url.append("&X-TURMERIC-REQUEST-DATA-FORMAT=" + "JSON");
-			break;
-		case NV:
-			url.append("&X-TURMERIC-REQUEST-DATA-FORMAT=" + "NV");
-			break;
-		}
+		Unmarshaller u = jc.createUnmarshaller();
+		@SuppressWarnings("unchecked")
+		JAXBElement<FindSubjectGroupsResponse> unmarshalledXML = (JAXBElement<FindSubjectGroupsResponse>) u
+				.unmarshal(new ByteArrayInputStream(xmlInput.toByteArray()));
 
-		url.append("&X-TURMERIC-RESPONSE-DATA-FORMAT=" + "XML");
+		FindSubjectGroupsResponse findSGResponse = unmarshalledXML.getValue();
 
-		return url.toString();
+		return findSGResponse.getSubjectGroups();
+
 	}
 
 	public ByteArrayOutputStream parseInputStream(HttpServletRequest request,
@@ -252,89 +242,6 @@ public class PlcImportServlet extends HttpServlet {
 		}
 
 		return out;
-	}
-
-	public void send(final HttpServletRequest request,
-			final HttpServletResponse response,
-			final Continuation continuation, final HttpURI uri,
-			String contentRequest) throws IOException {
-
-		ContentExchange exchange = new ContentExchange() {
-			protected void onRequestCommitted() throws IOException {
-				super.onRequestCommitted();
-			}
-
-			protected void onRequestComplete() throws IOException {
-				super.onRequestComplete();
-				// System.out.println("onRequestComplete");
-			}
-
-			protected void onResponseComplete() throws IOException {
-				String content = getResponseContent();
-				if (content == null) {
-					request.setAttribute("ERROR", Boolean.TRUE);
-				} else {
-					// System.out.println("onResponseComplete");
-					request.setAttribute("RESULT", content);
-
-				}
-
-				continuation.resume();
-			}
-
-			protected void onResponseHeader(Buffer name, Buffer value)
-					throws IOException {
-				String s = name.toString().toLowerCase();
-				if (s.startsWith("X-TURMERIC-ERROR") && !response.isCommitted()) {
-					request.setAttribute("ERROR", Boolean.TRUE);
-				}
-				super.onResponseHeader(name, value);
-			}
-
-			protected void onConnectionFailed(Throwable ex) {
-				onException(ex);
-			}
-
-			protected void onException(Throwable ex) {
-				request.setAttribute("ERROR", Boolean.TRUE);
-				continuation.resume();
-			}
-
-			protected void onExpire() {
-				request.setAttribute("ERROR", Boolean.TRUE);
-				continuation.resume();
-			}
-
-		};
-
-		exchange.setScheme(HttpSchemes.HTTPS.equals(request.getScheme()) ? HttpSchemes.HTTPS_BUFFER
-				: HttpSchemes.HTTP_BUFFER);
-		exchange.setMethod(request.getMethod()); // <-- POST
-		StringBuffer content = new StringBuffer();
-		content.append("{\"jsonns.ns2\":\"urn:oasis:names:tc:xacml:2.0:policy:schema:os\",\"jsonns.ns1\":\"htt"
-				+ "p://www.ebayopensource.org/turmeric/security/v1/services\",\"jsonns.ms\":\"htt"
-				+ "p://www.ebayopensource.org/turmeric/common/v1/types\",\"jsonns.xs\":\"http://www.w3.org/2001/XMLSchema\",\"jsonns.xsi\":\"htt"
-				+ "p://www.w3.org/2001/XMLSchema-instance\", \"ns1.createPolicyRequest\":{ ");
-
-				
-		content.append(contentRequest);
-		content.append("}");
-
-		exchange.setURL(uri.toString());
-
-		exchange.setVersion(request.getProtocol());
-		long contentLength = content.length();
-
-		exchange.setRequestHeader(HttpHeaders.CONTENT_LENGTH,
-				Long.toString(contentLength));
-
-		exchange.setRequestContentSource(new ByteArrayInputStream(content
-				.toString().getBytes("UTF-8")));
-		exchange.setRequestContentType("text/json; charset=utf-8");
-		exchange.setRequestContent(new ByteArrayBuffer(content.toString()
-				.getBytes("UTF-8")));
-
-		client.send(exchange);
 	}
 
 }
