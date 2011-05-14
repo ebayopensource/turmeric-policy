@@ -9,9 +9,11 @@
 package org.ebayopensource.turmeric.policy.adminui.client.view.policy;
 
 import java.util.List;
+import java.util.Map;
 
 import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.Display;
+import org.ebayopensource.turmeric.policy.adminui.client.model.SubjectGroupCalculator;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupCreatePresenter.SubjectGroupCreateDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
@@ -22,13 +24,20 @@ import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyMenuW
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.MenuDisplay;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
@@ -43,6 +52,7 @@ public class SubjectGroupCreateView extends AbstractGenericView implements Subje
 	private FlowPanel mainPanel;
 	private Display contentView;
 	
+	
 	/**
 	 * ContentView
 	 *
@@ -52,10 +62,12 @@ public class SubjectGroupCreateView extends AbstractGenericView implements Subje
 	    private FlexTable table;
 	    private TextBox nameBox;
 	    private TextArea descBox;
+	    private CheckBox isCalculatedSg;
+	    private ListBox sgCalculators;
 	    private SubjectGroupAssignmentWidget assignmentWidget;
 	    private Button createButton;
 	    private Button cancelButton;
-
+	    private Map<String, String> sgCalculatorMap;
 	    
 
 	    public ContentView() {
@@ -63,6 +75,8 @@ public class SubjectGroupCreateView extends AbstractGenericView implements Subje
 	        table = new FlexTable();
 	        nameBox = new TextBox();
 	        descBox = new TextArea();
+	        sgCalculators = new ListBox();
+	        isCalculatedSg = new CheckBox();
 	        createButton = new Button(PolicyAdminUIUtil.constants.create());
 	        cancelButton = new Button(PolicyAdminUIUtil.constants.cancel());
 	        initWidget(mainPanel);
@@ -82,18 +96,64 @@ public class SubjectGroupCreateView extends AbstractGenericView implements Subje
 	        table.setWidget(0, 1, nameBox);
 	        table.setWidget(1, 0, new Label(PolicyAdminUIUtil.policyAdminConstants.subjectGroupDescription()+":"));
 	        table.setWidget(1, 1, descBox);
+	        table.setWidget(2, 0, new Label(PolicyAdminUIUtil.policyAdminConstants.calculated()+":"));
+	        table.setWidget(2, 1, this.isCalculatedSg);
+	        
+	        
+	        this.isCalculatedSg.addClickHandler(new ClickHandler() {
+	            @Override
+	            public void onClick(ClickEvent event) {
+	                boolean checked = ((CheckBox) event.getSource()).getValue();
+	                if(checked){
+	                    sgCalculators.setEnabled(true);
+	                    fillCalculatorList(sgCalculators);
+	                }else{
+	                    emptyCalculatorList(sgCalculators);
+	                    sgCalculators.setEnabled(false);
+	                }
+	              }
+	            });
+	        
 	        assignmentWidget = new SubjectGroupAssignmentWidget();
-	        table.setWidget(2, 0, new Label(PolicyAdminUIUtil.policyAdminConstants.subjects()+":"));
+	        table.setWidget(3, 0, new Label(PolicyAdminUIUtil.policyAdminConstants.sgCalculator()+":"));
+	        table.setWidget(3, 1, sgCalculators);
+	        table.setWidget(4, 0, new Label(PolicyAdminUIUtil.policyAdminConstants.subjects()+":"));
 	        table.getCellFormatter().setVerticalAlignment(2, 0, HasVerticalAlignment.ALIGN_TOP);
-            table.setWidget(2, 1, assignmentWidget);
+            table.setWidget(4, 1, assignmentWidget);
+            
+            assignmentWidget.subjectTypeBox.addChangeHandler(new ChangeHandler() {
+                
+                @Override
+                public void onChange(ChangeEvent arg0) {
+                    isCalculatedSg.setChecked(false);
+                    sgCalculators.clear();
+                }
+            });
             
             
 	        mainPanel.add(table);
 	        mainPanel.add(createButton);
 	        mainPanel.add(cancelButton);
+	        
 	    }
 	    
-	    public Button getCreateButton() {
+	    protected void emptyCalculatorList(ListBox sgCalculators2) {
+	        this.sgCalculators.clear();
+        }
+
+        protected void fillCalculatorList(ListBox sgCalculators) {
+            String subjectType = this.getSubjectType();
+            if(this.sgCalculatorMap != null && subjectType != null){
+                for (String key : sgCalculatorMap.keySet()) {
+                    if(subjectType.equals(sgCalculatorMap.get(key))){
+                        this.sgCalculators.addItem(key);
+                    }
+                }
+                
+            }
+        }
+
+        public Button getCreateButton() {
 	        return createButton;
 	    }
 	    
@@ -146,6 +206,18 @@ public class SubjectGroupCreateView extends AbstractGenericView implements Subje
 	    
         public void setSubjectTypes (List<String> subjectTypes) {
             assignmentWidget.setAvailableSubjectTypes(subjectTypes);
+        }
+
+        public Boolean isSgCalculated() {
+            return this.isCalculatedSg.getValue();
+        }
+
+        public void setSgCalculatorMap(Map<String, String> sgCalculatorMap2) {
+            this.sgCalculatorMap = sgCalculatorMap2;
+        }
+
+        public String getSelectedSubjectGroupCalculatorName() {
+            return this.sgCalculators.getItemText(sgCalculators.getSelectedIndex());
         }
 	}
 
@@ -268,4 +340,20 @@ public class SubjectGroupCreateView extends AbstractGenericView implements Subje
         dialog.getDialog().center();
         dialog.show();
     }
+
+    @Override
+    public Boolean isSgCalculated() {
+        return ((ContentView)contentView).isSgCalculated();
+    }
+
+    @Override
+    public String getSelectedSubjectGroupCalculatorName() {
+        return ((ContentView)contentView).getSelectedSubjectGroupCalculatorName();
+    }
+
+    @Override
+    public void setSgCalculatorMap(Map<String, String> sgCalculatorMap) {
+        ((ContentView)contentView).setSgCalculatorMap(sgCalculatorMap); 
+    }
+
 }

@@ -30,4 +30,5 @@ public interface SubjectGroup {
     public String getCreatedBy();
     public List<String> getSubjects();
     public List<String> getPolicies();
+    public String getGroupCalculator();
 }

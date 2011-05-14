@@ -48,6 +48,7 @@ public class SubjectGroupImpl implements SubjectGroup {
         this.subjects = (g.getSubjects()==null?null:new ArrayList(g.getSubjects()));
         this.policies = (g.getPolicies()==null?null:new ArrayList(g.getPolicies()));
         this.subjectMatchTypes = g.getSubjectMatchTypes();
+        this.groupCalculator = g.getGroupCalculator();
     }
     
     public String getLastModifiedBy() {

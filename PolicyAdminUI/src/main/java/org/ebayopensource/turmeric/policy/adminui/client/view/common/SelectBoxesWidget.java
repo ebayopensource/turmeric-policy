@@ -45,296 +45,286 @@ import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionChangeEvent;
 
-// TODO: Auto-generated Javadoc
 /**
  * SelectBoxesWidget.
  */
 public class SelectBoxesWidget extends Composite {
-	
-	/** The avail table. */
-	private CellTable<String> availTable;
-	
-	/** The avail key provider. */
-	private ProvidesKey<String> availKeyProvider;
-	
-	/** The avail selection model. */
-	private MultiSelectionModel<String> availSelectionModel;
-	
-	/** The avail selections. */
-	private List<String> availSelections = new ArrayList<String>();
-	
-	/** The avail data provider. */
-	private ListDataProvider<String> availDataProvider;
-	
-	/** The selected table. */
-	private CellTable<String> selectedTable;
-	
-	/** The selected key provider. */
-	private ProvidesKey<String> selectedKeyProvider;
-	
-	/** The selected selection model. */
-	private MultiSelectionModel<String> selectedSelectionModel;
-	
-	/** The selected selections. */
-	private List<String> selectedSelections = new ArrayList<String>();
-	
-	/** The selected data provider. */
-	private ListDataProvider<String> selectedDataProvider;
-	
-	/** The avail pager. */
-	private SimplePager availPager;
-	
-	/** The selected pager. */
-	private SimplePager selectedPager;
-	
-	/** The panel. */
-	private Panel panel;
-	
-	/** The grid. */
-	protected Grid grid;
-	
-	/** The add button. */
-	protected Button addButton;
-	
-	/** The del button. */
-	protected Button delButton;
-	
-	/** The available label. */
-	protected Label availableLabel;
-	
-	/** The selected label. */
-	protected Label selectedLabel;
 
-	/**
-	 * Instantiates a new select boxes widget.
-	 *
-	 * @param availableName the available name
-	 * @param isAvailableMulti the is available multi
-	 * @param selectedName the selected name
-	 * @param isSelectedMulti the is selected multi
-	 */
-	public SelectBoxesWidget(String availableName, boolean isAvailableMulti,
-			String selectedName, boolean isSelectedMulti) {
-		configureAvailableTable();
-		configureSelectedTable();
+    /** The avail table. */
+    private CellTable<String> availTable;
 
-		panel = new SimplePanel();
-		availableLabel = new Label(availableName);
-		selectedLabel = new Label(selectedName);
+    /** The avail key provider. */
+    private ProvidesKey<String> availKeyProvider;
 
+    /** The avail selection model. */
+    private MultiSelectionModel<String> availSelectionModel;
 
-		// arrows
-		addButton = new Button(">>");
-		delButton = new Button("<<");
+    /** The avail selections. */
+    private List<String> availSelections = new ArrayList<String>();
 
-		addButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				moveToSelected();
-			}
-		});
+    /** The avail data provider. */
+    private ListDataProvider<String> availDataProvider;
 
-		delButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				moveToAvailable();
-			}
-		});
+    /** The selected table. */
+    private CellTable<String> selectedTable;
 
-		grid = new Grid(3, 3);
-		grid.setWidget(0, 0, availableLabel);
-		grid.setWidget(0, 2, selectedLabel);
-		grid.setWidget(1, 0, availTable);
-		grid.setWidget(2, 0, availPager);
-		grid.setWidget(2, 2, selectedPager);
-		grid.getCellFormatter().setHorizontalAlignment(1, 0,
-				HasHorizontalAlignment.ALIGN_CENTER);
+    /** The selected key provider. */
+    private ProvidesKey<String> selectedKeyProvider;
 
-		Grid arrowGrid = new Grid(2, 1);
-		arrowGrid.setWidget(0, 0, addButton);
-		arrowGrid.setWidget(1, 0, delButton);
-		arrowGrid.setWidth("80px");
-		arrowGrid.getCellFormatter().setHorizontalAlignment(0, 0,
-				HasHorizontalAlignment.ALIGN_CENTER);
-		arrowGrid.getCellFormatter().setHorizontalAlignment(1, 0,
-				HasHorizontalAlignment.ALIGN_CENTER);
-		grid.setWidget(1, 1, arrowGrid);
-		grid.getCellFormatter().setVerticalAlignment(1, 1,
-				HasVerticalAlignment.ALIGN_MIDDLE);
-		grid.getCellFormatter().setHorizontalAlignment(1, 1,
-				HasHorizontalAlignment.ALIGN_CENTER);
+    /** The selected selection model. */
+    private MultiSelectionModel<String> selectedSelectionModel;
 
-		grid.setWidget(1, 2, selectedTable);
-		grid.getCellFormatter().setHorizontalAlignment(1, 2,
-				HasHorizontalAlignment.ALIGN_CENTER);
-		panel.add(grid);
-		initWidget(panel);
-	}
+    /** The selected selections. */
+    private List<String> selectedSelections = new ArrayList<String>();
 
-	
-	/**
-	 * Configure available table.
-	 */
-	private void configureAvailableTable() {
-		availTable = new CellTable<String>(availKeyProvider);
-		availSelectionModel = new MultiSelectionModel<String>(availKeyProvider);
-		availTable.setSelectionModel(availSelectionModel);
-		availSelectionModel
-				.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-					public void onSelectionChange(SelectionChangeEvent event) {
-						Set<String> x = availSelectionModel.getSelectedSet();
-						availSelections.clear();
-						if (x != null)
-							availSelections.addAll(x);
-					}
-				});
-		availDataProvider = new ListDataProvider<String>();
-		availDataProvider.addDataDisplay(availTable);
+    /** The selected data provider. */
+    private ListDataProvider<String> selectedDataProvider;
 
-		availPager = new TurmericPager();
-		availPager.setPageSize(5);
-		availPager.setDisplay(availTable);
+    /** The avail pager. */
+    private SimplePager availPager;
 
-		// text column for type
-		ClickableTextCell sbTypeCellClickable = new ClickableTextCell();
-		Column<String, String> typeCol = new Column<String, String>(
-				sbTypeCellClickable) {
+    /** The selected pager. */
+    private SimplePager selectedPager;
 
-			@Override
-			public String getValue(String arg0) {
-				// TODO Auto-generated method stub
-				return arg0;
-			}
-		};
-		availTable.addColumn(typeCol,
-				"");
-	}
-	
-	/**
-	 * Configure selected table.
-	 */
-	private void configureSelectedTable() {
-		selectedTable = new CellTable<String>(selectedKeyProvider);
-		selectedSelectionModel = new MultiSelectionModel<String>(selectedKeyProvider);
-		selectedTable.setSelectionModel(selectedSelectionModel);
-		selectedSelectionModel
-				.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-					public void onSelectionChange(SelectionChangeEvent event) {
-						Set<String> x = selectedSelectionModel.getSelectedSet();
-						selectedSelections.clear();
-						if (x != null)
-							selectedSelections.addAll(x);
-					}
-				});
-		selectedDataProvider = new ListDataProvider<String>();
-		selectedDataProvider.addDataDisplay(selectedTable);
+    /** The panel. */
+    private Panel panel;
 
-		selectedPager = new TurmericPager();
-		selectedPager.setPageSize(5);
-		selectedPager.setDisplay(selectedTable);
+    /** The grid. */
+    protected Grid grid;
 
-		// text column for type
-		ClickableTextCell sbTypeCellClickable = new ClickableTextCell();
-		Column<String, String> typeCol = new Column<String, String>(
-				sbTypeCellClickable) {
+    /** The add button. */
+    protected Button addButton;
 
-			@Override
-			public String getValue(String arg0) {
-				// TODO Auto-generated method stub
-				return arg0;
-			}
-		};
-		selectedTable.addColumn(typeCol,
-				"");
-	}
+    /** The del button. */
+    protected Button delButton;
 
-	/**
-	 * Gets the selections.
-	 *
-	 * @return the selections
-	 */
-	public List<String> getSelections() {
-		return selectedDataProvider.getList();
-	}
+    /** The available label. */
+    protected Label availableLabel;
 
-	/**
-	 * Gets the availables.
-	 *
-	 * @return the availables
-	 */
-	public List<String> getAvailables() {
-		return availDataProvider.getList();
-	}
+    /** The selected label. */
+    protected Label selectedLabel;
 
-	/**
-	 * Sets the availables.
-	 *
-	 * @param availables the new availables
-	 */
-	public void setAvailables(List<String> availables) {
-		availDataProvider.getList().clear();
-		availPager.setPageSize(5);
-		availPager.setRangeLimited(true);
-		if (availables != null && availables.size() > 0) {
-			for (String s : availables) {
-				if (!selectedDataProvider.getList().contains(s))
-					availDataProvider.getList().add(s);
-			}
-		}
-		availTable.redraw();
-	}
+    /**
+     * Instantiates a new select boxes widget.
+     * 
+     * @param availableName
+     *            the available name
+     * @param isAvailableMulti
+     *            the is available multi
+     * @param selectedName
+     *            the selected name
+     * @param isSelectedMulti
+     *            the is selected multi
+     */
+    public SelectBoxesWidget(String availableName, boolean isAvailableMulti, String selectedName,
+                    boolean isSelectedMulti) {
+        configureAvailableTable();
+        configureSelectedTable();
 
-	/**
-	 * Sets the with for operations.
-	 */
-	public void setWithForOperations() {
+        panel = new SimplePanel();
+        availableLabel = new Label(availableName);
+        selectedLabel = new Label(selectedName);
 
-	}
+        // arrows
+        addButton = new Button(">>");
+        delButton = new Button("<<");
 
-	/**
-	 * Sets the selections.
-	 *
-	 * @param selects the new selections
-	 */
-	public void setSelections(List<String> selects) {
-		selectedDataProvider.getList().clear();
-		selectedPager.setPageSize(5);
-		selectedPager.setRangeLimited(true);
-		if (selects != null && selects.size() > 0) {
-			for (String s : selects) {
-				if (!availDataProvider.getList().contains(s))
-					selectedDataProvider.getList().add(s);
-			}
-		}
-		selectedTable.redraw();
-	}
+        addButton.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                moveToSelected();
+            }
+        });
 
-	/**
-	 * Move to available.
-	 */
-	protected void moveToAvailable() {
-		if (!selectedSelections.isEmpty()) {
-			List<String> removedElements = new ArrayList<String>();
-			for (String selectedElemnt : selectedSelections) {
-				availDataProvider.getList().add(selectedElemnt);
-				removedElements.add(selectedElemnt);
-			}
-			selectedDataProvider.getList().removeAll(removedElements);
-			selectedSelections.clear();
-		}
-	}
+        delButton.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                moveToAvailable();
+            }
+        });
 
-	/**
-	 * Move to selected.
-	 */
-	protected void moveToSelected() {
-		if (!availSelections.isEmpty()) {
-			List<String> removedElements = new ArrayList<String>();
-			for (String selectedElemnt : availSelections) {
-				selectedDataProvider.getList().add(selectedElemnt);
-				removedElements.add(selectedElemnt);
-			}
-			availDataProvider.getList().removeAll(removedElements);
-			availSelections.clear();
-		}
-	}
+        grid = new Grid(3, 3);
+        grid.setWidget(0, 0, availableLabel);
+        grid.setWidget(0, 2, selectedLabel);
+        grid.setWidget(1, 0, availTable);
+        grid.setWidget(2, 0, availPager);
+        grid.setWidget(2, 2, selectedPager);
+        grid.getCellFormatter().setHorizontalAlignment(1, 0, HasHorizontalAlignment.ALIGN_CENTER);
+
+        Grid arrowGrid = new Grid(2, 1);
+        arrowGrid.setWidget(0, 0, addButton);
+        arrowGrid.setWidget(1, 0, delButton);
+        arrowGrid.setWidth("80px");
+        arrowGrid.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_CENTER);
+        arrowGrid.getCellFormatter().setHorizontalAlignment(1, 0, HasHorizontalAlignment.ALIGN_CENTER);
+        grid.setWidget(1, 1, arrowGrid);
+        grid.getCellFormatter().setVerticalAlignment(1, 1, HasVerticalAlignment.ALIGN_MIDDLE);
+        grid.getCellFormatter().setHorizontalAlignment(1, 1, HasHorizontalAlignment.ALIGN_CENTER);
+
+        grid.setWidget(1, 2, selectedTable);
+        grid.getCellFormatter().setHorizontalAlignment(1, 2, HasHorizontalAlignment.ALIGN_CENTER);
+        panel.add(grid);
+        initWidget(panel);
+    }
+
+    /**
+     * Configure available table.
+     */
+    private void configureAvailableTable() {
+        availTable = new CellTable<String>(availKeyProvider);
+        availSelectionModel = new MultiSelectionModel<String>(availKeyProvider);
+        availTable.setSelectionModel(availSelectionModel);
+        availSelectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+            public void onSelectionChange(SelectionChangeEvent event) {
+                Set<String> x = availSelectionModel.getSelectedSet();
+                availSelections.clear();
+                if (x != null)
+                    availSelections.addAll(x);
+            }
+        });
+        availDataProvider = new ListDataProvider<String>();
+        availDataProvider.addDataDisplay(availTable);
+
+        availPager = new TurmericPager();
+        availPager.setPageSize(5);
+        availPager.setDisplay(availTable);
+
+        // text column for type
+        ClickableTextCell sbTypeCellClickable = new ClickableTextCell();
+        Column<String, String> typeCol = new Column<String, String>(sbTypeCellClickable) {
+
+            @Override
+            public String getValue(String value) {
+                return value;
+            }
+        };
+        availTable.addColumn(typeCol, "");
+    }
+
+    /**
+     * Configure selected table.
+     */
+    private void configureSelectedTable() {
+        selectedTable = new CellTable<String>(selectedKeyProvider);
+        selectedSelectionModel = new MultiSelectionModel<String>(selectedKeyProvider);
+        selectedTable.setSelectionModel(selectedSelectionModel);
+        selectedSelectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+            public void onSelectionChange(SelectionChangeEvent event) {
+                Set<String> x = selectedSelectionModel.getSelectedSet();
+                selectedSelections.clear();
+                if (x != null)
+                    selectedSelections.addAll(x);
+            }
+        });
+        selectedDataProvider = new ListDataProvider<String>();
+        selectedDataProvider.addDataDisplay(selectedTable);
+
+        selectedPager = new TurmericPager();
+        selectedPager.setPageSize(5);
+        selectedPager.setDisplay(selectedTable);
+
+        // text column for type
+        ClickableTextCell sbTypeCellClickable = new ClickableTextCell();
+        Column<String, String> typeCol = new Column<String, String>(sbTypeCellClickable) {
+
+            @Override
+            public String getValue(String arg0) {
+                // TODO Auto-generated method stub
+                return arg0;
+            }
+        };
+        selectedTable.addColumn(typeCol, "");
+    }
+
+    /**
+     * Gets the selections.
+     * 
+     * @return the selections
+     */
+    public List<String> getSelections() {
+        return selectedDataProvider.getList();
+    }
+
+    /**
+     * Gets the availables.
+     * 
+     * @return the availables
+     */
+    public List<String> getAvailables() {
+        return availDataProvider.getList();
+    }
+
+    /**
+     * Sets the availables.
+     * 
+     * @param availables
+     *            the new availables
+     */
+    public void setAvailables(List<String> availables) {
+        availDataProvider.getList().clear();
+        availPager.setPageSize(5);
+        availPager.setRangeLimited(true);
+        if (availables != null && availables.size() > 0) {
+            for (String s : availables) {
+                if (!selectedDataProvider.getList().contains(s))
+                    availDataProvider.getList().add(s);
+            }
+        }
+        availTable.redraw();
+    }
+
+    /**
+     * Sets the with for operations.
+     */
+    public void setWithForOperations() {
+
+    }
+
+    /**
+     * Sets the selections.
+     * 
+     * @param selects
+     *            the new selections
+     */
+    public void setSelections(List<String> selects) {
+        selectedDataProvider.getList().clear();
+        selectedPager.setPageSize(5);
+        selectedPager.setRangeLimited(true);
+        if (selects != null && selects.size() > 0) {
+            for (String s : selects) {
+                if (!availDataProvider.getList().contains(s))
+                    selectedDataProvider.getList().add(s);
+            }
+        }
+        selectedTable.redraw();
+    }
+
+    /**
+     * Move to available.
+     */
+    protected void moveToAvailable() {
+        if (!selectedSelections.isEmpty()) {
+            List<String> removedElements = new ArrayList<String>();
+            for (String selectedElemnt : selectedSelections) {
+                availDataProvider.getList().add(selectedElemnt);
+                removedElements.add(selectedElemnt);
+            }
+            selectedDataProvider.getList().removeAll(removedElements);
+            selectedSelections.clear();
+        }
+    }
+
+    /**
+     * Move to selected.
+     */
+    protected void moveToSelected() {
+        if (!availSelections.isEmpty()) {
+            List<String> removedElements = new ArrayList<String>();
+            for (String selectedElemnt : availSelections) {
+                selectedDataProvider.getList().add(selectedElemnt);
+                removedElements.add(selectedElemnt);
+            }
+            availDataProvider.getList().removeAll(removedElements);
+            availSelections.clear();
+        }
+    }
 
 }

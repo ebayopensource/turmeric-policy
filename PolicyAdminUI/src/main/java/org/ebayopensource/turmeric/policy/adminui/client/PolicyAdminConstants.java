@@ -12,6 +12,12 @@ import com.google.gwt.i18n.client.Constants;
 
 public interface PolicyAdminConstants extends Constants {
     
+    @DefaultStringValue("SubjectGroup Calculator")
+    public String sgCalculator();
+    
+    @DefaultStringValue("Calculated")
+    public String calculated();
+    
     @DefaultStringValue("Subject")
     public String subjectCriteria();
 

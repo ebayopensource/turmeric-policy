@@ -173,5 +173,11 @@ public class SubjectGroupJS extends JavaScriptObject implements SubjectGroup {
         return SubjectUtil.getSubjectGroupId(this);
     }
 
+
+    @Override
+    public native final String getGroupCalculator()  /*-{
+        return this["@SubjectGroupCalculator"];
+    }-*/;
+
     
 }

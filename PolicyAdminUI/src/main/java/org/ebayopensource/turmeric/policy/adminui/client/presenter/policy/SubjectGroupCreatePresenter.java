@@ -19,7 +19,11 @@ import org.ebayopensource.turmeric.policy.adminui.client.Display;
 import org.ebayopensource.turmeric.policy.adminui.client.SupportedService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken;
+import org.ebayopensource.turmeric.policy.adminui.client.model.SubjectGroupCalculator;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetMetaDataResponse;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.QueryCondition;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.QueryCondition.Query;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroupImpl;
@@ -80,6 +84,12 @@ public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 		public void setSubjectTypes(List<String> subjectTypes);
 
 		public void error(String msg);
+		
+		public void setSgCalculatorMap(Map<String, String> sgCalculatorMap);
+		
+		public Boolean isSgCalculated();
+		
+		public String getSelectedSubjectGroupCalculatorName();
 
 	}
 
@@ -254,6 +264,7 @@ public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 				group.setType(SubjectGroupCreatePresenter.this.view
 						.getSubjectType());
 				group.setSubjects(subjectNames);
+				group.setGroupCalculator(SubjectGroupCreatePresenter.this.view.getSelectedSubjectGroupCalculatorName());
 
 				/**
 				 * This timer is needed due to GWT has only one thread, so
@@ -429,13 +440,44 @@ public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 	@Override
 	public void go(HasWidgets container, final HistoryToken token) {
 		fetchSubjectTypes();
+		fetchSubjectGroupCalculators();
 		this.view.setSubjectTypes(subjectTypes);
 		container.clear();
 		this.view.activate();
 		container.add(this.view.asWidget());
 	}
 
-	private void fetchSubjectTypes() {
+	private void fetchSubjectGroupCalculators() {
+	    QueryCondition queryCondition = new QueryCondition();
+	    queryCondition.setResolution(null);
+	    QueryCondition.Query query = new Query("SUBJECT_TYPE", "SubjectGroupCalculator");
+	    queryCondition.getQueries().add(query);
+	    
+	    service = (PolicyQueryService) serviceMap.get(SupportedService.POLICY_QUERY_SERVICE);
+	    
+	    service.getMetaData(queryCondition, new AsyncCallback<PolicyQueryService.GetMetaDataResponse>() {
+
+            @Override
+            public void onFailure(Throwable arg0) {
+                if (arg0.getLocalizedMessage()
+                                .contains("500")) {
+                            view.error(PolicyAdminUIUtil.messages
+                                    .serverError(PolicyAdminUIUtil.policyAdminConstants
+                                            .genericErrorMessage()));
+                        } else {
+                            view.error(PolicyAdminUIUtil.messages.serverError(arg0
+                                    .getLocalizedMessage()));
+                        }
+            }
+
+            @Override
+            public void onSuccess(GetMetaDataResponse arg0) {
+                view.setSgCalculatorMap(arg0.getValues());
+            }
+        });
+    }
+
+    private void fetchSubjectTypes() {
 		subjectTypes = org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectType
 				.getValues();
 	}

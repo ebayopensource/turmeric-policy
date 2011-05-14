@@ -19,6 +19,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.SupportedService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.QueryCondition;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroupImpl;
@@ -31,8 +32,10 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQuer
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindExternalSubjectsResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectsResponse;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetMetaDataResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.UpdateMode;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.UpdateSubjectGroupsResponse;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.QueryCondition.Query;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.PolicyPageTemplateDisplay;
 
@@ -87,6 +90,14 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 		public void error(String msg);
 
 		public void clear();
+
+        public void setSubjectGroupCalculator(String groupCalculator);
+
+        public void setSgCalculatorMap(Map<String, String> values);
+
+        public void setSelectedType(String type);
+
+        public String getGroupCalculator();
 	}
 
 	public SubjectGroupEditPresenter(HandlerManager eventBus,
@@ -226,6 +237,7 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 				editedGroup.setName(view.getName());
 				editedGroup.setDescription(view.getDescription());
 				editedGroup.setSubjects(view.getSelectedSubjects());
+				editedGroup.setGroupCalculator(view.getGroupCalculator());
 
 				if ("USER".equals(originalGroup.getType())) {
 					// external subjects todays are only USER types
@@ -465,8 +477,12 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 										.getDescription());
 								view.setSelectedSubjects(originalGroup
 										.getSubjects());
+								view.setSelectedType(originalGroup.getType());
+								
+								
+								fetchSubjectGroupCalculators();
+								
 								// Get the available subjects of that type
-
 								SubjectKey key = new SubjectKey();
 								String subName = view.getSearchTerm();
 								if (subName != null
@@ -518,4 +534,35 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 					});
 		}
 	}
+	
+	private void fetchSubjectGroupCalculators() {
+        QueryCondition queryCondition = new QueryCondition();
+        queryCondition.setResolution(null);
+        QueryCondition.Query query = new Query("SUBJECT_TYPE", "SubjectGroupCalculator");
+        queryCondition.getQueries().add(query);
+        
+        service = (PolicyQueryService) serviceMap.get(SupportedService.POLICY_QUERY_SERVICE);
+        
+        service.getMetaData(queryCondition, new AsyncCallback<PolicyQueryService.GetMetaDataResponse>() {
+
+            @Override
+            public void onFailure(Throwable arg0) {
+                if (arg0.getLocalizedMessage()
+                                .contains("500")) {
+                            view.error(PolicyAdminUIUtil.messages
+                                    .serverError(PolicyAdminUIUtil.policyAdminConstants
+                                            .genericErrorMessage()));
+                        } else {
+                            view.error(PolicyAdminUIUtil.messages.serverError(arg0
+                                    .getLocalizedMessage()));
+                        }
+            }
+
+            @Override
+            public void onSuccess(GetMetaDataResponse arg0) {
+                view.setSgCalculatorMap(arg0.getValues());
+                view.setSubjectGroupCalculator(originalGroup.getGroupCalculator());
+            }
+        });
+    }
 }

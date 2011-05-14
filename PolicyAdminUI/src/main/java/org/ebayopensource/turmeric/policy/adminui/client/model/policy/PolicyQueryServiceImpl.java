@@ -64,7 +64,8 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 						+ ").@SubjectType=" + g.getType().toString());
 				url += (g.getDescription() == null ? "" : "&ns1:subjectGroups("
 						+ i + ").@Description=" + g.getDescription());
-
+				url += (g.getGroupCalculator() == null ? "" : "&ns1:subjectGroups(" + i
+		                        + ").@SubjectGroupCalculator="+ g.getGroupCalculator());
 				// Subjects must have name && type?
 				if (g.getSubjects() != null) {
 					int j = 0;
@@ -1011,6 +1012,7 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 						+ ").@SubjectType=" + g.getType().toString());
 				url += (g.getDescription() == null ? "" : "&ns1:subjectGroups("
 						+ i + ").@Description=" + g.getDescription());
+				url += ("&ns1:subjectGroups(" + i + ").@SubjectGroupCalculator="+ (g.getGroupCalculator()!=null?g.getGroupCalculator():""));
 
 				// TODO - what about all the other stuff
 				// ApplyToEach

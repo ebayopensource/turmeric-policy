@@ -10,6 +10,7 @@ package org.ebayopensource.turmeric.policy.adminui.client.view.policy;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.Display;
@@ -23,13 +24,17 @@ import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyMenuW
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.MenuDisplay;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.TextArea;
@@ -56,16 +61,21 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
         private FlexTable table;
         private TextBox nameBox;
         private TextArea descBox;
+        private CheckBox isCalculatedSg;
+        private ListBox sgCalculators;
         private SubjectGroupAssignmentWidget assignmentWidget;
         private Button saveButton;
         private Button cancelButton;
-
+        private Map<String, String> sgCalculatorMap;
+        private String subjectType;
         
         public ContentView() {
             mainPanel = new FlowPanel();
             table = new FlexTable();
             nameBox = new TextBox();
             descBox = new TextArea();
+            sgCalculators = new ListBox();
+            isCalculatedSg = new CheckBox();
             saveButton = new Button(PolicyAdminUIUtil.constants.apply());
             cancelButton = new Button(PolicyAdminUIUtil.constants.cancel());
             initWidget(mainPanel);
@@ -84,10 +94,29 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
             table.setWidget(0, 1, nameBox);
             table.setWidget(1, 0, new Label(PolicyAdminUIUtil.policyAdminConstants.subjectGroupDescription()+":"));
             table.setWidget(1, 1, descBox);
+            table.setWidget(2, 0, new Label(PolicyAdminUIUtil.policyAdminConstants.calculated()+":"));
+            table.setWidget(2, 1, this.isCalculatedSg);
+            
+            this.isCalculatedSg.addClickHandler(new ClickHandler() {
+                @Override
+                public void onClick(ClickEvent event) {
+                    boolean checked = ((CheckBox) event.getSource()).getValue();
+                    if(checked){
+                        sgCalculators.setEnabled(true);
+                        fillCalculatorList(sgCalculators);
+                    }else{
+                        emptyCalculatorList(sgCalculators);
+                        sgCalculators.setEnabled(false);
+                    }
+                  }
+                });
+            
             assignmentWidget = new SubjectGroupAssignmentWidget();
-            table.setWidget(2, 0, new Label(PolicyAdminUIUtil.policyAdminConstants.subjects()+":"));
-            table.getCellFormatter().setVerticalAlignment(2, 0, HasVerticalAlignment.ALIGN_TOP);
-            table.setWidget(2, 1, assignmentWidget);
+            table.setWidget(3, 0, new Label(PolicyAdminUIUtil.policyAdminConstants.sgCalculator()+":"));
+            table.setWidget(3, 1, sgCalculators);
+            table.setWidget(4, 0, new Label(PolicyAdminUIUtil.policyAdminConstants.subjects()+":"));
+            table.getCellFormatter().setVerticalAlignment(3, 0, HasVerticalAlignment.ALIGN_TOP);
+            table.setWidget(4, 1, assignmentWidget);
             
             
             mainPanel.add(table);
@@ -97,6 +126,30 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
         
         public void setDescription (String desc) {
             descBox.setText(desc);
+        }
+        
+        protected void emptyCalculatorList(ListBox sgCalculators2) {
+            this.sgCalculators.clear();
+        }
+        
+        /**
+         * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupCreatePresenter.SubjectGroupCreateDisplay#getSubjectType()
+         */
+        public String getSubjectType() {
+            return this.subjectType;
+        }
+
+        public void fillCalculatorList(ListBox sgCalculators) {
+            String subjectType = this.getSubjectType();
+            if(this.sgCalculatorMap != null && subjectType != null){
+                this.sgCalculators.clear();
+                for (String key : sgCalculatorMap.keySet()) {
+                    if(subjectType.equals(sgCalculatorMap.get(key))){
+                        this.sgCalculators.addItem(key);
+                    }
+                }
+                
+            }
         }
         
         public String getDescription () {
@@ -137,6 +190,27 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
         
         public void setAvailableSubjects(List<String> selectedSubjects) {
             assignmentWidget.setAvailableSubjects(selectedSubjects);
+        }
+        
+        public Boolean isSgCalculated() {
+            return this.isCalculatedSg.getValue();
+        }
+
+        public void setSgCalculatorMap(Map<String, String> sgCalculatorMap2) {
+            this.sgCalculatorMap = sgCalculatorMap2;
+        }
+
+        public String getSelectedSubjectGroupCalculatorName() {
+            if(sgCalculators.getSelectedIndex()>=0){
+                return this.sgCalculators.getItemText(sgCalculators.getSelectedIndex());
+            }else{
+                return null;
+            }
+            
+        }
+
+        public void setSelectedType(String type) {
+            this.subjectType = type;
         }
     }
 
@@ -288,6 +362,33 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
     @Override
     public HasClickHandlers getCancelButton() {
         return ((ContentView)contentView).getCancelButton();
+    }
+
+
+    @Override
+    public void setSubjectGroupCalculator(String groupCalculator) {
+        if(groupCalculator != null && !groupCalculator.isEmpty()){
+            ((ContentView)contentView).isCalculatedSg.setValue(true);
+            ((ContentView)contentView).fillCalculatorList(((ContentView)contentView).sgCalculators);
+        }
+    }
+
+
+    @Override
+    public void setSgCalculatorMap(Map<String, String> values) {
+        ((ContentView)contentView).sgCalculatorMap = values;
+    }
+
+
+    @Override
+    public void setSelectedType(String type) {
+        ((ContentView)contentView).setSelectedType(type);
+    }
+
+
+    @Override
+    public String getGroupCalculator() {
+        return ((ContentView)contentView).getSelectedSubjectGroupCalculatorName();
     }
     
 }
