@@ -142,7 +142,7 @@ public interface PolicyAdminConstants extends Constants {
 	@DefaultStringValue("from")
 	public String from();
 	
-	@DefaultStringValue("<< Selected file must be in XML format. One item per xml file >>")
+	@DefaultStringValue("<< Selected file must be in XML format >>")
 	public String importConditionalFileMsg();
 	
 	@DefaultStringValue("All Policies")

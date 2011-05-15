@@ -22,7 +22,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class FileUploaderWidget {
-	public static Widget getFileUploaderWidget(final FormPanel form, final String entity) {
+	public static Widget getFileUploaderWidget(final FormPanel form,
+			final String entity) {
 
 		VerticalPanel holder = new VerticalPanel();
 		final FileUpload fu = new FileUpload();
@@ -32,11 +33,14 @@ public class FileUploaderWidget {
 		holder.add(new Button(PolicyAdminUIUtil.policyAdminConstants
 				.importAction(), new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				
+
 				if (!fu.getFilename().isEmpty()
 						&& Window.confirm(PolicyAdminUIUtil.policyAdminConstants
-								.importAction() + " " + entity + PolicyAdminUIUtil.policyAdminConstants
-								.from() + " "+ fu.getFilename() + "?")) {
+								.importAction()
+								+ " "
+								+ entity
+								+ PolicyAdminUIUtil.policyAdminConstants.from()
+								+ " " + fu.getFilename() + "?")) {
 					form.submit();
 				}
 			}
@@ -50,7 +54,14 @@ public class FileUploaderWidget {
 
 		form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
 			public void onSubmitComplete(SubmitCompleteEvent event) {
-				Window.alert("Success");
+				
+				int indexFrom = event.getResults().indexOf("<pre>") + 5;
+				int indexTo = event.getResults().indexOf("</pre>");
+				
+				String responseMsg = event.getResults().substring(indexFrom, indexTo);
+				
+				Window.alert(responseMsg);
+
 			}
 		});
 
