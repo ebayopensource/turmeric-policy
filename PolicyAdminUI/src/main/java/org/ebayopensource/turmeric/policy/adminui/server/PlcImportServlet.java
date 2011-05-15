@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
@@ -21,6 +22,10 @@ import javax.xml.bind.Unmarshaller;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.ebayopensource.turmeric.common.v1.types.CommonErrorData;
+import org.ebayopensource.turmeric.policy.adminui.client.model.AbstractPolicyAdminUIService.RequestFormat;
+
+import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 import org.ebayopensource.turmeric.security.v1.services.CreatePolicyRequest;
 import org.ebayopensource.turmeric.security.v1.services.CreatePolicyResponse;
 import org.ebayopensource.turmeric.security.v1.services.CreateSubjectGroupsRequest;
@@ -29,15 +34,16 @@ import org.ebayopensource.turmeric.security.v1.services.FindPoliciesResponse;
 import org.ebayopensource.turmeric.security.v1.services.FindSubjectGroupsResponse;
 import org.ebayopensource.turmeric.security.v1.services.Policy;
 import org.ebayopensource.turmeric.security.v1.services.PolicySet;
+import org.ebayopensource.turmeric.security.v1.services.Rule;
 import org.ebayopensource.turmeric.security.v1.services.SubjectGroup;
 import org.ebayopensource.turmeric.services.policyservice.intf.gen.BasePolicyServiceConsumer;
-
 
 public class PlcImportServlet extends HttpServlet {
 
 	private String impPolicyPrefix;
 	private String impSGPrefix;
-
+	private static String SECURITY_TOKEN_HEADER = "X-TURMERIC-SECURITY-TOKEN";
+	private static String SECURITY_TOKEN = "security token value";
 	private String policyServiceURL;
 
 	@Override
@@ -55,9 +61,9 @@ public class PlcImportServlet extends HttpServlet {
 			impSGPrefix = config.getInitParameter("impSGPrefix");
 		}
 
-		
 	}
 
+	@SuppressWarnings("unchecked")
 	public void service(ServletRequest req, ServletResponse res)
 			throws ServletException, IOException {
 		HttpServletRequest request = (HttpServletRequest) req;
@@ -75,6 +81,7 @@ public class PlcImportServlet extends HttpServlet {
 			} else {
 				tmp += "?";
 			}
+
 			// eg: admin&admin
 			String[] params = request.getQueryString().split("&");
 			if (params.length < 2) {
@@ -85,97 +92,156 @@ public class PlcImportServlet extends HttpServlet {
 			final ByteArrayOutputStream importData = parseInputStream(request,
 					response);
 
-			final BasePolicyServiceConsumer consumer = new BasePolicyServiceConsumer();
+			try {
 
-			if (importData != null) {
-				if (tmp.startsWith(impPolicyPrefix)) {
-					try {
-						PolicySet unmarshalXmlData = unmarshalXmlPolicyData(importData);
+				final BasePolicyServiceConsumer consumer = new BasePolicyServiceConsumer();
+				consumer.getService().getInvokerOptions()
+						.setTransportName("HTTP11");
+				consumer.getService().setSessionTransportHeader(
+						SECURITY_TOKEN_HEADER, SECURITY_TOKEN);
 
-						if (unmarshalXmlData.getPolicy().isEmpty()) {
-							throw new IOException("No policies to import");
+				if (importData != null) {
+
+					if (tmp.startsWith(impPolicyPrefix)) {
+
+						String partialURL = getPartialUrl("createPolicy",
+								RequestFormat.JSON, params);
+
+						URL url = new URL(policyServiceURL
+								+ tmp.substring(impPolicyPrefix.length())
+										.toString() + partialURL);
+
+						consumer.getService().setServiceLocation(url);
+
+						PolicySet policySet = unmarshalXmlPolicyData(importData);
+						StringBuffer policiesNotStored = new StringBuffer();
+
+						if (policySet.getPolicy().isEmpty()) {
+							response.sendError(
+									HttpServletResponse.SC_NOT_FOUND,
+									"No policies to import");
 						}
-
-						// Service service;
-						// try {
-						// service = ServiceFactory.create("PolicyService");
-						//
-						// Object responseNew =
-						// service.createDispatch("createPolicy")
-						// .invoke(request);
-						//
-						// } catch (ServiceException e) {
-						// // TODO Auto-generated catch block
-						// e.printStackTrace();
-						// }
 
 						CreatePolicyResponse createPolicyResponse;
 
-						for (Policy policy : unmarshalXmlData.getPolicy()) {
+						for (Policy policy : policySet.getPolicy()) {
+							policy.setPolicyId(null);
+
+							if ("RL".equalsIgnoreCase(policy.getPolicyType())) {
+								List<Rule> rules = policy.getRule();
+								for (Rule rule : rules) {
+									rule.setRuleName(policy.getPolicyName());
+								}
+							}
 							CreatePolicyRequest createPolicyRequest = new CreatePolicyRequest();
 							createPolicyRequest.setPolicy(policy);
-							createPolicyResponse = consumer
-									.createPolicy(createPolicyRequest);
+							createPolicyResponse = (CreatePolicyResponse) consumer
+									.getService()
+									.createDispatch("createPolicy")
+									.invoke(createPolicyRequest);
 
 							if (createPolicyResponse.getErrorMessage() != null) {
-								response.sendError(
-										HttpServletResponse.SC_CONFLICT,
-										"Policy " + policy.getPolicyName()
-												+ " can not be imported!");
-								break;
+								policiesNotStored.append(policy.getPolicyName()
+										+ ": ");
+								for (CommonErrorData error2 : createPolicyResponse
+										.getErrorMessage().getError()) {
+									policiesNotStored.append(error2
+											.getMessage() + "\n");
+								}
 							}
-
 						}
-					} catch (JAXBException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 
-				}
-			} else if (tmp.startsWith(impSGPrefix)) {
-				try {
-					List<SubjectGroup> unmarshalXmlData = unmarshalXmlSGData(importData);
+						if (policiesNotStored.length() > 0) {
+							response.sendError(HttpServletResponse.SC_CONFLICT,
+									"The following policies have not been stored: \n"
+											+ policiesNotStored.toString());
+						}
 
-					if (unmarshalXmlData.isEmpty()) {
-						throw new IOException("No Subject Group to import");
-					}
+					} else if (tmp.startsWith(impSGPrefix)) {
 
-					CreateSubjectGroupsResponse createSGResponse;
+						String partialURL = getPartialUrl(
+								"createSubjectGroups", RequestFormat.JSON,
+								params);
 
-					for (SubjectGroup subjectGroup : unmarshalXmlData) {
-						CreateSubjectGroupsRequest createSGRequest = new CreateSubjectGroupsRequest();
-						createSGRequest.getSubjectGroups().add(subjectGroup);
-						createSGResponse = consumer
-								.createSubjectGroups(createSGRequest);
+						URL url = new URL(policyServiceURL
+								+ tmp.substring(impSGPrefix.length())
+										.toString() + partialURL);
 
-						if (createSGResponse.getErrorMessage() != null) {
+						consumer.getService().setServiceLocation(url);
+
+						List<SubjectGroup> subjectGroups = unmarshalXmlSGData(importData);
+						StringBuffer sgNotStored = new StringBuffer();
+
+						if (subjectGroups.isEmpty()) {
 							response.sendError(
-									HttpServletResponse.SC_CONFLICT,
-									"Subject Group "
-											+ subjectGroup
-													.getSubjectGroupName()
-											+ " can not be imported!");
-							break;
+									HttpServletResponse.SC_NOT_FOUND,
+									"No Subject Group to import");
 						}
 
+						CreateSubjectGroupsResponse createSGResponse;
+						for (SubjectGroup subjectGroup : subjectGroups) {
+							subjectGroup.setSubjectMatch(null);
+							
+							CreateSubjectGroupsRequest createSGRequest = new CreateSubjectGroupsRequest();
+							createSGRequest.getSubjectGroups()
+									.add(subjectGroup);
+							createSGResponse = consumer
+									.createSubjectGroups(createSGRequest);
+	
+							if (createSGResponse.getErrorMessage() != null) {
+								sgNotStored.append(subjectGroup.getSubjectGroupName()
+										+ ": ");
+								for (CommonErrorData error2 : createSGResponse
+										.getErrorMessage().getError()) {
+									sgNotStored.append(error2
+											.getMessage() + "\n");
+								}
+							}
+						}
+						
+						if (sgNotStored.length() > 0) {
+							response.sendError(HttpServletResponse.SC_CONFLICT,
+									"The following Subject Groups have not been stored: \n"
+											+ sgNotStored.toString());
+						}
+						
+					} else {
+						response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+								"Invalid url for download: " + tmp);
+						return;
 					}
-				} catch (JAXBException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+
+					return;
 				}
+			} catch (JAXBException e) {
+				response.sendError(
+						HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+						"Unable to parse imported file");
 
-			} else {
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-						"Invalid url for download: " + tmp);
-				return;
+			} catch (ServiceException e1) {
+				response.sendError(
+						HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+						"Unable to invoke PolicyService");
+
 			}
-
-			return;
 		}
 
 		if (error != null) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
+
+	}
+
+	public String getPartialUrl(String operation, RequestFormat format,
+			String[] params) {
+		StringBuffer url = new StringBuffer();
+		url.append("X-TURMERIC-OPERATION-NAME=" + operation);
+		url.append("&X-TURMERIC-USECASE-NAME=" + "TMC");
+		url.append("&X-TURMERIC-SECURITY-USERID=" + params[params.length - 2]);
+		url.append("&X-TURMERIC-SECURITY-PASSWORD=" + params[params.length - 1]);
+		url.append("&X-TURMERIC-RESPONSE-DATA-FORMAT=" + "XML");
+
+		return url.toString();
 	}
 
 	public PolicySet unmarshalXmlPolicyData(final ByteArrayOutputStream xmlInput)
