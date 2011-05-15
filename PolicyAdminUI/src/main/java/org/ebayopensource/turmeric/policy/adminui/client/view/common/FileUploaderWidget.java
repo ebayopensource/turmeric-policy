@@ -57,11 +57,12 @@ public class FileUploaderWidget {
 				
 				int indexFrom = event.getResults().indexOf("<pre>") + 5;
 				int indexTo = event.getResults().indexOf("</pre>");
+				if(indexTo - indexFrom > 1){
+					Window.alert(event.getResults().substring(indexFrom, indexTo));
+				}else{
+					Window.alert(PolicyAdminUIUtil.policyAdminMessages.successfulOperationMessage());
+				}
 				
-				String responseMsg = event.getResults().substring(indexFrom, indexTo);
-				
-				Window.alert(responseMsg);
-
 			}
 		});
 
