@@ -326,6 +326,11 @@ public class SubjectGroupSummaryPresenter extends AbstractGenericPresenter {
         query.setGroupKeys(keys);
         service.findSubjectGroups(query, new AsyncCallback<FindSubjectGroupsResponse>() {
 
+            /**
+             * On success.
+             *
+             * @param response the response
+             */
             public void onSuccess(FindSubjectGroupsResponse response) {
                 //Turn the SubjectGroups returned by the server into copies that are writeable
                 //so that we can pump in the related policies
@@ -335,10 +340,12 @@ public class SubjectGroupSummaryPresenter extends AbstractGenericPresenter {
                 if (results != null) {
                     for (SubjectGroup r:results) {
                         SubjectGroupImpl sgi = new SubjectGroupImpl(r);
-                        groups.add(sgi);
-                        permissions.put(sgi, newPermissions());
-                        //TODO do this lazily page by page
-                        fetchAccess(sgi);
+                        if(!sgi.getName().startsWith("Admin_Policy_SuperPolicy") || AppUser.getUser().isAdminUser()){
+                            groups.add(sgi);
+                            permissions.put(sgi, newPermissions());
+                            //TODO do this lazily page by page
+                            fetchAccess(sgi);
+                        }
                     }
                 }
                 fetchPoliciesForGroups();
