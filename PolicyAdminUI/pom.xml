@@ -189,13 +189,38 @@
 		</dependency>
 		<dependency>
 			<groupId>org.ebayopensource.turmeric.policy</groupId>
-  			<artifactId>turmeric-policy-provider</artifactId>
-  			<version>${project.version}</version>
+			<artifactId>turmeric-policy-provider</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.ebayopensource.turmeric.runtime</groupId>
-  			<artifactId>soa-client</artifactId>
+			<artifactId>soa-client</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.ebayopensource.turmeric.impl</groupId>
+			<artifactId>PolicyServiceImpl</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ebayopensource.turmeric.security</groupId>
+			<artifactId>turmeric-security-provider</artifactId>
+			<version>${turmeric-security-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ebayopensource.turmeric.security</groupId>
+			<artifactId>SecurityCommon</artifactId>
+			<version>${turmeric-security-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.6.1</version>
+   			<systemPath>${basedir}/war/WEB-INF/lib/slf4j-api-1.6.1.jar</systemPath>
+			<scope>system</scope>
+		</dependency>
+		
+
+		
 	</dependencies>
 </project>
