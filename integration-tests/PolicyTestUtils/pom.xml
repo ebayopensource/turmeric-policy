@@ -13,7 +13,7 @@
   <parent>
     <groupId>org.ebayopensource.turmeric.policy</groupId>
     <artifactId>turmeric-policy-integration-tests-parent</artifactId>
-    <version>1.0.0-Beta-RC2</version>
+    <version>1.0.0.3-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <groupId>org.ebayopensource.turmeric.policy.tests</groupId>
