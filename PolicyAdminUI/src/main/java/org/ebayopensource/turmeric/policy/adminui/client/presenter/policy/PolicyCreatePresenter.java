@@ -1652,34 +1652,14 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 			List<SubjectGroup> exclSGroups = new ArrayList<SubjectGroup>();
 
 			for (PolicySubjectAssignment a : subjectAssignments) {
-
-				if (a.getSubjects() != null && a.getSubjects().size() > 0) {
-
-					for (PolicySubjectAssignment policySubjectAssignment : view
-							.getSubjectContentView().getAssignments()) {
-						if (policySubjectAssignment.getSubjects() != null) {
-							subjects.addAll(policySubjectAssignment
-									.getSubjects());
-						break;
-						}
-					}
-
+				if (a.getSubjects() != null) {
+					subjects.addAll(a.getSubjects());
 				}
-
-				if (a.getExclusionSubjects() != null
-						&& a.getExclusionSubjects().size() > 0) {
-
-					for (PolicySubjectAssignment policySubjectAssignment : view
-							.getSubjectContentView().getAssignments()) {
-						if (policySubjectAssignment.getExclusionSubjects() != null) {
-							exclusionSubjects.addAll(policySubjectAssignment
-									.getExclusionSubjects());
-							break;
-						}
-					}
-
+				
+				if (a.getExclusionSubjects() != null) {
+					exclusionSubjects.addAll(a.getExclusionSubjects());
 				}
-
+		
 				if (a.getSubjectGroups() != null) {
 					groups.addAll(a.getSubjectGroups());
 				}
