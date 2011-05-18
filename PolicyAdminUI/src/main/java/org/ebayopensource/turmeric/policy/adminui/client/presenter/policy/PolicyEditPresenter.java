@@ -359,34 +359,20 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 			List<SubjectGroup> exclusionGroups = new ArrayList<SubjectGroup>();
 
 			for (PolicySubjectAssignment a : subjectAssignments) {
-
 				if (a.getSubjects() != null) {
-					for (PolicySubjectAssignment policySubjectAssignment : view.getSubjectContentView().getAssignments()) {
-						//Assigning a subject type to a policy is implemented by assigning 
-						// 1 subject with the subject type selected but with no name. WSDL has no other way 
-						if (assignAllSubjects){
-							SubjectImpl sb = new SubjectImpl();
-							sb.setType(policySubjectAssignment.getSubjectType());
-							subjects.add(sb);
-						}else if (policySubjectAssignment.getSubjects() != null) {
-							subjects.addAll(policySubjectAssignment
-									.getSubjects());
-						}
-						break;
+					if (assignAllSubjects){
+						SubjectImpl sb = new SubjectImpl();
+						sb.setType(a.getSubjectType());
+						subjects.add(sb);
+					}else {
+						subjects.addAll(a.getSubjects());
 					}
-
 				}
-
+				
 				if (a.getExclusionSubjects() != null) {
-					for (PolicySubjectAssignment policySubjectAssignment : view.getSubjectContentView().getAssignments()) {
-						if (policySubjectAssignment.getExclusionSubjects() != null) {
-							exclusionSubjects.addAll(policySubjectAssignment
-									.getExclusionSubjects());
-							break;
-						}
-					}
-
+					exclusionSubjects.addAll(a.getExclusionSubjects());
 				}
+				
 
 				if (a.getSubjectGroups() != null) {
 					groups.addAll(a.getSubjectGroups());
@@ -402,6 +388,11 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 			p.setExclusionSG(exclusionGroups);
 		}
 		return p;
+	}
+
+	private void foreach(List<Subject> subjects) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
