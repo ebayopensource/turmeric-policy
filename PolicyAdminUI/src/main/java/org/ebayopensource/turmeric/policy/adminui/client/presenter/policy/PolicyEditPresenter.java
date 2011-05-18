@@ -334,7 +334,7 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 	public GenericPolicy getPolicy(String name, String type,
 			String description, List<Resource> resources,
 			List<PolicySubjectAssignment> subjectAssignments, boolean enabled,
-			long id, List<Rule> rules, boolean assignAllSubjects) {
+			long id, List<Rule> rules) {
 		GenericPolicyImpl p = new GenericPolicyImpl();
 		p.setName(name);
 		p.setType(type);
@@ -360,13 +360,7 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 
 			for (PolicySubjectAssignment a : subjectAssignments) {
 				if (a.getSubjects() != null) {
-					if (assignAllSubjects){
-						SubjectImpl sb = new SubjectImpl();
-						sb.setType(a.getSubjectType());
-						subjects.add(sb);
-					}else {
-						subjects.addAll(a.getSubjects());
-					}
+					subjects.addAll(a.getSubjects());
 				}
 				
 				if (a.getExclusionSubjects() != null) {

@@ -140,8 +140,7 @@ public class RLPolicyEditPresenter extends PolicyEditPresenter {
 							.getValue(), originalPolicyType, view
 							.getPolicyDesc().getValue(), resourceAssignments,
 							subjectAssignments, view.getPolicyEnabled(), Long
-									.valueOf(originalPolicyId), rules, view
-									.getSubjectContentView().getSelectAllSubjects());
+									.valueOf(originalPolicyId), rules);
 
 					GWT.log("Updating policy: " + p.getId() + "-" + p.getName());
 					/**
