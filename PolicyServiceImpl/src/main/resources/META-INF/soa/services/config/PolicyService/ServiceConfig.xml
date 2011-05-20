@@ -45,7 +45,7 @@
 							<option name="objectXpath">
 PolicyService:deleteSubjectGroups:deleteSubjectGroupsRequest/subjectGroupKey/subjectGroupName; 
 PolicyService:deleteSubjectGroups:deleteSubjectGroupsRequest/subjectGroupKey/subjectGroupId; 
-PolicyService:updateSubjectGroups:updateSubjectGroupsRequest/subjectGroups/SubjectMatch/AttributeValue;
+PolicyService:updateSubjectGroups:updateSubjectGroupsRequest/subjectGroups/SubjectMatch/AttributeValue/__value__;
 PolicyService:updateSubjectGroups:updateSubjectGroupsRequest/subjectGroups@SubjectGroupName;  
 PolicyService:updatePolicy:updatePolicyRequest/policy@PolicyName; 
 PolicyService:updatePolicy:updatePolicyRequest/policy@PolicyId; 
