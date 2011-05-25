@@ -95,7 +95,7 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 							callback.onFailure(new Throwable(
 									PolicyAdminUIUtil.constants.error() + " "
 											+ response.getStatusCode()));
-						} else if (response.getHeader(ERROR_HEADER) != null) {
+						} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
 							callback.onFailure(getErrorAsThrowable(
 									CreateSubjectGroupsResponseJS.NAME,
 									response));
@@ -153,7 +153,7 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 					if (response.getStatusCode() != Response.SC_OK) {
 						callback.onFailure(new Throwable(PolicyAdminUIUtil.constants
 								.error() + " " + response.getStatusCode()));
-					} else if (response.getHeader(ERROR_HEADER) != null) {
+					} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
 						callback.onFailure(getErrorAsThrowable(
 								DeletePolicyResponseJS.NAME, response));
 					} else {
@@ -224,7 +224,7 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 					if (response.getStatusCode() != Response.SC_OK) {
 						callback.onFailure(new Throwable(PolicyAdminUIUtil.constants
 								.error() + " " + response.getStatusCode()));
-					} else if (response.getHeader(ERROR_HEADER) != null) {
+					} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
 						callback.onFailure(getErrorAsThrowable(
 								DeleteSubjectGroupResponseJS.NAME, response));
 					} else {
@@ -280,7 +280,7 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 					if (response.getStatusCode() != Response.SC_OK) {
 						callback.onFailure(new Throwable(PolicyAdminUIUtil.constants
 								.error() + " " + response.getStatusCode()));
-					} else if (response.getHeader(ERROR_HEADER) != null) {
+					} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
 						callback.onFailure(getErrorAsThrowable(
 								DisablePolicyResponseJS.NAME, response));
 					} else {
@@ -334,7 +334,7 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 					if (response.getStatusCode() != Response.SC_OK) {
 						callback.onFailure(new Throwable(PolicyAdminUIUtil.constants
 								.error() + " " + response.getStatusCode()));
-					} else if (response.getHeader(ERROR_HEADER) != null) {
+					} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
 						callback.onFailure(getErrorAsThrowable(
 								EnablePolicyResponseJS.NAME, response));
 					} else {
@@ -395,7 +395,7 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 					if (response.getStatusCode() != Response.SC_OK) {
 						callback.onFailure(new Throwable(PolicyAdminUIUtil.constants
 								.error() + " " + response.getStatusCode()));
-					} else if (response.getHeader(ERROR_HEADER) != null) {
+					} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
 						callback.onFailure(getErrorAsThrowable(
 								GetResourcesResponseJS.NAME, response));
 					} else {
@@ -487,7 +487,7 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 					if (response.getStatusCode() != Response.SC_OK) {
 						callback.onFailure(new Throwable(PolicyAdminUIUtil.constants
 								.error() + " " + response.getStatusCode()));
-					} else if (response.getHeader(ERROR_HEADER) != null) {
+					} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
 						callback.onFailure(getErrorAsThrowable(
 								GetPoliciesResponseJS.NAME, response));
 					} else {
@@ -558,7 +558,7 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 					if (response.getStatusCode() != Response.SC_OK) {
 						callback.onFailure(new Throwable(PolicyAdminUIUtil.constants
 								.error() + " " + response.getStatusCode()));
-					} else if (response.getHeader(ERROR_HEADER) != null) {
+					} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
 						callback.onFailure(getErrorAsThrowable(
 								GetEntityHistoryResponseJS.NAME, response));
 					} else {
@@ -616,7 +616,7 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 					if (response.getStatusCode() != Response.SC_OK) {
 						callback.onFailure(new Throwable(PolicyAdminUIUtil.constants
 								.error() + " " + response.getStatusCode()));
-					} else if (response.getHeader(ERROR_HEADER) != null) {
+					} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
 						callback.onFailure(getErrorAsThrowable(
 								CreateSubjectsResponseJS.NAME, response));
 					} else {
@@ -666,7 +666,7 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 					if (response.getStatusCode() != Response.SC_OK) {
 						callback.onFailure(new Throwable(PolicyAdminUIUtil.constants
 								.error() + " " + response.getStatusCode()));
-					} else if (response.getHeader(ERROR_HEADER) != null) {
+					} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
 						callback.onFailure(getErrorAsThrowable(
 								CreatePolicyResponseJS.NAME, response));
 					} else {
@@ -742,7 +742,7 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 					if (response.getStatusCode() != Response.SC_OK) {
 						callback.onFailure(new Throwable(PolicyAdminUIUtil.constants
 								.error() + " " + response.getStatusCode()));
-					} else if (response.getHeader(ERROR_HEADER) != null) {
+					} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
 						callback.onFailure(getErrorAsThrowable(
 								FindSubjectGroupsResponseJS.NAME, response));
 					} else {
@@ -824,7 +824,7 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 					if (response.getStatusCode() != Response.SC_OK) {
 						callback.onFailure(new Throwable(PolicyAdminUIUtil.constants
 								.error() + " " + response.getStatusCode()));
-					} else if (response.getHeader(ERROR_HEADER) != null) {
+					} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
 						callback.onFailure(getErrorAsThrowable(
 								FindSubjectsResponseJS.NAME, response));
 					} else {
@@ -908,7 +908,7 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 					if (response.getStatusCode() != Response.SC_OK) {
 						callback.onFailure(new Throwable(PolicyAdminUIUtil.constants
 								.error() + " " + response.getStatusCode()));
-					} else if (response.getHeader(ERROR_HEADER) != null) {
+					} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
 						callback.onFailure(getErrorAsThrowable(
 								FindExternalSubjectsResponseJS.NAME, response));
 					} else {
@@ -969,7 +969,7 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 					if (response.getStatusCode() != Response.SC_OK) {
 						callback.onFailure(new Throwable(PolicyAdminUIUtil.constants
 								.error() + " " + response.getStatusCode()));
-					} else if (response.getHeader(ERROR_HEADER) != null) {
+					} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
 						callback.onFailure(getErrorAsThrowable(
 								CreatePolicyResponseJS.NAME, response));
 					} else {
@@ -1066,7 +1066,7 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 							callback.onFailure(new Throwable(
 									PolicyAdminUIUtil.constants.error() + " "
 											+ response.getStatusCode()));
-						} else if (response.getHeader(ERROR_HEADER) != null) {
+						} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
 							callback.onFailure(getErrorAsThrowable(
 									CreateSubjectGroupsResponseJS.NAME,
 									response));
@@ -1131,7 +1131,7 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 					if (response.getStatusCode() != Response.SC_OK) {
 						callback.onFailure(new Throwable(PolicyAdminUIUtil.constants
 								.error() + " " + response.getStatusCode()));
-					} else if (response.getHeader(ERROR_HEADER) != null) {
+					} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
 						callback.onFailure(getErrorAsThrowable(
 								UpdatePolicyResponseJS.NAME, response));
 					} else {

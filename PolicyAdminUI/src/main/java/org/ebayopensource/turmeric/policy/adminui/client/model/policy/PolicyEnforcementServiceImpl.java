@@ -118,7 +118,7 @@ public class PolicyEnforcementServiceImpl  extends AbstractPolicyAdminUIService 
 //                    	System.err.println("response = "+response.getText());
                         if (response.getStatusCode() != Response.SC_OK) {
                             callback.onFailure(new Throwable(PolicyAdminUIUtil.constants.error()+" "+response.getStatusCode()));
-                        } else if (response.getHeader(ERROR_HEADER) != null) {
+                        } else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
                             callback.onFailure(getErrorAsThrowable(VerifyAccessResponseJS.NAME, response));
                         } else {
                             //convert response.getText() to JSON
