@@ -419,7 +419,7 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 
                         for (SubjectGroup subjectGroup : subjectGroups) {
                             if (subjectGroup.getName().toLowerCase().contains(name.toLowerCase())
-                                    && subjectGroup.getType()==subjectGroupKeys.get(0).getType()) {
+                                    && subjectGroup.getType().equalsIgnoreCase(subjectGroupKeys.get(0).getType())) {
                                 policies.add(genericPolicy);
                                 break;
                             }
