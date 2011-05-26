@@ -125,19 +125,18 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	@Override
 	public void deletePolicy(final PolicyKey key,
 			final AsyncCallback<DeletePolicyResponse> callback) {
+		String url = BASE_POLICY_URL + "?"
+		+ getPartialUrl("deletePolicy", namespaces, RequestFormat.NV);
+		
 		if (key == null) {
 			callback.onFailure(null);
+			url += (key.getId() == null ? "" : "&ns1:policyKey.ns1:policyId="
+					+ key.getId().toString());
+			url += (key.getName() == null ? "" : "&ns1:policyKey.ns1:policyName="
+					+ key.getName().trim());
+			url += (key.getType() == null ? "" : "&ns1:policyKey.ns1:policyType="
+					+ key.getType().toString().toUpperCase());
 		}
-
-		String url = BASE_POLICY_URL + "?"
-				+ getPartialUrl("deletePolicy", namespaces, RequestFormat.NV);
-		url += (key.getId() == null ? "" : "&ns1:policyKey.ns1:policyId="
-				+ key.getId().toString());
-		url += (key.getName() == null ? "" : "&ns1:policyKey.ns1:policyName="
-				+ key.getName().trim());
-		url += (key.getType() == null ? "" : "&ns1:policyKey.ns1:policyType="
-				+ key.getType().toString().toUpperCase());
-
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
 				URL.encode(url));
 		setSecurityHeaders(builder);
@@ -251,19 +250,18 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	@Override
 	public void disablePolicy(final PolicyKey key,
 			final AsyncCallback<DisablePolicyResponse> callback) {
+		String url = BASE_POLICY_URL + "?"
+		+ getPartialUrl("disablePolicy", namespaces, RequestFormat.NV);
+
 		if (key == null) {
 			callback.onFailure(null);
+			url += (key.getId() == null ? "" : "&ns1:policyKey.ns1:policyId="
+					+ key.getId().toString());
+			url += (key.getName() == null ? "" : "&ns1:policyKey.ns1:policyName="
+					+ key.getName().trim());
+			url += (key.getType() == null ? "" : "&ns1:policyKey.ns1:policyType="
+					+ key.getType().toString().toUpperCase());
 		}
-
-		String url = BASE_POLICY_URL + "?"
-				+ getPartialUrl("disablePolicy", namespaces, RequestFormat.NV);
-		url += (key.getId() == null ? "" : "&ns1:policyKey.ns1:policyId="
-				+ key.getId().toString());
-		url += (key.getName() == null ? "" : "&ns1:policyKey.ns1:policyName="
-				+ key.getName().trim());
-		url += (key.getType() == null ? "" : "&ns1:policyKey.ns1:policyType="
-				+ key.getType().toString().toUpperCase());
-
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
 				URL.encode(url));
 		setSecurityHeaders(builder);
@@ -307,18 +305,19 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	@Override
 	public void enablePolicy(final PolicyKey key,
 			final AsyncCallback<EnablePolicyResponse> callback) {
+		String url = BASE_POLICY_URL + "?"
+		+ getPartialUrl("enablePolicy", namespaces, RequestFormat.NV);
+
 		if (key == null) {
 			callback.onFailure(null);
+			url += (key.getId() == null ? "" : "&ns1:policyKey.ns1:policyId="
+					+ key.getId().toString());
+			url += (key.getName() == null ? "" : "&ns1:policyKey.ns1:policyName="
+					+ key.getName().trim());
+			url += (key.getType() == null ? "" : "&ns1:policyKey.ns1:policyType="
+				+ key.getType().toString().toUpperCase());
 		}
 
-		String url = BASE_POLICY_URL + "?"
-				+ getPartialUrl("enablePolicy", namespaces, RequestFormat.NV);
-		url += (key.getId() == null ? "" : "&ns1:policyKey.ns1:policyId="
-				+ key.getId().toString());
-		url += (key.getName() == null ? "" : "&ns1:policyKey.ns1:policyName="
-				+ key.getName().trim());
-		url += (key.getType() == null ? "" : "&ns1:policyKey.ns1:policyType="
-				+ key.getType().toString().toUpperCase());
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
 				URL.encode(url));
 		setSecurityHeaders(builder);

@@ -296,7 +296,6 @@ public class PlcImportServlet extends HttpServlet {
 
 				int maxFileSize = 10 * (1024 * 1024); // 10 megs max
 				if (out.size() > maxFileSize) {
-					System.out.println("File is > than " + maxFileSize);
 					response.sendError(
 							HttpServletResponse.SC_REQUEST_ENTITY_TOO_LARGE,
 							"Max allowed file size: 10 Mb");
