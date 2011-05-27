@@ -8,29 +8,33 @@
  *******************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArray;
 
 /**
- * SubjectMatchTypeJS
- *
+ * SubjectMatchTypeJS.
  */
 public class SubjectMatchTypeJS extends JavaScriptObject implements SubjectMatchType {
 
+    /**
+	 * Instantiates a new subject match type js.
+	 */
     protected SubjectMatchTypeJS() {}
     
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectMatchType#getMatchId()
-     */
+	 * Gets the match id.
+	 * 
+	 * @return the match id
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectMatchType#getMatchId()
+	 */
     @Override
     public native final String getMatchId() /*-{ 
         return this["@MatchId"];
     }-*/;
 
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectMatchType#getAttributeValue()
+	 */
 	@Override
     public final AttributeValue getAttributeValue() {
 
@@ -38,15 +42,28 @@ public class SubjectMatchTypeJS extends JavaScriptObject implements SubjectMatch
     }
     
 	
+    /**
+	 * Gets the attribute value as object.
+	 * 
+	 * @return the attribute value as object
+	 */
     public final native AttributeValueJS getAttributeValueAsObject() /*-{
         return this["ns2.AttributeValue"];
 	}-*/;
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectMatchType#getSubjectAttributeDesignator()
+     */
     @Override
     public final SubjectAttributeDesignator getSubjectAttributeDesignator() {
         return getSubjectAttributeDesignatorAsObject();
     }
     
+    /**
+	 * Gets the subject attribute designator as object.
+	 * 
+	 * @return the subject attribute designator as object
+	 */
     public final native SubjectAttributeDesignatorJS getSubjectAttributeDesignatorAsObject() /*-{
         return this["ns2.SubjectAttributeDesignator"];
 	}-*/;

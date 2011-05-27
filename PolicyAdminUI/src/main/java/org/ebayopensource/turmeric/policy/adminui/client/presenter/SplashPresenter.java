@@ -19,13 +19,24 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+/**
+ * The Class SplashPresenter.
+ */
 public class SplashPresenter implements Presenter {
 	
+	/** The Constant SPLASH_ID. */
 	public final static String SPLASH_ID = "Splash";
+	
+	/** The view. */
 	protected Display view;
+	
+	/** The event bus. */
 	protected HandlerManager eventBus;
 	
 
+	/**
+	 * The Interface Display.
+	 */
 	public interface Display extends org.ebayopensource.turmeric.policy.adminui.client.Display{
 		HasClickHandlers getSubmitButton();
 		HasValue<String> getLogin();
@@ -34,23 +45,40 @@ public class SplashPresenter implements Presenter {
 		void promptMessage(String message);
 	}
 
+	/**
+	 * Instantiates a new splash presenter.
+	 * 
+	 * @param eventBus
+	 *            the event bus
+	 * @param view
+	 *            the view
+	 */
 	public SplashPresenter (HandlerManager eventBus, Display view) {
 		this.view = view;
 		this.eventBus = eventBus;
 	    bind();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#go(com.google.gwt.user.client.ui.HasWidgets, org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+	 */
 	public void go(final HasWidgets container, HistoryToken token) {
 		container.clear();
 		this.view.activate();
 		container.add(this.view.asWidget());
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#getId()
+	 */
 	public String getId()
 	{
 		return SPLASH_ID;
 	}
 	
+	/**
+	 * Bind.
+	 */
 	public void bind() {
 		this.view.getSubmitButton().addClickHandler(new ClickHandler() {   
 			public void onClick(ClickEvent event) {
@@ -62,11 +90,17 @@ public class SplashPresenter implements Presenter {
 	}
 	
 	// TODO - need to handle this properly
+	/**
+	 * Handle login error view.
+	 */
 	public void handleLoginErrorView() {
 		view.getPassword().setValue("");
 		view.promptMessage(PolicyAdminUIUtil.messages.loginFailed());
 	}
 	
+	/**
+	 * Handle logout success view.
+	 */
 	public void handleLogoutSuccessView() {
 		view.promptMessage(PolicyAdminUIUtil.messages.logoutSuccessful());
 	}

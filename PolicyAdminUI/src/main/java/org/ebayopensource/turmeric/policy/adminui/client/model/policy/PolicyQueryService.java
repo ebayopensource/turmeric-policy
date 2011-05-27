@@ -16,20 +16,35 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIServ
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+/**
+ * The Interface PolicyQueryService.
+ */
 public interface PolicyQueryService extends PolicyAdminUIService {
 
+    /**
+	 * The Enum ResourceLevel.
+	 */
     public enum ResourceLevel {
         OPERATION, RESOURCE, GLOBAL
     };
     
+	/**
+	 * The Enum PolicyOutputSelector.
+	 */
 	public enum PolicyOutputSelector {
 	    ALL, RESOURCES, SUBJECTS, RULES, SUBJECTGROUPS
 	}
 	
+	/**
+	 * The Enum UpdateMode.
+	 */
 	public enum UpdateMode {
 	    REPLACE, UPDATE, DELETE
 	}
 	
+	/**
+	 * The Enum RuleEffectType.
+	 */
 	public enum RuleEffectType {
 	    Allow, Flag, Challenge, Block, Softlimit
 	}
@@ -83,99 +98,420 @@ public interface PolicyQueryService extends PolicyAdminUIService {
 	
 	void updatePolicy (UpdateMode mode, GenericPolicy policy, AsyncCallback<UpdatePolicyResponse> callback);
 
+	/**
+	 * The Interface GetResourcesResponse.
+	 */
 	public interface GetResourcesResponse {
-	    public Collection<Resource> getResources();
-	    public boolean isErrored();
-	    public String getErrorMessage();
+	    
+    	/**
+		 * Gets the resources.
+		 * 
+		 * @return the resources
+		 */
+    	public Collection<Resource> getResources();
+	    
+    	/**
+		 * Checks if is errored.
+		 * 
+		 * @return true, if is errored
+		 */
+    	public boolean isErrored();
+	    
+    	/**
+		 * Gets the error message.
+		 * 
+		 * @return the error message
+		 */
+    	public String getErrorMessage();
 	}
 
+	/**
+	 * The Interface GetEntityHistoryResponse.
+	 */
 	public interface GetEntityHistoryResponse {
-	    public Collection<EntityHistory> getEntities();
-	    public boolean isErrored();
-	    public String getErrorMessage();
+	    
+    	/**
+		 * Gets the entities.
+		 * 
+		 * @return the entities
+		 */
+    	public Collection<EntityHistory> getEntities();
+	    
+    	/**
+		 * Checks if is errored.
+		 * 
+		 * @return true, if is errored
+		 */
+    	public boolean isErrored();
+	    
+    	/**
+		 * Gets the error message.
+		 * 
+		 * @return the error message
+		 */
+    	public String getErrorMessage();
 	}
 
+	/**
+	 * The Interface GetPoliciesResponse.
+	 */
 	public interface GetPoliciesResponse {
-	    public Collection<GenericPolicy> getPolicies();
-	    public boolean isErrored();
-	    public String getErrorMessage();
+	    
+    	/**
+		 * Gets the policies.
+		 * 
+		 * @return the policies
+		 */
+    	public Collection<GenericPolicy> getPolicies();
+	    
+    	/**
+		 * Checks if is errored.
+		 * 
+		 * @return true, if is errored
+		 */
+    	public boolean isErrored();
+	    
+    	/**
+		 * Gets the error message.
+		 * 
+		 * @return the error message
+		 */
+    	public String getErrorMessage();
 	}
 
+	/**
+	 * The Interface EnablePolicyResponse.
+	 */
 	public interface EnablePolicyResponse  {
-	    public boolean isErrored();
-	    public String getErrorMessage();
+	    
+    	/**
+		 * Checks if is errored.
+		 * 
+		 * @return true, if is errored
+		 */
+    	public boolean isErrored();
+	    
+    	/**
+		 * Gets the error message.
+		 * 
+		 * @return the error message
+		 */
+    	public String getErrorMessage();
 	}  
 
+	/**
+	 * The Interface DisablePolicyResponse.
+	 */
 	public interface DisablePolicyResponse  {
-	    public boolean isErrored();
-	    public String getErrorMessage();
+	    
+    	/**
+		 * Checks if is errored.
+		 * 
+		 * @return true, if is errored
+		 */
+    	public boolean isErrored();
+	    
+    	/**
+		 * Gets the error message.
+		 * 
+		 * @return the error message
+		 */
+    	public String getErrorMessage();
 	}
 
+	/**
+	 * The Interface DeletePolicyResponse.
+	 */
 	public interface DeletePolicyResponse {
+		
+		/**
+		 * Checks if is success.
+		 * 
+		 * @return the boolean
+		 */
 		public Boolean isSuccess();       
+		
+		/**
+		 * Checks if is errored.
+		 * 
+		 * @return true, if is errored
+		 */
 		public boolean isErrored();
+        
+        /**
+		 * Gets the error message.
+		 * 
+		 * @return the error message
+		 */
         public String getErrorMessage();
 	}
 
+	/**
+	 * The Interface DeleteSubjectGroupResponse.
+	 */
 	public interface DeleteSubjectGroupResponse {
-	    public boolean isErrored();
-	    public String getErrorMessage();
+	    
+    	/**
+		 * Checks if is errored.
+		 * 
+		 * @return true, if is errored
+		 */
+    	public boolean isErrored();
+	    
+    	/**
+		 * Gets the error message.
+		 * 
+		 * @return the error message
+		 */
+    	public String getErrorMessage();
 	}
 
+	/**
+	 * The Interface DeleteResourceResponse.
+	 */
 	public interface DeleteResourceResponse {
-	    public boolean isErrored();
-	    public String getErrorMessage();
+	    
+    	/**
+		 * Checks if is errored.
+		 * 
+		 * @return true, if is errored
+		 */
+    	public boolean isErrored();
+	    
+    	/**
+		 * Gets the error message.
+		 * 
+		 * @return the error message
+		 */
+    	public String getErrorMessage();
 	}
 
+	/**
+	 * The Interface CreateSubjectGroupsResponse.
+	 */
 	public interface CreateSubjectGroupsResponse {
-	    public List<Long> getSubjectGroupIds();
-	    public boolean isErrored();
+	    
+    	/**
+		 * Gets the subject group ids.
+		 * 
+		 * @return the subject group ids
+		 */
+    	public List<Long> getSubjectGroupIds();
+	    
+    	/**
+		 * Checks if is errored.
+		 * 
+		 * @return true, if is errored
+		 */
+    	public boolean isErrored();
+        
+        /**
+		 * Gets the error message.
+		 * 
+		 * @return the error message
+		 */
         public String getErrorMessage();
 	}
 
+	/**
+	 * The Interface CreatePolicyResponse.
+	 */
 	public interface CreatePolicyResponse {
-	    public Long getPolicyId();
-	    public boolean isErrored();
-	    public String getErrorMessage();
+	    
+    	/**
+		 * Gets the policy id.
+		 * 
+		 * @return the policy id
+		 */
+    	public Long getPolicyId();
+	    
+    	/**
+		 * Checks if is errored.
+		 * 
+		 * @return true, if is errored
+		 */
+    	public boolean isErrored();
+	    
+    	/**
+		 * Gets the error message.
+		 * 
+		 * @return the error message
+		 */
+    	public String getErrorMessage();
 	}
 
+	/**
+	 * The Interface CreateSubjectsResponse.
+	 */
 	public interface CreateSubjectsResponse {
-	    public List<Long> getSubjectIds();
-	    public boolean isErrored();
-	    public String getErrorMessage();
+	    
+    	/**
+		 * Gets the subject ids.
+		 * 
+		 * @return the subject ids
+		 */
+    	public List<Long> getSubjectIds();
+	    
+    	/**
+		 * Checks if is errored.
+		 * 
+		 * @return true, if is errored
+		 */
+    	public boolean isErrored();
+	    
+    	/**
+		 * Gets the error message.
+		 * 
+		 * @return the error message
+		 */
+    	public String getErrorMessage();
 	}
 
+	/**
+	 * The Interface FindSubjectGroupsResponse.
+	 */
 	public interface FindSubjectGroupsResponse {
-	    public List<SubjectGroup> getGroups();
-	    public boolean isErrored();
-	    public String getErrorMessage();
+	    
+    	/**
+		 * Gets the groups.
+		 * 
+		 * @return the groups
+		 */
+    	public List<SubjectGroup> getGroups();
+	    
+    	/**
+		 * Checks if is errored.
+		 * 
+		 * @return true, if is errored
+		 */
+    	public boolean isErrored();
+	    
+    	/**
+		 * Gets the error message.
+		 * 
+		 * @return the error message
+		 */
+    	public String getErrorMessage();
 	}
 
+	/**
+	 * The Interface FindSubjectsResponse.
+	 */
 	public interface FindSubjectsResponse {
-	    public List<Subject> getSubjects();
-	    public boolean isErrored();
-	    public String getErrorMessage();
+	    
+    	/**
+		 * Gets the subjects.
+		 * 
+		 * @return the subjects
+		 */
+    	public List<Subject> getSubjects();
+	    
+    	/**
+		 * Checks if is errored.
+		 * 
+		 * @return true, if is errored
+		 */
+    	public boolean isErrored();
+	    
+    	/**
+		 * Gets the error message.
+		 * 
+		 * @return the error message
+		 */
+    	public String getErrorMessage();
 	}
 	
+	/**
+	 * The Interface FindExternalSubjectsResponse.
+	 */
 	public interface FindExternalSubjectsResponse {
-	    public List<Subject> getSubjects();
-	    public boolean isErrored();
-	    public String getErrorMessage();
+	    
+    	/**
+		 * Gets the subjects.
+		 * 
+		 * @return the subjects
+		 */
+    	public List<Subject> getSubjects();
+	    
+    	/**
+		 * Checks if is errored.
+		 * 
+		 * @return true, if is errored
+		 */
+    	public boolean isErrored();
+	    
+    	/**
+		 * Gets the error message.
+		 * 
+		 * @return the error message
+		 */
+    	public String getErrorMessage();
 	}
 
+	/**
+	 * The Interface GetMetaDataResponse.
+	 */
 	public interface GetMetaDataResponse {
-	    public Map<String,String> getValues();
-	    public boolean isErrored();
-	    public String getErrorMessage();
+	    
+    	/**
+		 * Gets the values.
+		 * 
+		 * @return the values
+		 */
+    	public Map<String,String> getValues();
+	    
+    	/**
+		 * Checks if is errored.
+		 * 
+		 * @return true, if is errored
+		 */
+    	public boolean isErrored();
+	    
+    	/**
+		 * Gets the error message.
+		 * 
+		 * @return the error message
+		 */
+    	public String getErrorMessage();
 	}
 
+	/**
+	 * The Interface UpdateSubjectGroupsResponse.
+	 */
 	public interface UpdateSubjectGroupsResponse {
-	    public boolean isErrored();
-	    public String getErrorMessage();
+	    
+    	/**
+		 * Checks if is errored.
+		 * 
+		 * @return true, if is errored
+		 */
+    	public boolean isErrored();
+	    
+    	/**
+		 * Gets the error message.
+		 * 
+		 * @return the error message
+		 */
+    	public String getErrorMessage();
 	}
 
+	/**
+	 * The Interface UpdatePolicyResponse.
+	 */
 	public interface UpdatePolicyResponse { 
-	    public boolean isErrored();
-	    public String getErrorMessage();
+	    
+    	/**
+		 * Checks if is errored.
+		 * 
+		 * @return true, if is errored
+		 */
+    	public boolean isErrored();
+	    
+    	/**
+		 * Gets the error message.
+		 * 
+		 * @return the error message
+		 */
+    	public String getErrorMessage();
 	}
 }

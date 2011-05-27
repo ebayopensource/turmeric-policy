@@ -13,18 +13,50 @@ import java.util.List;
 
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 
-import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
+import com.google.gwt.user.client.ui.TreeItem;
 
 /**
- * PolicyDashboard
- *
+ * PolicyDashboard.
  */
 public interface PolicyDashboard  extends Container {
+    
+    /**
+	 * Activate.
+	 * 
+	 * @param view
+	 *            the view
+	 */
     public void activate (Display view);
+    
+    /**
+	 * Gets the selector.
+	 * 
+	 * @return the selector
+	 */
     public HasSelectionHandlers<TreeItem> getSelector();
+    
+    /**
+	 * Sets the actions.
+	 * 
+	 * @param actions
+	 *            the new actions
+	 */
     public void setActions(List<UserAction> actions);
+    
+    /**
+	 * Sets the selected.
+	 * 
+	 * @param action
+	 *            the new selected
+	 */
     public void setSelected(UserAction action);
+    
+    /**
+	 * Error.
+	 * 
+	 * @param err
+	 *            the err
+	 */
     public void error(String err);
 }

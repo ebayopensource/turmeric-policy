@@ -9,10 +9,21 @@
 package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 
 /**
- * SubjectAttributeDesignator
- *
+ * SubjectAttributeDesignator.
  */
 public interface SubjectAttributeDesignator {
+    
+    /**
+	 * Gets the attribute id.
+	 * 
+	 * @return the attribute id
+	 */
     public String getAttributeId();
+    
+    /**
+	 * Gets the data type.
+	 * 
+	 * @return the data type
+	 */
     public String getDataType();
 }

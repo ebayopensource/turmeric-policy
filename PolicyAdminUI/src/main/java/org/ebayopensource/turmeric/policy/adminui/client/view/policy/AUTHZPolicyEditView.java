@@ -14,17 +14,27 @@ import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ExtraField;
 
+/**
+ * The Class AUTHZPolicyEditView.
+ */
 public class AUTHZPolicyEditView extends PolicyEditView {
 
+	/** The Constant SELECTED_ACTION. */
 	protected static  final UserAction SELECTED_ACTION = UserAction.AUTHZ_POLICY_EDIT;
 	
 	private static final String TITLE_FORM= PolicyAdminUIUtil.policyAdminConstants.policyInformationAuthzEdit();
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#getSelectedAction()
+	 */
 	@Override
 	public UserAction getSelectedAction(){
 		return SELECTED_ACTION;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#getTitleForm()
+	 */
 	@Override
 	public String getTitleForm(){
 		return TITLE_FORM;
@@ -52,12 +62,18 @@ public class AUTHZPolicyEditView extends PolicyEditView {
         
     }
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#initializeExtraFields()
+	 */
 	@Override
 	protected void initializeExtraFields() {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#setExtraFieldList(java.util.List)
+	 */
 	@Override
 	public void setExtraFieldList(List<ExtraField> extraFieldList) {
 		// TODO Auto-generated method stub

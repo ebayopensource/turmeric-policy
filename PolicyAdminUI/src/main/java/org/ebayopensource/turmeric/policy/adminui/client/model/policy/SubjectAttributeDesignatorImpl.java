@@ -9,27 +9,44 @@
 package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 
 /**
- * SubjectAttributeDesignatorImpl
- *
+ * SubjectAttributeDesignatorImpl.
  */
 public class SubjectAttributeDesignatorImpl implements SubjectAttributeDesignator {
  
 	private String attributeId;
     private String dataType;
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectAttributeDesignator#getAttributeId()
+	 */
 	public String getAttributeId() {
 		return attributeId;
 	}
 
+	/**
+	 * Sets the attribute id.
+	 * 
+	 * @param attributeId
+	 *            the new attribute id
+	 */
 	public void setAttributeId(String attributeId) {
 		this.attributeId = attributeId;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectAttributeDesignator#getDataType()
+	 */
 	@Override
 	public String getDataType() {
 		return dataType;
 	}
 		   
+	/**
+	 * Sets the data type.
+	 * 
+	 * @param dataType
+	 *            the new data type
+	 */
 	public void setDataType(String dataType) {
 		this.dataType = dataType;
 	}

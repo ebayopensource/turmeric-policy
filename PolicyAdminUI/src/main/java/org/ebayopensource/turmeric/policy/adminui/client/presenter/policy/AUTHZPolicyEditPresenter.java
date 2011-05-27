@@ -14,14 +14,9 @@ import java.util.Map;
 
 import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.SupportedService;
-import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken;
+import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicyImpl;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicySubjectAssignment;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.ResourceLevel;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.UpdateMode;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.UpdatePolicyResponse;
@@ -33,10 +28,22 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HasWidgets;
 
+/**
+ * The Class AUTHZPolicyEditPresenter.
+ */
 public class AUTHZPolicyEditPresenter extends PolicyEditPresenter {
 
+	/**
+	 * Instantiates a new aUTHZ policy edit presenter.
+	 * 
+	 * @param eventBus
+	 *            the event bus
+	 * @param view
+	 *            the view
+	 * @param serviceMap
+	 *            the service map
+	 */
 	public AUTHZPolicyEditPresenter(HandlerManager eventBus,
 			PolicyEditDisplay view,
 			Map<SupportedService, PolicyAdminUIService> serviceMap) {
@@ -46,13 +53,20 @@ public class AUTHZPolicyEditPresenter extends PolicyEditPresenter {
 
 	}
 
+	/** The Constant PRESENTER_ID. */
 	public final static String PRESENTER_ID = "AUTHZPolicyEdit";
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#getId()
+	 */
 	@Override
 	public String getId() {
 		return PRESENTER_ID;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#getResourceLevels()
+	 */
 	@Override
 	public List<String> getResourceLevels() {
 		List<String> rsLevels = new ArrayList<String>();
@@ -60,6 +74,9 @@ public class AUTHZPolicyEditPresenter extends PolicyEditPresenter {
 		return rsLevels;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#bindSaveButton()
+	 */
 	@Override
 	protected void bindSaveButton() {
 		{

@@ -32,7 +32,6 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Rule;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.RuleAttribute;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectType;
 
 import com.google.gwt.core.client.GWT;
@@ -40,13 +39,29 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+/**
+ * The Class PolicyEditPresenter.
+ */
 public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 
+	/** The original policy id. */
 	protected String originalPolicyId;
+	
+	/** The original policy type. */
 	protected String originalPolicyType;
 
 	// protected final List<Rule> rules = new ArrayList<Rule>();
 
+	/**
+	 * Instantiates a new policy edit presenter.
+	 * 
+	 * @param eventBus
+	 *            the event bus
+	 * @param view
+	 *            the view
+	 * @param serviceMap
+	 *            the service map
+	 */
 	public PolicyEditPresenter(HandlerManager eventBus, PolicyEditDisplay view,
 			Map<SupportedService, PolicyAdminUIService> serviceMap) {
 		super(eventBus, view, serviceMap);
@@ -56,9 +71,15 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 	/*
 	 * Interface definitions
 	 */
+	/**
+	 * The Interface PolicyEditDisplay.
+	 */
 	public interface PolicyEditDisplay extends PolicyCreateDisplay {
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#go(com.google.gwt.user.client.ui.HasWidgets, org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+	 */
 	@Override
 	public void go(HasWidgets container, final HistoryToken token) {
 		super.go(container, token);
@@ -155,6 +176,12 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 
 	// TODO make it abstract and move its content to an specific RL policy
 	// View Presenter extends from PolicyViewPresenter
+	/**
+	 * Sets the extra field view.
+	 * 
+	 * @param policy
+	 *            the new extra field view
+	 */
 	protected void setExtraFieldView(GenericPolicy policy) {
 		List<ExtraField> rlExtraFields = new ArrayList<ExtraField>();
 		// TODO JOSE load from xml file from an Util class
@@ -331,6 +358,27 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 
 	}
 
+	/**
+	 * Gets the policy.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param type
+	 *            the type
+	 * @param description
+	 *            the description
+	 * @param resources
+	 *            the resources
+	 * @param subjectAssignments
+	 *            the subject assignments
+	 * @param enabled
+	 *            the enabled
+	 * @param id
+	 *            the id
+	 * @param rules
+	 *            the rules
+	 * @return the policy
+	 */
 	public GenericPolicy getPolicy(String name, String type,
 			String description, List<Resource> resources,
 			List<PolicySubjectAssignment> subjectAssignments, boolean enabled,

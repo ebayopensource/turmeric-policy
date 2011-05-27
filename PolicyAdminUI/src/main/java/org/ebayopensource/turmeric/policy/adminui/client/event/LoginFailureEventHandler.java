@@ -10,6 +10,9 @@ package org.ebayopensource.turmeric.policy.adminui.client.event;
 
 import com.google.gwt.event.shared.EventHandler;
 
+/**
+ * The Interface LoginFailureEventHandler.
+ */
 public interface LoginFailureEventHandler extends EventHandler {
 	void onFailure();
 }

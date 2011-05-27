@@ -13,17 +13,27 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQuer
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
- * DisablePolicyResponseJS
- *
+ * DisablePolicyResponseJS.
  */
 public class DisablePolicyResponseJS extends JavaScriptObject implements
         DisablePolicyResponse {
 
+    /** The Constant NAME. */
     public static final String NAME = "ns1.disablePolicyResponse";
     
+    /**
+	 * Instantiates a new disable policy response js.
+	 */
     protected DisablePolicyResponseJS () {}
 
 
+    /**
+	 * From json.
+	 * 
+	 * @param json
+	 *            the json
+	 * @return the disable policy response
+	 */
     public static final native DisablePolicyResponse fromJSON (String json) /*-{
         try {
             return eval('(' + json + ')');
@@ -33,15 +43,21 @@ public class DisablePolicyResponseJS extends JavaScriptObject implements
     }-*/;
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.BaseResponse#getErrorMessage()
-     */
+	 * Gets the error message.
+	 * 
+	 * @return the error message
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.BaseResponse#getErrorMessage()
+	 */
     public native final String getErrorMessage() /*-{
        return this["ns1.disablePolicyResponse"]["ms.errorMessage"];
     }-*/;
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.BaseResponse#isErrored()
-     */
+	 * Checks if is errored.
+	 * 
+	 * @return true, if is errored
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.BaseResponse#isErrored()
+	 */
     public native final boolean isErrored() /*-{
         if (this["ns1.disablePolicyResponse"]["ms.ack"] === "Success")
             return false;

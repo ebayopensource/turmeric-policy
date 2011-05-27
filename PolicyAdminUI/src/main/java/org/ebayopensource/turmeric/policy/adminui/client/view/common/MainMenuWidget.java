@@ -20,6 +20,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * The Class MainMenuWidget.
+ */
 public class MainMenuWidget extends AbstractGenericView implements MenuDisplay {
 
 	private final static String STYLE_HOVER_MENU = "policymenu";
@@ -40,6 +43,12 @@ public class MainMenuWidget extends AbstractGenericView implements MenuDisplay {
 	
 	private Map<UserAction, Label> menuAccessMap;
 	
+	/**
+	 * Instantiates a new main menu widget.
+	 * 
+	 * @param selected
+	 *            the selected
+	 */
 	public MainMenuWidget(UserAction selected) {
 		mainPanel = new SimplePanel();
 		initWidget(mainPanel);
@@ -47,6 +56,9 @@ public class MainMenuWidget extends AbstractGenericView implements MenuDisplay {
 		initialize();
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#activate()
+	 */
 	public void activate() {
 		this.asWidget().setVisible(true);
 	}
@@ -77,6 +89,9 @@ public class MainMenuWidget extends AbstractGenericView implements MenuDisplay {
 		setToMenuTable(MENU_ROW_MAPPER.get(UserAction.POLICY_MAIN), COLUMN_FOR_MENU_ITEM, policyMainAccess);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView#initialize()
+	 */
 	@Override
 	public void initialize() {
 		mainPanel.clear();
@@ -88,14 +103,33 @@ public class MainMenuWidget extends AbstractGenericView implements MenuDisplay {
 		initMenuLinks();
 	}
 
+	/**
+	 * Change selection.
+	 * 
+	 * @param action
+	 *            the action
+	 */
 	public void changeSelection(UserAction action) {
 		// do nothing
 	}
 
+	/**
+	 * Gets the component for access.
+	 * 
+	 * @param action
+	 *            the action
+	 * @return the component for access
+	 */
 	public HasClickHandlers getComponentForAccess(UserAction action) {
 		return menuAccessMap.get(action);
 	}
 
+	/**
+	 * Show component for access.
+	 * 
+	 * @param action
+	 *            the action
+	 */
 	public void showComponentForAccess(UserAction action) {
 		Integer row = MENU_ROW_MAPPER.get(action);
 		if (row != null) {
@@ -103,6 +137,12 @@ public class MainMenuWidget extends AbstractGenericView implements MenuDisplay {
 		}
 	}
 
+	/**
+	 * Hide component for access.
+	 * 
+	 * @param action
+	 *            the action
+	 */
 	public void hideComponentForAccess(UserAction action) {
 		Integer row = MENU_ROW_MAPPER.get(action);
 		if (row != null) {

@@ -11,11 +11,17 @@ package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 import java.util.List;
 
 /**
- * GenericPolicyConverter
- * 
+ * GenericPolicyConverter.
  */
 public class GenericPolicyConverter {
 
+	/**
+	 * To nv.
+	 * 
+	 * @param policy
+	 *            the policy
+	 * @return the string
+	 */
 	public static String toNV(GenericPolicy policy) {
 		String url = "";
 		if (policy == null)
@@ -324,6 +330,13 @@ public class GenericPolicyConverter {
 		return url;
 	}
 
+	/**
+	 * To json.
+	 * 
+	 * @param policy
+	 *            the policy
+	 * @return the string
+	 */
 	public static String toJSON(GenericPolicy policy) {
 		String json = "";
 		if (policy == null) {

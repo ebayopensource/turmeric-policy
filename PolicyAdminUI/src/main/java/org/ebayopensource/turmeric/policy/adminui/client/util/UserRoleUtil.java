@@ -12,8 +12,18 @@ import java.util.Collection;
 
 import org.ebayopensource.turmeric.policy.adminui.client.shared.AppUserRole;
 
+/**
+ * The Class UserRoleUtil.
+ */
 public class UserRoleUtil {
 	
+	/**
+	 * Evaluate highest role from collection.
+	 * 
+	 * @param userRoles
+	 *            the user roles
+	 * @return the app user role
+	 */
 	public static AppUserRole evaluateHighestRoleFromCollection(Collection<AppUserRole> userRoles) {
 		if (userRoles.contains(AppUserRole.ADMIN)) {
 			return AppUserRole.ADMIN;

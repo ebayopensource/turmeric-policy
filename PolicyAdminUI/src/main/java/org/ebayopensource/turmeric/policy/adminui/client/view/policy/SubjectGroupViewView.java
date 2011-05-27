@@ -11,33 +11,24 @@ package org.ebayopensource.turmeric.policy.adminui.client.view.policy;
 import java.util.Collections;
 import java.util.List;
 
-import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.Display;
-import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
+import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.FooterWidget;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.HeaderWidget;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyMenuWidget;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.MenuDisplay;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * SubjectGroupViewView
- *
+ * SubjectGroupViewView.
  */
 public class SubjectGroupViewView extends AbstractGenericView implements
         SubjectGroupViewDisplay {
@@ -147,6 +138,9 @@ public class SubjectGroupViewView extends AbstractGenericView implements
     }
     
     
+    /**
+	 * Instantiates a new subject group view view.
+	 */
     public SubjectGroupViewView() {
         scrollPanel = new ScrollPanel();
         mainPanel = new FlowPanel();
@@ -157,8 +151,10 @@ public class SubjectGroupViewView extends AbstractGenericView implements
 
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView#initialize()
-     */
+	 * Initialize.
+	 * 
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView#initialize()
+	 */
     @Override
     public void initialize() {
         mainPanel.clear();
@@ -166,6 +162,11 @@ public class SubjectGroupViewView extends AbstractGenericView implements
     }
 
   
+    /**
+	 * Inits the content view.
+	 * 
+	 * @return the widget
+	 */
     protected Widget initContentView() {
         ScrollPanel actionPanel = new ScrollPanel();
         contentView = new ContentView();
@@ -174,13 +175,18 @@ public class SubjectGroupViewView extends AbstractGenericView implements
     }
     
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.PolicyPageTemplateDisplay#getContentView()
+     */
     public Display getContentView() {
         return contentView;
     }
   
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#clear()
-     */
+	 * Clear.
+	 * 
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#clear()
+	 */
     @Override
     public void clear() {
        ((ContentView)contentView).setName("");
@@ -193,8 +199,12 @@ public class SubjectGroupViewView extends AbstractGenericView implements
     
     
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#error(java.lang.String)
-     */
+	 * Error.
+	 * 
+	 * @param msg
+	 *            the msg
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#error(java.lang.String)
+	 */
     @Override
     public void error(String msg) {
         ErrorDialog dialog = new ErrorDialog(true);
@@ -204,48 +214,69 @@ public class SubjectGroupViewView extends AbstractGenericView implements
     }
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#getCancelButton()
-     */
+	 * Gets the cancel button.
+	 * 
+	 * @return the cancel button
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#getCancelButton()
+	 */
     @Override
     public HasClickHandlers getCancelButton() {
         return ((ContentView)contentView).getCancelButton();
     }
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#getDescription()
-     */
+	 * Gets the description.
+	 * 
+	 * @return the description
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#getDescription()
+	 */
     @Override
     public String getDescription() {
        return ((ContentView)contentView).getDescription();
     }
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#getName()
-     */
+	 * Gets the name.
+	 * 
+	 * @return the name
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#getName()
+	 */
     @Override
     public String getName() {
         return ((ContentView)contentView).getName();
     }
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#setDescription(java.lang.String)
-     */
+	 * Sets the description.
+	 * 
+	 * @param desc
+	 *            the new description
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#setDescription(java.lang.String)
+	 */
     @Override
     public void setDescription(String desc) {  
         ((ContentView)contentView).setDescription(desc);
     }
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#setName(java.lang.String)
-     */
+	 * Sets the name.
+	 * 
+	 * @param name
+	 *            the new name
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#setName(java.lang.String)
+	 */
     @Override
     public void setName(String name) {
         ((ContentView)contentView).setName(name);
     }
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#setSubjects(java.util.List)
-     */
+	 * Sets the subjects.
+	 * 
+	 * @param subjects
+	 *            the new subjects
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#setSubjects(java.util.List)
+	 */
     @Override
     public void setSubjects(List<String> subjects) {
         ((ContentView)contentView).setSubjects(subjects);
@@ -254,16 +285,21 @@ public class SubjectGroupViewView extends AbstractGenericView implements
 
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.Display#activate()
-     */
+	 * Activate.
+	 * 
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#activate()
+	 */
     @Override
     public void activate() {
     }
 
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#getType()
-     */
+	 * Gets the type.
+	 * 
+	 * @return the type
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#getType()
+	 */
     @Override
     public String getType() {
       return ((ContentView)contentView).getType();
@@ -271,8 +307,12 @@ public class SubjectGroupViewView extends AbstractGenericView implements
 
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#setType(java.lang.String)
-     */
+	 * Sets the type.
+	 * 
+	 * @param type
+	 *            the new type
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupViewPresenter.SubjectGroupViewDisplay#setType(java.lang.String)
+	 */
     @Override
     public void setType(String type) {
         ((ContentView)contentView).setType(type);

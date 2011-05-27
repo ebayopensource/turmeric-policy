@@ -16,7 +16,14 @@ import com.google.gwt.view.client.Range;
 /*
  * from http://gwtnews.blogspot.com/2011/04/re-gwt-21-celltable-row.html
  */
+/**
+ * The Class TurmericPager.
+ */
 public class TurmericPager extends SimplePager {
+	
+	/* (non-Javadoc)
+	 * @see com.google.gwt.user.cellview.client.SimplePager#createText()
+	 */
 	protected String createText() {
 		NumberFormat formatter = NumberFormat.getFormat("#,###");
 		HasRows display = getDisplay();

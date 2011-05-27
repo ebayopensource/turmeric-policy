@@ -32,7 +32,6 @@ import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericSta
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -52,30 +51,49 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.ProvidesKey;
 
+/**
+ * The Class PolicyViewView.
+ */
 public class PolicyViewView extends ResizeComposite implements
 		PolicyViewDisplay {
 
 	private final DockLayoutPanel mainPanel;
 	private static final String TITLE_FORM = PolicyAdminUIUtil.policyAdminConstants
 			.policyInformationView();
+	
+	/** The Constant SELECTED_ACTION. */
 	protected static final UserAction SELECTED_ACTION = UserAction.POLICY_VIEW;
 
 	private Display contentView;
 	private ResourcesContentDisplay resourceContentView;
 	private SubjectContentDisplay subjectContentView;
 
+	/** The policy name. */
 	protected TextBox policyName;
+	
+	/** The policy desc. */
 	protected TextArea policyDesc;
+	
+	/** The policy type. */
 	protected Label policyType;
+	
+	/** The policy status. */
 	protected ListBox policyStatus;
 
+	/** The extra grid available. */
 	protected boolean extraGridAvailable;
 
 	private Button cancelButton;
 
+	/** The extra fields grid. */
 	protected Grid extraFieldsGrid = new Grid(1, 1);
+	
+	/** The extra field list. */
 	protected List<ExtraField> extraFieldList;
 
+	/**
+	 * Instantiates a new policy view view.
+	 */
 	public PolicyViewView() {
 		mainPanel = new DockLayoutPanel(Unit.EM);
 		initWidget(mainPanel);
@@ -84,11 +102,17 @@ public class PolicyViewView extends ResizeComposite implements
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyViewPresenter.PolicyViewDisplay#getSelectedAction()
+	 */
 	@Override
 	public UserAction getSelectedAction() {
 		return SELECTED_ACTION;
 	}
 
+	/**
+	 * Initialize.
+	 */
 	public void initialize() {
 
 		policyName = new TextBox();
@@ -128,6 +152,11 @@ public class PolicyViewView extends ResizeComposite implements
 		
 	}
 
+	/**
+	 * Inits the content view.
+	 * 
+	 * @return the widget
+	 */
 	protected Widget initContentView() {
 		final ScrollPanel actionPanel = new ScrollPanel();
 		contentView = new ContentView();
@@ -135,6 +164,11 @@ public class PolicyViewView extends ResizeComposite implements
 		return actionPanel;
 	}
 
+	/**
+	 * Inits the resource content view.
+	 * 
+	 * @return the widget
+	 */
 	protected Widget initResourceContentView() {
 		final ScrollPanel actionPanel = new ScrollPanel();
 		resourceContentView = new ResourceContentView();
@@ -143,6 +177,11 @@ public class PolicyViewView extends ResizeComposite implements
 		return actionPanel;
 	}
 
+	/**
+	 * Inits the subject content view.
+	 * 
+	 * @return the widget
+	 */
 	protected Widget initSubjectContentView() {
 		final ScrollPanel actionPanel = new ScrollPanel();
 		subjectContentView = new SubjectContentView();
@@ -471,36 +510,62 @@ public class PolicyViewView extends ResizeComposite implements
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#activate()
+	 */
 	public void activate() {
 		contentView.activate();
 		this.setVisible(true);
 	}
 
+	/**
+	 * Gets the action selected.
+	 * 
+	 * @return the action selected
+	 */
 	public UserAction getActionSelected() {
 		return UserAction.BL_POLICY_CREATE;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.PolicyPageTemplateDisplay#getContentView()
+	 */
 	public Display getContentView() {
 		return contentView;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyViewPresenter.PolicyViewDisplay#getResourceContentView()
+	 */
 	public ResourcesContentDisplay getResourceContentView() {
 		return resourceContentView;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyViewPresenter.PolicyViewDisplay#getCancelButton()
+	 */
 	public Button getCancelButton() {
 		return cancelButton;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyViewPresenter.PolicyViewDisplay#getSubjectContentView()
+	 */
 	@Override
 	public SubjectContentDisplay getSubjectContentView() {
 		return subjectContentView;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyViewPresenter.PolicyViewDisplay#setPolicyDesc(java.lang.String)
+	 */
 	public void setPolicyDesc(final String policyDesc) {
 		this.policyDesc.setText(policyDesc);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyViewPresenter.PolicyViewDisplay#setPolicyType(java.lang.String)
+	 */
 	public void setPolicyType(final String policyType) {
 		if("RL".equalsIgnoreCase(policyType)){
 			CellTable<PolicySubjectAssignment> cellTable = ((SubjectContentView)subjectContentView).getCellTable();
@@ -551,6 +616,9 @@ public class PolicyViewView extends ResizeComposite implements
 		this.policyType.setText(policyType);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyViewPresenter.PolicyViewDisplay#setPolicyStatus(boolean)
+	 */
 	public void setPolicyStatus(final boolean enabled) {
 		if (enabled) {
 			this.policyStatus.setSelectedIndex(0);
@@ -559,14 +627,23 @@ public class PolicyViewView extends ResizeComposite implements
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyViewPresenter.PolicyViewDisplay#setPolicyName(java.lang.String)
+	 */
 	public void setPolicyName(final String policyName) {
 		this.policyName.setText(policyName);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyViewPresenter.PolicyViewDisplay#setExtraFieldAvailable(boolean)
+	 */
 	public void setExtraFieldAvailable(final boolean available) {
 		this.extraGridAvailable = available;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyViewPresenter.PolicyViewDisplay#setExtraFieldList(java.util.List)
+	 */
 	public void setExtraFieldList(List<ExtraField> extraFieldList) {
 
 		for (ExtraField extraField : extraFieldList) {
@@ -588,6 +665,9 @@ public class PolicyViewView extends ResizeComposite implements
 		extraFieldsGrid.setVisible(extraGridAvailable);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyViewPresenter.PolicyViewDisplay#clear()
+	 */
 	public void clear() {
 		policyName.setText("");
 		policyDesc.setText("");
@@ -606,6 +686,9 @@ public class PolicyViewView extends ResizeComposite implements
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyViewPresenter.PolicyViewDisplay#error(java.lang.String)
+	 */
 	public void error(final String msg) {
 		final ErrorDialog dialog = new ErrorDialog(true);
 		dialog.setMessage(msg);
@@ -613,11 +696,17 @@ public class PolicyViewView extends ResizeComposite implements
 		dialog.show();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#setAssociatedId(java.lang.String)
+	 */
 	public void setAssociatedId(final String id) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#getAssociatedId()
+	 */
 	public String getAssociatedId() {
 		// TODO Auto-generated method stub
 		return null;

@@ -13,17 +13,27 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQuer
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
- * CreatePolicyResponseJS
- *
+ * CreatePolicyResponseJS.
  */
 public class CreatePolicyResponseJS extends JavaScriptObject implements
         CreatePolicyResponse {
     
+    /** The Constant NAME. */
     public static final String NAME = "ns1.createPolicyResponse";
 
+    /**
+	 * Instantiates a new creates the policy response js.
+	 */
     protected CreatePolicyResponseJS () {}
 
     
+    /**
+	 * From json.
+	 * 
+	 * @param json
+	 *            the json
+	 * @return the creates the policy response
+	 */
     public static final native CreatePolicyResponse fromJSON (String json) /*-{
         try {
             return eval('(' + json + ')');
@@ -32,29 +42,41 @@ public class CreatePolicyResponseJS extends JavaScriptObject implements
         }
     }-*/;
     
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreatePolicyResponse#getPolicyId()
+     */
     @Override
     public final Long getPolicyId () {
         return Long.valueOf(getPolicyIdAsString());
     }
     
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreatePolicyResponse#getErrorMessage()
-     */
+	 * Gets the error message.
+	 * 
+	 * @return the error message
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreatePolicyResponse#getErrorMessage()
+	 */
     @Override
     public native final String getErrorMessage() /*-{
        return this["ns1.createPolicyResponse"]["ms.errorMessage"];
     }-*/;
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreatePolicyResponse#getPolicyId()
-     */
+	 * Gets the policy id as string.
+	 * 
+	 * @return the policy id as string
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreatePolicyResponse#getPolicyId()
+	 */
     public native final String getPolicyIdAsString() /*-{
         return this["ns1.createPolicyResponse"]["ns1.policyId"];
     }-*/;
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreatePolicyResponse#isErrored()
-     */
+	 * Checks if is errored.
+	 * 
+	 * @return true, if is errored
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreatePolicyResponse#isErrored()
+	 */
     @Override
     public native final boolean isErrored() /*-{
         if (this["ns1.createPolicyResponse"]["ms.ack"] === "Success")

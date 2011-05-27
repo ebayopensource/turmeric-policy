@@ -17,16 +17,27 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
 /**
- * FindSubjectGroupsReponseJS
- *
+ * FindSubjectGroupsReponseJS.
  */
 public class FindSubjectGroupsResponseJS extends JavaScriptObject implements
         FindSubjectGroupsResponse {
+    
+    /** The Constant NAME. */
     public final static String NAME = "ns1.findSubjectGroupsResponse";
     
+    /**
+	 * Instantiates a new find subject groups response js.
+	 */
     protected FindSubjectGroupsResponseJS() {}
     
     
+    /**
+	 * From json.
+	 * 
+	 * @param json
+	 *            the json
+	 * @return the find subject groups response
+	 */
     public static final native FindSubjectGroupsResponse fromJSON(String json) /*-{
         try {
             return eval('(' + json + ')');
@@ -36,20 +47,29 @@ public class FindSubjectGroupsResponseJS extends JavaScriptObject implements
     }-*/;
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse#getErrorMessage()
-     */
+	 * Gets the error message.
+	 * 
+	 * @return the error message
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse#getErrorMessage()
+	 */
     public final native String getErrorMessage() /*-{
         return this["ns1.findSubjectGroupsResponse"]["ms.errorMessage"];
     }-*/;
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse#getGroups()
-     */
+	 * Gets the groups as array.
+	 * 
+	 * @return the groups as array
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse#getGroups()
+	 */
     public final native JsArray<SubjectGroupJS> getGroupsAsArray() /*-{
         return this["ns1.findSubjectGroupsResponse"]["ns1.subjectGroups"];
     }-*/;
 
     
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse#getGroups()
+     */
     public final List<SubjectGroup> getGroups() {
         List<SubjectGroup> results = new ArrayList<SubjectGroup>();
         JsArray<SubjectGroupJS> groups = getGroupsAsArray();
@@ -59,9 +79,13 @@ public class FindSubjectGroupsResponseJS extends JavaScriptObject implements
         }
         return results;
     }
+    
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse#isErrored()
-     */
+	 * Checks if is errored.
+	 * 
+	 * @return true, if is errored
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse#isErrored()
+	 */
     public final native boolean isErrored() /*-{
         if (this["ns1.findSubjectGroupsResponse"]["ms.ack"] === "Success")
             return false;

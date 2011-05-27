@@ -13,32 +13,55 @@ import java.util.Map;
 
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetMetaDataResponse;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
 /**
- * GetMetaDataResponseJS
- *
+ * GetMetaDataResponseJS.
  */
 public class GetMetaDataResponseJS extends JavaScriptObject implements
         GetMetaDataResponse {
+    
+    /** The Constant NAME. */
     public static final String NAME = "ns1.getMetaDataResponse";
     
     
+    /**
+	 * The Class KeyValuePairJS.
+	 */
     public static class KeyValuePairJS extends JavaScriptObject {
         
+        /**
+		 * Instantiates a new key value pair js.
+		 */
         protected KeyValuePairJS() {}
         
+        /**
+		 * Gets the key.
+		 * 
+		 * @return the key
+		 */
         public final native String getKey() /*-{
             return this["ns1.key"];
         }-*/;
         
+        /**
+		 * Gets the value.
+		 * 
+		 * @return the value
+		 */
         public final native String getValue() /*-{
             return this["ns1.value"];
         }-*/;
     }
 
+    /**
+	 * From json.
+	 * 
+	 * @param json
+	 *            the json
+	 * @return the gets the meta data response
+	 */
     public static final native GetMetaDataResponse fromJSON (String json) /*-{
         try {
             return eval('(' + json + ')');
@@ -48,20 +71,29 @@ public class GetMetaDataResponseJS extends JavaScriptObject implements
     }-*/;
 
     
+    /**
+	 * Instantiates a new gets the meta data response js.
+	 */
     protected GetMetaDataResponseJS () {}
     
     
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetMetaDataResponse#getErrorMessage()
-     */
+	 * Gets the error message.
+	 * 
+	 * @return the error message
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetMetaDataResponse#getErrorMessage()
+	 */
     @Override
     public final native String getErrorMessage() /*-{
         return this["ns1.getMetaDataResponse"]["ms.errorMessage"];
     }-*/;
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetMetaDataResponse#getValues()
-     */
+	 * Gets the values.
+	 * 
+	 * @return the values
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetMetaDataResponse#getValues()
+	 */
     @Override
     public final Map<String, String> getValues() {
         Map<String,String> map = new HashMap<String,String>();
@@ -75,13 +107,21 @@ public class GetMetaDataResponseJS extends JavaScriptObject implements
     }
     
     
+    /**
+	 * Gets the key value pairs.
+	 * 
+	 * @return the key value pairs
+	 */
     public native final JsArray<KeyValuePairJS> getKeyValuePairs () /*-{
         return this["ns1.getMetaDataResponse"]["ns1.metadataValue"];
     }-*/;
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetMetaDataResponse#isErrored()
-     */
+	 * Checks if is errored.
+	 * 
+	 * @return true, if is errored
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetMetaDataResponse#isErrored()
+	 */
     @Override
     public final native boolean isErrored() /*-{
            if (this["ns1.getMetaDataResponse"]["ms.ack"] === "Success")

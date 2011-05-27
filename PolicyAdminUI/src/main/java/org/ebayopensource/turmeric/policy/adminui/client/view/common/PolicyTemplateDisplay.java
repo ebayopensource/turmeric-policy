@@ -11,10 +11,12 @@ package org.ebayopensource.turmeric.policy.adminui.client.view.common;
 import org.ebayopensource.turmeric.policy.adminui.client.Display;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 
-import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 
+/**
+ * The Interface PolicyTemplateDisplay.
+ */
 public interface PolicyTemplateDisplay {
 	
 	/**
@@ -25,24 +27,44 @@ public interface PolicyTemplateDisplay {
 	public interface MenuDisplay extends Display {
 
 		
+		/**
+		 * The Interface MenuSelectionEventHandler.
+		 */
 		public interface MenuSelectionEventHandler extends EventHandler {
 			void onSelection(UserAction action);
 		}
 		
+		/**
+		 * The Class MenuSelectionEvent.
+		 */
 		public class MenuSelectionEvent extends GwtEvent<MenuSelectionEventHandler> {
+			
+			/** The Constant TYPE. */
 			public static final Type<MenuSelectionEventHandler> TYPE = new Type<MenuSelectionEventHandler>();
 
 			private UserAction action;
 			
+			/**
+			 * Instantiates a new menu selection event.
+			 * 
+			 * @param action
+			 *            the action
+			 */
 			public MenuSelectionEvent(UserAction action) {
 				this.action = action;
 			}
 			
+			/* (non-Javadoc)
+			 * @see com.google.gwt.event.shared.GwtEvent#dispatch(com.google.gwt.event.shared.EventHandler)
+			 */
 			@Override
 			protected void dispatch(MenuSelectionEventHandler handler) {
 				handler.onSelection(action);
 			}
 
+			/* (non-Javadoc)
+			 * @see com.google.gwt.event.shared.GwtEvent#getAssociatedType()
+			 */
 			@Override
 			public Type<MenuSelectionEventHandler> getAssociatedType() {
 				return TYPE;
@@ -58,6 +80,7 @@ public interface PolicyTemplateDisplay {
 	 */
 	public interface PolicyPageTemplateDisplay extends Display {
 		//Minimun size required in a elements list to be rendered with scrollbar
+		/** The MI n_ scrollba r_ size. */
 		public static int MIN_SCROLLBAR_SIZE = 5;
 		Display getContentView();
 	

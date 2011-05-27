@@ -8,6 +8,9 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.client.view.policy;
 
+/**
+ * The Interface ViewComponent.
+ */
 public interface ViewComponent {
 
 	void reset();

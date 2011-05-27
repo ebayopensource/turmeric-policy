@@ -21,7 +21,20 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * The Class FileUploaderWidget.
+ */
 public class FileUploaderWidget {
+	
+	/**
+	 * Gets the file uploader widget.
+	 * 
+	 * @param form
+	 *            the form
+	 * @param entity
+	 *            the entity
+	 * @return the file uploader widget
+	 */
 	public static Widget getFileUploaderWidget(final FormPanel form,
 			final String entity) {
 

@@ -15,9 +15,13 @@ import java.util.List;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.shared.AppUserRole;
 
+/**
+ * The Class PolicyMenuUtil.
+ */
 public class PolicyMenuUtil {
 
 	
+	/** The Constant MAIN_MENU_ACTIONS. */
 	public final static UserAction[] MAIN_MENU_ACTIONS = new UserAction[] {
 		UserAction.CONSOLE_MAIN,
 		UserAction.POLICY_MAIN
@@ -52,19 +56,41 @@ public class PolicyMenuUtil {
 		UserAction.RESOURCE_DELETE
 	};
 	
+	/**
+	 * Gets the main menu support actions.
+	 * 
+	 * @return the main menu support actions
+	 */
 	public static UserAction[] getMainMenuSupportActions() {
 		return MAIN_MENU_ACTIONS;
 	}
 	
+	/**
+	 * Gets the policy admin menu supported actions.
+	 * 
+	 * @return the policy admin menu supported actions
+	 */
 	public static UserAction[] getPolicyAdminMenuSupportedActions() {
 		return POLICY_ADMIN_MENU_ACTIONS;
 	}
 	
+	/**
+	 * Gets the policy admin sub menu supported actions.
+	 * 
+	 * @return the policy admin sub menu supported actions
+	 */
 	public static UserAction[] getPolicyAdminSubMenuSupportedActions() {
 		return POLICY_ADMIN_SUBMENU_ACTIONS;
 	}
 	
 	
+	/**
+	 * Gets the permitted user actions.
+	 * 
+	 * @param role
+	 *            the role
+	 * @return the permitted user actions
+	 */
 	public static List<UserAction> getPermittedUserActions(AppUserRole role) {
 	    if (role.isAdmin()) {
 	        return Arrays.asList(UserAction.values());

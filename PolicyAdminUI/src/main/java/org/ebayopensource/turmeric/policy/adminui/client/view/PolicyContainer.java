@@ -14,45 +14,51 @@ import java.util.List;
 import org.ebayopensource.turmeric.policy.adminui.client.Display;
 import org.ebayopensource.turmeric.policy.adminui.client.PolicyDashboard;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.FooterWidget;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.HeaderWidget;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyMenuWidget;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
-import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * PolicyContainer
- *
+ * PolicyContainer.
  */
 public class PolicyContainer extends ResizeComposite implements HasWidgets, PolicyDashboard {
 
+    /** The content panel. */
     protected SplitLayoutPanel contentPanel;
     Widget policyContent;
     PolicyMenuWidget menuWidget;
 
+    /**
+	 * Instantiates a new policy container.
+	 */
     public PolicyContainer() {
         configureContent();
         initWidget(contentPanel);
     }
     
+    /**
+	 * Configure content.
+	 * 
+	 * @return the split layout panel
+	 */
     protected SplitLayoutPanel configureContent() {
         contentPanel = new SplitLayoutPanel();
         contentPanel.addWest(initMenuView(), 150);
         return contentPanel;
     }
 
+    /**
+	 * Inits the menu view.
+	 * 
+	 * @return the widget
+	 */
     protected Widget initMenuView() {
         ScrollPanel scroller = new ScrollPanel();
         menuWidget = new PolicyMenuWidget();
@@ -61,6 +67,9 @@ public class PolicyContainer extends ResizeComposite implements HasWidgets, Poli
     }
 
 
+    /* (non-Javadoc)
+     * @see com.google.gwt.user.client.ui.HasWidgets#add(com.google.gwt.user.client.ui.Widget)
+     */
     public void add(Widget arg0) {
         if (policyContent != null) {
             contentPanel.remove(policyContent);
@@ -71,6 +80,9 @@ public class PolicyContainer extends ResizeComposite implements HasWidgets, Poli
         contentPanel.add(policyContent);
     }
     
+    /* (non-Javadoc)
+     * @see com.google.gwt.user.client.ui.HasWidgets#clear()
+     */
     public void clear() {
         if (policyContent != null) {
             contentPanel.remove(policyContent);
@@ -79,10 +91,16 @@ public class PolicyContainer extends ResizeComposite implements HasWidgets, Poli
         this.onResize();
     }
 
+    /* (non-Javadoc)
+     * @see com.google.gwt.user.client.ui.HasWidgets#iterator()
+     */
     public Iterator<Widget> iterator() {
         return this.contentPanel.iterator();
     }
 
+    /* (non-Javadoc)
+     * @see com.google.gwt.user.client.ui.HasWidgets#remove(com.google.gwt.user.client.ui.Widget)
+     */
     public boolean remove(Widget arg0) {
         boolean result = contentPanel.remove(arg0);
         if (arg0 == policyContent)
@@ -94,35 +112,52 @@ public class PolicyContainer extends ResizeComposite implements HasWidgets, Poli
 
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.view.PolicyDashboard#activate(org.ebayopensource.turmeric.policy.adminui.client.Display)
-     */
+	 * Activate.
+	 * 
+	 * @param view
+	 *            the view
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.PolicyDashboard#activate(org.ebayopensource.turmeric.policy.adminui.client.Display)
+	 */
     @Override
     public void activate(Display view) {
         // TODO Auto-generated method stub
         
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.PolicyDashboard#setActions(java.util.List)
+     */
     public void setActions(List<UserAction> actions) {
         this.menuWidget.setActions(actions);
     }
 
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.view.PolicyDashboard#getSelector()
-     */
+	 * Gets the selector.
+	 * 
+	 * @return the selector
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.PolicyDashboard#getSelector()
+	 */
     @Override
     public HasSelectionHandlers<TreeItem> getSelector() {
         return menuWidget.getSelector();
     }
     
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.PolicyDashboard#setSelected(org.ebayopensource.turmeric.policy.adminui.client.model.UserAction)
+     */
     public void setSelected (UserAction action) {
         GWT.log("UserAction selected:"+action);
         this.menuWidget.setSelected(action);
     }
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.PolicyDashboard#error(java.lang.String)
-     */
+	 * Error.
+	 * 
+	 * @param err
+	 *            the err
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.PolicyDashboard#error(java.lang.String)
+	 */
     @Override
     public void error(String err) {
         ErrorDialog dialog = new ErrorDialog(true);

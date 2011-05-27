@@ -10,22 +10,19 @@ package org.ebayopensource.turmeric.policy.adminui.client.view;
 
 import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-
 /**
  * ErrorDialog
  * 
- * A popup to show an error message
- *
+ * A popup to show an error message.
  */
 public class ErrorDialog extends AbstractDialog {
     
+    /**
+	 * Instantiates a new error dialog.
+	 * 
+	 * @param animationEnabled
+	 *            the animation enabled
+	 */
     public ErrorDialog (boolean animationEnabled) {
         super(animationEnabled);
        

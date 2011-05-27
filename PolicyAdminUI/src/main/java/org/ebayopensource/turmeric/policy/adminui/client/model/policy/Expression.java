@@ -10,11 +10,36 @@
 package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 
 
+/**
+ * The Interface Expression.
+ */
 public interface Expression {
    
+    /**
+	 * Gets the id.
+	 * 
+	 * @return the id
+	 */
     public Long getId();
+    
+    /**
+	 * Gets the name.
+	 * 
+	 * @return the name
+	 */
     public String getName();
+    
+    /**
+	 * Gets the comment.
+	 * 
+	 * @return the comment
+	 */
     public String getComment();
     
+    /**
+	 * Gets the primitive value.
+	 * 
+	 * @return the primitive value
+	 */
     public PrimitiveValue getPrimitiveValue();
 }

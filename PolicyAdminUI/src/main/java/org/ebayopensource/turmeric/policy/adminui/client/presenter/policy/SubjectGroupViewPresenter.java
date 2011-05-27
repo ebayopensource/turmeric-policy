@@ -34,39 +34,114 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 /**
- * SubjectGroupViewPresenter
- * 
+ * SubjectGroupViewPresenter.
  */
 public class SubjectGroupViewPresenter extends AbstractGenericPresenter {
+	
+	/** The Constant PRESENTER_ID. */
 	public static final String PRESENTER_ID = "SubjectGroupView";
 
+	/** The event bus. */
 	protected HandlerManager eventBus;
+	
+	/** The view. */
 	protected SubjectGroupViewDisplay view;
+	
+	/** The group. */
 	protected SubjectGroup group;
+	
+	/** The service map. */
 	protected Map<SupportedService, PolicyAdminUIService> serviceMap;
 
+	/**
+	 * The Interface SubjectGroupViewDisplay.
+	 */
 	public interface SubjectGroupViewDisplay extends PolicyPageTemplateDisplay {
+		
+		/**
+		 * Sets the name.
+		 * 
+		 * @param name
+		 *            the new name
+		 */
 		public void setName(String name);
 
+		/**
+		 * Gets the name.
+		 * 
+		 * @return the name
+		 */
 		public String getName();
 
+		/**
+		 * Sets the description.
+		 * 
+		 * @param desc
+		 *            the new description
+		 */
 		public void setDescription(String desc);
 
+		/**
+		 * Gets the description.
+		 * 
+		 * @return the description
+		 */
 		public String getDescription();
 
+		/**
+		 * Sets the type.
+		 * 
+		 * @param type
+		 *            the new type
+		 */
 		public void setType(String type);
 
+		/**
+		 * Gets the type.
+		 * 
+		 * @return the type
+		 */
 		public String getType();
 
+		/**
+		 * Gets the cancel button.
+		 * 
+		 * @return the cancel button
+		 */
 		public HasClickHandlers getCancelButton();
 
+		/**
+		 * Sets the subjects.
+		 * 
+		 * @param subjects
+		 *            the new subjects
+		 */
 		public void setSubjects(List<String> subjects);
 
+		/**
+		 * Error.
+		 * 
+		 * @param msg
+		 *            the msg
+		 */
 		public void error(String msg);
 
+		/**
+		 * Clear.
+		 */
 		public void clear();
 	}
 
+	/**
+	 * Instantiates a new subject group view presenter.
+	 * 
+	 * @param eventBus
+	 *            the event bus
+	 * @param view
+	 *            the view
+	 * @param serviceMap
+	 *            the service map
+	 */
 	public SubjectGroupViewPresenter(HandlerManager eventBus,
 			SubjectGroupViewDisplay view,
 			Map<SupportedService, PolicyAdminUIService> serviceMap) {
@@ -99,6 +174,9 @@ public class SubjectGroupViewPresenter extends AbstractGenericPresenter {
 		return PRESENTER_ID;
 	}
 
+	/**
+	 * Bind.
+	 */
 	public void bind() {
 		this.view.getCancelButton().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -111,6 +189,9 @@ public class SubjectGroupViewPresenter extends AbstractGenericPresenter {
 		});
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#go(com.google.gwt.user.client.ui.HasWidgets, org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+	 */
 	public void go(final HasWidgets container, final HistoryToken token) {
 		// Get the id from the token
 		final String name = token

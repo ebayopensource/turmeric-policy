@@ -36,19 +36,45 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class SplashView extends Composite implements SplashPresenter.Display {
 	
+	/** The submit button. */
 	protected Button submitButton;
+	
+	/** The login label. */
 	protected Label loginLabel;
+	
+	/** The password label. */
 	protected Label passwordLabel;
+	
+	/** The domain label. */
 	protected Label domainLabel;
+	
+	/** The login. */
 	protected TextBox login;
+	
+	/** The password. */
 	protected TextBox password;
+	
+	/** The domain. */
 	protected TextBox domain;
+	
+	/** The logo. */
 	protected Image logo;
+	
+	/** The panel. */
 	protected VerticalPanel panel;
+	
+	/** The id. */
 	protected String id;
+	
+	/** The lang. */
 	protected static String lang;
+	
+	/** The display message. */
 	protected Label displayMessage;
 	
+	/**
+	 * Instantiates a new splash view.
+	 */
 	public SplashView ()
 	{
 		panel = new VerticalPanel();
@@ -175,40 +201,70 @@ public class SplashView extends Composite implements SplashPresenter.Display {
 		panel.add(displayMessage);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#activate()
+	 */
 	public void activate () {
 		this.login.setValue("");
 		this.password.setValue("");
 		setWidth("100%");
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.google.gwt.user.client.ui.Widget#asWidget()
+	 */
 	public Widget asWidget() {
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.SplashPresenter.Display#getSubmitButton()
+	 */
 	public HasClickHandlers getSubmitButton() {
 		return this.submitButton;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.SplashPresenter.Display#getLogin()
+	 */
 	public HasValue<String> getLogin() {
 		return this.login;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.SplashPresenter.Display#getPassword()
+	 */
 	public HasValue<String> getPassword() {
 		return this.password;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.SplashPresenter.Display#getDomain()
+	 */
 	public HasValue<String> getDomain() {
 	    return this.domain;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#getAssociatedId()
+	 */
 	public String getAssociatedId() {
 		return this.id;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#setAssociatedId(java.lang.String)
+	 */
 	public void setAssociatedId(String id) {
 		this.id = id;
 	}
 
+	/**
+	 * Configure language button.
+	 * 
+	 * @param button
+	 *            the button
+	 */
 	protected void configureLanguageButton (Button button) {
         button.addClickHandler(new ClickHandler() {
             public native void onClick(ClickEvent event) 
@@ -240,6 +296,9 @@ public class SplashView extends Composite implements SplashPresenter.Display {
         });
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.SplashPresenter.Display#promptMessage(java.lang.String)
+	 */
 	public void promptMessage(String message) {
 		displayMessage.setText(message);
 		displayMessage.setVisible(true);

@@ -11,6 +11,9 @@ import org.ebayopensource.turmeric.policy.adminui.client.shared.AppUser;
 
 import com.google.gwt.event.shared.EventHandler;
 
+/**
+ * The Interface LoginSuccessEventHandler.
+ */
 public interface LoginSuccessEventHandler extends EventHandler {
 	void onSuccess(AppUser appUser);
 }

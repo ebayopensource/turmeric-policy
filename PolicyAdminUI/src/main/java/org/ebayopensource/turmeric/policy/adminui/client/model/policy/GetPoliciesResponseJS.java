@@ -22,25 +22,30 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
 /**
- * GetPoliciesResponseJS
- * 
+ * GetPoliciesResponseJS.
  */
 public class GetPoliciesResponseJS extends JavaScriptObject implements
 		GetPoliciesResponse {
 
+	/** The Constant NAME. */
 	public static final String NAME = "ns1.findPoliciesResponse";
 
 	/**
-	 * PolicyJS
-	 * 
+	 * PolicyJS.
 	 */
 	public static class PolicyJS extends JavaScriptObject implements
 			GenericPolicy {
 
+		/**
+		 * Instantiates a new policy js.
+		 */
 		protected PolicyJS() {
 		}
 
 		/**
+		 * Gets the description.
+		 * 
+		 * @return the description
 		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy#getDescription()
 		 */
 		@Override
@@ -49,18 +54,27 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		}-*/;
 
 		/**
+		 * Gets the id as string.
+		 * 
+		 * @return the id as string
 		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy#getId()
 		 */
 		public final native String getIdAsString() /*-{
 			return this["@PolicyId"];
 		}-*/;
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy#getId()
+		 */
 		@Override
 		public final Long getId() {
 			return Long.valueOf(getIdAsString());
 		}
 
 		/**
+		 * Gets the name.
+		 * 
+		 * @return the name
 		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy#getName()
 		 */
 		@Override
@@ -69,6 +83,9 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		}-*/;
 
 		/**
+		 * Gets the type.
+		 * 
+		 * @return the type
 		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy#getType()
 		 */
 		@Override
@@ -77,6 +94,9 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		}-*/;
 
 		/**
+		 * Gets the rules.
+		 * 
+		 * @return the rules
 		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy#getRules()
 		 */
 		@Override
@@ -90,6 +110,11 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 			return rules;
 		}
 
+		/**
+		 * Gets the rule array.
+		 * 
+		 * @return the rule array
+		 */
 		public final native JsArray<RuleJS> getRuleArray() /*-{
 			if (this["ns1.Rule"])
 			return this["ns1.Rule"];
@@ -98,6 +123,9 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		}-*/;
 
 		/**
+		 * Gets the resources.
+		 * 
+		 * @return the resources
 		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy#getResources()
 		 */
 		@Override
@@ -111,6 +139,11 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 			return resources;
 		}
 
+		/**
+		 * Gets the resource array.
+		 * 
+		 * @return the resource array
+		 */
 		public final native JsArray<ResourceJS> getResourceArray() /*-{
 			if (this["ns1.Target"])
 			if (this["ns1.Target"]["ns1.Resources"])
@@ -122,13 +155,18 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		}-*/;
 
 		/**
-         * both Inclusion List & exclusion list are store at same list. the way to distinguish include subject as following example:
-		 * assume a subject Id is 705033744 then at request schema:
-		 * include subject looks like:
-		 * <ns1:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">(705033744)</ns1:AttributeValue>
-		 * exclusion subject looks like:
-		 * <ns1:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">(?!705033744)</ns1:AttributeValue>
-         */
+		 * both Inclusion List & exclusion list are store at same list. the way
+		 * to distinguish include subject as following example: assume a subject
+		 * Id is 705033744 then at request schema: include subject looks like:
+		 * <ns1:AttributeValue
+		 * DataType="http://www.w3.org/2001/XMLSchema#string"
+		 * >(705033744)</ns1:AttributeValue> exclusion subject looks like:
+		 * <ns1:AttributeValue
+		 * DataType="http://www.w3.org/2001/XMLSchema#string"
+		 * >(?!705033744)</ns1:AttributeValue>
+		 * 
+		 * @return the subject groups
+		 */
 		@Override
 		public final List<SubjectGroup> getSubjectGroups() {
 			List<SubjectGroup> subjectGroups = new ArrayList<SubjectGroup>();
@@ -156,13 +194,18 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		}
 
 		/**
-         * both Inclusion List & exclusion list are store at same list. the way to distinguish include subject as following example:
-		 * assume a subject Id is 705033744 then at request schema:
-		 * include subject looks like:
-		 * <ns1:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">(705033744)</ns1:AttributeValue>
-		 * exclusion subject looks like:
-		 * <ns1:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">(?!705033744)</ns1:AttributeValue>
-         */
+		 * both Inclusion List & exclusion list are store at same list. the way
+		 * to distinguish include subject as following example: assume a subject
+		 * Id is 705033744 then at request schema: include subject looks like:
+		 * <ns1:AttributeValue
+		 * DataType="http://www.w3.org/2001/XMLSchema#string"
+		 * >(705033744)</ns1:AttributeValue> exclusion subject looks like:
+		 * <ns1:AttributeValue
+		 * DataType="http://www.w3.org/2001/XMLSchema#string"
+		 * >(?!705033744)</ns1:AttributeValue>
+		 * 
+		 * @return the subjects
+		 */
 		@Override
 		public final List<Subject> getSubjects() {
 			List<Subject> subjects = new ArrayList<Subject>();
@@ -192,6 +235,11 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		
 
 		
+		/**
+		 * Gets the subjects array.
+		 * 
+		 * @return the subjects array
+		 */
 		public final native JsArray<SubjectJS> getSubjectsArray() /*-{
 			if (this["ns1.Target"])
 			if (this["ns1.Target"]["ns1.Subjects"])
@@ -202,6 +250,11 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 			return null;
 		}-*/;
 
+		/**
+		 * Gets the subject groups array.
+		 * 
+		 * @return the subject groups array
+		 */
 		public final native JsArray<SubjectGroupJS> getSubjectGroupsArray() /*-{
 			if (this["ns1.Target"])
 			if (this["ns1.Target"]["ns1.Subjects"])
@@ -212,6 +265,11 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 			return null;
 		}-*/;
 
+		/**
+		 * Gets the subject match type array.
+		 * 
+		 * @return the subject match type array
+		 */
 		public final native JsArray<SubjectMatchTypeJS> getSubjectMatchTypeArray() /*-{
 		if (this["ns1.Target"])
 			if (this["ns1.Target"]["ns1.Subjects"])
@@ -223,6 +281,9 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 			return null;
 		}-*/;
 		
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy#getLastModified()
+		 */
 		public final Date getLastModified() {
 			String tmp = getLastModifiedAsString();
 			try {
@@ -232,44 +293,71 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 			}
 		}
 
+		/**
+		 * Gets the last modified as string.
+		 * 
+		 * @return the last modified as string
+		 */
 		public final native String getLastModifiedAsString() /*-{
 			return this["@LastModified"];
 		}-*/;
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy#getCreatedBy()
+		 */
 		@Override
 		public final native String getCreatedBy() /*-{
 			return this["@CreatedBy"];
 		}-*/;
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy#getLastModifiedBy()
+		 */
 		@Override
 		public final native String getLastModifiedBy() /*-{
 			return this["@LastModifiedBy"];
 		}-*/;
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy#getCreationDate()
+		 */
 		@Override
 		public final Date getCreationDate() {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy#getEnabled()
+		 */
 		@Override
 		public final boolean getEnabled() {
 			return Boolean.valueOf(getEnabledAsString());
 		}
 
+		/**
+		 * Gets the enabled as string.
+		 * 
+		 * @return the enabled as string
+		 */
 		public native final String getEnabledAsString() /*-{
 			return this["@Active"];
 		}-*/;
 
 		
 		/**
-         * both Inclusion List & exclusion list are store at same list. the way to distinguish include subject as following example:
-		 * assume a subject Id is 705033744 then at request schema:
-		 * include subject looks like:
-		 * <ns1:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">(705033744)</ns1:AttributeValue>
-		 * exclusion subject looks like:
-		 * <ns1:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">(?!705033744)</ns1:AttributeValue>
-         */
+		 * both Inclusion List & exclusion list are store at same list. the way
+		 * to distinguish include subject as following example: assume a subject
+		 * Id is 705033744 then at request schema: include subject looks like:
+		 * <ns1:AttributeValue
+		 * DataType="http://www.w3.org/2001/XMLSchema#string"
+		 * >(705033744)</ns1:AttributeValue> exclusion subject looks like:
+		 * <ns1:AttributeValue
+		 * DataType="http://www.w3.org/2001/XMLSchema#string"
+		 * >(?!705033744)</ns1:AttributeValue>
+		 * 
+		 * @return the exclusion subjects
+		 */
         @Override
 		public final List<Subject> getExclusionSubjects() {
 	        List<Subject> exclusionSubjects = new ArrayList<Subject>();
@@ -291,13 +379,18 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
         }
         
         /**
-         * both Inclusion List & exclusion list are store at same list. the way to distinguish include subject as following example:
-		 * assume a subject group Id is 705033744 then at request schema:
-		 * include subject looks like:
-		 * <ns1:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">(705033744)</ns1:AttributeValue>
-		 * exclusion subject looks like:
-		 * <ns1:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">(?!705033744)</ns1:AttributeValue>
-         */
+		 * both Inclusion List & exclusion list are store at same list. the way
+		 * to distinguish include subject as following example: assume a subject
+		 * group Id is 705033744 then at request schema: include subject looks
+		 * like: <ns1:AttributeValue
+		 * DataType="http://www.w3.org/2001/XMLSchema#string"
+		 * >(705033744)</ns1:AttributeValue> exclusion subject looks like:
+		 * <ns1:AttributeValue
+		 * DataType="http://www.w3.org/2001/XMLSchema#string"
+		 * >(?!705033744)</ns1:AttributeValue>
+		 * 
+		 * @return the exclusion sg
+		 */
         	
 		public final List<SubjectGroup> getExclusionSG() { 
 	        List<SubjectGroup> exclusionSG = new ArrayList<SubjectGroup>();
@@ -329,15 +422,20 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 	}
 
 	/**
-	 * RuleJS
-	 * 
+	 * RuleJS.
 	 */
 	public static class RuleJS extends JavaScriptObject implements Rule {
 
+		/**
+		 * Instantiates a new rule js.
+		 */
 		protected RuleJS() {
 		}
 
 		/**
+		 * Gets the id.
+		 * 
+		 * @return the id
 		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.Rule#getId()
 		 */
 		@Override
@@ -349,11 +447,17 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 			return this["@RuleId"];
 		}-*/;
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Rule#getRuleName()
+		 */
 		@Override
 		public native final String getRuleName() /*-{
 			return this["@RuleName"];
 		}-*/;
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Rule#getDescription()
+		 */
 		@Override
 		public final String getDescription() {
 			// TODO Auto-generated method stub
@@ -361,6 +465,9 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		}
 
 		/**
+		 * Gets the effect.
+		 * 
+		 * @return the effect
 		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.Rule#getEffect()
 		 */
 		@Override
@@ -373,6 +480,9 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		}-*/;
 
 		/**
+		 * Gets the priority.
+		 * 
+		 * @return the priority
 		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.Rule#getPriority()
 		 */
 		@Override
@@ -384,6 +494,9 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 			return this["@Priority"];
 		}-*/;
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Rule#getVersion()
+		 */
 		@Override
 		public final Integer getVersion() {
 			// TODO Auto-generated method stub
@@ -391,6 +504,9 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		}
 
 		/**
+		 * Gets the rollover period.
+		 * 
+		 * @return the rollover period
 		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.Rule#getRolloverPeriod()
 		 */
 		@Override
@@ -403,6 +519,9 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		}-*/;
 
 		/**
+		 * Gets the effect duration.
+		 * 
+		 * @return the effect duration
 		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.Rule#getEffectDuration()
 		 */
 		@Override
@@ -414,6 +533,9 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 			return this["@EffectDuration"];
 		}-*/;
  
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Rule#getConditionDuration()
+		 */
 		@Override
 		public final Long getConditionDuration() {
 			// TODO Auto-generated method stub
@@ -421,6 +543,9 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		}
 
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Rule#getCondition()
+		 */
 		public final Condition getCondition() {
 			return getConditionsAsObject();
 		}
@@ -430,73 +555,110 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		}-*/;
 
 		/**
-		 * ConditionJS
-		 * 
+		 * ConditionJS.
 		 */
 		public static class ConditionJS extends JavaScriptObject implements
 				Condition {
 
+			/**
+			 * Instantiates a new condition js.
+			 */
 			protected ConditionJS() {
 			}
 
+			/* (non-Javadoc)
+			 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Condition#getExpression()
+			 */
 			@Override
 			public final Expression getExpression() {
 				return getExpressionAsObject();
 
 			}
 
+			/**
+			 * Gets the expression as object.
+			 * 
+			 * @return the expression as object
+			 */
 			public final native ExpressionJS getExpressionAsObject() /*-{
 				return (this["ns1.Expression"]);
 			}-*/;
 
 			/**
-			 * ExpressionJS
-			 * 
+			 * ExpressionJS.
 			 */
 			public static class ExpressionJS extends JavaScriptObject implements
 					Expression {
 
+				/**
+				 * Instantiates a new expression js.
+				 */
 				protected ExpressionJS() {
 				}
 
+				/* (non-Javadoc)
+				 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Expression#getId()
+				 */
 				@Override
 				public final Long getId() {
 					return null;
 				}
 
+				/* (non-Javadoc)
+				 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Expression#getName()
+				 */
 				public native final String getName() /*-{
 					return this["@Name"];
 				}-*/;
 
+				/* (non-Javadoc)
+				 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Expression#getComment()
+				 */
 				@Override
 				public final native String getComment() /*-{
 					return this["ns1.Comment"];
 				}-*/;
 
+				/* (non-Javadoc)
+				 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Expression#getPrimitiveValue()
+				 */
 				@Override
 				public final PrimitiveValue getPrimitiveValue() {
 					return getPrimitiveValueAsObject();
 				}
 
+				/**
+				 * Gets the primitive value as object.
+				 * 
+				 * @return the primitive value as object
+				 */
 				public final native PrimitiveValueJS getPrimitiveValueAsObject() /*-{
 					return this["ns1.PrimitiveValue"];
 				}-*/;
 
 				/**
-				 * PrimitiveValueJS
-				 * 
+				 * PrimitiveValueJS.
 				 */
 				public static class PrimitiveValueJS extends JavaScriptObject
 						implements PrimitiveValue {
 
+					/**
+					 * Instantiates a new primitive value js.
+					 */
 					protected PrimitiveValueJS() {
 					}
 
+					/* (non-Javadoc)
+					 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PrimitiveValue#getId()
+					 */
 					@Override
 					public final Long getId() {
 						return null;
 					}
 
+					/* (non-Javadoc)
+					 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PrimitiveValue#getType()
+					 */
 					@Override
 					public final SupportedPrimitive getType() {
 						return SupportedPrimitive.fromValue(getTypeAsString());
@@ -506,6 +668,9 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 						return this["@type"];
 					}-*/;
 
+					/* (non-Javadoc)
+					 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PrimitiveValue#getValue()
+					 */
 					@Override
 					public final native String getValue() /*-{
 						return this["@value"];
@@ -515,6 +680,9 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Rule#getAttributeList()
+		 */
 		@Override
 		public final List<RuleAttribute> getAttributeList() {
 			
@@ -532,21 +700,29 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		}-*/;
 
 		/**
-		 * RuleAttributeJS
-		 * 
+		 * RuleAttributeJS.
 		 */
 		public static class RuleAttributeJS extends JavaScriptObject
 				implements RuleAttribute {
 
+			/**
+			 * Instantiates a new rule attribute js.
+			 */
 			protected RuleAttributeJS() {
 			}
 
 			
-		    @Override
+		    /* (non-Javadoc)
+    		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.RuleAttribute#getKey()
+    		 */
+    		@Override
 			public native final String getKey() /*-{
 				return this["ns1.key"];
 			}-*/;
 
+			/* (non-Javadoc)
+			 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.RuleAttribute#getValue()
+			 */
 			@Override
 			public final native String getValue() /*-{
 				return this["ns1.value"];
@@ -557,21 +733,39 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 	}
 
 	/**
-	 * PolicySetJS
-	 * 
+	 * PolicySetJS.
 	 */
 	public static class PolicySetJS extends JavaScriptObject {
+		
+		/**
+		 * Instantiates a new policy set js.
+		 */
 		protected PolicySetJS() {
 		}
 
+		/**
+		 * Gets the policies.
+		 * 
+		 * @return the policies
+		 */
 		public final native JsArray<PolicyJS> getPolicies() /*-{
 			return this["ns1.policy"];
 		}-*/;
 	}
 
+	/**
+	 * Instantiates a new gets the policies response js.
+	 */
 	protected GetPoliciesResponseJS() {
 	}
 
+	/**
+	 * From json.
+	 * 
+	 * @param json
+	 *            the json
+	 * @return the gets the policies response js
+	 */
 	public static final native GetPoliciesResponseJS fromJSON(String json) /*-{
 		try {
 		return eval('(' + json + ')');
@@ -581,6 +775,9 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 	}-*/;
 
 	/**
+	 * Gets the error message.
+	 * 
+	 * @return the error message
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetPoliciesResponse#getErrorMessage()
 	 */
 	public native final String getErrorMessage() /*-{
@@ -588,6 +785,9 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 	}-*/;
 
 	/**
+	 * Gets the policies.
+	 * 
+	 * @return the policies
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetPoliciesResponse#getPolicies()
 	 */
 	public final Collection<GenericPolicy> getPolicies() {
@@ -600,6 +800,11 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		return policies;
 	}
 
+	/**
+	 * Gets the policy array.
+	 * 
+	 * @return the policy array
+	 */
 	public native final JsArray<PolicyJS> getPolicyArray() /*-{
 															if (this["ns1.findPoliciesResponse"]["ns1.policySet"])
 															return this["ns1.findPoliciesResponse"]["ns1.policySet"]["ns1.Policy"];
@@ -608,6 +813,9 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 															}-*/;
 
 	/**
+	 * Checks if is errored.
+	 * 
+	 * @return true, if is errored
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetPoliciesResponse#isErrored()
 	 */
 	public native final boolean isErrored() /*-{

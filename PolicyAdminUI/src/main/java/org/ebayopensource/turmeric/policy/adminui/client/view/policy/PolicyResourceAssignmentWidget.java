@@ -14,7 +14,6 @@ import java.util.List;
 import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.SelectBoxesWidget;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -30,24 +29,43 @@ import com.google.gwt.user.client.ui.ListBox;
  */
 public class PolicyResourceAssignmentWidget extends Composite {
     
+	/** The resource level label. */
 	protected Label resourceLevelLabel;
+    
+    /** The resource level box. */
     protected ListBox resourceLevelBox;
     
+    /** The resource type label. */
     protected Label resourceTypeLabel;
+    
+    /** The resource type box. */
     protected ListBox resourceTypeBox;
     
+    /** The resource name label. */
     protected Label resourceNameLabel;
+    
+    /** The resource name box. */
     protected ListBox resourceNameBox;
     
+    /** The panel. */
     protected FlowPanel panel;
+    
+    /** The table. */
     protected FlexTable table;
     
+    /** The add operation button. */
     protected Button addOperationButton;
+    
+    /** The del operation button. */
     protected Button delOperationButton;
     
+    /** The select boxes. */
     protected SelectBoxesWidget selectBoxes;
 
 
+    /**
+	 * Instantiates a new policy resource assignment widget.
+	 */
     public PolicyResourceAssignmentWidget()
     {
         panel = new FlowPanel();
@@ -62,30 +80,63 @@ public class PolicyResourceAssignmentWidget extends Composite {
 
  
 
+    /**
+	 * Gets the selected operations.
+	 * 
+	 * @return the selected operations
+	 */
     public List<String> getSelectedOperations() {
         return selectBoxes.getSelections();
     }
   
+    /**
+	 * Gets the available operations.
+	 * 
+	 * @return the available operations
+	 */
     public List<String> getAvailableOperations() {
         return selectBoxes.getAvailables();
     }
     
+    /**
+	 * Gets the resource name label.
+	 * 
+	 * @return the resource name label
+	 */
     public Label getResourceNameLabel() {
         return resourceNameLabel;
     }
     
+    /**
+	 * Gets the resource type label.
+	 * 
+	 * @return the resource type label
+	 */
     public Label getResourceTypeLabel() {
         return resourceTypeLabel;
     }
     
+    /**
+	 * Gets the resource level label.
+	 * 
+	 * @return the resource level label
+	 */
     public Label getResourceLevelLabel() {
         return resourceLevelLabel;
     }
     
+    /**
+	 * Gets the select boxes widget.
+	 * 
+	 * @return the select boxes widget
+	 */
     public SelectBoxesWidget getSelectBoxesWidget(){
     	return selectBoxes;
     }
     
+    /**
+	 * Clear.
+	 */
     public void clear () {
     	resourceLevelBox.clear();
         resourceLevelBox.setVisible(true);
@@ -112,20 +163,40 @@ public class PolicyResourceAssignmentWidget extends Composite {
     }
     
     
+    /**
+	 * Gets the resource type box.
+	 * 
+	 * @return the resource type box
+	 */
     public ListBox getResourceTypeBox(){
     	return resourceTypeBox;	
     }
     
 
+    /**
+	 * Gets the resource level box.
+	 * 
+	 * @return the resource level box
+	 */
     public ListBox getResourceLevelBox(){
     	return resourceLevelBox;	
     }
     
+    /**
+	 * Gets the resource name box.
+	 * 
+	 * @return the resource name box
+	 */
     public ListBox getResourceNameBox(){
     	return resourceNameBox;	
     }
     
     
+    /**
+	 * Gets the resource type.
+	 * 
+	 * @return the resource type
+	 */
     public String getResourceType() {
         int index = resourceTypeBox.getSelectedIndex();
         if (index < 0)
@@ -134,6 +205,11 @@ public class PolicyResourceAssignmentWidget extends Composite {
         return resourceTypeBox.getItemText(index);
     }
     
+    /**
+	 * Gets the resource name.
+	 * 
+	 * @return the resource name
+	 */
     public String getResourceName() {
         int index = resourceNameBox.getSelectedIndex();
         if (index < 0)
@@ -142,6 +218,11 @@ public class PolicyResourceAssignmentWidget extends Composite {
         return resourceNameBox.getItemText(index);
     }
     
+    /**
+	 * Gets the resource level.
+	 * 
+	 * @return the resource level
+	 */
     public String getResourceLevel() {
         int index = resourceLevelBox.getSelectedIndex();
         if (index < 0)
@@ -150,14 +231,32 @@ public class PolicyResourceAssignmentWidget extends Composite {
         return resourceLevelBox.getItemText(index);
     }
     
+    /**
+	 * Sets the available operations.
+	 * 
+	 * @param availableOperations
+	 *            the new available operations
+	 */
     public void setAvailableOperations (List<String> availableOperations) {
         selectBoxes.setAvailables(availableOperations);
     }
     
+    /**
+	 * Sets the selected operations.
+	 * 
+	 * @param selectedOperations
+	 *            the new selected operations
+	 */
     public void setSelectedOperations (List<String> selectedOperations) {
         selectBoxes.setSelections(selectedOperations);
     }
     
+    /**
+	 * Sets the resource levels.
+	 * 
+	 * @param resourceLevels
+	 *            the new resource levels
+	 */
     public void setResourceLevels (List<String> resourceLevels) {
         //enable the selection of a resource level
         resourceLevelBox.clear();
@@ -172,6 +271,12 @@ public class PolicyResourceAssignmentWidget extends Composite {
         setAvailableOperations(emptyList);
     }
     
+    /**
+	 * Sets the resource types.
+	 * 
+	 * @param availableResourceTypes
+	 *            the new resource types
+	 */
     public void setResourceTypes (List<String> availableResourceTypes) {
         //enable the selection of a resource type
         resourceTypeBox.clear();
@@ -185,6 +290,12 @@ public class PolicyResourceAssignmentWidget extends Composite {
         setAvailableOperations(emptyList);
     }
     
+    /**
+	 * Sets the resource names.
+	 * 
+	 * @param availableResourceNames
+	 *            the new resource names
+	 */
     public void setResourceNames (List<String> availableResourceNames) {
         //enable the selection of a resource type
         resourceNameBox.clear();
@@ -197,11 +308,17 @@ public class PolicyResourceAssignmentWidget extends Composite {
         setAvailableOperations(emptyList);
     }
     
+    /**
+	 * Creates the fields.
+	 */
     protected void createFields () {
         createResourceFields();
         createOperationFields();
     }
     
+    /**
+	 * Position fields.
+	 */
     protected void positionFields () {
     	 // resourceLevelBox add it first
         positionResourceLevelFields();

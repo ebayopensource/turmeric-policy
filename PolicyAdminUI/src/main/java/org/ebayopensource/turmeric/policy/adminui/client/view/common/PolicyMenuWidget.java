@@ -14,13 +14,15 @@ import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.MenuDisplay;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
+/**
+ * The Class PolicyMenuWidget.
+ */
 public class PolicyMenuWidget extends AbstractGenericView implements MenuDisplay {	
 
     private SimplePanel mainPanel;
@@ -31,18 +33,27 @@ public class PolicyMenuWidget extends AbstractGenericView implements MenuDisplay
     TreeItem editHistoryItem;
     TreeItem authPolCreateItem;
     
+    /**
+	 * Instantiates a new policy menu widget.
+	 */
     public PolicyMenuWidget() {		
         mainPanel = new SimplePanel();
         initWidget(mainPanel);
         initialize();
     }
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#activate()
+	 */
 	public void activate() {
 		this.asWidget().setVisible(true);
 	}
 	
 	
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView#initialize()
+	 */
 	@Override
 	public void initialize() {
 		mainPanel.clear();		
@@ -53,6 +64,12 @@ public class PolicyMenuWidget extends AbstractGenericView implements MenuDisplay
 		mainPanel.add(tree);	
 	}
 	
+	/**
+	 * Inits the subject group.
+	 * 
+	 * @param tree
+	 *            the tree
+	 */
 	public void initSubjectGroup(Tree tree) {
 	    Label sgHeader = new Label(PolicyAdminUIUtil.policyAdminConstants.subjectGroup());
 	    sgParent = tree.addItem(sgHeader);
@@ -65,6 +82,12 @@ public class PolicyMenuWidget extends AbstractGenericView implements MenuDisplay
 	    sgImportItem.setUserObject(UserAction.SUBJECT_GROUP_IMPORT);
 	}
 	
+	/**
+	 * Inits the policy.
+	 * 
+	 * @param tree
+	 *            the tree
+	 */
 	public void initPolicy(Tree tree) {
 	    Label policyHeader = new Label(PolicyAdminUIUtil.policyAdminConstants.policies());
 	    polParent = tree.addItem(policyHeader);
@@ -85,6 +108,12 @@ public class PolicyMenuWidget extends AbstractGenericView implements MenuDisplay
 	    rlPolCreateItem.setUserObject(UserAction.RL_POLICY_CREATE);
 	}
 
+	/**
+	 * Inits the entity history.
+	 * 
+	 * @param tree
+	 *            the tree
+	 */
 	public void initEntityHistory(Tree tree) {
 	    editHistoryItem = tree.addItem(new Label(PolicyAdminUIUtil.policyAdminConstants.changeHistory()));
 	    editHistoryItem.setState(true, false);
@@ -92,10 +121,21 @@ public class PolicyMenuWidget extends AbstractGenericView implements MenuDisplay
 	    editHistoryViewItem.setUserObject(UserAction.CHANGE_HISTORY_SUMMARY);
 	}
 	
+	/**
+	 * Gets the selector.
+	 * 
+	 * @return the selector
+	 */
 	public HasSelectionHandlers<TreeItem> getSelector() {
         return tree;
 	}
 
+	/**
+	 * Sets the actions.
+	 * 
+	 * @param actions
+	 *            the new actions
+	 */
 	public void setActions(List<UserAction> actions) {
 	    if (tree != null) {
 	        for (int i=0;i<tree.getItemCount();i++) {
@@ -106,6 +146,12 @@ public class PolicyMenuWidget extends AbstractGenericView implements MenuDisplay
 	    } 
 	}
 
+	/**
+	 * Sets the selected.
+	 * 
+	 * @param action
+	 *            the new selected
+	 */
 	public void setSelected (UserAction action) {
 	    if (tree != null) {
 	        for (int i=0;i<tree.getItemCount();i++) {

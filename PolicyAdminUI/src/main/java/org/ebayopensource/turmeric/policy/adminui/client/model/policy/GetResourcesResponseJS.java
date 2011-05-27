@@ -18,36 +18,49 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
 /**
- * GetResourcesResponseJS
- *
+ * GetResourcesResponseJS.
  */
 public class GetResourcesResponseJS extends JavaScriptObject implements
         GetResourcesResponse {
 
+    /** The Constant NAME. */
     public static final String NAME = "ns1.getResourcesResponse";
+    
     /**
-     * ResourceJS
-     *
-     */
+	 * ResourceJS.
+	 */
     public static class ResourceJS extends JavaScriptObject implements Resource {
 
-        protected ResourceJS() {}
         /**
-         * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource#getDescription()
-         */
+		 * Instantiates a new resource js.
+		 */
+        protected ResourceJS() {}
+        
+        /**
+		 * Gets the description.
+		 * 
+		 * @return the description
+		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource#getDescription()
+		 */
         @Override
         public final native String getDescription() /*-{
             return this["@Description"];
         }-*/;
 
         /**
-         * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource#getId()
-         */
+		 * Gets the id as string.
+		 * 
+		 * @return the id as string
+		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource#getId()
+		 */
        
         public final native String getIdAsString() /*-{
             return this["@ResourceId"];
         }-*/;
         
+        /* (non-Javadoc)
+         * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource#getId()
+         */
         @Override
         public final Long getId() {
             return Long.valueOf(getIdAsString());
@@ -55,8 +68,11 @@ public class GetResourcesResponseJS extends JavaScriptObject implements
         
     
         /**
-         * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource#getOpList()
-         */
+		 * Gets the op list.
+		 * 
+		 * @return the op list
+		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource#getOpList()
+		 */
         @Override
 		public final List<Operation> getOpList() {
 			List<Operation> operations = new ArrayList<Operation>();
@@ -68,21 +84,32 @@ public class GetResourcesResponseJS extends JavaScriptObject implements
 			return operations;
 		};
 		
+		/**
+		 * Gets the operations array.
+		 * 
+		 * @return the operations array
+		 */
 		public final native JsArray<OperationJS> getOperationsArray () /*-{
 	    	return this["ns1.Operation"];
 	    }-*/;
 	    
 		/**
-         * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource#getResourceName()
-         */
+		 * Gets the resource name.
+		 * 
+		 * @return the resource name
+		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource#getResourceName()
+		 */
         @Override
         public final native String getResourceName() /*-{
             return this["@ResourceName"];
         }-*/;
 
         /**
-         * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource#getResourceType()
-         */
+		 * Gets the resource type.
+		 * 
+		 * @return the resource type
+		 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource#getResourceType()
+		 */
         @Override
         public final native String getResourceType() /*-{
             return this["@ResourceType"];
@@ -90,8 +117,18 @@ public class GetResourcesResponseJS extends JavaScriptObject implements
     }
     
     
+    /**
+	 * Instantiates a new gets the resources response js.
+	 */
     protected GetResourcesResponseJS () {}
     
+    /**
+	 * From json.
+	 * 
+	 * @param json
+	 *            the json
+	 * @return the gets the resources response
+	 */
     public static final native GetResourcesResponse fromJSON (String json) /*-{
         try {
             return eval('(' + json + ')');
@@ -102,15 +139,21 @@ public class GetResourcesResponseJS extends JavaScriptObject implements
     
     
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetResourcesResponse#getErrorMessage()
-     */
+	 * Gets the error message.
+	 * 
+	 * @return the error message
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetResourcesResponse#getErrorMessage()
+	 */
     public native final String getErrorMessage() /*-{
         return this["ns1.getResourcesResponse"]["ms.errorMessage"];
     }-*/;
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetResourcesResponse#getResources()
-     */
+	 * Gets the resources.
+	 * 
+	 * @return the resources
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetResourcesResponse#getResources()
+	 */
     public final Collection<Resource> getResources() {
         List<Resource> resources = new ArrayList<Resource>();
         JsArray<ResourceJS> jsResources = getResourcesArray();
@@ -122,13 +165,21 @@ public class GetResourcesResponseJS extends JavaScriptObject implements
     }
     
     
+    /**
+	 * Gets the resources array.
+	 * 
+	 * @return the resources array
+	 */
     public native final JsArray<ResourceJS> getResourcesArray () /*-{
         return this["ns1.getResourcesResponse"]["ns1.resources"];
     }-*/; 
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetResourcesResponse#isErrored()
-     */
+	 * Checks if is errored.
+	 * 
+	 * @return true, if is errored
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetResourcesResponse#isErrored()
+	 */
     public native final boolean isErrored() /*-{
         if (this["ns1.getResourcesResponse"]["ms.ack"] === "Success")
             return false;

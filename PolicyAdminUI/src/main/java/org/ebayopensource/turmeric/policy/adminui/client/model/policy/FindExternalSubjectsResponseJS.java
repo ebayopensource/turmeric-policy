@@ -18,16 +18,26 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
 /**
- * FindExternalSubjectsResponseJS
- *
+ * FindExternalSubjectsResponseJS.
  */
 public class FindExternalSubjectsResponseJS extends JavaScriptObject implements
         FindExternalSubjectsResponse {
     
+    /** The Constant NAME. */
     public static final String NAME = "ns1.findExternalSubjectsResponse";
 
+    /**
+	 * Instantiates a new find external subjects response js.
+	 */
     protected FindExternalSubjectsResponseJS() {}
     
+    /**
+	 * From json.
+	 * 
+	 * @param json
+	 *            the json
+	 * @return the find external subjects response
+	 */
     public static final native FindExternalSubjectsResponse fromJSON(String json) /*-{
     try {
         return eval('(' + json + ')');
@@ -38,8 +48,11 @@ public class FindExternalSubjectsResponseJS extends JavaScriptObject implements
 
     
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindExternalSubjectsResponse#getSubjects()
-     */
+	 * Gets the subjects.
+	 * 
+	 * @return the subjects
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindExternalSubjectsResponse#getSubjects()
+	 */
     public final List<Subject> getSubjects() {
         List<Subject> results = new ArrayList<Subject>();
        JsArray<SubjectJS> subjects = getSubjectsArray();
@@ -51,22 +64,33 @@ public class FindExternalSubjectsResponseJS extends JavaScriptObject implements
     }
     
     
+    /**
+	 * Gets the subjects array.
+	 * 
+	 * @return the subjects array
+	 */
     public final native JsArray<SubjectJS> getSubjectsArray() /*-{
         return this["ns1.findExternalSubjectsResponse"]["ns1.subjects"];
     }-*/;
     
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindExternalSubjectGroupsResponse#getErrorMessage()
-     */
+	 * Gets the error message.
+	 * 
+	 * @return the error message
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindExternalSubjectGroupsResponse#getErrorMessage()
+	 */
     public final native String getErrorMessage() /*-{
         return this["ns1.findExternalSubjectsResponse"]["ms.errorMessage"];
     }-*/;
 
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindExternalSubjectGroupsResponse#isErrored()
-     */
+	 * Checks if is errored.
+	 * 
+	 * @return true, if is errored
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindExternalSubjectGroupsResponse#isErrored()
+	 */
     public final native boolean isErrored() /*-{
     if (this["ns1.findExternalSubjectsResponse"]["ms.ack"] === "Success")
         return false;

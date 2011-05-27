@@ -26,8 +26,21 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+/**
+ * The Class AuthzPolicyCreatePresenter.
+ */
 public class AuthzPolicyCreatePresenter extends PolicyCreatePresenter {
 
+	/**
+	 * Instantiates a new authz policy create presenter.
+	 * 
+	 * @param eventBus
+	 *            the event bus
+	 * @param view
+	 *            the view
+	 * @param serviceMap
+	 *            the service map
+	 */
 	public AuthzPolicyCreatePresenter(HandlerManager eventBus,
 			PolicyCreateDisplay view,
 			Map<SupportedService, PolicyAdminUIService> serviceMap) {
@@ -37,13 +50,20 @@ public class AuthzPolicyCreatePresenter extends PolicyCreatePresenter {
 		view.setExclusionListsVisible(false);
 	}
 
+	/** The Constant PRESENTER_ID. */
 	public final static String PRESENTER_ID = "AuthzPolicyCreate";
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#getId()
+	 */
 	@Override
 	public String getId() {
 		return PRESENTER_ID;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#getResourceLevels()
+	 */
 	@Override
 	public List<String> getResourceLevels() {
 		List<String> rsLevels = new ArrayList<String>();
@@ -51,6 +71,9 @@ public class AuthzPolicyCreatePresenter extends PolicyCreatePresenter {
 		return rsLevels;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#bindSaveButton()
+	 */
 	@Override
 	protected void bindSaveButton() {
 		{

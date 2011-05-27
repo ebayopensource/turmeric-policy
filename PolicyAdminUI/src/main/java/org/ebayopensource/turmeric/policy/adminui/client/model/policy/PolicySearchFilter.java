@@ -8,6 +8,9 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 
+/**
+ * The Interface PolicySearchFilter.
+ */
 public interface PolicySearchFilter {
 
 }

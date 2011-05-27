@@ -13,13 +13,21 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQuer
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
- * UpdateSubjectGroupsResponseJS
- *
+ * UpdateSubjectGroupsResponseJS.
  */
 public class UpdateSubjectGroupsResponseJS extends JavaScriptObject implements
         UpdateSubjectGroupsResponse {
+    
+    /** The Constant NAME. */
     public static final String NAME = "ns1.updateSubjectGroupsResponse";
 
+    /**
+	 * From json.
+	 * 
+	 * @param json
+	 *            the json
+	 * @return the update subject groups response js
+	 */
     public static final native UpdateSubjectGroupsResponseJS fromJSON (String json) /*-{
         try {
             return eval('(' + json + ')');
@@ -30,29 +38,47 @@ public class UpdateSubjectGroupsResponseJS extends JavaScriptObject implements
 
     
     
+    /**
+	 * Instantiates a new update subject groups response js.
+	 */
     protected UpdateSubjectGroupsResponseJS() {}
     
     
+    /**
+	 * Checks if is success.
+	 * 
+	 * @return the boolean
+	 */
     public final Boolean isSuccess () {
         return Boolean.valueOf(getResultAsString());
     }
+    
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.UpdateSubjectGroupsResponse#getErrorMessage()
-     */
+	 * Gets the error message.
+	 * 
+	 * @return the error message
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.UpdateSubjectGroupsResponse#getErrorMessage()
+	 */
     public final native String getErrorMessage() /*-{
         return this["ns1.updateSubjectGroupsResponse"]["ms.errorMessage"];
     }-*/;
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.UpdateSubjectGroupsResponse#isSuccess()
-     */
+	 * Gets the result as string.
+	 * 
+	 * @return the result as string
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.UpdateSubjectGroupsResponse#isSuccess()
+	 */
     public final native String getResultAsString() /*-{
         return this["ns1.updateSubjectGroupsResponse"]["ns1.success"];
     }-*/;
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.UpdateSubjectGroupsResponse#isErrored()
-     */
+	 * Checks if is errored.
+	 * 
+	 * @return true, if is errored
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.UpdateSubjectGroupsResponse#isErrored()
+	 */
     public final native boolean isErrored() /*-{
         if (this["ns1.updateSubjectGroupsResponse"]["ms.ack"] === "Success")
             return false;

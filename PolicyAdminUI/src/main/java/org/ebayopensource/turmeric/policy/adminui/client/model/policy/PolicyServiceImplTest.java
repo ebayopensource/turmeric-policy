@@ -9,7 +9,6 @@
 package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,21 +23,28 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQuer
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetPoliciesResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetResourcesResponse;
 
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * PolicyServiceImplTest
- *
+ * PolicyServiceImplTest.
  */
 public class PolicyServiceImplTest {
     PolicyQueryService service;
     
+    /**
+	 * Instantiates a new policy service impl test.
+	 * 
+	 * @param service
+	 *            the service
+	 */
     public PolicyServiceImplTest (PolicyQueryService service) {
         this.service = service;
     }
 
+    /**
+	 * Test.
+	 */
     public void test () {
         
         testResources();
@@ -54,8 +60,8 @@ public class PolicyServiceImplTest {
     }
     
     /**
-     * 
-     */
+	 * Test get policies by policy key.
+	 */
     public  void testGetPoliciesByPolicyKey() {
         PolicyKey key = new PolicyKey();
         key.setType("BLACKLIST");
@@ -76,6 +82,9 @@ public class PolicyServiceImplTest {
         });
     }
 
+    /**
+	 * Test resources.
+	 */
     public void testResources () {
         ResourceKey key = new ResourceKey();
         key.setType("SERVICE");
@@ -97,6 +106,9 @@ public class PolicyServiceImplTest {
     }
     
     
+    /**
+	 * Test find subjects.
+	 */
     public void testFindSubjects () {
         
         SubjectQuery query = new SubjectQuery();
@@ -119,6 +131,9 @@ public class PolicyServiceImplTest {
         });
     }
     
+    /**
+	 * Test find subject groups.
+	 */
     public void testFindSubjectGroups() {
         SubjectGroupQuery query = new SubjectGroupQuery();
         SubjectGroupKey key = new SubjectGroupKey();
@@ -140,6 +155,9 @@ public class PolicyServiceImplTest {
         });
     }
     
+    /**
+	 * Test create policy.
+	 */
     public void testCreatePolicy () {
         GenericPolicyImpl policy = new GenericPolicyImpl();
         policy.setType("BLACKLIST");
@@ -160,6 +178,9 @@ public class PolicyServiceImplTest {
         });
     }
     
+    /**
+	 * Test create subject groups.
+	 */
     public void testCreateSubjectGroups() {
         
         List<SubjectGroup> groups = new ArrayList<SubjectGroup>();
@@ -185,6 +206,9 @@ public class PolicyServiceImplTest {
     }
     
     
+    /**
+	 * Test delete policy.
+	 */
     public void testDeletePolicy() {
         PolicyKey key = new PolicyKey();
         key.setId(new Long(100));
@@ -204,6 +228,10 @@ public class PolicyServiceImplTest {
             }
         });
     }
+    
+    /**
+	 * Test disable policy.
+	 */
     public void testDisablePolicy() {
         PolicyKey key = new PolicyKey();
         key.setId(new Long(100));
@@ -224,6 +252,9 @@ public class PolicyServiceImplTest {
         });
     }
     
+    /**
+	 * Test enable policy.
+	 */
     public void testEnablePolicy() {
         PolicyKey key = new PolicyKey();
         key.setId(new Long(100));
@@ -245,6 +276,9 @@ public class PolicyServiceImplTest {
     }
     
     
+    /**
+	 * Test delete subject groups.
+	 */
     public void testDeleteSubjectGroups () {
         
         List<SubjectGroupKey> keys = new ArrayList<SubjectGroupKey>();

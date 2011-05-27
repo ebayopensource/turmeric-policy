@@ -26,6 +26,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * The Class SummaryPanel.
+ */
 public class SummaryPanel extends Composite {
     
     private FlowPanel panel;
@@ -39,6 +42,9 @@ public class SummaryPanel extends Composite {
     private Image infoImgLight;
     
     
+    /**
+	 * Instantiates a new summary panel.
+	 */
     public SummaryPanel () {
         panel = new FlowPanel();
         panel.addStyleName("summary-panel-item"); 
@@ -105,35 +111,81 @@ public class SummaryPanel extends Composite {
         initWidget(panel);
     }
 
+    /**
+	 * Sets the heading.
+	 * 
+	 * @param text
+	 *            the new heading
+	 */
     public void setHeading (String text) {
         headingLabel.setText(text);
     }
     
+    /**
+	 * Sets the contents.
+	 * 
+	 * @param widget
+	 *            the new contents
+	 */
     public void setContents (Widget widget) {
         scroller.clear();
         scroller.add(widget);
     }
     
+    /**
+	 * Gets the info button.
+	 * 
+	 * @return the info button
+	 */
     public HasClickHandlers getInfoButton () {
         return infoImg;
     }
     
+    /**
+	 * Sets the info.
+	 * 
+	 * @param info
+	 *            the new info
+	 */
     public void setInfo (String info) {
         this.info = info;
     }
     
+    /**
+	 * Sets the content container width.
+	 * 
+	 * @param width
+	 *            the new content container width
+	 */
     public void setContentContainerWidth (String width) {
         scroller.setWidth(width);
     }
     
+    /**
+	 * Sets the content container height.
+	 * 
+	 * @param height
+	 *            the new content container height
+	 */
     public void setContentContainerHeight (String height) {
         scroller.setHeight(height);
     }
     
+    /**
+	 * Gets the content container.
+	 * 
+	 * @return the content container
+	 */
     public Panel getContentContainer () {
         return scroller;
     }
     
+    /**
+	 * Sets the download url.
+	 * 
+	 * @param url
+	 *            the new download url
+	 */
     public void setDownloadUrl (String url) {
         downloadUrl = url;
     }

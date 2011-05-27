@@ -10,32 +10,67 @@ package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 
 import java.util.List;
 
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectQuery.SubjectTypeKey;
-
 /**
- * SubjectGroupQuery
- *
+ * SubjectGroupQuery.
  */
 public class SubjectGroupQuery {
     private List<SubjectGroupKey> subjectKeys;
     private String query;
     private boolean includeSubjects;
     
+    /**
+	 * Gets the group keys.
+	 * 
+	 * @return the group keys
+	 */
     public List<SubjectGroupKey> getGroupKeys() {
         return subjectKeys;
     }
+    
+    /**
+	 * Sets the group keys.
+	 * 
+	 * @param subjectKeys
+	 *            the new group keys
+	 */
     public void setGroupKeys(List<SubjectGroupKey> subjectKeys) {
         this.subjectKeys = subjectKeys;
     }
+    
+    /**
+	 * Gets the query.
+	 * 
+	 * @return the query
+	 */
     public String getQuery() {
         return query;
     }
+    
+    /**
+	 * Sets the query.
+	 * 
+	 * @param query
+	 *            the new query
+	 */
     public void setQuery(String query) {
         this.query = query;
     }
+    
+    /**
+	 * Sets the include subjects.
+	 * 
+	 * @param includeSubjects
+	 *            the new include subjects
+	 */
     public void setIncludeSubjects(boolean includeSubjects) {
         this.includeSubjects = includeSubjects;
     }
+    
+    /**
+	 * Checks if is include subjects.
+	 * 
+	 * @return true, if is include subjects
+	 */
     public boolean isIncludeSubjects() {
         return includeSubjects;
     }

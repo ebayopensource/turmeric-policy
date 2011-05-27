@@ -11,13 +11,14 @@ package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
-
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreateSubjectsResponse;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+/**
+ * The Class DummyPolicyQueryServiceImpl.
+ */
 public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
     private static long subjectGroupIdCounter = 0;
     
@@ -60,14 +61,24 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 	}
 
 	
+	/**
+	 * The Class CreateSubjectGroupsResponseImpl.
+	 */
 	public class CreateSubjectGroupsResponseImpl implements CreateSubjectGroupsResponse {
 
 	    private List<Long> ids;
 	    
-	    public void setSubjectGroupIds(List<Long> ids) {
+	    /**
+		 * Sets the subject group ids.
+		 * 
+		 * @param ids
+		 *            the new subject group ids
+		 */
+    	public void setSubjectGroupIds(List<Long> ids) {
 	        this.ids = ids;
 	    }
-        /**
+        
+        /* (non-Javadoc)
          * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreateSubjectGroupsResponse#getSubjectGroupIds()
          */
         @Override
@@ -75,16 +86,16 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
             return this.ids;
         }
 
-        /**
-         * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.BaseResponse#getErrorMessage()
+        /* (non-Javadoc)
+         * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreateSubjectGroupsResponse#getErrorMessage()
          */
         @Override
         public String getErrorMessage() {
             return null;
         }
 
-        /**
-         * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.BaseResponse#isErrored()
+        /* (non-Javadoc)
+         * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreateSubjectGroupsResponse#isErrored()
          */
         @Override
         public boolean isErrored() {
@@ -92,64 +103,10 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
         }
 	    
 	}
-
-
-	private GenericPolicyImpl createDummyPolicy(long id, String type, boolean status) {
-		GenericPolicyImpl policy = new GenericPolicyImpl();
-		policy.setId((long) id);
-		policy.setName(type + "-" + id);
-		policy.setDescription(type + "-DESC-" + id);
-		policy.setType(type);
-		long newDate = new Date().getTime() - 400000000 * id;
-		policy.setCreationDate(new Date(newDate));
-		policy.setCreatedBy(type + "-CREATOR-" + id);
-		long updatedDate = new Date().getTime() - 100000 * id;
-		policy.setLastModified(new Date(updatedDate));
-		policy.setLastModifiedBy(type + "-MOD-" + id);
-		policy.setEnabled(status);
-		return policy;
-	}
-	/*
-
-	public void getPolicy(GetPolicyRequest request,
-			AsyncCallback<GetPolicyResponse> callback) {
-		GetPolicyResponse response = new GetPolicyResponse();
-		long id = new Date().getTime();
-		GenericPolicy policy = new GenericPolicy();
-		policy.setId(id);
-		policy.setName("Policy" + id);
-		policy.setDescription("Description" + id);
-		policy.setType("AUTHZ");
-		policy.setCreatedBy("Creator" + id);
-		long newDate = new Date().getTime() - 100000 * 5;
-		policy.setLastModified(new Date(newDate));
-		policy.setLastModifiedBy("Modifier" + id);
-		policy.setEnabled(true);
-
-		// resources
-		List<Resource> resources = new ArrayList<Resource>();
-		for (int iter = 1; iter < 15; iter++) {
-			Resource resource = new Resource();
-			resource.setId((long) iter);
-			resource.setResourceName("Resource" + iter);
-			resource.setDescription("Description" + iter);
-			resource.setResourceType("Resource Type" + iter);
-
-			List<String> opNames = new ArrayList<String>();
-			opNames.add("Operation_1");
-			opNames.add("Operation_2");
-			opNames.add("Operation_3");
-			resource.setOpList(opNames);
-
-			resources.add(resource);
-		}
-		policy.setResources(resources);
-
-		response.setPolicy(policy);
-		callback.onSuccess(response);
-	}
-*/
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#getResources(java.util.List, com.google.gwt.user.client.rpc.AsyncCallback)
+	 */
 	public void getResources(List<ResourceKey> keys,
 	                         AsyncCallback<GetResourcesResponse> callback) {
 
@@ -303,6 +260,9 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 		callback.onSuccess(response);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#deleteResources(java.util.List, com.google.gwt.user.client.rpc.AsyncCallback)
+	 */
 	public void deleteResources(List<ResourceKey> keys,
 	                           AsyncCallback<DeleteResourceResponse> callback) {
 	    DeleteResourceResponse response = new DeleteResourceResponse() {
@@ -319,6 +279,9 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 	    callback.onSuccess(response);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#enablePolicy(org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyKey, com.google.gwt.user.client.rpc.AsyncCallback)
+	 */
 	public void enablePolicy(PolicyKey key, AsyncCallback<EnablePolicyResponse> callback) {
 	    EnablePolicyResponse response = new EnablePolicyResponse() {
 	        @Override
@@ -334,6 +297,9 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 	    callback.onSuccess(response);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#disablePolicy(org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyKey, com.google.gwt.user.client.rpc.AsyncCallback)
+	 */
 	public void disablePolicy(PolicyKey key, AsyncCallback<DisablePolicyResponse> callback) {
 	    DisablePolicyResponse response = new DisablePolicyResponse() {
 	        @Override
@@ -359,6 +325,9 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 	}
 	*/
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#deletePolicy(org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyKey, com.google.gwt.user.client.rpc.AsyncCallback)
+	 */
 	public void deletePolicy(PolicyKey key, AsyncCallback<DeletePolicyResponse> callback) {
 		DeletePolicyResponse response = new DeletePolicyResponse() 
 		{
@@ -388,6 +357,9 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 		response.setResult(Boolean.TRUE);
 		callback.onSuccess(response);
 	}
+	 */
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#findPolicies(java.lang.Long, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.PolicyOutputSelector, org.ebayopensource.turmeric.policy.adminui.client.model.policy.QueryCondition, com.google.gwt.user.client.rpc.AsyncCallback)
 	 */
 	@Override
 	public void findPolicies(Long sinceLastModifiedTime,
@@ -496,6 +468,9 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 	
 
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#deleteSubjectGroups(java.util.List, com.google.gwt.user.client.rpc.AsyncCallback)
+	 */
 	@Override
 	public void deleteSubjectGroups(List<SubjectGroupKey> keys,
 			AsyncCallback<DeleteSubjectGroupResponse> callback) {
@@ -515,7 +490,7 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 		callback.onSuccess(response);
 	}
 
-    /**
+    /* (non-Javadoc)
      * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#createSubjectGroups(java.util.List, com.google.gwt.user.client.rpc.AsyncCallback)
      */
 	@Override
@@ -524,7 +499,7 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 	    List<Long> ids = new ArrayList<Long>();
 	    CreateSubjectGroupsResponseImpl impl = new CreateSubjectGroupsResponseImpl();
 	    if (groups != null) {
-	        for (SubjectGroup g:groups) {
+	    	for (SubjectGroup g:groups) {
 	            ids.add(new Long(subjectGroupIdCounter++));
 	        }
 	    }
@@ -595,6 +570,9 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
         
     }
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#getEntityHistory(java.lang.Long, java.lang.Long, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, com.google.gwt.user.client.rpc.AsyncCallback)
+	 */
 	@Override
 	public void getEntityHistory(Long startDate, Long endDate,
 			List<PolicyKey> polKeys, List<ResourceKey> resKeys,
@@ -605,15 +583,17 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#findExternalSubjects(org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectQuery, com.google.gwt.user.client.rpc.AsyncCallback)
+	 */
 	public void findExternalSubjects(SubjectQuery query,
 			AsyncCallback<FindExternalSubjectsResponse> callback) {
 		
 		
 	}
 
-	/**
-	 * Creates internal subjects based on external ones
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#createSubjects(List<org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subjects>, com.google.gwt.user.client.rpc.AsyncCallback)
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#createSubjects(java.util.List, com.google.gwt.user.client.rpc.AsyncCallback)
 	 */
 	@Override
 	public void createSubjects(List<Subject> subject,

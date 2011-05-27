@@ -53,20 +53,51 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.TreeItem;
 
+/**
+ * The Class PolicyController.
+ */
 public class PolicyController implements Presenter, Controller {
 
+	/** The Constant PRESENTER_ID. */
 	public final static String PRESENTER_ID = "PolicyMain";
 
+	/** The event bus. */
 	protected HandlerManager eventBus;
+	
+	/** The view. */
 	protected PolicyDashboard view;
+	
+	/** The presenters. */
 	protected Map<String, Presenter> presenters = new HashMap<String, Presenter>();
+	
+	/** The actions map. */
 	protected Map<UserAction, Presenter> actionsMap = new HashMap<UserAction, Presenter>();
+	
+	/** The presenters map. */
 	protected Map<Presenter, UserAction> presentersMap = new HashMap<Presenter, UserAction>();
+	
+	/** The service map. */
 	protected Map<SupportedService, PolicyAdminUIService> serviceMap;
+	
+	/** The added. */
 	protected boolean added;
+	
+	/** The meta init. */
 	protected boolean metaInit = false;
+	
+	/** The container. */
 	protected HasWidgets container;
 
+	/**
+	 * Instantiates a new policy controller.
+	 * 
+	 * @param eventBus
+	 *            the event bus
+	 * @param view
+	 *            the view
+	 * @param serviceMap
+	 *            the service map
+	 */
 	public PolicyController(HandlerManager eventBus, PolicyDashboard view,
 			Map<SupportedService, PolicyAdminUIService> serviceMap) {
 		this.eventBus = eventBus;
@@ -222,6 +253,9 @@ public class PolicyController implements Presenter, Controller {
 		addUserAction(UserAction.POLICY_VIEW, presenter);
 	}
 
+	/**
+	 * Bind.
+	 */
 	public void bind() {
 
 		this.view.getSelector().addSelectionHandler(
@@ -248,6 +282,9 @@ public class PolicyController implements Presenter, Controller {
 				});
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#go(com.google.gwt.user.client.ui.HasWidgets, org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+	 */
 	public void go(HasWidgets container, final HistoryToken token) {
 		this.container = container;
 		// if (!added) {
@@ -265,31 +302,65 @@ public class PolicyController implements Presenter, Controller {
 		selectPresenter(token);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#getId()
+	 */
 	public String getId() {
 		return PRESENTER_ID;
 	}
 
+	/**
+	 * Adds the user action.
+	 * 
+	 * @param action
+	 *            the action
+	 * @param p
+	 *            the p
+	 */
 	public void addUserAction(UserAction action, Presenter p) {
 		actionsMap.put(action, p);
 		presentersMap.put(p, action);
 	}
 
+	/**
+	 * Gets the presenter.
+	 * 
+	 * @param action
+	 *            the action
+	 * @return the presenter
+	 */
 	public Presenter getPresenter(UserAction action) {
 		return actionsMap.get(action);
 	}
 
+	/**
+	 * Gets the user action.
+	 * 
+	 * @param p
+	 *            the p
+	 * @return the user action
+	 */
 	public UserAction getUserAction(Presenter p) {
 		return presentersMap.get(p);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Controller#addPresenter(java.lang.String, org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter)
+	 */
 	public void addPresenter(String id, Presenter p) {
 		presenters.put(id, p);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Controller#getPresenter(java.lang.String)
+	 */
 	public Presenter getPresenter(String id) {
 		return presenters.get(id);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Controller#selectPresenter(org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+	 */
 	public void selectPresenter(HistoryToken token) {
 
 		if (token != null) {

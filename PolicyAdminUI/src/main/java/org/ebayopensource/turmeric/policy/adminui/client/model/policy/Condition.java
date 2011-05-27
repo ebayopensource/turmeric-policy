@@ -10,7 +10,15 @@
 package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 
 
+/**
+ * The Interface Condition.
+ */
 public interface Condition {
    
+    /**
+	 * Gets the expression.
+	 * 
+	 * @return the expression
+	 */
     public Expression getExpression();
 }

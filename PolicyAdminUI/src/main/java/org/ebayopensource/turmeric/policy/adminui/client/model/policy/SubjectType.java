@@ -17,8 +17,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQuer
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * SubjectType
- *
+ * SubjectType.
  */
 public class SubjectType {
 
@@ -26,6 +25,11 @@ public class SubjectType {
     private static boolean init;
     
     
+    /**
+	 * Gets the values.
+	 * 
+	 * @return the values
+	 */
     public static List<String> getValues() {
         if (values == null)
             return null;
@@ -33,6 +37,14 @@ public class SubjectType {
         return Collections.unmodifiableList(values);
     }
     
+    /**
+	 * Inits the.
+	 * 
+	 * @param service
+	 *            the service
+	 * @param callback
+	 *            the callback
+	 */
     public static void init (PolicyQueryService service, final AsyncCallback<List<String>> callback) {
         if (init)
             return;

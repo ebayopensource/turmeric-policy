@@ -8,16 +8,8 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.client.view.common;
 
-import java.util.List;
-import java.util.Map;
-
 import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
-import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.HasChangeHandlers;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -25,15 +17,23 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * The Class HeaderWidget.
+ */
 public class HeaderWidget extends Composite {
 	
 	private HasClickHandlers logo;
 	private Button logoutButton;
 
+	/**
+	 * Instantiates a new header widget.
+	 * 
+	 * @param width
+	 *            the width
+	 */
 	public HeaderWidget(String width) {
 		Panel panel = new FlowPanel();
 	    panel.addStyleName("header");
@@ -59,16 +59,32 @@ public class HeaderWidget extends Composite {
 
 	
 
+	/**
+	 * Sets the user name.
+	 * 
+	 * @param username
+	 *            the new user name
+	 */
 	public void setUserName (String username) {
 	    if (username == null  || "".equals(username))
 	        username = "";
 	    logoutButton.setText(PolicyAdminUIUtil.constants.logout()+":"+username);
 	}
 
+	/**
+	 * Gets the logo component.
+	 * 
+	 * @return the logo component
+	 */
 	public HasClickHandlers getLogoComponent() {
 		return logo;
 	}
 	
+	/**
+	 * Gets the logout component.
+	 * 
+	 * @return the logout component
+	 */
 	public HasClickHandlers getLogoutComponent() {
 		return logoutButton;
 	}

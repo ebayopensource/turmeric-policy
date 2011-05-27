@@ -8,6 +8,9 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.client.model;
 
+/**
+ * The Enum UserAction.
+ */
 public enum UserAction {
 	UNKNOWN,
 	

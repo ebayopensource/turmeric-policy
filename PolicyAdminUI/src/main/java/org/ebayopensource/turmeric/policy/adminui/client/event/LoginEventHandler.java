@@ -10,6 +10,9 @@ package org.ebayopensource.turmeric.policy.adminui.client.event;
 
 import com.google.gwt.event.shared.EventHandler;
 
+/**
+ * The Interface LoginEventHandler.
+ */
 public interface LoginEventHandler extends EventHandler {
 	  void onLogin(LoginEvent event);
 

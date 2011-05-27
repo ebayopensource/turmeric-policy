@@ -19,7 +19,6 @@ import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.AuthzP
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.BLPolicyCreatePresenter;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.HistoryChangeSummaryPresenter;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyController;
-import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyImportPresenter;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.RLPolicyCreatePresenter;
@@ -30,6 +29,9 @@ import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.WLPoli
 
 import com.google.gwt.user.client.History;
 
+/**
+ * The Class PresenterUtil.
+ */
 public class PresenterUtil {
 	
 	private final static Map<UserAction, String> ACTION_PRESENTERID_MAPPER = new HashMap<UserAction, String>();
@@ -51,6 +53,14 @@ public class PresenterUtil {
 		
 	}
 	
+	/**
+	 * Force redirect to presenter.
+	 * 
+	 * @param token
+	 *            the token
+	 * @param presenter
+	 *            the presenter
+	 */
 	public static void forceRedirectToPresenter(HistoryToken token, Presenter presenter) {
 		if (token == null || !presenter.getId().equals(token.getPresenterId())) {
 			History.newItem(HistoryToken.newHistoryToken(presenter.getId(), null).toString());
@@ -58,6 +68,12 @@ public class PresenterUtil {
 		History.fireCurrentHistoryState();
 	}
 	
+	/**
+	 * Force redirect to splash presenter.
+	 * 
+	 * @param token
+	 *            the token
+	 */
 	public static void forceRedirectToSplashPresenter(HistoryToken token) {
 		if (token == null || !SplashPresenter.SPLASH_ID.equals(token.getPresenterId())) {
 			History.newItem(HistoryToken.newHistoryToken(SplashPresenter.SPLASH_ID, null).toString());
@@ -65,6 +81,13 @@ public class PresenterUtil {
 		History.fireCurrentHistoryState();
 	}
 	
+	/**
+	 * Gets the presenter id.
+	 * 
+	 * @param action
+	 *            the action
+	 * @return the presenter id
+	 */
 	public static String getPresenterId(UserAction action) {
 		return ACTION_PRESENTERID_MAPPER.get(action);
 	}

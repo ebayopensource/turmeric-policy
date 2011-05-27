@@ -11,6 +11,9 @@ package org.ebayopensource.turmeric.policy.adminui.client;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * The Interface Container.
+ */
 public interface Container extends HasWidgets {
 	Widget asWidget();
 

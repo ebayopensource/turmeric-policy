@@ -12,77 +12,121 @@ import java.util.Iterator;
 
 import org.ebayopensource.turmeric.policy.adminui.client.Dashboard;
 import org.ebayopensource.turmeric.policy.adminui.client.Display;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.FooterWidget;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.HeaderWidget;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * The Class DashboardContainer.
+ */
 public class DashboardContainer extends ResizeComposite implements HasWidgets, Dashboard {
+	
+	/** The content panel. */
 	protected TabLayoutPanel contentPanel;
 
 
+	/**
+	 * Instantiates a new dashboard container.
+	 */
 	public DashboardContainer() {
 	    configureContent();
 	    initWidget(contentPanel);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Dashboard#getTabSelector()
+	 */
 	public HasSelectionHandlers<Integer> getTabSelector () {
 	    return contentPanel;
 	}
 
+	/**
+	 * Configure content.
+	 * 
+	 * @return the tab layout panel
+	 */
 	public TabLayoutPanel configureContent() {
 		contentPanel = new TabLayoutPanel(2.5, Unit.EM);
 		return contentPanel;
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Dashboard#addView(org.ebayopensource.turmeric.policy.adminui.client.Display, java.lang.String)
+	 */
 	public int addView (Display view, String name) {
 		this.contentPanel.add(view.asWidget(), name);
 		return this.contentPanel.getWidgetIndex(view.asWidget());
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Dashboard#activate(org.ebayopensource.turmeric.policy.adminui.client.Display)
+	 */
 	public void activate(Display view) {
 		this.contentPanel.selectTab(view.asWidget(), false);	
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Dashboard#getIndex(org.ebayopensource.turmeric.policy.adminui.client.Display)
+	 */
 	public int getIndex(Display view) {
 		return this.contentPanel.getWidgetIndex(view.asWidget());
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Dashboard#getView(java.lang.Integer)
+	 */
 	public Display getView (Integer index) {
 	    return (Display)this.contentPanel.getWidget(index.intValue());
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.google.gwt.user.client.ui.Widget#asWidget()
+	 */
 	public Widget asWidget() {
 		return this;
 	}
 	
 	
+	/**
+	 * Gets the content panel.
+	 * 
+	 * @return the content panel
+	 */
 	public TabLayoutPanel getContentPanel () {
 		return this.contentPanel;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.google.gwt.user.client.ui.HasWidgets#add(com.google.gwt.user.client.ui.Widget)
+	 */
 	public void add(Widget arg0) {
 	  //this.mainPanel.add(arg0);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.google.gwt.user.client.ui.HasWidgets#clear()
+	 */
 	public void clear() {
 		//this.mainPanel.clear();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.google.gwt.user.client.ui.HasWidgets#iterator()
+	 */
 	public Iterator<Widget> iterator() {
 		//return this.mainPanel.iterator();
 	    return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.google.gwt.user.client.ui.HasWidgets#remove(com.google.gwt.user.client.ui.Widget)
+	 */
 	public boolean remove(Widget arg0) {
 		//return this.mainPanel.remove(arg0);
 	    return false;

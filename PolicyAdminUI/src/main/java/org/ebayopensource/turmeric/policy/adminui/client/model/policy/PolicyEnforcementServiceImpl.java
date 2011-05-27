@@ -24,21 +24,44 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * PolicyEnforcementServiceImpl
- *
+ * PolicyEnforcementServiceImpl.
  */
 public class PolicyEnforcementServiceImpl  extends AbstractPolicyAdminUIService implements PolicyEnforcementService {
 
     private static final String BASE_POLICY_URL =  GWT.getModuleBaseURL()+"policyEnforcement";
 
+    /**
+	 * Instantiates a new policy enforcement service impl.
+	 */
     public PolicyEnforcementServiceImpl () {    
         namespaces.put("ns1", SECURITY_NAMESPACE);
         serviceNameHeaderValue += "PolicyEnforcementService";
     }
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnforcementService#verify(org.ebayopensource.turmeric.policy.adminui.client.model.policy.OperationKey, java.util.List, java.util.Map, java.util.List, java.util.Map, java.util.List, java.lang.String, com.google.gwt.user.client.rpc.AsyncCallback)
-     */
+	 * Verify.
+	 * 
+	 * @param opKey
+	 *            the op key
+	 * @param policyTypes
+	 *            the policy types
+	 * @param credentials
+	 *            the credentials
+	 * @param subjectTypes
+	 *            the subject types
+	 * @param extendedInfo
+	 *            the extended info
+	 * @param accessControlObjects
+	 *            the access control objects
+	 * @param resourceType
+	 *            the resource type
+	 * @param callback
+	 *            the callback
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnforcementService#verify(org.ebayopensource.turmeric.policy.adminui.client.model.policy.OperationKey,
+	 *      java.util.List, java.util.Map, java.util.List, java.util.Map,
+	 *      java.util.List, java.lang.String,
+	 *      com.google.gwt.user.client.rpc.AsyncCallback)
+	 */
     @Override
     public void verify(OperationKey opKey, List<String> policyTypes,
                        Map<String, String> credentials,

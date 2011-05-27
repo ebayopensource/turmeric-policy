@@ -11,11 +11,35 @@ package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 import java.util.Date;
 
 /**
- * EntityHistory
+ * EntityHistory.
  */
 public interface EntityHistory {
+    
+    /**
+	 * Gets the comments.
+	 * 
+	 * @return the comments
+	 */
     public String getComments();
+    
+    /**
+	 * Gets the login subject.
+	 * 
+	 * @return the login subject
+	 */
     public String getLoginSubject();
+    
+    /**
+	 * Gets the audit type.
+	 * 
+	 * @return the audit type
+	 */
     public String getAuditType();
+    
+    /**
+	 * Gets the last modified time.
+	 * 
+	 * @return the last modified time
+	 */
     public Date getLastModifiedTime();
 }

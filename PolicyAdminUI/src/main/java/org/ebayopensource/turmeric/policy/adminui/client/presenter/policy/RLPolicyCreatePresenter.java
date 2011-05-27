@@ -14,13 +14,16 @@ import java.util.Map;
 
 import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.SupportedService;
-import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken;
+import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Condition;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ConditionImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ExpressionImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Operation;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetResourcesResponse;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.ResourceLevel;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.RuleEffectType;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PrimitiveValueImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ResourceKey;
@@ -28,9 +31,6 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.RuleAttrib
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.RuleAttributeImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.RuleImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SupportedPrimitive;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetResourcesResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.ResourceLevel;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.RuleEffectType;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -39,15 +39,27 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+/**
+ * The Class RLPolicyCreatePresenter.
+ */
 public class RLPolicyCreatePresenter extends PolicyCreatePresenter {
 
 	private List<Resource> resources = null;
 	boolean clickFiredWithBug = false;
 
+	/**
+	 * Instantiates a new rL policy create presenter.
+	 * 
+	 * @param eventBus
+	 *            the event bus
+	 * @param view
+	 *            the view
+	 * @param serviceMap
+	 *            the service map
+	 */
 	public RLPolicyCreatePresenter(HandlerManager eventBus,
 			RLPolicyCreateDisplay view,
 			Map<SupportedService, PolicyAdminUIService> serviceMap) {
@@ -60,21 +72,37 @@ public class RLPolicyCreatePresenter extends PolicyCreatePresenter {
 
 	}
 
+	/**
+	 * On click fired.
+	 * 
+	 * @param value
+	 *            the value
+	 */
 	public final synchronized void onClickFired(boolean value) {
 		this.clickFiredWithBug = value;
 	}
 
+	/** The Constant PRESENTER_ID. */
 	public final static String PRESENTER_ID = "RLPolicyCreate";
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#getId()
+	 */
 	@Override
 	public String getId() {
 		return PRESENTER_ID;
 	}
 
+	/**
+	 * The Interface RLPolicyCreateDisplay.
+	 */
 	public interface RLPolicyCreateDisplay extends PolicyCreateDisplay {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#go(com.google.gwt.user.client.ui.HasWidgets, org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+	 */
 	@Override
 	public void go(HasWidgets container, final HistoryToken token) {
 		super.go(container, token);
@@ -84,6 +112,9 @@ public class RLPolicyCreatePresenter extends PolicyCreatePresenter {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#bind()
+	 */
 	@Override
 	public void bind() {
 		super.bind();
@@ -129,6 +160,9 @@ public class RLPolicyCreatePresenter extends PolicyCreatePresenter {
 
 	}
 
+	/**
+	 * Sets the condition extra field.
+	 */
 	protected synchronized void setConditionExtraField() {
 		StringBuilder conditionString = new StringBuilder(
 				view.getRsNameSelected());
@@ -195,6 +229,9 @@ public class RLPolicyCreatePresenter extends PolicyCreatePresenter {
 		view.setConditionNames(conditions);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#bindSaveButton()
+	 */
 	@Override
 	protected void bindSaveButton() {
 		// fired on saved policy
@@ -301,6 +338,9 @@ public class RLPolicyCreatePresenter extends PolicyCreatePresenter {
 		});
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#getResourceLevels()
+	 */
 	@Override
 	public List<String> getResourceLevels() {
 		List<String> rsLevels = new ArrayList<String>();

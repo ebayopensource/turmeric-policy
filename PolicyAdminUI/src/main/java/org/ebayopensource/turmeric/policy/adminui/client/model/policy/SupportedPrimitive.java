@@ -10,8 +10,9 @@
 package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 
 /**
- * @author muguerza
+ * The Enum SupportedPrimitive.
  * 
+ * @author muguerza
  */
 public enum SupportedPrimitive {
 	STRING("string"), BOOLEAN("boolean");
@@ -21,10 +22,22 @@ public enum SupportedPrimitive {
 		value = v;
 	}
 
+	/**
+	 * Value.
+	 * 
+	 * @return the string
+	 */
 	public String value() {
 		return value;
 	}
 
+	/**
+	 * From value.
+	 * 
+	 * @param v
+	 *            the v
+	 * @return the supported primitive
+	 */
 	public static SupportedPrimitive fromValue(String v) {
 		for (SupportedPrimitive c : SupportedPrimitive.values()) {
 			if (c.value.equals(v)) {

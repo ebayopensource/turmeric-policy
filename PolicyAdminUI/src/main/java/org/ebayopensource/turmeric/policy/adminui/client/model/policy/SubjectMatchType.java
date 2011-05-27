@@ -9,11 +9,28 @@
 package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 
 /**
- * SubjectMatchType
- *
+ * SubjectMatchType.
  */
 public interface SubjectMatchType {
+    
+    /**
+	 * Gets the match id.
+	 * 
+	 * @return the match id
+	 */
     public String getMatchId();
+    
+    /**
+	 * Gets the attribute value.
+	 * 
+	 * @return the attribute value
+	 */
     public AttributeValue getAttributeValue();
+    
+    /**
+	 * Gets the subject attribute designator.
+	 * 
+	 * @return the subject attribute designator
+	 */
     public SubjectAttributeDesignator getSubjectAttributeDesignator();
 }

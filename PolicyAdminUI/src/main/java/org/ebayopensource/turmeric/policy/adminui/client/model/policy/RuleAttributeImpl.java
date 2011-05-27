@@ -8,39 +8,63 @@
  *******************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.RuleAttribute.NotifyActiveValue;
 
 /**
- * RuleAttributeImpl
- *
+ * RuleAttributeImpl.
  */
 public class RuleAttributeImpl implements RuleAttribute {   
     
+	/** The key. */
 	protected String key;
+	
+	/** The value. */
 	protected String value;
 
+	/**
+	 * Instantiates a new rule attribute impl.
+	 * 
+	 * @param key
+	 *            the key
+	 * @param value
+	 *            the value
+	 */
 	public RuleAttributeImpl(String key, String value) {
 		this.key = key;
 		this.value = value;
 	}
 
+	/**
+	 * Instantiates a new rule attribute impl.
+	 * 
+	 * @param value
+	 *            the value
+	 */
 	public RuleAttributeImpl(String value) {
 		this.key = RuleAttributeImpl.NotifyKeys.NotifyEmails.toString();
 		this.value = value.toString();
 	}
 
+	/**
+	 * Instantiates a new rule attribute impl.
+	 * 
+	 * @param value
+	 *            the value
+	 */
 	public RuleAttributeImpl(NotifyActiveValue value) {
 		this.key = RuleAttributeImpl.NotifyKeys.NotifyActive.toString();
 		this.value = value.toString();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.RuleAttribute#getKey()
+	 */
 	public String getKey() {
 		return this.key;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.RuleAttribute#getValue()
+	 */
 	public String getValue() {
 		return value;
 	}

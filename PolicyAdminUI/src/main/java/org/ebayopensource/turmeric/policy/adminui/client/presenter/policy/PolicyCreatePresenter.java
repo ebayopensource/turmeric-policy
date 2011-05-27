@@ -76,31 +76,72 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.view.client.MultiSelectionModel;
 
+/**
+ * The Class PolicyCreatePresenter.
+ */
 public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
+	/** The event bus. */
 	protected HandlerManager eventBus;
+	
+	/** The view. */
 	protected PolicyCreateDisplay view;
+	
+	/** The service map. */
 	protected Map<SupportedService, PolicyAdminUIService> serviceMap;
+	
+	/** The permitted actions. */
 	protected List<UserAction> permittedActions = new ArrayList<UserAction>();
+	
+	/** The available resources by type. */
 	protected final List<Resource> availableResourcesByType = new ArrayList<Resource>();
+	
+	/** The all subjects. */
 	protected List<Subject> allSubjects;
 
+	/** The all subject groups. */
 	protected List<SubjectGroup> allSubjectGroups;
 
+	/** The all resources. */
 	protected final List<Resource> allResources = new ArrayList<Resource>();
+	
+	/** The internal subjects. */
 	protected List<Subject> internalSubjects;
 
+	/** The assigned unique resources. */
 	protected HashSet<String> assignedUniqueResources = new HashSet<String>();
+	
+	/** The subject types. */
 	protected List<String> subjectTypes;
+	
+	/** The subject assignments. */
 	protected List<PolicySubjectAssignment> subjectAssignments;
+	
+	/** The resource assignments. */
 	protected List<Resource> resourceAssignments;
+	
+	/** The rules. */
 	protected List<Rule> rules = new ArrayList<Rule>();;
 
+	/** The edit resource assignment. */
 	protected Resource editResourceAssignment;
 
+	/** The edit subject assignment. */
 	protected PolicySubjectAssignment editSubjectAssignment;
+	
+	/** The service. */
 	protected PolicyQueryService service;
 
+	/**
+	 * Instantiates a new policy create presenter.
+	 * 
+	 * @param eventBus
+	 *            the event bus
+	 * @param view
+	 *            the view
+	 * @param serviceMap
+	 *            the service map
+	 */
 	public PolicyCreatePresenter(HandlerManager eventBus,
 			PolicyCreateDisplay view,
 			Map<SupportedService, PolicyAdminUIService> serviceMap) {
@@ -114,8 +155,16 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		bind();
 	}
 
+	/**
+	 * Gets the resource levels.
+	 * 
+	 * @return the resource levels
+	 */
 	protected abstract List<String> getResourceLevels();
 
+	/**
+	 * Bind save button.
+	 */
 	protected abstract void bindSaveButton();
 
 	private void bindSubjectSection() {
@@ -1038,6 +1087,9 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	/*
 	 * Interface definitions
 	 */
+	/**
+	 * The Interface PolicyCreateDisplay.
+	 */
 	public interface PolicyCreateDisplay extends PolicyPageTemplateDisplay {
 		HasValue<String> getPolicyName();
 
@@ -1109,6 +1161,9 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		boolean validAllConditionFields();
 	}
 
+	/**
+	 * The Interface ResourcesContentDisplay.
+	 */
 	public interface ResourcesContentDisplay extends Display {
 		void setUserActions(List<UserAction> permittedActions);
 
@@ -1169,6 +1224,9 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		void hide();
 	}
 
+	/**
+	 * The Interface SubjectContentDisplay.
+	 */
 	public interface SubjectContentDisplay extends Display {
 		String getSubjectType();
 
@@ -1235,6 +1293,9 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		void hide();
 	}
 
+	/**
+	 * Clear lists.
+	 */
 	protected void clearLists() {
 
 		if (assignedUniqueResources != null) {
@@ -1260,11 +1321,17 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#getView()
+	 */
 	@Override
 	protected PolicyCreateDisplay getView() {
 		return view;
 	}
 
+	/**
+	 * Bind.
+	 */
 	public void bind() {
 
 		this.view.getCancelButton().addClickHandler(new ClickHandler() {
@@ -1306,6 +1373,9 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#go(com.google.gwt.user.client.ui.HasWidgets, org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+	 */
 	@Override
 	public void go(HasWidgets container, final HistoryToken token) {
 		container.clear();
@@ -1443,6 +1513,9 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		return resourceNames;
 	}
 
+	/**
+	 * Fetch subjects.
+	 */
 	protected void fetchSubjects() {
 
 		SubjectQuery query = new SubjectQuery();
@@ -1469,6 +1542,9 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				});
 	}
 
+	/**
+	 * Fetch subject groups.
+	 */
 	protected void fetchSubjectGroups() {
 
 		SubjectGroupQuery query = new SubjectGroupQuery();
@@ -1497,6 +1573,17 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	}
 
 	
+	/**
+	 * Gets the subject type.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param type
+	 *            the type
+	 * @param isSubjectType
+	 *            the is subject type
+	 * @return the subject type
+	 */
 	public Subject getSubjectType(String name, String type, final boolean isSubjectType) {
 		final SubjectImpl s = new SubjectImpl();
 		s.setType(type);
@@ -1522,6 +1609,17 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	}
 	
 	
+	/**
+	 * Gets the subject.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param type
+	 *            the type
+	 * @param exclusionList
+	 *            the exclusion list
+	 * @return the subject
+	 */
 	public Subject getSubject(String name, String type,
 			final boolean exclusionList) {
 		final SubjectImpl s = new SubjectImpl();
@@ -1579,6 +1677,17 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		return s;
 	}
 
+	/**
+	 * Gets the group.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param type
+	 *            the type
+	 * @param exclusionList
+	 *            the exclusion list
+	 * @return the group
+	 */
 	public SubjectGroup getGroup(String name, String type,
 			final boolean exclusionList) {
 		SubjectGroupImpl group = new SubjectGroupImpl();
@@ -1624,6 +1733,23 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		return group;
 	}
 
+	/**
+	 * Gets the policy.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param type
+	 *            the type
+	 * @param description
+	 *            the description
+	 * @param resources
+	 *            the resources
+	 * @param subjectAssignments
+	 *            the subject assignments
+	 * @param rules
+	 *            the rules
+	 * @return the policy
+	 */
 	protected GenericPolicy getPolicy(String name, String type,
 			String description, List<Resource> resources,
 			List<PolicySubjectAssignment> subjectAssignments, List<Rule> rules) {
@@ -1676,6 +1802,12 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		return p;
 	}
 
+	/**
+	 * Creates the external as internal subject.
+	 * 
+	 * @param subjects
+	 *            the subjects
+	 */
 	protected void createExternalAsInternalSubject(final List<Subject> subjects) {
 		List<SubjectKey> keys = new ArrayList<SubjectKey>();
 
@@ -1737,6 +1869,9 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 	}
 
+	/**
+	 * Fetch resources.
+	 */
 	protected void fetchResources() {
 		service.getResources(null, new AsyncCallback<GetResourcesResponse>() {
 			public void onSuccess(GetResourcesResponse response) {

@@ -15,8 +15,7 @@ import java.util.List;
 
 
 /**
- * SubjectGroupImpl
- *
+ * SubjectGroupImpl.
  */
 public class SubjectGroupImpl implements SubjectGroup {
 	private String name;
@@ -33,8 +32,17 @@ public class SubjectGroupImpl implements SubjectGroup {
     private Long id;
 
     
+    /**
+	 * Instantiates a new subject group impl.
+	 */
     public SubjectGroupImpl () {}
     
+    /**
+	 * Instantiates a new subject group impl.
+	 * 
+	 * @param g
+	 *            the g
+	 */
     public SubjectGroupImpl (SubjectGroup g) {
         if (g == null)
             return;
@@ -51,65 +59,169 @@ public class SubjectGroupImpl implements SubjectGroup {
         this.groupCalculator = g.getGroupCalculator();
     }
     
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getLastModifiedBy()
+     */
     public String getLastModifiedBy() {
         return lastModifiedBy;
     }
+    
+    /**
+	 * Sets the last modified by.
+	 * 
+	 * @param lastModifiedBy
+	 *            the new last modified by
+	 */
     public void setLastModifiedBy(String lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
     }
+    
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getLastModifiedTime()
+     */
     public Date getLastModifiedTime() {
         return lastModifiedTime;
     }
+    
+    /**
+	 * Sets the last modified time.
+	 * 
+	 * @param lastModifiedTime
+	 *            the new last modified time
+	 */
     public void setLastModifiedTime(Date lastModifiedTime) {
         this.lastModifiedTime = lastModifiedTime;
     }
+    
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getCreatedBy()
+     */
     public String getCreatedBy() {
         return createdBy;
     }
+    
+    /**
+	 * Sets the created by.
+	 * 
+	 * @param createdBy
+	 *            the new created by
+	 */
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
+    
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getSubjects()
+     */
     public List<String> getSubjects() {
         return subjects;
     } 
+    
+    /**
+	 * Sets the subjects.
+	 * 
+	 * @param subjects
+	 *            the new subjects
+	 */
     public void setSubjects(List<String> subjects) {
         this.subjects = subjects;
     }
+    
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getPolicies()
+     */
     public List<String> getPolicies() {
         return policies;
     }
+    
+    /**
+	 * Sets the policies.
+	 * 
+	 * @param policies
+	 *            the new policies
+	 */
     public void setPolicies(List<String> policies) {
         this.policies = policies;
     }
+    
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getName()
+     */
     public String getName() {
         return name;
     }
+    
+    /**
+	 * Sets the name.
+	 * 
+	 * @param name
+	 *            the new name
+	 */
     public void setName(String name) {
         this.name = name;
     }
+    
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getType()
+     */
     public String getType() {
         return type;
     }
+    
+    /**
+	 * Sets the type.
+	 * 
+	 * @param type
+	 *            the new type
+	 */
     public void setType(String type) {
         this.type = type;
     }
+    
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getGroupCalculator()
+     */
     public String getGroupCalculator() {
         return groupCalculator;
     }
+    
+    /**
+	 * Sets the group calculator.
+	 * 
+	 * @param groupCalculator
+	 *            the new group calculator
+	 */
     public void setGroupCalculator(String groupCalculator) {
         this.groupCalculator = groupCalculator;
     }
+    
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getDescription()
+     */
     public String getDescription() {
         return description;
     }
+    
+    /**
+	 * Sets the description.
+	 * 
+	 * @param description
+	 *            the new description
+	 */
     public void setDescription(String description) {
         this.description = description;
     }
     
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getId()
+     */
     public Long getId() {
         return id;
     }
   
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     public boolean equals (Object o) {
         if (!(o instanceof SubjectGroup))
             return false;
@@ -133,10 +245,20 @@ public class SubjectGroupImpl implements SubjectGroup {
 //		return subjectMatch;
 //	}
 
-	public void setSubjectMatch(List<SubjectMatchType> subjectMatchType) {
+	/**
+ * Sets the subject match.
+ * 
+ * @param subjectMatchType
+ *            the new subject match
+ */
+public void setSubjectMatch(List<SubjectMatchType> subjectMatchType) {
 		this.subjectMatchTypes = subjectMatchType;
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getSubjectMatchTypes()
+	 */
 	public List<SubjectMatchType> getSubjectMatchTypes() {
 		return subjectMatchTypes;
 	}

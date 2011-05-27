@@ -62,19 +62,41 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+/**
+ * The Class PolicySummaryPresenter.
+ */
 public class PolicySummaryPresenter extends AbstractGenericPresenter {
 
+    /** The Constant PRESENTER_ID. */
     public final static String PRESENTER_ID = "PolicySummary";
 
+    /** The event bus. */
     protected HandlerManager eventBus;
+    
+    /** The view. */
     protected PolicySummaryDisplay view;
+    
+    /** The service map. */
     protected Map<SupportedService, PolicyAdminUIService> serviceMap;
+    
+    /** The policies. */
     protected List<GenericPolicy> policies;
+    
+    /** The resources. */
     protected List<Resource> resources;
+    
+    /** The permissions. */
     protected Map<GenericPolicy, List<UserAction>> permissions = new HashMap<GenericPolicy, List<UserAction>>();
+    
+    /** The types. */
     protected List<String> types;
+    
+    /** The service. */
     protected PolicyQueryService service;
 
+    /**
+	 * The Interface PolicySummaryDisplay.
+	 */
     public interface PolicySummaryDisplay extends PolicyPageTemplateDisplay {
         void setPolicies(List<GenericPolicy> policies);
 
@@ -155,6 +177,16 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
         String getSelectedEffect();
     }
 
+    /**
+	 * Instantiates a new policy summary presenter.
+	 * 
+	 * @param eventBus
+	 *            the event bus
+	 * @param view
+	 *            the view
+	 * @param serviceMap
+	 *            the service map
+	 */
     public PolicySummaryPresenter(HandlerManager eventBus, PolicySummaryDisplay view,
                     Map<SupportedService, PolicyAdminUIService> serviceMap) {
         this.eventBus = eventBus;
@@ -165,15 +197,24 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
         bind();
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#getId()
+     */
     public String getId() {
         return PRESENTER_ID;
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#getView()
+     */
     @Override
     protected PolicyPageTemplateDisplay getView() {
         return view;
     }
 
+    /**
+	 * Bind.
+	 */
     public void bind() {
 
         // The user wants to search by subject group type + name
@@ -480,6 +521,11 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
         });
     }
 
+    /**
+	 * Gets the resources.
+	 * 
+	 * @return the resources
+	 */
     protected List<Resource> getResources() {
         return resources;
     }
@@ -525,6 +571,9 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
         return list;
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#go(com.google.gwt.user.client.ui.HasWidgets, org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+     */
     @Override
     public void go(HasWidgets container, final HistoryToken token) {
         container.clear();
@@ -553,6 +602,9 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
         container.add(this.view.asWidget());
     }
 
+    /**
+	 * Sets the rl effect.
+	 */
     protected void setRLEffect() {
         this.view.setEffect(Collections.EMPTY_LIST);
         List<String> rlEffect = new ArrayList<String>();

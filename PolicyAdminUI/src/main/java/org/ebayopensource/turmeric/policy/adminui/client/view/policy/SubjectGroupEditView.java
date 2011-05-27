@@ -12,38 +12,29 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.Display;
-import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
+import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.FooterWidget;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.HeaderWidget;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyMenuWidget;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.MenuDisplay;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * SubjectGroupEditView
- *
+ * SubjectGroupEditView.
  */
 public class SubjectGroupEditView extends AbstractGenericView implements SubjectGroupEditDisplay {
     private ScrollPanel scrollPanel;
@@ -215,6 +206,9 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
     }
 
     
+    /**
+	 * Instantiates a new subject group edit view.
+	 */
     public SubjectGroupEditView() {
         scrollPanel = new ScrollPanel();
         mainPanel = new FlowPanel();
@@ -226,8 +220,10 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
 
     
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView#initialize()
-     */
+	 * Initialize.
+	 * 
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView#initialize()
+	 */
     @Override
     public void initialize() {
         mainPanel.clear();
@@ -235,6 +231,11 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
     }
  
     
+    /**
+	 * Inits the content view.
+	 * 
+	 * @return the widget
+	 */
     protected Widget initContentView() {
         ScrollPanel actionPanel = new ScrollPanel();
         contentView = new ContentView();
@@ -243,6 +244,9 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
     }
     
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.PolicyPageTemplateDisplay#getContentView()
+     */
     public Display getContentView() {
         return contentView;
     }
@@ -250,6 +254,9 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
 
 
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.Display#activate()
+     */
     public void activate() {
         contentView.activate();
         this.setVisible(true);
@@ -257,8 +264,11 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
 
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#getDescription()
-     */
+	 * Gets the description.
+	 * 
+	 * @return the description
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#getDescription()
+	 */
     @Override
     public String getDescription() {
         return ((ContentView)contentView).getDescription();
@@ -266,8 +276,11 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
 
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#getName()
-     */
+	 * Gets the name.
+	 * 
+	 * @return the name
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#getName()
+	 */
     @Override
     public String getName() {
         return ((ContentView)contentView).getName();
@@ -275,8 +288,11 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
 
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#getSelectedSubjects()
-     */
+	 * Gets the selected subjects.
+	 * 
+	 * @return the selected subjects
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#getSelectedSubjects()
+	 */
     @Override
     public List<String> getSelectedSubjects() {
         return ((ContentView)contentView).getSelectedSubjects();
@@ -284,8 +300,12 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
 
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#setAvailableSubjects(java.util.List)
-     */
+	 * Sets the available subjects.
+	 * 
+	 * @param subjects
+	 *            the new available subjects
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#setAvailableSubjects(java.util.List)
+	 */
     @Override
     public void setAvailableSubjects(List<String> subjects) {
          ((ContentView)contentView).setAvailableSubjects(subjects);
@@ -293,8 +313,12 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
 
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#setDescription(java.lang.String)
-     */
+	 * Sets the description.
+	 * 
+	 * @param desc
+	 *            the new description
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#setDescription(java.lang.String)
+	 */
     @Override
     public void setDescription(String desc) {
         ((ContentView)contentView).setDescription(desc);
@@ -302,14 +326,21 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
 
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#setName(java.lang.String)
-     */
+	 * Sets the name.
+	 * 
+	 * @param name
+	 *            the new name
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#setName(java.lang.String)
+	 */
     @Override
     public void setName(String name) {
         ((ContentView)contentView).setName(name);
     }
     
     
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#error(java.lang.String)
+     */
     public void error (String msg) {
         ErrorDialog dialog = new ErrorDialog(true);
         dialog.setMessage(msg);
@@ -317,6 +348,9 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
         dialog.show();
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#clear()
+     */
     public void clear () {
         setName("");
         setDescription("");
@@ -326,8 +360,12 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
     }
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#setSelectedSubjects()
-     */
+	 * Sets the selected subjects.
+	 * 
+	 * @param subjects
+	 *            the new selected subjects
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#setSelectedSubjects()
+	 */
     @Override
     public void setSelectedSubjects(List<String> subjects) {
         ((ContentView)contentView).setSelectedSubjects(subjects);
@@ -335,21 +373,30 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
 
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#getSearchTerm()
-     */
+	 * Gets the search term.
+	 * 
+	 * @return the search term
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#getSearchTerm()
+	 */
     @Override
     public String getSearchTerm() {
        return ((ContentView)contentView).getSearchTerm();
     }
     
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#getSearchButton()
+     */
     public HasClickHandlers getSearchButton() {
         return ((ContentView)contentView).getSearchButton();
     }
 
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#getApplyButton()
-     */
+	 * Gets the apply button.
+	 * 
+	 * @return the apply button
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#getApplyButton()
+	 */
     @Override
     public Button getApplyButton() {
         return ((ContentView)contentView).getSaveButton();
@@ -357,14 +404,20 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
 
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#getCancelButton()
-     */
+	 * Gets the cancel button.
+	 * 
+	 * @return the cancel button
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#getCancelButton()
+	 */
     @Override
     public HasClickHandlers getCancelButton() {
         return ((ContentView)contentView).getCancelButton();
     }
 
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#setSubjectGroupCalculator(java.lang.String)
+     */
     @Override
     public void setSubjectGroupCalculator(String groupCalculator) {
         if(groupCalculator != null && !groupCalculator.isEmpty()){
@@ -374,18 +427,27 @@ public class SubjectGroupEditView extends AbstractGenericView implements Subject
     }
 
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#setSgCalculatorMap(java.util.Map)
+     */
     @Override
     public void setSgCalculatorMap(Map<String, String> values) {
         ((ContentView)contentView).sgCalculatorMap = values;
     }
 
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#setSelectedType(java.lang.String)
+     */
     @Override
     public void setSelectedType(String type) {
         ((ContentView)contentView).setSelectedType(type);
     }
 
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupEditPresenter.SubjectGroupEditDisplay#getGroupCalculator()
+     */
     @Override
     public String getGroupCalculator() {
         return ((ContentView)contentView).getSelectedSubjectGroupCalculatorName();

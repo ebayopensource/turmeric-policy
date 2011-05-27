@@ -9,9 +9,7 @@
 package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.model.AbstractPolicyAdminUIService;
@@ -27,14 +25,16 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * PolicyQueryServiceImpl
- * 
+ * PolicyQueryServiceImpl.
  */
 public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService implements
 		PolicyQueryService {
 	private static final String BASE_POLICY_URL = GWT.getModuleBaseURL()
 			+ "policy";
 
+	/**
+	 * Instantiates a new policy query service impl.
+	 */
 	public PolicyQueryServiceImpl() {
 		namespaces.put("ns1", SECURITY_NAMESPACE);
 		namespaces.put("ns2", OASIS_NAMESPACE);
@@ -42,6 +42,12 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	}
 
 	/**
+	 * Creates the subject groups.
+	 * 
+	 * @param groups
+	 *            the groups
+	 * @param callback
+	 *            the callback
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#createSubjectGroups(java.util.List,
 	 *      com.google.gwt.user.client.rpc.AsyncCallback)
 	 */
@@ -119,6 +125,12 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	}
 
 	/**
+	 * Delete policy.
+	 * 
+	 * @param key
+	 *            the key
+	 * @param callback
+	 *            the callback
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#deletePolicy(org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.DeletePolicyRequest,
 	 *      com.google.gwt.user.client.rpc.AsyncCallback)
 	 */
@@ -175,6 +187,12 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	}
 
 	/**
+	 * Delete resources.
+	 * 
+	 * @param keys
+	 *            the keys
+	 * @param callback
+	 *            the callback
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#deleteResource(org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.DeleteResourceRequest,
 	 *      com.google.gwt.user.client.rpc.AsyncCallback)
 	 */
@@ -186,6 +204,12 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	}
 
 	/**
+	 * Delete subject groups.
+	 * 
+	 * @param keys
+	 *            the keys
+	 * @param callback
+	 *            the callback
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#deleteSubjectGroup(org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.DeleteSubjectGroupRequest,
 	 *      com.google.gwt.user.client.rpc.AsyncCallback)
 	 */
@@ -246,6 +270,12 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	}
 
 	/**
+	 * Disable policy.
+	 * 
+	 * @param key
+	 *            the key
+	 * @param callback
+	 *            the callback
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#disablePolicy(org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.DisablePolicyRequest,
 	 *      com.google.gwt.user.client.rpc.AsyncCallback)
 	 */
@@ -303,6 +333,12 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	}
 
 	/**
+	 * Enable policy.
+	 * 
+	 * @param key
+	 *            the key
+	 * @param callback
+	 *            the callback
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#enablePolicy(org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.EnablePolicyRequest,
 	 *      com.google.gwt.user.client.rpc.AsyncCallback)
 	 */
@@ -359,6 +395,13 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	}
 
 	/**
+	 * Gets the resources.
+	 * 
+	 * @param keys
+	 *            the keys
+	 * @param callback
+	 *            the callback
+	 * @return the resources
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#getResources(org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetResourcesRequest,
 	 *      com.google.gwt.user.client.rpc.AsyncCallback)
 	 */
@@ -421,6 +464,26 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	}
 
 	/**
+	 * Find policies.
+	 * 
+	 * @param sinceLastModifiedTime
+	 *            the since last modified time
+	 * @param keys
+	 *            the keys
+	 * @param resKeys
+	 *            the res keys
+	 * @param opKeys
+	 *            the op keys
+	 * @param subjectKeys
+	 *            the subject keys
+	 * @param subjectGroupKeys
+	 *            the subject group keys
+	 * @param outputSelector
+	 *            the output selector
+	 * @param condition
+	 *            the condition
+	 * @param callback
+	 *            the callback
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#getPoliciesByKey(org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyKey,
 	 *      com.google.gwt.user.client.rpc.AsyncCallback)
 	 */
@@ -514,6 +577,25 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	}
 
 	/**
+	 * Gets the entity history.
+	 * 
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
+	 * @param polKeys
+	 *            the pol keys
+	 * @param resKeys
+	 *            the res keys
+	 * @param opKeys
+	 *            the op keys
+	 * @param subjectKeys
+	 *            the subject keys
+	 * @param subjectGroupKeys
+	 *            the subject group keys
+	 * @param callback
+	 *            the callback
+	 * @return the entity history
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#getEntityHistory(org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetEntityHistoryRequest,
 	 *      com.google.gwt.user.client.rpc.AsyncCallback)
 	 */
@@ -585,8 +667,12 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	}
 
 	/**
-	 * Creates internal subjects based on external ones
+	 * Creates internal subjects based on external ones.
 	 * 
+	 * @param subjects
+	 *            the subjects
+	 * @param callback
+	 *            the callback
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.
 	 *      PolicyQueryService
 	 *      #createSubjects(List<org.ebayopensource.turmeric.policy.adminui
@@ -641,6 +727,12 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	}
 
 	/**
+	 * Creates the policy.
+	 * 
+	 * @param policy
+	 *            the policy
+	 * @param callback
+	 *            the callback
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#createPolicy(org.org.ebayopensource.turmeric.monitoring.client.model.policy.GenericPolicy,
 	 *      com.google.gwt.user.client.rpc.AsyncCallback)
 	 */
@@ -692,6 +784,12 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	}
 
 	/**
+	 * Find subject groups.
+	 * 
+	 * @param query
+	 *            the query
+	 * @param callback
+	 *            the callback
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#findSubjectGroups(org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroupQuery,
 	 *      com.google.gwt.user.client.rpc.AsyncCallback)
 	 */
@@ -769,6 +867,12 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	}
 
 	/**
+	 * Find subjects.
+	 * 
+	 * @param query
+	 *            the query
+	 * @param callback
+	 *            the callback
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#findSubjects(org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectQuery,
 	 *      com.google.gwt.user.client.rpc.AsyncCallback)
 	 */
@@ -851,6 +955,12 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	}
 
 	/**
+	 * Find external subjects.
+	 * 
+	 * @param query
+	 *            the query
+	 * @param callback
+	 *            the callback
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#findExternalSubjects(org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectQuery,
 	 *      com.google.gwt.user.client.rpc.AsyncCallback)
 	 */
@@ -935,6 +1045,13 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	}
 
 	/**
+	 * Gets the meta data.
+	 * 
+	 * @param condition
+	 *            the condition
+	 * @param callback
+	 *            the callback
+	 * @return the meta data
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#getMetaData(org.ebayopensource.turmeric.policy.adminui.client.model.policy.QueryCondition,
 	 *      com.google.gwt.user.client.rpc.AsyncCallback)
 	 */
@@ -995,6 +1112,14 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	}
 
 	/**
+	 * Update subject groups.
+	 * 
+	 * @param groups
+	 *            the groups
+	 * @param mode
+	 *            the mode
+	 * @param callback
+	 *            the callback
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#updateSubjectGroups(java.util.List,
 	 *      com.google.gwt.user.client.rpc.AsyncCallback)
 	 */
@@ -1094,6 +1219,14 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	}
 
 	/**
+	 * Update policy.
+	 * 
+	 * @param mode
+	 *            the mode
+	 * @param policy
+	 *            the policy
+	 * @param callback
+	 *            the callback
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#updatePolicy(org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.UpdateMode,
 	 *      org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy,
 	 *      com.google.gwt.user.client.rpc.AsyncCallback)

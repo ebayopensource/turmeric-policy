@@ -11,15 +11,56 @@ package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 import java.util.List;
 
 /**
- * Subject
- *
+ * Subject.
  */
 public interface Subject {
+    
+    /**
+	 * Gets the type.
+	 * 
+	 * @return the type
+	 */
     public String getType();
+    
+    /**
+	 * Gets the name.
+	 * 
+	 * @return the name
+	 */
     public String getName();
+    
+    /**
+	 * Gets the external subject id.
+	 * 
+	 * @return the external subject id
+	 */
     public long getExternalSubjectId();
+    
+    /**
+	 * Gets the subject match types.
+	 * 
+	 * @return the subject match types
+	 */
     public List<SubjectMatchType> getSubjectMatchTypes();
+    
+    /**
+	 * Gets the created by.
+	 * 
+	 * @return the created by
+	 */
     public String getCreatedBy();
+    
+    /**
+	 * Gets the last modified time.
+	 * 
+	 * @return the last modified time
+	 */
     public long getLastModifiedTime();
+    
+    /**
+	 * Gets the last modified by.
+	 * 
+	 * @return the last modified by
+	 */
     public String getLastModifiedBy();
 }

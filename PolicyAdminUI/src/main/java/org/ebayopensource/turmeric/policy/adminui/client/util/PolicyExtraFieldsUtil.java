@@ -12,22 +12,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ExtraField;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyKey;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyType;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ResourceKey;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ResourceType;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroupKey;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectKey;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectType;
 
 import com.google.gwt.user.client.ui.ListBox;
 
+/**
+ * The Class PolicyExtraFieldsUtil.
+ */
 public class PolicyExtraFieldsUtil {
 //TODO move it to specific RL policy Presenter extends from PolicyCreate Presenter
 	private static List<ExtraField> rlExtraFields;
 	
+	/**
+	 * Gets the rL extra fields.
+	 * 
+	 * @return the rL extra fields
+	 */
 	public static List<ExtraField> getRLExtraFields() {
-		if(rlExtraFields == null){
+		
 			rlExtraFields = new ArrayList<ExtraField>();
 			//TODO JOSE load from xml file from an Util class
 					
@@ -108,7 +109,7 @@ public class PolicyExtraFieldsUtil {
 			field_7.setOrder(7);
 			field_7.setLenghtBox("580px");
 			rlExtraFields.add(field_7);
-		}			
+					
 		return rlExtraFields;
 	}
 

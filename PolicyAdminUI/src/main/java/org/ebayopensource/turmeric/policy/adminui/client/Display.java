@@ -10,6 +10,9 @@ package org.ebayopensource.turmeric.policy.adminui.client;
 
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * The Interface Display.
+ */
 public interface Display {
 
 	void activate();

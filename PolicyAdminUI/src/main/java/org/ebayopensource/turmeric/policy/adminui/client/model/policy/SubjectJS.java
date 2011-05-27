@@ -11,30 +11,36 @@ package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.GetPoliciesResponseJS.RuleJS.ConditionJS;
-
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
 /**
- * SubjectJS
- *
+ * SubjectJS.
  */
 public class SubjectJS extends JavaScriptObject implements Subject {
 
+    /**
+	 * Instantiates a new subject js.
+	 */
     protected SubjectJS() {}
     
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject#getCreatedBy()
-     */
+	 * Gets the last modified by.
+	 * 
+	 * @return the last modified by
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject#getCreatedBy()
+	 */
     public native final String getLastModifiedBy() /*-{
         return this["@LastModifiedBy"];
     }-*/;
     
     
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject#getCreatedBy()
-     */
+	 * Gets the created by.
+	 * 
+	 * @return the created by
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject#getCreatedBy()
+	 */
     public native final String getCreatedBy() /*-{
         return this["@CreatedBy"];
     }-*/;
@@ -49,15 +55,21 @@ public class SubjectJS extends JavaScriptObject implements Subject {
     }
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject#getName()
-     */
+	 * Gets the name.
+	 * 
+	 * @return the name
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject#getName()
+	 */
     public native final String getName() /*-{
         return this["@SubjectName"];
     }-*/;
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject#getType()
-     */
+	 * Gets the type.
+	 * 
+	 * @return the type
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject#getType()
+	 */
     public native final  String getType() /*-{
         return this["@SubjectType"];
     }-*/;
@@ -70,12 +82,18 @@ public class SubjectJS extends JavaScriptObject implements Subject {
 	 }-*/;
 
 	/**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject#getExternalSubjectId()
-     */
+	 * Gets the external subject id.
+	 * 
+	 * @return the external subject id
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject#getExternalSubjectId()
+	 */
 	public final long getExternalSubjectId() {
 		return Long.parseLong(getExternalSubjectIdAsString());
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject#getSubjectMatchTypes()
+	 */
 	@Override
     public final List<SubjectMatchType> getSubjectMatchTypes() {
         List<SubjectMatchType> results = new ArrayList<SubjectMatchType>();
@@ -91,6 +109,11 @@ public class SubjectJS extends JavaScriptObject implements Subject {
 		return this["ns2.SubjectMatch"]
 	}-*/;
 
+	/**
+	 * Gets the id from subject match as string.
+	 * 
+	 * @return the id from subject match as string
+	 */
 	public final String getIdFromSubjectMatchAsString () {
 	    
         JsArray<SubjectMatchTypeJS> array =  getSubjectMatchAsArray();

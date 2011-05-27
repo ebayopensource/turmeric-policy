@@ -19,18 +19,42 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.Response;
 
 /**
- * AbstractPolicyAdminUIService
- *
+ * AbstractPolicyAdminUIService.
  */
 public class AbstractPolicyAdminUIService implements PolicyAdminUIService {
+    
+    /** The Constant SECURITY_NAMESPACE. */
     public static final String SECURITY_NAMESPACE = "http://www.ebayopensource.org/turmeric/security/v1/services";
+    
+    /** The Constant OASIS_NAMESPACE. */
     public static final String OASIS_NAMESPACE = "urn:oasis:names:tc:xacml:2.0:policy:schema:os";
+    
+    /** The Constant COMMON_NAMESPACE. */
     public static final String COMMON_NAMESPACE = "http://www.ebayopensource.org/turmeric/common/v1/types";
+    
+    /**
+	 * The Enum RequestFormat.
+	 */
     public static enum RequestFormat  {JSON, NV};
+    
+    /** The namespaces. */
     protected final Map<String,String> namespaces = new TreeMap<String, String>();
+    
+    /** The service name header value. */
     protected String serviceNameHeaderValue=SERVICE_NAME_HEADER+"=";
     
     
+    /**
+	 * Gets the partial url.
+	 * 
+	 * @param operation
+	 *            the operation
+	 * @param namespaces
+	 *            the namespaces
+	 * @param format
+	 *            the format
+	 * @return the partial url
+	 */
     public String getPartialUrl(String operation, Map<String,String> namespaces, RequestFormat format) {
         String url = "";
 
@@ -57,6 +81,12 @@ public class AbstractPolicyAdminUIService implements PolicyAdminUIService {
     }
     
 
+    /**
+	 * Sets the security headers.
+	 * 
+	 * @param requestBuilder
+	 *            the new security headers
+	 */
     public void setSecurityHeaders (RequestBuilder requestBuilder) {
         if (requestBuilder == null)
             return;
@@ -69,6 +99,15 @@ public class AbstractPolicyAdminUIService implements PolicyAdminUIService {
     
     
     
+    /**
+	 * Gets the error as throwable.
+	 * 
+	 * @param responseName
+	 *            the response name
+	 * @param response
+	 *            the response
+	 * @return the error as throwable
+	 */
     public Throwable getErrorAsThrowable (String responseName, Response response) {
         if (response == null)
             return null;
@@ -92,6 +131,13 @@ public class AbstractPolicyAdminUIService implements PolicyAdminUIService {
         return new Throwable(PolicyAdminUIUtil.messages.badRequestData());
     }
     
+    /**
+	 * Gets the error as throwable.
+	 * 
+	 * @param response
+	 *            the response
+	 * @return the error as throwable
+	 */
     public Throwable getErrorAsThrowable (Response response) {
         if (response == null)
             return null;

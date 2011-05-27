@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.ebayopensource.turmeric.policy.adminui.client.model.AuthenticationState;
-import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 
 /**
  * The Class AppUser.
@@ -58,11 +57,21 @@ public class AppUser implements Serializable {
 	
 	
 	
+	/**
+	 * Logout.
+	 */
 	public static void logout () {
 	    user = null;
 	}
 	
 	
+	/**
+	 * From cookie.
+	 * 
+	 * @param cookie
+	 *            the cookie
+	 * @return the app user
+	 */
 	public static AppUser fromCookie (String cookie) {
 	    if (user != null)
 	        logout();
@@ -80,23 +89,44 @@ public class AppUser implements Serializable {
 	   return newAppUser(split[0], split[1], split[2]);
 	}
 	
+	/**
+	 * To cookie.
+	 * 
+	 * @return the string
+	 */
 	public static String toCookie () {
-	    if (user == null)
+	    if (user == null){
 	        return null;
-	    
+	    }    
 	    return user.getUsername()+"|"+user.getPassword() +"|"+user.getDomain()+"|"+user.isAdminUser();
 	}
 	
+	/**
+	 * Checks if is admin user.
+	 * 
+	 * @return the boolean
+	 */
 	public Boolean isAdminUser() {
         return adminUser;
     }
 
 
 
+    /**
+	 * New app user.
+	 * 
+	 * @param login
+	 *            the login
+	 * @param credential
+	 *            the credential
+	 * @param domain
+	 *            the domain
+	 * @return the app user
+	 */
     public static AppUser newAppUser (String login, String credential, String domain) {
-	    if (user != null)
+	    if (user != null){
 	        logout();
-	    
+	    }
 	    user = new AppUser();
 	    user.setUsername(login);
 	    user.setPassword(credential);
@@ -234,6 +264,9 @@ public class AppUser implements Serializable {
 
 
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
 	public String toString() {
 		StringBuilder buffer = new StringBuilder();

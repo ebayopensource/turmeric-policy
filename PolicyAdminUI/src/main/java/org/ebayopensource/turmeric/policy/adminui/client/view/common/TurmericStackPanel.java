@@ -18,6 +18,9 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * The Class TurmericStackPanel.
+ */
 public class TurmericStackPanel extends ComplexPanel implements
 		InsertPanel.ForIsWidget {
 	private static final String DEFAULT_STYLENAME = "gwt-StackPanel";
@@ -25,6 +28,9 @@ public class TurmericStackPanel extends ComplexPanel implements
 	private Element body;
 	private int visibleStack = -1;
 
+	/**
+	 * Instantiates a new turmeric stack panel.
+	 */
 	public TurmericStackPanel() {
 		Element table = DOM.createTable();
 		setElement(table);
@@ -38,31 +44,71 @@ public class TurmericStackPanel extends ComplexPanel implements
 		setStyleName("gwt-StackPanel");
 	}
 
+	/* (non-Javadoc)
+	 * @see com.google.gwt.user.client.ui.Panel#add(com.google.gwt.user.client.ui.Widget)
+	 */
 	public void add(Widget w) {
 		insert(w, getWidgetCount());
 	}
 
+	/**
+	 * Adds the.
+	 * 
+	 * @param w
+	 *            the w
+	 * @param stackText
+	 *            the stack text
+	 */
 	public void add(Widget w, String stackText) {
 		add(w, stackText, false);
 	}
 
+	/**
+	 * Adds the.
+	 * 
+	 * @param w
+	 *            the w
+	 * @param stackHtml
+	 *            the stack html
+	 */
 	public void add(Widget w, SafeHtml stackHtml) {
 		add(w, stackHtml.asString(), true);
 	}
 
+	/**
+	 * Adds the.
+	 * 
+	 * @param w
+	 *            the w
+	 * @param stackText
+	 *            the stack text
+	 * @param asHTML
+	 *            the as html
+	 */
 	public void add(Widget w, String stackText, boolean asHTML) {
 		add(w);
 		setStackText(getWidgetCount() - 1, stackText, asHTML);
 	}
 
+	/**
+	 * Gets the selected index.
+	 * 
+	 * @return the selected index
+	 */
 	public int getSelectedIndex() {
 		return this.visibleStack;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.google.gwt.user.client.ui.InsertPanel.ForIsWidget#insert(com.google.gwt.user.client.ui.IsWidget, int)
+	 */
 	public void insert(IsWidget w, int beforeIndex) {
 		insert(asWidgetOrNull(w), beforeIndex);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.google.gwt.user.client.ui.InsertPanel#insert(com.google.gwt.user.client.ui.Widget, int)
+	 */
 	public void insert(Widget w, int beforeIndex) {
 		Element trh = DOM.createTR();
 		Element tdh = DOM.createTD();
@@ -103,6 +149,9 @@ public class TurmericStackPanel extends ComplexPanel implements
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.google.gwt.user.client.ui.Widget#onBrowserEvent(com.google.gwt.user.client.Event)
+	 */
 	public void onBrowserEvent(Event event) {
 		if (DOM.eventGetType(event) == 1) {
 			Element target = DOM.eventGetTarget(event);
@@ -114,22 +163,54 @@ public class TurmericStackPanel extends ComplexPanel implements
 		super.onBrowserEvent(event);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.google.gwt.user.client.ui.ComplexPanel#remove(int)
+	 */
 	public boolean remove(int index) {
 		return remove(getWidget(index), index);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.google.gwt.user.client.ui.ComplexPanel#remove(com.google.gwt.user.client.ui.Widget)
+	 */
 	public boolean remove(Widget child) {
 		return remove(child, getWidgetIndex(child));
 	}
 
+	/**
+	 * Sets the stack text.
+	 * 
+	 * @param index
+	 *            the index
+	 * @param text
+	 *            the text
+	 */
 	public void setStackText(int index, String text) {
 		setStackText(index, text, false);
 	}
 
+	/**
+	 * Sets the stack text.
+	 * 
+	 * @param index
+	 *            the index
+	 * @param html
+	 *            the html
+	 */
 	public void setStackText(int index, SafeHtml html) {
 		setStackText(index, html.asString(), true);
 	}
 
+	/**
+	 * Sets the stack text.
+	 * 
+	 * @param index
+	 *            the index
+	 * @param text
+	 *            the text
+	 * @param asHTML
+	 *            the as html
+	 */
 	public void setStackText(int index, String text, boolean asHTML) {
 		if (index >= getWidgetCount()) {
 			return;
@@ -143,6 +224,12 @@ public class TurmericStackPanel extends ComplexPanel implements
 			DOM.setInnerText(getHeaderTextElem(headerElem), text);
 	}
 
+	/**
+	 * Show stack.
+	 * 
+	 * @param index
+	 *            the index
+	 */
 	public void showStack(int index) {
 		if ((index >= getWidgetCount()) || index < 1) {
 			return;
@@ -166,6 +253,9 @@ public class TurmericStackPanel extends ComplexPanel implements
 		// setstackvisible(this.visiblestack, true);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.google.gwt.user.client.ui.UIObject#onEnsureDebugId(java.lang.String)
+	 */
 	protected void onEnsureDebugId(String baseID) {
 		super.onEnsureDebugId(baseID);
 

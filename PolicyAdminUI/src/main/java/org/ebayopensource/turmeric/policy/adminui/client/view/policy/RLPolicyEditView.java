@@ -16,7 +16,6 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ExtraField;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.RLPolicyEditPresenter.RLPolicyEditDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.util.PolicyExtraFieldsUtil;
-import org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView.ContentView;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
@@ -25,24 +24,37 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 
+/**
+ * The Class RLPolicyEditView.
+ */
 public class RLPolicyEditView extends PolicyEditView  implements RLPolicyEditDisplay{
 
+	/** The Constant SELECTED_ACTION. */
 	protected static final UserAction SELECTED_ACTION = UserAction.RL_POLICY_EDIT;
 	private static final String TITLE_FORM= PolicyAdminUIUtil.policyAdminConstants.policyInformationRLEdit();
 	List<ExtraField> rlExtraFields = new ArrayList<ExtraField>();
 
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#getSelectedAction()
+	 */
 	@Override
 	public UserAction getSelectedAction() {
 		return UserAction.RL_POLICY_CREATE;
 	} 
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#getTitleForm()
+	 */
 	@Override
 	public String getTitleForm(){
 		return TITLE_FORM;
 	}
 
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#initializeExtraFields()
+	 */
 	protected void initializeExtraFields() {
 		rlExtraFields = PolicyExtraFieldsUtil.getRLExtraFields();
 
@@ -90,6 +102,9 @@ public class RLPolicyEditView extends PolicyEditView  implements RLPolicyEditDis
     }
 
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#clear()
+	 */
 	@Override
 	public void clear() {
 		super.clear();
@@ -133,6 +148,9 @@ public class RLPolicyEditView extends PolicyEditView  implements RLPolicyEditDis
         
     }
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#setExtraFieldList(java.util.List)
+	 */
 	@Override
 	public void setExtraFieldList(List<ExtraField> extraFieldList) {
 		// TODO Auto-generated method stub

@@ -1,3 +1,11 @@
+/*********************************************************************
+ * Copyright (c) 2006-2010 eBay Inc. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *******************************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.server;
 
 import java.io.ByteArrayInputStream;
@@ -24,7 +32,6 @@ import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.ebayopensource.turmeric.common.v1.types.CommonErrorData;
 import org.ebayopensource.turmeric.policy.adminui.client.model.AbstractPolicyAdminUIService.RequestFormat;
-
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 import org.ebayopensource.turmeric.security.v1.services.CreatePolicyRequest;
 import org.ebayopensource.turmeric.security.v1.services.CreatePolicyResponse;
@@ -38,6 +45,9 @@ import org.ebayopensource.turmeric.security.v1.services.Rule;
 import org.ebayopensource.turmeric.security.v1.services.SubjectGroup;
 import org.ebayopensource.turmeric.services.policyservice.intf.gen.BasePolicyServiceConsumer;
 
+/**
+ * The Class PlcImportServlet.
+ */
 public class PlcImportServlet extends HttpServlet {
 
 	private String impPolicyPrefix;
@@ -46,6 +56,9 @@ public class PlcImportServlet extends HttpServlet {
 	private static String SECURITY_TOKEN = "security token value";
 	private String policyServiceURL;
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.GenericServlet#init(javax.servlet.ServletConfig)
+	 */
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
@@ -63,6 +76,9 @@ public class PlcImportServlet extends HttpServlet {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.http.HttpServlet#service(javax.servlet.ServletRequest, javax.servlet.ServletResponse)
+	 */
 	@SuppressWarnings("unchecked")
 	public void service(ServletRequest req, ServletResponse res)
 			throws ServletException, IOException {
@@ -232,6 +248,17 @@ public class PlcImportServlet extends HttpServlet {
 
 	}
 
+	/**
+	 * Gets the partial url.
+	 * 
+	 * @param operation
+	 *            the operation
+	 * @param format
+	 *            the format
+	 * @param params
+	 *            the params
+	 * @return the partial url
+	 */
 	public String getPartialUrl(String operation, RequestFormat format,
 			String[] params) {
 		StringBuffer url = new StringBuffer();
@@ -244,6 +271,19 @@ public class PlcImportServlet extends HttpServlet {
 		return url.toString();
 	}
 
+	/**
+	 * Unmarshal xml policy data.
+	 * 
+	 * @param xmlInput
+	 *            the xml input
+	 * @return the policy set
+	 * @throws ServletException
+	 *             the servlet exception
+	 * @throws JAXBException
+	 *             the jAXB exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 */
 	public PolicySet unmarshalXmlPolicyData(final ByteArrayOutputStream xmlInput)
 			throws ServletException, JAXBException, IOException {
 		JAXBContext jc = JAXBContext
@@ -260,6 +300,19 @@ public class PlcImportServlet extends HttpServlet {
 
 	}
 
+	/**
+	 * Unmarshal xml sg data.
+	 * 
+	 * @param xmlInput
+	 *            the xml input
+	 * @return the list
+	 * @throws ServletException
+	 *             the servlet exception
+	 * @throws JAXBException
+	 *             the jAXB exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 */
 	public List<SubjectGroup> unmarshalXmlSGData(
 			final ByteArrayOutputStream xmlInput) throws ServletException,
 			JAXBException, IOException {
@@ -277,6 +330,19 @@ public class PlcImportServlet extends HttpServlet {
 
 	}
 
+	/**
+	 * Parses the input stream.
+	 * 
+	 * @param request
+	 *            the request
+	 * @param response
+	 *            the response
+	 * @return the byte array output stream
+	 * @throws ServletException
+	 *             the servlet exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 */
 	public ByteArrayOutputStream parseInputStream(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		ServletFileUpload upload = new ServletFileUpload();

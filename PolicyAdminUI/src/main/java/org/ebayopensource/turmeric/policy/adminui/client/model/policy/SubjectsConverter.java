@@ -12,11 +12,19 @@ import java.util.List;
 
 
 /**
- * SubjectsConverter
+ * SubjectsConverter.
+ * 
  * @author jose
  */
 public class SubjectsConverter {
     
+	/**
+	 * To nv.
+	 * 
+	 * @param subjects
+	 *            the subjects
+	 * @return the string
+	 */
 	public static String toNV(final List<Subject> subjects) {
         String url = "";
         if (subjects== null || subjects.size() == 0){
@@ -44,6 +52,13 @@ public class SubjectsConverter {
 	
 	
     
+    /**
+	 * To json.
+	 * 
+	 * @param subjects
+	 *            the subjects
+	 * @return the string
+	 */
     public String toJSON (final List<Subject> subjects) {
         String json = "";
         if (subjects == null)

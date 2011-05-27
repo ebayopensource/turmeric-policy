@@ -12,11 +12,19 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.StackPanel;
 
+/**
+ * The Class TurmericDecoratedStackPanel.
+ */
 public class TurmericDecoratedStackPanel extends StackPanel {
+	
+	/** The Constant DEFAULT_STYLENAME. */
 	public static final String DEFAULT_STYLENAME = "gwt-DecoratedStackPanel";
 	private static final String[] DEFAULT_ROW_STYLENAMES = { "stackItemTop",
 			"stackItemMiddle" };
 
+	/**
+	 * Instantiates a new turmeric decorated stack panel.
+	 */
 	public TurmericDecoratedStackPanel() {
 		setStylePrimaryName("gwt-DecoratedStackPanel");
 	}

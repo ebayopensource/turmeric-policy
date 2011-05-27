@@ -45,9 +45,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.Header;
-import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -67,6 +65,9 @@ import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionModel;
 
+/**
+ * The Class PolicySummaryView.
+ */
 public class PolicySummaryView extends AbstractGenericView implements
 		PolicySummaryDisplay {
 
@@ -1174,6 +1175,9 @@ public class PolicySummaryView extends AbstractGenericView implements
 
 	}
 
+	/**
+	 * Instantiates a new policy summary view.
+	 */
 	public PolicySummaryView() {
 		scrollPanel = new ScrollPanel();
 		mainPanel = new FlowPanel();
@@ -1183,6 +1187,9 @@ public class PolicySummaryView extends AbstractGenericView implements
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#error(java.lang.String)
+	 */
 	public void error(String msg) {
 		ErrorDialog dialog = new ErrorDialog(true);
 		dialog.setMessage(msg);
@@ -1190,6 +1197,9 @@ public class PolicySummaryView extends AbstractGenericView implements
 		dialog.show();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView#initialize()
+	 */
 	@Override
 	public void initialize() {
 		mainPanel.clear();
@@ -1198,6 +1208,11 @@ public class PolicySummaryView extends AbstractGenericView implements
 		mainPanel.add(initContentView());
 	}
 
+	/**
+	 * Inits the content view.
+	 * 
+	 * @return the widget
+	 */
 	protected Widget initContentView() {
 		ScrollPanel actionPanel = new ScrollPanel();
 		contentView = new ContentView();
@@ -1205,66 +1220,108 @@ public class PolicySummaryView extends AbstractGenericView implements
 		return actionPanel;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#activate()
+	 */
 	public void activate() {
 		contentView.activate();
 		this.setVisible(true);
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.PolicyPageTemplateDisplay#getContentView()
+	 */
 	public Display getContentView() {
 		return contentView;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#setPermittedActions(org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy, java.util.List)
+	 */
 	public void setPermittedActions(GenericPolicy policy,
 			List<UserAction> permittedActions) {
 		((ContentView) contentView).setUserActions(policy, permittedActions);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#setPolicies(java.util.List)
+	 */
 	public void setPolicies(List<GenericPolicy> policies) {
 		((ContentView) contentView).setPolicies(policies);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#getSearchButton()
+	 */
 	public HasClickHandlers getSearchButton() {
 		return ((ContentView) contentView).searchWidget.getSearchButton();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#getSearchTerm()
+	 */
 	public String getSearchTerm() {
 		return ((ContentView) contentView).searchWidget.getSearchTerm();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#getSelectedType()
+	 */
 	public String getSelectedType() {
 		return ((ContentView) contentView).searchWidget.getSelectedType();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#getSelectedEffect()
+	 */
 	public String getSelectedEffect() {
 		return ((ContentView) contentView).searchWidget.getSelectedEffect();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#isPolicyCriteriaEnabled()
+	 */
 	public boolean isPolicyCriteriaEnabled() {
 		return ((ContentView) contentView).searchWidget
 				.isPolicyCriteriaEnabled();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#isResourceCriteriaEnabled()
+	 */
 	public boolean isResourceCriteriaEnabled() {
 		return ((ContentView) contentView).searchWidget
 				.isResourceCriteriaEnabled();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#isSubjectCriteriaEnabled()
+	 */
 	public boolean isSubjectCriteriaEnabled() {
 		return ((ContentView) contentView).searchWidget
 				.isSubjectCriteriaEnabled();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#isSubjectGroupCriteriaEnabled()
+	 */
 	public boolean isSubjectGroupCriteriaEnabled() {
 		return ((ContentView) contentView).searchWidget
 				.isSubjectGroupCriteriaEnabled();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#isSearchCriteriaEnabled()
+	 */
 	public boolean isSearchCriteriaEnabled() {
 		return ((ContentView) contentView).searchWidget
 				.isSubjectCriteriaEnabled();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#setAvailableTypes(java.util.List)
+	 */
 	public void setAvailableTypes(List<String> types) {
 		((ContentView) contentView).searchWidget.setAvailableTypes(types);
 		((ContentView) contentView).searchWidget.getAvailableTypeBox()
@@ -1278,6 +1335,9 @@ public class PolicySummaryView extends AbstractGenericView implements
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#setResourceNames()
+	 */
 	public void setResourceNames() {
 		((ContentView) contentView).searchWidget.setAvailableRsNames();
 		((ContentView) contentView).searchWidget.getRsNameBox()
@@ -1289,42 +1349,66 @@ public class PolicySummaryView extends AbstractGenericView implements
 				.setEnabled(true);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#setOperationNames()
+	 */
 	public void setOperationNames() {
 		((ContentView) contentView).searchWidget.setAvailableOps();
 		((ContentView) contentView).searchWidget.getOperationNameBox()
 				.setSelectedIndex(-1);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#getSubjectCriteriaButton()
+	 */
 	public HasClickHandlers getSubjectCriteriaButton() {
 		return ((ContentView) contentView).searchWidget
 				.getSubjectCriteriaButton();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#getPolicyCriteriaButton()
+	 */
 	public HasClickHandlers getPolicyCriteriaButton() {
 		return ((ContentView) contentView).searchWidget
 				.getPolicyCriteriaButton();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#getResourceCriteriaButton()
+	 */
 	public HasClickHandlers getResourceCriteriaButton() {
 		return ((ContentView) contentView).searchWidget
 				.getResourceCriteriaButton();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#getSubjectGroupCriteriaButton()
+	 */
 	public HasClickHandlers getSubjectGroupCriteriaButton() {
 		return ((ContentView) contentView).searchWidget
 				.getSubjectGroupCriteriaButton();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#setSelectedSearchTerm(java.lang.String)
+	 */
 	public void setSelectedSearchTerm(String name) {
 		((ContentView) contentView).searchPanel.setOpen(true);
 		((ContentView) contentView).searchWidget.setSelectedSearchTerm(name);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#setSelectedType(java.lang.String)
+	 */
 	public void setSelectedType(String type) {
 		((ContentView) contentView).searchPanel.setOpen(true);
 		((ContentView) contentView).searchWidget.setSelectedType(type);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#setPolicyCriteriaEnabled(boolean)
+	 */
 	public void setPolicyCriteriaEnabled(boolean enabled) {
 		((ContentView) contentView).searchPanel.setOpen(true);
 		((ContentView) contentView).searchWidget
@@ -1332,6 +1416,9 @@ public class PolicySummaryView extends AbstractGenericView implements
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#setResourceCriteriaEnabled(boolean)
+	 */
 	public void setResourceCriteriaEnabled(boolean enabled) {
 		((ContentView) contentView).searchPanel.setOpen(true);
 		((ContentView) contentView).searchWidget
@@ -1339,6 +1426,9 @@ public class PolicySummaryView extends AbstractGenericView implements
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#setSubjectCriteriaEnabled(boolean)
+	 */
 	public void setSubjectCriteriaEnabled(boolean enabled) {
 		((ContentView) contentView).searchPanel.setOpen(true);
 		((ContentView) contentView).searchWidget
@@ -1346,6 +1436,9 @@ public class PolicySummaryView extends AbstractGenericView implements
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#setSubjectGroupCriteriaEnabled(boolean)
+	 */
 	public void setSubjectGroupCriteriaEnabled(boolean enabled) {
 		((ContentView) contentView).searchPanel.setOpen(true);
 		((ContentView) contentView).searchWidget
@@ -1353,62 +1446,104 @@ public class PolicySummaryView extends AbstractGenericView implements
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#setSearchCriteriaEnabled(boolean)
+	 */
 	public void setSearchCriteriaEnabled(boolean enabled) {
 		((ContentView) contentView).searchPanel.setOpen(true);
 		((ContentView) contentView).searchWidget
 				.setSubjectCriteriaEnabled(enabled);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#getPolicyTypes()
+	 */
 	public List<String> getPolicyTypes() {
 		return ((ContentView) contentView).searchWidget.getPolicyTypes();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#setPolicyTypes(java.util.List)
+	 */
 	public void setPolicyTypes(List<String> types) {
 		((ContentView) contentView).searchWidget.setPolicyTypes(types);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#getSelectedResource()
+	 */
 	public String getSelectedResource() {
 		return ((ContentView) contentView).searchWidget.getSelectedRsName();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#getSelectedOperation()
+	 */
 	public String getSelectedOperation() {
 		return ((ContentView) contentView).searchWidget.getSelectedOp();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#getResourceNameBox()
+	 */
 	public HasChangeHandlers getResourceNameBox() {
 		return ((ContentView) contentView).searchWidget.getRsNameBox();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#getAvailableTypesBox()
+	 */
 	public HasChangeHandlers getAvailableTypesBox() {
 		return ((ContentView) contentView).searchWidget.getAvailableTypeBox();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#setRLEffectBoxVisible(boolean)
+	 */
 	public void setRLEffectBoxVisible(boolean b) {
 		((ContentView) contentView).searchWidget.setRLEffectBoxVisible(b);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#setRLEffectLabelVisible(boolean)
+	 */
 	public void setRLEffectLabelVisible(boolean b) {
 		((ContentView) contentView).searchWidget.setRLEffectLabelVisible(b);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#setRsNames(java.util.List)
+	 */
 	public void setRsNames(List<String> names) {
 		((ContentView) contentView).searchWidget.setRsNames(names);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#setOpNames(java.util.List)
+	 */
 	public void setOpNames(List<String> names) {
 		((ContentView) contentView).searchWidget.setOpNames(names);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#setEffect(java.util.List)
+	 */
 	public void setEffect(List<String> effects) {
 		((ContentView) contentView).searchWidget.setRLEffect(effects);
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#getActionButtonAbove()
+	 */
 	public HasClickHandlers getActionButtonAbove() {
 		return ((ContentView) contentView).getActionButtonAbove();
 	}
 
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#getPendingActions()
+	 */
 	public Map<GenericPolicy, UserAction> getPendingActions() {
 		return ((ContentView) contentView).getPendingActions();
 	}

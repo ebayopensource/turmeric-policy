@@ -17,17 +17,29 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQuer
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * PolicyType
- *
+ * PolicyType.
  */
 public class PolicyType {
     private static List<String> values;
     private static boolean init;
     
+    /**
+	 * Gets the values.
+	 * 
+	 * @return the values
+	 */
     public static List<String> getValues () {
         return Collections.unmodifiableList(values);
     }
 
+    /**
+	 * Inits the.
+	 * 
+	 * @param service
+	 *            the service
+	 * @param callback
+	 *            the callback
+	 */
     public static void init(PolicyQueryService service, final AsyncCallback<List<String>> callback) {
         if (init)
             return;

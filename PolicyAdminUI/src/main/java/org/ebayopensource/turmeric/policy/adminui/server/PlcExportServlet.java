@@ -1,3 +1,11 @@
+/*********************************************************************
+ * Copyright (c) 2006-2010 eBay Inc. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *******************************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.server;
 
 import java.io.IOException;
@@ -29,6 +37,9 @@ import org.eclipse.jetty.io.Buffer;
 
 import com.google.gwt.core.client.GWT;
 
+/**
+ * The Class PlcExportServlet.
+ */
 public class PlcExportServlet extends HttpServlet {
 
 	private SimpleDateFormat dateFormat = new SimpleDateFormat(
@@ -41,6 +52,9 @@ public class PlcExportServlet extends HttpServlet {
 	private String policyServiceURL;
 	private String exportedEntity;
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.GenericServlet#init(javax.servlet.ServletConfig)
+	 */
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
@@ -72,6 +86,9 @@ public class PlcExportServlet extends HttpServlet {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.http.HttpServlet#service(javax.servlet.ServletRequest, javax.servlet.ServletResponse)
+	 */
 	public void service(ServletRequest req, ServletResponse res)
 			throws ServletException, IOException {
 		HttpServletRequest request = (HttpServletRequest) req;
@@ -210,6 +227,20 @@ public class PlcExportServlet extends HttpServlet {
 		return name.toString();
 	}
 
+	/**
+	 * Send.
+	 * 
+	 * @param request
+	 *            the request
+	 * @param response
+	 *            the response
+	 * @param continuation
+	 *            the continuation
+	 * @param uri
+	 *            the uri
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 */
 	public void send(final HttpServletRequest request,
 			final HttpServletResponse response,
 			final Continuation continuation, final HttpURI uri)

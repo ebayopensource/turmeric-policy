@@ -31,9 +31,13 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
  * @author scheglov_ke
  */
 public class FlexTableHelper {
+	
 	/**
-	 * Fixes problem with {@link FlexCellFormatter#setRowSpan(int, int, int)}, see comment for
-	 * {@link #FlexTableHelper}.
+	 * Fixes problem with {@link FlexCellFormatter#setRowSpan(int, int, int)},
+	 * see comment for.
+	 * 
+	 * @param flexTable
+	 *            the flex table {@link #FlexTableHelper}.
 	 */
 	public static void fixRowSpan(final FlexTable flexTable) {
 		Set<Element> tdToRemove = new HashSet<Element>();

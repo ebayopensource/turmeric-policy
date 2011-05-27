@@ -14,13 +14,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.Display;
+import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.SupportedService;
-import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken;
-import org.ebayopensource.turmeric.policy.adminui.client.model.SubjectGroupCalculator;
+import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreateSubjectGroupsResponse;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreateSubjectsResponse;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindExternalSubjectsResponse;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectsResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetMetaDataResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.QueryCondition;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.QueryCondition.Query;
@@ -30,10 +33,6 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGro
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectQuery;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreateSubjectGroupsResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreateSubjectsResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindExternalSubjectsResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectsResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.PolicyPageTemplateDisplay;
 
@@ -48,51 +47,150 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+/**
+ * The Class SubjectGroupCreatePresenter.
+ */
 public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 
+	/** The Constant PRESENTER_ID. */
 	public final static String PRESENTER_ID = "SubjectGroupCreate";
 
+	/** The event bus. */
 	protected HandlerManager eventBus;
+	
+	/** The view. */
 	protected SubjectGroupCreateDisplay view;
+	
+	/** The service map. */
 	protected Map<SupportedService, PolicyAdminUIService> serviceMap;
+	
+	/** The subject types. */
 	protected List<String> subjectTypes;
 	private List<Long> createdSubjectIds;
 
+	/** The service. */
 	protected PolicyQueryService service;
 
+	/**
+	 * The Interface SubjectGroupCreateDisplay.
+	 */
 	public interface SubjectGroupCreateDisplay extends
 			PolicyPageTemplateDisplay {
 
+		/**
+		 * Gets the creates the button.
+		 * 
+		 * @return the creates the button
+		 */
 		public Button getCreateButton();
 
+		/**
+		 * Gets the cancel button.
+		 * 
+		 * @return the cancel button
+		 */
 		public HasClickHandlers getCancelButton();
 
+		/**
+		 * Gets the search button.
+		 * 
+		 * @return the search button
+		 */
 		public HasClickHandlers getSearchButton();
 
+		/**
+		 * Gets the selected subjects.
+		 * 
+		 * @return the selected subjects
+		 */
 		public List<String> getSelectedSubjects();
 
+		/**
+		 * Gets the subject type.
+		 * 
+		 * @return the subject type
+		 */
 		public String getSubjectType();
 
+		/**
+		 * Gets the search term.
+		 * 
+		 * @return the search term
+		 */
 		public String getSearchTerm();
 
+		/**
+		 * Gets the description.
+		 * 
+		 * @return the description
+		 */
 		public String getDescription();
 
+		/**
+		 * Gets the name.
+		 * 
+		 * @return the name
+		 */
 		public String getName();
 
+		/**
+		 * Sets the available subjects.
+		 * 
+		 * @param subjects
+		 *            the new available subjects
+		 */
 		public void setAvailableSubjects(List<String> subjects);
 
+		/**
+		 * Sets the subject types.
+		 * 
+		 * @param subjectTypes
+		 *            the new subject types
+		 */
 		public void setSubjectTypes(List<String> subjectTypes);
 
+		/**
+		 * Error.
+		 * 
+		 * @param msg
+		 *            the msg
+		 */
 		public void error(String msg);
 		
+		/**
+		 * Sets the sg calculator map.
+		 * 
+		 * @param sgCalculatorMap
+		 *            the sg calculator map
+		 */
 		public void setSgCalculatorMap(Map<String, String> sgCalculatorMap);
 		
+		/**
+		 * Checks if is sg calculated.
+		 * 
+		 * @return the boolean
+		 */
 		public Boolean isSgCalculated();
 		
+		/**
+		 * Gets the selected subject group calculator name.
+		 * 
+		 * @return the selected subject group calculator name
+		 */
 		public String getSelectedSubjectGroupCalculatorName();
 
 	}
 
+	/**
+	 * Instantiates a new subject group create presenter.
+	 * 
+	 * @param eventBus
+	 *            the event bus
+	 * @param view
+	 *            the view
+	 * @param serviceMap
+	 *            the service map
+	 */
 	public SubjectGroupCreatePresenter(HandlerManager eventBus,
 			SubjectGroupCreateDisplay view,
 			Map<SupportedService, PolicyAdminUIService> serviceMap) {
@@ -104,15 +202,24 @@ public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 		bind();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#getId()
+	 */
 	public String getId() {
 		return PRESENTER_ID;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#getView()
+	 */
 	@Override
 	protected Display getView() {
 		return view;
 	}
 
+	/**
+	 * Bind.
+	 */
 	public void bind() {
 		this.view.getSearchButton().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -437,6 +544,9 @@ public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#go(com.google.gwt.user.client.ui.HasWidgets, org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+	 */
 	@Override
 	public void go(HasWidgets container, final HistoryToken token) {
 		fetchSubjectTypes();

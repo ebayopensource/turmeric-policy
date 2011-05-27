@@ -18,10 +18,20 @@ import com.google.gwt.core.client.JsArray;
  */
 public class ErrorResponse extends JavaScriptObject {
 
+    /**
+	 * Instantiates a new error response.
+	 */
     protected ErrorResponse() {
     }
     
     
+    /**
+	 * From json.
+	 * 
+	 * @param json
+	 *            the json
+	 * @return the error response
+	 */
     public static final native ErrorResponse fromJSON (String json) /*-{
        try {
            return eval('(' + json + ')');
@@ -30,12 +40,26 @@ public class ErrorResponse extends JavaScriptObject {
        }
     }-*/;
     
+    /**
+	 * Checks if is service error response.
+	 * 
+	 * @param rname
+	 *            the rname
+	 * @return true, if is service error response
+	 */
     public final native boolean isServiceErrorResponse (String rname) /*-{
         if (this[rname]["ms.errorMessage"])
             return true;
         return false;
     }-*/;
     
+    /**
+	 * Gets the service errors.
+	 * 
+	 * @param rname
+	 *            the rname
+	 * @return the service errors
+	 */
     public final native JsArray<RemoteError> getServiceErrors (String rname) /*-{
         if (this[rname]["ms.errorMessage"])
           return this[rname]["ms.errorMessage"]["ms.error"];
@@ -43,6 +67,11 @@ public class ErrorResponse extends JavaScriptObject {
     }-*/;
     
     //TODO - remove these!
+    /**
+	 * Checks if is error response.
+	 * 
+	 * @return true, if is error response
+	 */
     public final native boolean isErrorResponse () /*-{
         if (this["ms.error"])
             if (this["ms.error"]["ms.errorMessage"])
@@ -53,6 +82,11 @@ public class ErrorResponse extends JavaScriptObject {
              return false;
 }-*/;
 
+/**
+ * Gets the errors.
+ * 
+ * @return the errors
+ */
 public final native JsArray<RemoteError> getErrors () /*-{
     if (this["ms.error"])
        if (this["ms.error"]["ms.errorMessage"])

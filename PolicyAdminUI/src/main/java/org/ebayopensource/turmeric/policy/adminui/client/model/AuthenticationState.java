@@ -8,9 +8,17 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.client.model;
 
+/**
+ * The Enum AuthenticationState.
+ */
 public enum AuthenticationState {
 	Unknown,Authenticated,Unauthenticated;
 	
+	/**
+	 * Checks if is authenticated.
+	 * 
+	 * @return true, if is authenticated
+	 */
 	public boolean isAuthenticated() {
 		return this.equals(Authenticated);
 	}

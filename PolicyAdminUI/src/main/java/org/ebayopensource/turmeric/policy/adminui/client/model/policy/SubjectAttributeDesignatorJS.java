@@ -11,18 +11,26 @@ package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
- * SubjectAttributeDesignatorJS
- *
+ * SubjectAttributeDesignatorJS.
  */
 public class SubjectAttributeDesignatorJS extends JavaScriptObject implements SubjectAttributeDesignator {
 
+    /**
+	 * Instantiates a new subject attribute designator js.
+	 */
     protected SubjectAttributeDesignatorJS() {}
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectAttributeDesignator#getAttributeId()
+     */
     @Override
     public native final String getAttributeId() /*-{
         return this["@AttributeId"];
     }-*/;
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectAttributeDesignator#getDataType()
+     */
     @Override
     public native final String getDataType() /*-{
         return this["@DataType"];

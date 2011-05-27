@@ -8,6 +8,9 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.client.model;
 
+/**
+ * The Interface Entity.
+ */
 public interface Entity {
 
 	Long getId();

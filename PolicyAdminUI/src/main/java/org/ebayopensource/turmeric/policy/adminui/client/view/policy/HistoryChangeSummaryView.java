@@ -13,8 +13,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.Display;
+import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.EntityHistory;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.HistoryChangeSummaryPresenter.HistoryChangeSummaryDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.util.DateFormatUtil;
@@ -24,10 +24,8 @@ import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericPag
 
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -37,13 +35,15 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
 
+/**
+ * The Class HistoryChangeSummaryView.
+ */
 public class HistoryChangeSummaryView extends AbstractGenericView implements HistoryChangeSummaryDisplay {
 	
 	private ScrollPanel scrollPanel;
@@ -264,6 +264,9 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
 	}
 
 
+	/**
+	 * Instantiates a new history change summary view.
+	 */
 	public HistoryChangeSummaryView() {
 	    scrollPanel = new ScrollPanel();
 		mainPanel = new FlowPanel();
@@ -273,6 +276,9 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
 		initialize();
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView#initialize()
+	 */
 	@Override
 	public void initialize() {
 		mainPanel.clear();
@@ -283,6 +289,11 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
 	
 	
 	
+	/**
+	 * Inits the content view.
+	 * 
+	 * @return the widget
+	 */
 	protected Widget initContentView() {
 		ScrollPanel actionPanel = new ScrollPanel();
 	    contentView = new ContentView();
@@ -291,42 +302,66 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#activate()
+	 */
 	public void activate() {
 		contentView.activate();
 		this.setVisible(true);
 	}
 
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.PolicyPageTemplateDisplay#getContentView()
+	 */
 	public Display getContentView() {
 		return contentView;
 	}
 	
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.HistoryChangeSummaryPresenter.HistoryChangeSummaryDisplay#setEntities(java.util.List)
+     */
     @Override
     public void setEntities(List<EntityHistory> entities) {
        ((ContentView)contentView).setEntities(entities);
     }
     
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.HistoryChangeSummaryPresenter.HistoryChangeSummaryDisplay#setEntityTypes(java.util.List)
+     */
     @Override
     public void setEntityTypes(List<String> entityTypes) {
         ((ContentView)contentView).searchWidget.setEntityTypes(entityTypes);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.HistoryChangeSummaryPresenter.HistoryChangeSummaryDisplay#getSearchButton()
+     */
     @Override
     public HasClickHandlers getSearchButton() {
         return ((ContentView)contentView).searchWidget.getSearchButton();
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.HistoryChangeSummaryPresenter.HistoryChangeSummaryDisplay#getFrom()
+     */
     @Override
     public long getFrom() {
         return ((ContentView)contentView).searchWidget.getFrom();
     }
 
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.HistoryChangeSummaryPresenter.HistoryChangeSummaryDisplay#getTo()
+     */
     @Override
     public long getTo() {
         return ((ContentView)contentView).searchWidget.getTo();
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.HistoryChangeSummaryPresenter.HistoryChangeSummaryDisplay#getEntity()
+     */
     @Override
     public String getEntity() {
         return ((ContentView)contentView).searchWidget.getEntity();
@@ -334,6 +369,9 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
 
 
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.HistoryChangeSummaryPresenter.HistoryChangeSummaryDisplay#error(java.lang.String)
+     */
     public void error(String msg) {
 		ErrorDialog dialog = new ErrorDialog(true);
 		dialog.setMessage(msg);

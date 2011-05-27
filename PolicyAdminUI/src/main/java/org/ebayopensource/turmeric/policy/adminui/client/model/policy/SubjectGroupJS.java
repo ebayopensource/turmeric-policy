@@ -21,39 +21,53 @@ import com.google.gwt.core.client.JsArray;
 
 
 /**
- * SubjectGroupJS
- *
+ * SubjectGroupJS.
  */
 public class SubjectGroupJS extends JavaScriptObject implements SubjectGroup {
 
+    /**
+	 * Instantiates a new subject group js.
+	 */
     protected SubjectGroupJS () {}
     
    
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getCreatedBy()
-     */
+	 * Gets the created by.
+	 * 
+	 * @return the created by
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getCreatedBy()
+	 */
     public native final String getCreatedBy() /*-{
         return this["@CreatedBy"];
     }-*/;
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getDescription()
-     */
+	 * Gets the description.
+	 * 
+	 * @return the description
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getDescription()
+	 */
     public native final String getDescription() /*-{
         return this["@Description"];
     }-*/;
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getLastModifiedBy()
-     */
+	 * Gets the last modified by.
+	 * 
+	 * @return the last modified by
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getLastModifiedBy()
+	 */
     public native final String getLastModifiedBy() /*-{
         return this["@LastModifiedBy"];
     }-*/;
     
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getLastModifiedTime()
-     */
+	 * Gets the last modified time.
+	 * 
+	 * @return the last modified time
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getLastModifiedTime()
+	 */
     @Override
     public final Date getLastModifiedTime() {
 
@@ -68,13 +82,21 @@ public class SubjectGroupJS extends JavaScriptObject implements SubjectGroup {
     }
 
     
+    /**
+	 * Gets the last modified as string.
+	 * 
+	 * @return the last modified as string
+	 */
     public native final String getLastModifiedAsString() /*-{
         return this["@LastUpdatedDate"];
     }-*/;
     
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getName()
-     */
+	 * Gets the name.
+	 * 
+	 * @return the name
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getName()
+	 */
     public native final String getName() /*-{
         return this["@SubjectGroupName"];
     }-*/;
@@ -89,8 +111,11 @@ public class SubjectGroupJS extends JavaScriptObject implements SubjectGroup {
     }
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getSubjects()
-     */
+	 * Gets the subjects.
+	 * 
+	 * @return the subjects
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getSubjects()
+	 */
     public final List<String> getSubjects() {
         List<String> strings = new ArrayList<String>();
         JsArray<SubjectJS> subjects = getSubjectsAsObjects();
@@ -114,7 +139,10 @@ public class SubjectGroupJS extends JavaScriptObject implements SubjectGroup {
 //		return this["ns2.SubjectMatch"];
 //	}-*/;
 
-    @Override
+    /* (non-Javadoc)
+ * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getSubjectMatchTypes()
+ */
+@Override
     public final List<SubjectMatchType> getSubjectMatchTypes() {
         List<SubjectMatchType> results = new ArrayList<SubjectMatchType>();
         JsArray<SubjectMatchTypeJS> subjectMatchs = getSubjectMatchAsArray();
@@ -129,11 +157,19 @@ public class SubjectGroupJS extends JavaScriptObject implements SubjectGroup {
 		return this["ns2.SubjectMatch"]
 	}-*/;
 	
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getType()
+     */
     public native final String getType() /*-{
         return this["@SubjectType"];
     }-*/;
 
     
+	/**
+	 * Gets the id from subject match as string.
+	 * 
+	 * @return the id from subject match as string
+	 */
 	public final String getIdFromSubjectMatchAsString () {
 		    
 	        JsArray<SubjectMatchTypeJS> array =  getSubjectMatchAsArray();
@@ -168,12 +204,18 @@ public class SubjectGroupJS extends JavaScriptObject implements SubjectGroup {
 //            return null;
 //    }
 //    
-    @Override
+    /* (non-Javadoc)
+ * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getId()
+ */
+@Override
     public final Long getId() {
         return SubjectUtil.getSubjectGroupId(this);
     }
 
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup#getGroupCalculator()
+     */
     @Override
     public native final String getGroupCalculator()  /*-{
         return this["@SubjectGroupCalculator"];

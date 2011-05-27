@@ -17,18 +17,28 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 
 /**
- * CreateSubjectGroupsResponseJS
- *
+ * CreateSubjectGroupsResponseJS.
  */
 public class CreateSubjectGroupsResponseJS  extends JavaScriptObject implements
         CreateSubjectGroupsResponse {
 
+    /** The Constant NAME. */
     public static final String NAME = "ns1.createSubjectGroupsResponse";
     
     
+    /**
+	 * Instantiates a new creates the subject groups response js.
+	 */
     protected CreateSubjectGroupsResponseJS () {
     }
 
+    /**
+	 * From json.
+	 * 
+	 * @param json
+	 *            the json
+	 * @return the creates the subject groups response
+	 */
     public static final native CreateSubjectGroupsResponse fromJSON (String json) /*-{
         try {
             return eval('(' + json + ')');
@@ -39,8 +49,11 @@ public class CreateSubjectGroupsResponseJS  extends JavaScriptObject implements
     
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreateSubjectGroupsResponse#getSubjectGroupIds()
-     */
+	 * Gets the subject group ids.
+	 * 
+	 * @return the subject group ids
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreateSubjectGroupsResponse#getSubjectGroupIds()
+	 */
     public final List<Long> getSubjectGroupIds() {
         JsArrayString idsAsStrings = getSubjectGroupIdsAsStrings();
         List<Long> results = new ArrayList<Long>();
@@ -55,20 +68,31 @@ public class CreateSubjectGroupsResponseJS  extends JavaScriptObject implements
 
     
     
+    /**
+	 * Gets the subject group ids as strings.
+	 * 
+	 * @return the subject group ids as strings
+	 */
     public final native JsArrayString getSubjectGroupIdsAsStrings () /*-{
         return this["ns1.createSubjectGroupsResponse"]["ns1.subjectGroupIds"];
     }-*/;
     
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.BaseResponse#getErrorMessage()
-     */
+	 * Gets the error message.
+	 * 
+	 * @return the error message
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.BaseResponse#getErrorMessage()
+	 */
     public final native String getErrorMessage() /*-{
         return this["ns1.createSubjectGroupsResponse"]["ms.errorMessage"];
     }-*/;
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.BaseResponse#isErrored()
-     */
+	 * Checks if is errored.
+	 * 
+	 * @return true, if is errored
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.BaseResponse#isErrored()
+	 */
     public final native boolean isErrored() /*-{
         if (this["ns1.createSubjectGroupsResponse"]["ms.ack"] === "Success")
             return false;

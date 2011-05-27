@@ -23,8 +23,12 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 
 /**
- * CustomPermissionCheckboxCell
- *
+ * CustomPermissionCheckboxCell.
+ * 
+ * @param <C>
+ *            the generic type
+ * @param <V>
+ *            the value type
  */
 public class CustomPermissionCheckboxCell<C, V> extends AbstractEditableCell<C, V> {
 
@@ -32,6 +36,16 @@ public class CustomPermissionCheckboxCell<C, V> extends AbstractEditableCell<C, 
     Map<C, UserAction> pendingActions;
     Map<C, List<UserAction>> permittedActions;
     
+    /**
+	 * Instantiates a new custom permission checkbox cell.
+	 * 
+	 * @param action
+	 *            the action
+	 * @param pendingActions
+	 *            the pending actions
+	 * @param permittedActions
+	 *            the permitted actions
+	 */
     public CustomPermissionCheckboxCell (UserAction action, Map<C, UserAction> pendingActions, Map<C, List<UserAction>> permittedActions) {
         super("change", "keydown");
         this.action = action;
@@ -39,6 +53,16 @@ public class CustomPermissionCheckboxCell<C, V> extends AbstractEditableCell<C, 
         this.permittedActions = permittedActions;
     }
     
+    /**
+	 * Render.
+	 * 
+	 * @param value
+	 *            the value
+	 * @param key
+	 *            the key
+	 * @param sb
+	 *            the sb
+	 */
     public void render(C value, Object key, SafeHtmlBuilder sb) {
       if (value == null)
           return;    
@@ -65,14 +89,38 @@ public class CustomPermissionCheckboxCell<C, V> extends AbstractEditableCell<C, 
 
 
     /**
-     * @see com.google.gwt.cell.client.AbstractEditableCell#isEditing(com.google.gwt.dom.client.Element, java.lang.Object, java.lang.Object)
-     */
+	 * Checks if is editing.
+	 * 
+	 * @param arg0
+	 *            the arg0
+	 * @param arg1
+	 *            the arg1
+	 * @param arg2
+	 *            the arg2
+	 * @return true, if is editing
+	 * @see com.google.gwt.cell.client.AbstractEditableCell#isEditing(com.google.gwt.dom.client.Element,
+	 *      java.lang.Object, java.lang.Object)
+	 */
     public boolean isEditing(Element arg0, C arg1, Object arg2) {
      
         return false;
     }
 
     
+    /**
+	 * On browser event.
+	 * 
+	 * @param parent
+	 *            the parent
+	 * @param value
+	 *            the value
+	 * @param key
+	 *            the key
+	 * @param event
+	 *            the event
+	 * @param valueUpdater
+	 *            the value updater
+	 */
     public void onBrowserEvent(Element parent, C value,
                                Object key, NativeEvent event,
                                ValueUpdater<C> valueUpdater) {
@@ -88,17 +136,26 @@ public class CustomPermissionCheckboxCell<C, V> extends AbstractEditableCell<C, 
         }
     }
 
+	/* (non-Javadoc)
+	 * @see com.google.gwt.cell.client.AbstractEditableCell#isEditing(com.google.gwt.cell.client.Cell.Context, com.google.gwt.dom.client.Element, java.lang.Object)
+	 */
 	@Override
 	public boolean isEditing(com.google.gwt.cell.client.Cell.Context arg0,
 			Element arg1, C arg2) {
 		return isEditing(arg1, arg2, arg0.getKey());
 	}
 
+	/* (non-Javadoc)
+	 * @see com.google.gwt.cell.client.AbstractCell#onBrowserEvent(com.google.gwt.cell.client.Cell.Context, com.google.gwt.dom.client.Element, java.lang.Object, com.google.gwt.dom.client.NativeEvent, com.google.gwt.cell.client.ValueUpdater)
+	 */
 	@Override
 	public void onBrowserEvent(Cell.Context context, Element parent, C value, NativeEvent event, ValueUpdater<C> valueUpdater){
 		onBrowserEvent(parent, value, context.getKey(), event, valueUpdater);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.google.gwt.cell.client.AbstractCell#render(com.google.gwt.cell.client.Cell.Context, java.lang.Object, com.google.gwt.safehtml.shared.SafeHtmlBuilder)
+	 */
 	@Override
 	public void render(com.google.gwt.cell.client.Cell.Context arg0, C arg1,
 			SafeHtmlBuilder arg2) {

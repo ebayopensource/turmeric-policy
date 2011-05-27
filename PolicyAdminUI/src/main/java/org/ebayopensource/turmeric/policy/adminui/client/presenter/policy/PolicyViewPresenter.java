@@ -11,15 +11,14 @@ package org.ebayopensource.turmeric.policy.adminui.client.presenter.policy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.Display;
+import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.SupportedService;
-import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken;
+import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Condition;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Expression;
@@ -27,6 +26,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ExtraField
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetPoliciesResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicySubjectAssignment;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.QueryCondition;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource;
@@ -37,7 +37,6 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectType;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetPoliciesResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.PolicyPageTemplateDisplay;
 
@@ -50,25 +49,55 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+/**
+ * The Class PolicyViewPresenter.
+ */
 public class PolicyViewPresenter extends AbstractGenericPresenter {
 
+	/** The Constant PRESENTER_ID. */
 	public final static String PRESENTER_ID = "PolicyView";
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#getId()
+	 */
 	public final String getId() {
 		return PRESENTER_ID;
 	}
 
+	/** The event bus. */
 	protected HandlerManager eventBus;
+	
+	/** The view. */
 	protected PolicyViewDisplay view;
+	
+	/** The service map. */
 	protected Map<SupportedService, PolicyAdminUIService> serviceMap;
+	
+	/** The subject assignments. */
 	protected List<PolicySubjectAssignment> subjectAssignments;
+	
+	/** The resource assignments. */
 	protected List<Resource> resourceAssignments;
 
+	/** The edit resource assignment. */
 	protected ResourceImpl editResourceAssignment;
 
+	/** The edit subject assignment. */
 	protected PolicySubjectAssignment editSubjectAssignment;
+	
+	/** The service. */
 	protected PolicyQueryService service;
 
+	/**
+	 * Instantiates a new policy view presenter.
+	 * 
+	 * @param eventBus
+	 *            the event bus
+	 * @param view
+	 *            the view
+	 * @param serviceMap
+	 *            the service map
+	 */
 	public PolicyViewPresenter(HandlerManager eventBus, PolicyViewDisplay view,
 			Map<SupportedService, PolicyAdminUIService> serviceMap) {
 		this.eventBus = eventBus;
@@ -81,8 +110,12 @@ public class PolicyViewPresenter extends AbstractGenericPresenter {
 	/*
 	 * Interface definitions
 	 */
+	/**
+	 * The Interface PolicyViewDisplay.
+	 */
 	public interface PolicyViewDisplay extends PolicyPageTemplateDisplay {
 		
+		/** The MI n_ scrollba r_ size. */
 		public static int MIN_SCROLLBAR_SIZE = 5;
 		
 		Button getCancelButton();
@@ -111,6 +144,9 @@ public class PolicyViewPresenter extends AbstractGenericPresenter {
 
 	}
 
+	/**
+	 * The Interface ResourcesContentDisplay.
+	 */
 	public interface ResourcesContentDisplay extends Display {
 		void setAssignments(List<Resource> assignments);
 
@@ -118,15 +154,24 @@ public class PolicyViewPresenter extends AbstractGenericPresenter {
 
 	}
 
+	/**
+	 * The Interface SubjectContentDisplay.
+	 */
 	public interface SubjectContentDisplay extends Display {
 		void setAssignments(List<PolicySubjectAssignment> assignments);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#getView()
+	 */
 	@Override
 	protected PolicyViewDisplay getView() {
 		return view;
 	}
 
+	/**
+	 * Bind.
+	 */
 	public void bind() {
 		// fired on non saved policy
 		this.view.getCancelButton().addClickHandler(new ClickHandler() {
@@ -141,6 +186,9 @@ public class PolicyViewPresenter extends AbstractGenericPresenter {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#go(com.google.gwt.user.client.ui.HasWidgets, org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+	 */
 	@Override
 	public void go(HasWidgets container, final HistoryToken token) {
 		container.clear();

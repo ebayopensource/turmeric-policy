@@ -8,6 +8,9 @@
  *******************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.client;
 
+/**
+ * The Enum SupportedService.
+ */
 public enum SupportedService {
 	METRICS_QUERY_SERVICE,
 	POLICY_QUERY_SERVICE,

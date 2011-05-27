@@ -26,8 +26,21 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+/**
+ * The Class WLPolicyCreatePresenter.
+ */
 public class WLPolicyCreatePresenter extends PolicyCreatePresenter {
 
+	/**
+	 * Instantiates a new wL policy create presenter.
+	 * 
+	 * @param eventBus
+	 *            the event bus
+	 * @param view
+	 *            the view
+	 * @param serviceMap
+	 *            the service map
+	 */
 	public WLPolicyCreatePresenter(HandlerManager eventBus,
 			PolicyCreateDisplay view,
 			Map<SupportedService, PolicyAdminUIService> serviceMap) {
@@ -37,13 +50,20 @@ public class WLPolicyCreatePresenter extends PolicyCreatePresenter {
 		view.setExclusionListsVisible(false);
 	}
 
+	/** The Constant PRESENTER_ID. */
 	public final static String PRESENTER_ID = "WLPolicyCreate";
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#getId()
+	 */
 	@Override
 	public String getId() {
 		return PRESENTER_ID;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#getResourceLevels()
+	 */
 	@Override
 	public List<String> getResourceLevels() {
 		List<String> rsLevels = new ArrayList<String>();
@@ -55,6 +75,9 @@ public class WLPolicyCreatePresenter extends PolicyCreatePresenter {
 		return rsLevels;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#bindSaveButton()
+	 */
 	@Override
 	protected void bindSaveButton() {
 		{

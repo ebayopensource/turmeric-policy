@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*********************************************************************
  * Copyright (c) 2006-2010 eBay Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -9,10 +9,21 @@
 package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 
 /**
- * AttributeValue
- *
+ * The Interface AttributeValue.
  */
 public interface AttributeValue {
+    
+    /**
+     * Gets the data type.
+     *
+     * @return the data type
+     */
     public String getDataType();
+    
+    /**
+     * Gets the value.
+     *
+     * @return the value
+     */
     public String getValue();
 }

@@ -13,11 +13,23 @@ import java.util.Date;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.datepicker.client.DateBox;
 
+/**
+ * The Class DateFormatUtil.
+ */
 public class DateFormatUtil {
+	
+	/** The SHOR t_ dat e_ format. */
 	public static DateBox.DefaultFormat SHORT_DATE_FORMAT = new DateBox.DefaultFormat(DateTimeFormat.getFormat("yyyy MMM dd"));
 	private static final String CONSOLE_DATE_FORMAT = "dd MMM yyyy hh:mm:ss aa";
 	private static final DateTimeFormat CONSOLE_DATE_FORMATTER = DateTimeFormat.getFormat(CONSOLE_DATE_FORMAT);
 	
+	/**
+	 * To console date format.
+	 * 
+	 * @param date
+	 *            the date
+	 * @return the string
+	 */
 	public static String toConsoleDateFormat(Date date) {
 		if (date == null) {
 			return "";
@@ -25,6 +37,13 @@ public class DateFormatUtil {
 		return CONSOLE_DATE_FORMATTER.format(date);
 	}
 	
+	/**
+	 * Reset to12am.
+	 * 
+	 * @param date
+	 *            the date
+	 * @return the date
+	 */
 	public static Date resetTo12am(Date date){
 		Date result = new Date(date.getTime());
 		result.setHours(00);
@@ -33,6 +52,13 @@ public class DateFormatUtil {
 		return result;
 	}
 
+	/**
+	 * Reset to1159pm.
+	 * 
+	 * @param value
+	 *            the value
+	 * @return the date
+	 */
 	public static Date resetTo1159pm(Date value) {
 		Date result = new Date(value.getTime());
 		result.setHours(23);

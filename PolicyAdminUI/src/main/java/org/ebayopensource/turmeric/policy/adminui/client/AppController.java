@@ -22,16 +22,16 @@ import org.ebayopensource.turmeric.policy.adminui.client.event.LoginSuccessEvent
 import org.ebayopensource.turmeric.policy.adminui.client.event.LoginSuccessEventHandler;
 import org.ebayopensource.turmeric.policy.adminui.client.event.LogoutEvent;
 import org.ebayopensource.turmeric.policy.adminui.client.event.LogoutEventHandler;
-import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken;
+import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.OperationKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnforcementService;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnforcementService.VerifyAccessResponse;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroupKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroupQuery;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnforcementService.VerifyAccessResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.MenuController;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.SplashPresenter;
@@ -41,7 +41,6 @@ import org.ebayopensource.turmeric.policy.adminui.client.util.PresenterUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.view.SplashView;
 import org.ebayopensource.turmeric.policy.adminui.client.view.policy.ApplicationMenuView;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -50,11 +49,21 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+/**
+ * The Class AppController.
+ */
 public class AppController implements Controller, ValueChangeHandler<String> {
 
+    /** The event bus. */
     protected HandlerManager eventBus;
+    
+    /** The root container. */
     protected HasWidgets rootContainer;
+    
+    /** The presenters. */
     protected Map<String, Presenter> presenters = new HashMap<String, Presenter>();
+    
+    /** The service map. */
     protected Map<SupportedService, PolicyAdminUIService> serviceMap;
 
     /**
@@ -98,6 +107,9 @@ public class AppController implements Controller, ValueChangeHandler<String> {
         }
     }
 
+    /* (non-Javadoc)
+     * @see com.google.gwt.event.logical.shared.ValueChangeHandler#onValueChange(com.google.gwt.event.logical.shared.ValueChangeEvent)
+     */
     public void onValueChange(ValueChangeEvent<String> event) {
 
         final HistoryToken token = HistoryToken.newHistoryToken(event.getValue());
@@ -253,14 +265,23 @@ public class AppController implements Controller, ValueChangeHandler<String> {
         this.presenters.clear();
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.Controller#addPresenter(java.lang.String, org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter)
+     */
     public void addPresenter(String id, Presenter p) {
         this.presenters.put(id, p);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.Controller#getPresenter(java.lang.String)
+     */
     public Presenter getPresenter(String id) {
         return this.presenters.get(id);
     }
 
+    /* (non-Javadoc)
+     * @see org.ebayopensource.turmeric.policy.adminui.client.Controller#selectPresenter(org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+     */
     public void selectPresenter(HistoryToken token) {
         String presenterId = token != null ? token.getPresenterId() : null;
         Presenter presenter = null;

@@ -46,10 +46,23 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+/**
+ * The Class RLPolicyEditPresenter.
+ */
 public class RLPolicyEditPresenter extends PolicyEditPresenter {
 
 	private List<Resource> resources = null;
 
+	/**
+	 * Instantiates a new rL policy edit presenter.
+	 * 
+	 * @param eventBus
+	 *            the event bus
+	 * @param view
+	 *            the view
+	 * @param serviceMap
+	 *            the service map
+	 */
 	public RLPolicyEditPresenter(HandlerManager eventBus,
 			PolicyEditDisplay view,
 			Map<SupportedService, PolicyAdminUIService> serviceMap) {
@@ -59,17 +72,27 @@ public class RLPolicyEditPresenter extends PolicyEditPresenter {
 		bind();
 	}
 
+	/** The Constant PRESENTER_ID. */
 	public final static String PRESENTER_ID = "RLPolicyEdit";
 
+	/**
+	 * The Interface RLPolicyEditDisplay.
+	 */
 	public interface RLPolicyEditDisplay extends RLPolicyCreateDisplay {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#getId()
+	 */
 	@Override
 	public String getId() {
 		return PRESENTER_ID;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#getResourceLevels()
+	 */
 	@Override
 	public List<String> getResourceLevels() {
 		List<String> rsLevels = new ArrayList<String>();
@@ -79,6 +102,9 @@ public class RLPolicyEditPresenter extends PolicyEditPresenter {
 		return rsLevels;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyEditPresenter#go(com.google.gwt.user.client.ui.HasWidgets, org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+	 */
 	@Override
 	public void go(HasWidgets container, final HistoryToken token) {
 		super.go(container, token);
@@ -87,6 +113,9 @@ public class RLPolicyEditPresenter extends PolicyEditPresenter {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#bindSaveButton()
+	 */
 	@Override
 	protected void bindSaveButton() {
 		{
@@ -243,6 +272,9 @@ public class RLPolicyEditPresenter extends PolicyEditPresenter {
 		});
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#bind()
+	 */
 	@Override
 	public void bind() {
 		super.bind();
@@ -284,6 +316,9 @@ public class RLPolicyEditPresenter extends PolicyEditPresenter {
 
 	}
 
+	/**
+	 * Sets the condition extra field.
+	 */
 	protected void setConditionExtraField() {
 		StringBuilder conditionString = new StringBuilder(
 				view.getRsNameSelected());

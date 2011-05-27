@@ -11,33 +11,50 @@ package org.ebayopensource.turmeric.policy.adminui.client.presenter.policy;
 import java.util.Map;
 
 import org.ebayopensource.turmeric.policy.adminui.client.SupportedService;
-import org.ebayopensource.turmeric.policy.adminui.client.event.LogoutEvent;
-import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken;
+import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter;
 import org.ebayopensource.turmeric.policy.adminui.client.shared.AppUser;
-import org.ebayopensource.turmeric.policy.adminui.client.shared.AppUserRole;
-import org.ebayopensource.turmeric.policy.adminui.client.util.PolicyMenuUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.PolicyPageTemplateDisplay;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+/**
+ * The Class SubjectGroupImportPresenter.
+ */
 public class SubjectGroupImportPresenter extends AbstractGenericPresenter {
 	
+	/** The Constant PRESENTER_ID. */
 	public final static String PRESENTER_ID = "SubjectGroupImport";
 	
+	/** The event bus. */
 	protected HandlerManager eventBus;
+	
+	/** The view. */
 	protected SubjectGroupImportDisplay view;
+	
+	/** The service map. */
 	protected Map<SupportedService, PolicyAdminUIService> serviceMap;
 	
+	/**
+	 * The Interface SubjectGroupImportDisplay.
+	 */
 	public interface SubjectGroupImportDisplay extends PolicyPageTemplateDisplay {
 		FormPanel getForm();
 	}
 	
+	/**
+	 * Instantiates a new subject group import presenter.
+	 * 
+	 * @param eventBus
+	 *            the event bus
+	 * @param view
+	 *            the view
+	 * @param serviceMap
+	 *            the service map
+	 */
 	public SubjectGroupImportPresenter(HandlerManager eventBus, SubjectGroupImportDisplay view, Map<SupportedService, PolicyAdminUIService> serviceMap) {
 		this.eventBus = eventBus;
 		this.view = view;
@@ -47,19 +64,31 @@ public class SubjectGroupImportPresenter extends AbstractGenericPresenter {
 		bind();
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#getId()
+	 */
 	public String getId() {
 		return PRESENTER_ID;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#getView()
+	 */
 	@Override
 	protected SubjectGroupImportDisplay getView() {
 		return view;
 	}
 	
+	/**
+	 * Bind.
+	 */
 	public void bind() {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#go(com.google.gwt.user.client.ui.HasWidgets, org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+	 */
 	@Override
 	public void go(HasWidgets container, final HistoryToken token) {
 		container.clear();

@@ -17,18 +17,29 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 
 /**
- * CreateSubjectsResponseJS
+ * CreateSubjectsResponseJS.
  * 
  * @author jose
  */
 public class CreateSubjectsResponseJS extends JavaScriptObject implements
 		CreateSubjectsResponse {
 
+	/** The Constant NAME. */
 	public static final String NAME = "ns1.createSubjectsResponse";
 
+	/**
+	 * Instantiates a new creates the subjects response js.
+	 */
 	protected CreateSubjectsResponseJS() {
 	}
 
+	/**
+	 * From json.
+	 * 
+	 * @param json
+	 *            the json
+	 * @return the creates the subjects response
+	 */
 	public static final native CreateSubjectsResponse fromJSON(String json) /*-{
 																					try {
 																					return eval('(' + json + ')');
@@ -38,6 +49,9 @@ public class CreateSubjectsResponseJS extends JavaScriptObject implements
 																					}-*/;
 
 	/**
+	 * Gets the subject ids.
+	 * 
+	 * @return the subject ids
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreateSubjectsResponse#getSubjectIds()
 	 */
 	public final List<Long> getSubjectIds() {
@@ -52,11 +66,19 @@ public class CreateSubjectsResponseJS extends JavaScriptObject implements
 		return results;
 	};
 
+	/**
+	 * Gets the subject ids as strings.
+	 * 
+	 * @return the subject ids as strings
+	 */
 	public final native JsArrayString getSubjectIdsAsStrings() /*-{
 																	return this["ns1.createSubjectsResponse"]["ns1.subjectIds"];
 																	}-*/;
 
 	/**
+	 * Gets the error message.
+	 * 
+	 * @return the error message
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.BaseResponse#getErrorMessage()
 	 */
 	public final native String getErrorMessage() /*-{
@@ -64,6 +86,9 @@ public class CreateSubjectsResponseJS extends JavaScriptObject implements
 													}-*/;
 
 	/**
+	 * Checks if is errored.
+	 * 
+	 * @return true, if is errored
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.BaseResponse#isErrored()
 	 */
 	public final native boolean isErrored() /*-{

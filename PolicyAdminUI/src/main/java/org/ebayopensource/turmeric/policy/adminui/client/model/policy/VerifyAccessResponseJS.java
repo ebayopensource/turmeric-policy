@@ -13,14 +13,25 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnfo
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
- * VerifyAccessResponseJS
- *
+ * VerifyAccessResponseJS.
  */
 public class VerifyAccessResponseJS  extends JavaScriptObject implements VerifyAccessResponse {
+    
+    /** The Constant NAME. */
     public static final String NAME = "ns1.verifyAccessResponse";
 
+    /**
+	 * Instantiates a new verify access response js.
+	 */
     protected VerifyAccessResponseJS () {}
     
+    /**
+	 * From json.
+	 * 
+	 * @param json
+	 *            the json
+	 * @return the verify access response js
+	 */
     public static final native VerifyAccessResponseJS fromJSON (String json) /*-{
         try {
             return eval('(' + json + ')');
@@ -31,8 +42,11 @@ public class VerifyAccessResponseJS  extends JavaScriptObject implements VerifyA
     
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnforcementService.VerifyAccessResponse#isErrored()
-     */
+	 * Checks if is errored.
+	 * 
+	 * @return true, if is errored
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnforcementService.VerifyAccessResponse#isErrored()
+	 */
     @Override
     public final native boolean isErrored() /*-{
     

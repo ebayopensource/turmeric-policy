@@ -14,30 +14,22 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyImportPresenter.PolicyImportDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.FileUploaderWidget;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.FooterWidget;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.HeaderWidget;
-import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyMenuWidget;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.MenuDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericStackPanel;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * The Class PolicyImportView.
+ */
 public class PolicyImportView extends AbstractGenericView implements PolicyImportDisplay {
 	
 	private final static UserAction SELECTED_ACTION = UserAction.POLICY_IMPORT;
@@ -50,6 +42,9 @@ public class PolicyImportView extends AbstractGenericView implements PolicyImpor
 	
 	
 
+	/**
+	 * Instantiates a new policy import view.
+	 */
 	public PolicyImportView() {
 		mainPanel = new DockLayoutPanel(Unit.PX);
 		initWidget(mainPanel);
@@ -57,6 +52,9 @@ public class PolicyImportView extends AbstractGenericView implements PolicyImpor
 		initialize();
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView#initialize()
+	 */
 	@Override
 	public void initialize() {
 		mainPanel.clear();
@@ -66,6 +64,11 @@ public class PolicyImportView extends AbstractGenericView implements PolicyImpor
 	
 
 	
+	/**
+	 * Inits the content view.
+	 * 
+	 * @return the widget
+	 */
 	protected Widget initContentView() {
 		ScrollPanel actionPanel = new ScrollPanel();
 	    contentView = new ContentView();
@@ -118,29 +121,53 @@ public class PolicyImportView extends AbstractGenericView implements PolicyImpor
 
 	
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#activate()
+	 */
 	public void activate() {
 		contentView.activate();
 		this.setVisible(true);
 	}
 
+	/**
+	 * Gets the menu view.
+	 * 
+	 * @return the menu view
+	 */
 	public MenuDisplay getMenuView() {
 		return menuView;
 	}
 
 	
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.PolicyPageTemplateDisplay#getContentView()
+	 */
 	public Display getContentView() {
 		return contentView;
 	}
 	
+	/**
+	 * Gets the logout component.
+	 * 
+	 * @return the logout component
+	 */
 	public HasClickHandlers getLogoutComponent() {
 		return logoutComponent;
 	}
 
+	/**
+	 * Gets the action selected.
+	 * 
+	 * @return the action selected
+	 */
 	public UserAction getActionSelected() {
 		return UserAction.POLICY_IMPORT;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyImportPresenter.PolicyImportDisplay#getForm()
+	 */
 	public FormPanel getForm() {
 		return ((ContentView)contentView).getForm();
 	}

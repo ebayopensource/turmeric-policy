@@ -13,13 +13,21 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQuer
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
- * UpdatePolicyResponseJS
- *
+ * UpdatePolicyResponseJS.
  */
 public class UpdatePolicyResponseJS extends JavaScriptObject implements
         UpdatePolicyResponse {
+    
+    /** The Constant NAME. */
     public static final String NAME = "ns1.updatePolicyResponse";
     
+    /**
+	 * From json.
+	 * 
+	 * @param json
+	 *            the json
+	 * @return the update policy response js
+	 */
     public static final native UpdatePolicyResponseJS fromJSON(String json) /*-{
         try {
             return eval('(' + json + ')');
@@ -28,19 +36,28 @@ public class UpdatePolicyResponseJS extends JavaScriptObject implements
         }
     }-*/;
     
+    /**
+	 * Instantiates a new update policy response js.
+	 */
     protected UpdatePolicyResponseJS() {}
     
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.UpdatePolicyResponse#getErrorMessage()
-     */
+	 * Gets the error message.
+	 * 
+	 * @return the error message
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.UpdatePolicyResponse#getErrorMessage()
+	 */
     @Override
     public final native String getErrorMessage() /*-{
       return this["ns1.updatePolicyResponse"]["ms.errorMessage"];
     }-*/;
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.UpdatePolicyResponse#isErrored()
-     */
+	 * Checks if is errored.
+	 * 
+	 * @return true, if is errored
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.UpdatePolicyResponse#isErrored()
+	 */
     @Override
     public final native boolean isErrored() /*-{
          if (this["ns1.updatePolicyResponse"]["ms.ack"] === "Success")

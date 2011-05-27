@@ -11,23 +11,32 @@ package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectsResponse;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
 /**
- * FindSubjectsResponseJS
- *
+ * FindSubjectsResponseJS.
  */
 public class FindSubjectsResponseJS extends JavaScriptObject implements
         FindSubjectsResponse {
     
+    /** The Constant NAME. */
     public static final String NAME = "ns1.findSubjectsResponse";
 
+    /**
+	 * Instantiates a new find subjects response js.
+	 */
     protected FindSubjectsResponseJS() {}
     
+    /**
+	 * From json.
+	 * 
+	 * @param json
+	 *            the json
+	 * @return the find subjects response
+	 */
     public static final native FindSubjectsResponse fromJSON(String json) /*-{
     try {
         return eval('(' + json + ')');
@@ -38,8 +47,11 @@ public class FindSubjectsResponseJS extends JavaScriptObject implements
 
     
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectsResponse#getSubjects()
-     */
+	 * Gets the subjects.
+	 * 
+	 * @return the subjects
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectsResponse#getSubjects()
+	 */
     public final List<Subject> getSubjects() {
         List<Subject> results = new ArrayList<Subject>();
        JsArray<SubjectJS> subjects = getSubjectsArray();
@@ -51,22 +63,33 @@ public class FindSubjectsResponseJS extends JavaScriptObject implements
     }
     
     
+    /**
+	 * Gets the subjects array.
+	 * 
+	 * @return the subjects array
+	 */
     public final native JsArray<SubjectJS> getSubjectsArray() /*-{
         return this["ns1.findSubjectsResponse"]["ns1.subjects"];
     }-*/;
     
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse#getErrorMessage()
-     */
+	 * Gets the error message.
+	 * 
+	 * @return the error message
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse#getErrorMessage()
+	 */
     public final native String getErrorMessage() /*-{
         return this["ns1.findSubjectsResponse"]["ms.errorMessage"];
     }-*/;
 
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse#isErrored()
-     */
+	 * Checks if is errored.
+	 * 
+	 * @return true, if is errored
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse#isErrored()
+	 */
     public final native boolean isErrored() /*-{
     if (this["ns1.findSubjectsResponse"]["ms.ack"] === "Success")
         return false;

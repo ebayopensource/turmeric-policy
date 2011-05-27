@@ -11,17 +11,27 @@ package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
- * DeleteSubjectGroupResponse
- *
+ * DeleteSubjectGroupResponse.
  */
 public class DeleteSubjectGroupResponseJS extends JavaScriptObject
         implements
         org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.DeleteSubjectGroupResponse {
     
+    /** The Constant NAME. */
     public static final String NAME = "ns1.deleteSubjectGroupsResponse";
 
+    /**
+	 * Instantiates a new delete subject group response js.
+	 */
     protected DeleteSubjectGroupResponseJS() {}
     
+    /**
+	 * From json.
+	 * 
+	 * @param json
+	 *            the json
+	 * @return the delete subject group response js
+	 */
     public static final native DeleteSubjectGroupResponseJS fromJSON (String json) /*-{
         try {
             return eval('(' + json + ')');
@@ -32,15 +42,21 @@ public class DeleteSubjectGroupResponseJS extends JavaScriptObject
     
     
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.DeleteSubjectGroupResponse#getErrorMessage()
-     */
+	 * Gets the error message.
+	 * 
+	 * @return the error message
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.DeleteSubjectGroupResponse#getErrorMessage()
+	 */
     public final native String getErrorMessage() /*-{
         return this["ns1.deleteSubjectGroupsResponse"]["ms.errorMessage"];
     }-*/;
 
     /**
-     * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.DeleteSubjectGroupResponse#isErrored()
-     */
+	 * Checks if is errored.
+	 * 
+	 * @return true, if is errored
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.DeleteSubjectGroupResponse#isErrored()
+	 */
     public final native boolean isErrored() /*-{
         if (this["ns1.deleteSubjectGroupsResponse"]["ms.ack"] === "Success")
             return false;

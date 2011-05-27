@@ -9,10 +9,21 @@
 package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 
 /**
- * BaseResponse
- *
+ * BaseResponse.
  */
 public interface BaseResponse {
+    
+    /**
+	 * Checks if is errored.
+	 * 
+	 * @return true, if is errored
+	 */
     public boolean isErrored();
+    
+    /**
+	 * Gets the error message.
+	 * 
+	 * @return the error message
+	 */
     public String getErrorMessage();
 }

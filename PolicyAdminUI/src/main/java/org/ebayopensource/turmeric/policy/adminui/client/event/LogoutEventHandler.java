@@ -10,7 +10,17 @@ package org.ebayopensource.turmeric.policy.adminui.client.event;
 
 import com.google.gwt.event.shared.EventHandler;
 
+/**
+ * The Interface LogoutEventHandler.
+ */
 public interface LogoutEventHandler extends EventHandler {
+	
+	/**
+	 * On logout.
+	 * 
+	 * @param event
+	 *            the event
+	 */
 	public void onLogout(LogoutEvent event);
 
 }

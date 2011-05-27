@@ -24,6 +24,9 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * The Class SubjectGroupImportView.
+ */
 public class SubjectGroupImportView extends AbstractGenericView implements SubjectGroupImportDisplay {
 	
 	private final static UserAction SELECTED_ACTION = UserAction.SUBJECT_GROUP_IMPORT;
@@ -31,6 +34,9 @@ public class SubjectGroupImportView extends AbstractGenericView implements Subje
 	private FlowPanel mainPanel;
 	private Display contentView;
 	
+	/**
+	 * Instantiates a new subject group import view.
+	 */
 	public SubjectGroupImportView() {
 		mainPanel = new FlowPanel();
 		initWidget(mainPanel);
@@ -38,6 +44,9 @@ public class SubjectGroupImportView extends AbstractGenericView implements Subje
 		initialize();
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView#initialize()
+	 */
 	@Override
 	public void initialize() {
 		mainPanel.clear();
@@ -46,6 +55,11 @@ public class SubjectGroupImportView extends AbstractGenericView implements Subje
 	}
 	
 	
+	/**
+	 * Inits the content view.
+	 * 
+	 * @return the widget
+	 */
 	protected Widget initContentView() {
 		ScrollPanel actionPanel = new ScrollPanel();
 	    contentView = new ContentView();
@@ -93,21 +107,35 @@ public class SubjectGroupImportView extends AbstractGenericView implements Subje
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#activate()
+	 */
 	public void activate() {
 		contentView.activate();
 		this.setVisible(true);
 	}
 
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.PolicyPageTemplateDisplay#getContentView()
+	 */
 	public Display getContentView() {
 		return contentView;
 	}
 	
 
+	/**
+	 * Gets the action selected.
+	 * 
+	 * @return the action selected
+	 */
 	public UserAction getActionSelected() {
 		return UserAction.SUBJECT_GROUP_IMPORT;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupImportPresenter.SubjectGroupImportDisplay#getForm()
+	 */
 	public FormPanel getForm() {
 		return ((ContentView)contentView).getForm();
 	}

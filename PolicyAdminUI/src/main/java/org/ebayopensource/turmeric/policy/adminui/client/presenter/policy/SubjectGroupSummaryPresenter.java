@@ -9,7 +9,6 @@
 package org.ebayopensource.turmeric.policy.adminui.client.presenter.policy;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,14 +20,18 @@ import java.util.Map.Entry;
 
 import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.SupportedService;
-import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken;
+import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.OperationKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnforcementService;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnforcementService.VerifyAccessResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.DeleteSubjectGroupResponse;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetPoliciesResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyType;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.QueryCondition;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup;
@@ -36,10 +39,6 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGro
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroupKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroupQuery;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectType;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnforcementService.VerifyAccessResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.DeleteSubjectGroupResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetPoliciesResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter;
 import org.ebayopensource.turmeric.policy.adminui.client.shared.AppUser;
 import org.ebayopensource.turmeric.policy.adminui.client.util.PolicyKeysUtil;
@@ -55,19 +54,41 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+/**
+ * The Class SubjectGroupSummaryPresenter.
+ */
 public class SubjectGroupSummaryPresenter extends AbstractGenericPresenter {
 	
+	/** The Constant PRESENTER_ID. */
 	public final static String PRESENTER_ID = "SubjectGroupSummary";
 	
+	/** The event bus. */
 	protected HandlerManager eventBus;
+	
+	/** The view. */
 	protected SubjectGroupSummaryDisplay view;
+	
+	/** The service map. */
 	protected Map<SupportedService, PolicyAdminUIService> serviceMap;
+	
+	/** The groups. */
 	protected List<SubjectGroup> groups;
+	
+	/** The permissions. */
 	protected Map<SubjectGroup, List<UserAction>> permissions;
+	
+	/** The types. */
 	protected List<String> types;
+	
+	/** The permitted actions. */
 	protected List<UserAction> permittedActions = new ArrayList<UserAction>();
+	
+	/** The service. */
 	protected PolicyQueryService service;
 	
+	/**
+	 * The Interface SubjectGroupSummaryDisplay.
+	 */
 	public interface SubjectGroupSummaryDisplay extends PolicyPageTemplateDisplay {
 	    void setGroups(List<SubjectGroup> groups);
 	    HasClickHandlers getSubjectCriteriaButton();
@@ -91,6 +112,16 @@ public class SubjectGroupSummaryPresenter extends AbstractGenericPresenter {
 	
 	
 	
+	/**
+	 * Instantiates a new subject group summary presenter.
+	 * 
+	 * @param eventBus
+	 *            the event bus
+	 * @param view
+	 *            the view
+	 * @param serviceMap
+	 *            the service map
+	 */
 	public SubjectGroupSummaryPresenter(HandlerManager eventBus, SubjectGroupSummaryDisplay view, Map<SupportedService, PolicyAdminUIService> serviceMap) {
 		this.eventBus = eventBus;
 		this.view = view;
@@ -100,15 +131,24 @@ public class SubjectGroupSummaryPresenter extends AbstractGenericPresenter {
 		bind();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#getId()
+	 */
 	public String getId() {
 		return PRESENTER_ID;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#getView()
+	 */
 	@Override
 	protected PolicyPageTemplateDisplay getView() {
 		return view;
 	}
 	
+	/**
+	 * Bind.
+	 */
 	public void bind() {		
 		//The user wants to search by subject group type + name
 		this.view.getSubjectCriteriaButton().addClickHandler(new ClickHandler() {
@@ -239,6 +279,9 @@ public class SubjectGroupSummaryPresenter extends AbstractGenericPresenter {
 		});
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#go(com.google.gwt.user.client.ui.HasWidgets, org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+	 */
 	@Override
 	public void go(HasWidgets container, final HistoryToken token) {
 		container.clear();

@@ -20,6 +20,9 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGro
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectType;
 
+/**
+ * The Class PolicyKeysUtil.
+ */
 public class PolicyKeysUtil {
 
 	private static List<PolicyKey> poKeys;
@@ -28,68 +31,91 @@ public class PolicyKeysUtil {
 	private static List<SubjectKey> sKeys;
 	private static List<SubjectGroupKey> sgKeys;
 
-	public static List<PolicyKey> getAllPolicyKeyList() {
-		if (poKeys == null) {
-			poKeys = new ArrayList<PolicyKey>();
-			PolicyKey poKey = null;
-			for (String poType : PolicyType.getValues()) {
-				poKey = new PolicyKey();
-				poKey.setType(poType);
-				poKeys.add(poKey);
-			}
+	static {
+		poKeys = new ArrayList<PolicyKey>();
+		PolicyKey poKey = null;
+		for (String poType : PolicyType.getValues()) {
+			poKey = new PolicyKey();
+			poKey.setType(poType);
+			poKeys.add(poKey);
 		}
+
+		rsKeys = new ArrayList<ResourceKey>();
+		ResourceKey rsKey = null;
+		for (String rsType : ResourceType.getValues()) {
+			rsKey = new ResourceKey();
+			rsKey.setType(rsType);
+			rsKeys.add(rsKey);
+		}
+
+		opKeys = new ArrayList<OperationKey>();
+		OperationKey opKey = null;
+		for (String rsType : ResourceType.getValues()) {
+			opKey = new OperationKey();
+			opKey.setResourceType(rsType);
+			opKeys.add(opKey);
+		}
+
+		sKeys = new ArrayList<SubjectKey>();
+		SubjectKey sKey = null;
+		for (String sType : SubjectType.getValues()) {
+			sKey = new SubjectKey();
+			sKey.setType(sType);
+			sKeys.add(sKey);
+		}
+
+		sgKeys = new ArrayList<SubjectGroupKey>();
+		SubjectGroupKey sgKey = null;
+		for (String sType : SubjectType.getValues()) {
+			sgKey = new SubjectGroupKey();
+			sgKey.setType(sType);
+			sgKeys.add(sgKey);
+		}
+
+	}
+
+	/**
+	 * Gets the all policy key list.
+	 * 
+	 * @return the all policy key list
+	 */
+	public static List<PolicyKey> getAllPolicyKeyList() {
 		return poKeys;
 	}
 
+	/**
+	 * Gets the all resource key list.
+	 * 
+	 * @return the all resource key list
+	 */
 	public static List<ResourceKey> getAllResourceKeyList() {
-		if (rsKeys == null) {
-			rsKeys = new ArrayList<ResourceKey>();
-			ResourceKey rsKey = null;
-			for (String rsType : ResourceType.getValues()) {
-				rsKey = new ResourceKey();
-				rsKey.setType(rsType);
-				rsKeys.add(rsKey);
-			}
-		}
 		return rsKeys;
 	}
 
+	/**
+	 * Gets the all operation key list.
+	 * 
+	 * @return the all operation key list
+	 */
 	public static List<OperationKey> getAllOperationKeyList() {
-		if (opKeys == null) {
-			opKeys = new ArrayList<OperationKey>();
-			OperationKey opKey = null;
-			for (String rsType : ResourceType.getValues()) {
-				opKey = new OperationKey();
-				opKey.setResourceType(rsType);
-				opKeys.add(opKey);
-			}
-		}
 		return opKeys;
 	}
 
+	/**
+	 * Gets the all subject key list.
+	 * 
+	 * @return the all subject key list
+	 */
 	public static List<SubjectKey> getAllSubjectKeyList() {
-		if (sKeys == null) {
-			sKeys = new ArrayList<SubjectKey>();
-			SubjectKey sKey = null;
-			for (String sType : SubjectType.getValues()) {
-				sKey = new SubjectKey();
-				sKey.setType(sType);
-				sKeys.add(sKey);
-			}
-		}
 		return sKeys;
 	}
 
+	/**
+	 * Gets the all subject group key list.
+	 * 
+	 * @return the all subject group key list
+	 */
 	public static List<SubjectGroupKey> getAllSubjectGroupKeyList() {
-		if (sgKeys == null) {
-			sgKeys = new ArrayList<SubjectGroupKey>();
-			SubjectGroupKey sgKey = null;
-			for (String sType : SubjectType.getValues()) {
-				sgKey = new SubjectGroupKey();
-				sgKey.setType(sType);
-				sgKeys.add(sgKey);
-			}
-		}
 		return sgKeys;
 	}
 

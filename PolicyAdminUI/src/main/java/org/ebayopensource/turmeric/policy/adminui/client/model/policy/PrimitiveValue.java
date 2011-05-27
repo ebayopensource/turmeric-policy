@@ -10,8 +10,29 @@
 package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 
 
+/**
+ * The Interface PrimitiveValue.
+ */
 public interface PrimitiveValue {
+    
+    /**
+	 * Gets the id.
+	 * 
+	 * @return the id
+	 */
     public Long getId();
+    
+    /**
+	 * Gets the type.
+	 * 
+	 * @return the type
+	 */
     public SupportedPrimitive getType();
+    
+    /**
+	 * Gets the value.
+	 * 
+	 * @return the value
+	 */
     public String getValue();
 }

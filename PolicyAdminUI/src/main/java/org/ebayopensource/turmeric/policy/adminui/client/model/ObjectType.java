@@ -8,4 +8,7 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.client.model;
 
+/**
+ * The Enum ObjectType.
+ */
 public enum ObjectType {ServiceName, OperationName, ConsumerName, ErrorName, ErrorId}

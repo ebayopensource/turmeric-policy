@@ -8,16 +8,29 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.client.shared;
 
+/**
+ * The Enum AppUserRole.
+ */
 public enum AppUserRole {
 	GUEST,
 	ADMIN;
 	
 	private AppUserRole() {}
 	
+	/**
+	 * Checks if is admin.
+	 * 
+	 * @return true, if is admin
+	 */
 	public boolean isAdmin() {
 		return this.equals(AppUserRole.ADMIN);
 	}
 	
+	/**
+	 * Checks if is guest.
+	 * 
+	 * @return true, if is guest
+	 */
 	public boolean isGuest() {
 		return this.equals(AppUserRole.GUEST);
 	}

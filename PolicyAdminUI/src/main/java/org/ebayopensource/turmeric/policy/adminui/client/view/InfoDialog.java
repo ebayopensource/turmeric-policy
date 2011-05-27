@@ -12,12 +12,17 @@ import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 
 
 /**
- * InfoDialog
- *
+ * InfoDialog.
  */
 public class InfoDialog extends AbstractDialog {
 
 
+    /**
+	 * Instantiates a new info dialog.
+	 * 
+	 * @param animationEnabled
+	 *            the animation enabled
+	 */
     public InfoDialog (boolean animationEnabled) {
         super(animationEnabled);
         dialog.setText(PolicyAdminUIUtil.constants.information());

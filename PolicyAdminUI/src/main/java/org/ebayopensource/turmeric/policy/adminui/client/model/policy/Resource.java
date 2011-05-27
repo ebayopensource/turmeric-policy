@@ -12,11 +12,44 @@ package org.ebayopensource.turmeric.policy.adminui.client.model.policy;
 import java.util.List;
 
 
+/**
+ * The Interface Resource.
+ */
 public interface Resource {
+    
+    /**
+	 * Gets the id.
+	 * 
+	 * @return the id
+	 */
     public Long getId();
+    
+    /**
+	 * Gets the resource type.
+	 * 
+	 * @return the resource type
+	 */
     public String getResourceType();
+    
+    /**
+	 * Gets the resource name.
+	 * 
+	 * @return the resource name
+	 */
     public String getResourceName();
+    
+    /**
+	 * Gets the description.
+	 * 
+	 * @return the description
+	 */
     public String getDescription();
+    
+    /**
+	 * Gets the op list.
+	 * 
+	 * @return the op list
+	 */
     public List<Operation> getOpList();
     
     

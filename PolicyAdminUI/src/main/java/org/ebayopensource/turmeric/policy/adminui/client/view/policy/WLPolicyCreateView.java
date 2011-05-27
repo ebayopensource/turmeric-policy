@@ -13,14 +13,26 @@ import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ExtraField;
 
+/**
+ * The Class WLPolicyCreateView.
+ */
 public class WLPolicyCreateView extends PolicyCreateView {
+	
+	/** The Constant SELECTED_ACTION. */
 	protected static final UserAction SELECTED_ACTION = UserAction.WL_POLICY_CREATE;
 	private static final String TITLE_FORM= PolicyAdminUIUtil.policyAdminConstants.policyInformationWLCreate();
+	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#getSelectedAction()
+	 */
 	@Override
 	public UserAction getSelectedAction() {
 		return UserAction.RL_POLICY_CREATE;
 	} 
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#getTitleForm()
+	 */
 	@Override
 	public String getTitleForm(){
 		return TITLE_FORM;
@@ -46,18 +58,27 @@ public class WLPolicyCreateView extends PolicyCreateView {
         
     }
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#initializeExtraFields()
+	 */
 	@Override
 	protected void initializeExtraFields() {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#setPolicyDesc(java.lang.String)
+	 */
 	@Override
 	public void setPolicyDesc(String policyDesc) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#setPolicyName(java.lang.String)
+	 */
 	@Override
 	public void setPolicyName(String policyName) {
 		// TODO Auto-generated method stub
@@ -65,12 +86,18 @@ public class WLPolicyCreateView extends PolicyCreateView {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#setExtraFieldList(java.util.List)
+	 */
 	@Override
 	public void setExtraFieldList(List<ExtraField> extraFieldList) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#setStatusListboxEnabled(boolean)
+	 */
 	@Override
 	public void setStatusListboxEnabled(boolean enable) {
 		// TODO Auto-generated method stub

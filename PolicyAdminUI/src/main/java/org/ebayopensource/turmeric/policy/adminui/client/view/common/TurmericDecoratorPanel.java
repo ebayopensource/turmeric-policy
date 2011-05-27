@@ -13,6 +13,9 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.SimplePanel;
 
+/**
+ * The Class TurmericDecoratorPanel.
+ */
 public class TurmericDecoratorPanel extends SimplePanel {
 	private static final String DEFAULT_STYLENAME = "gwt-DecoratorPanel";
 	private static final String[] DEFAULT_ROW_STYLENAMES = { "top", "middle",
@@ -44,6 +47,9 @@ public class TurmericDecoratorPanel extends SimplePanel {
 		return tdElem;
 	}
 
+	/**
+	 * Instantiates a new turmeric decorator panel.
+	 */
 	public TurmericDecoratorPanel() {
 		this(DEFAULT_ROW_STYLENAMES, 1);
 	}
@@ -69,12 +75,24 @@ public class TurmericDecoratorPanel extends SimplePanel {
 		setStyleName("gwt-DecoratorPanel");
 	}
 
+	/**
+	 * Gets the cell element.
+	 * 
+	 * @param row
+	 *            the row
+	 * @param cell
+	 *            the cell
+	 * @return the cell element
+	 */
 	protected Element getCellElement(int row, int cell) {
 		Element tr = DOM.getChild(this.tbody, row);
 		Element td = DOM.getChild(tr, cell);
 		return DOM.getFirstChild(td);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.google.gwt.user.client.ui.SimplePanel#getContainerElement()
+	 */
 	protected Element getContainerElement() {
 		return this.containerElem;
 	}

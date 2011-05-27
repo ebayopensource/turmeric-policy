@@ -9,15 +9,11 @@
 package org.ebayopensource.turmeric.policy.adminui.client.view.policy;
 
 import java.util.List;
-import java.util.Set;
 
 import com.google.gwt.cell.client.AbstractInputCell;
-import com.google.gwt.cell.client.Cell;
-import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
+import com.google.gwt.safehtml.client.SafeHtmlTemplates.Template;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 
@@ -42,6 +38,9 @@ public class CustomListCell extends AbstractInputCell<List<String>, String> {
 
 	private static Template template;
 
+	/**
+	 * Instantiates a new custom list cell.
+	 */
 	public CustomListCell() {
 		super("change");
 		if (template == null) {
@@ -49,6 +48,12 @@ public class CustomListCell extends AbstractInputCell<List<String>, String> {
 		}
 	}
 
+	/**
+	 * Instantiates a new custom list cell.
+	 * 
+	 * @param minScrollbarSize
+	 *            the min scrollbar size
+	 */
 	public CustomListCell(int minScrollbarSize) {
 		this();
 		if (minScrollbarSize < 0) {
@@ -59,10 +64,16 @@ public class CustomListCell extends AbstractInputCell<List<String>, String> {
 	}
 
 	/**
-	 * Renders the element list. If the list size >= minScrollbarSize then the cell renders as a select element, else, as a 
-	 * text list of elements, separated by br tags
+	 * Renders the element list. If the list size >= minScrollbarSize then the
+	 * cell renders as a select element, else, as a text list of elements,
+	 * separated by br tags
+	 * 
 	 * @param value
+	 *            the value
+	 * @param key
+	 *            the key
 	 * @param sb
+	 *            the sb
 	 */
 	public void render(List<String> value, Object key, SafeHtmlBuilder sb) {
 		if (value != null) {
@@ -94,6 +105,9 @@ public class CustomListCell extends AbstractInputCell<List<String>, String> {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see com.google.gwt.cell.client.AbstractCell#render(com.google.gwt.cell.client.Cell.Context, java.lang.Object, com.google.gwt.safehtml.shared.SafeHtmlBuilder)
+	 */
 	@Override
 	public void render(com.google.gwt.cell.client.Cell.Context paramContext,
 			List<String> paramC, SafeHtmlBuilder paramSafeHtmlBuilder) {

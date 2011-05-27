@@ -44,7 +44,6 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.Header;
-import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -65,6 +64,9 @@ import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionModel;
 
+/**
+ * The Class SubjectGroupSummaryView.
+ */
 public class SubjectGroupSummaryView extends AbstractGenericView implements
 		SubjectGroupSummaryDisplay {
 	private ScrollPanel scrollPanel;
@@ -780,6 +782,9 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 		}
 	}
 
+	/**
+	 * Instantiates a new subject group summary view.
+	 */
 	public SubjectGroupSummaryView() {
 		scrollPanel = new ScrollPanel();
 		mainPanel = new FlowPanel();
@@ -789,6 +794,9 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView#initialize()
+	 */
 	@Override
 	public void initialize() {
 		mainPanel.clear();
@@ -797,6 +805,11 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 		mainPanel.add(initContentView());
 	}
 
+	/**
+	 * Inits the content view.
+	 * 
+	 * @return the widget
+	 */
 	protected Widget initContentView() {
 		ScrollPanel actionPanel = new ScrollPanel();
 		contentView = new ContentView();
@@ -804,16 +817,26 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 		return actionPanel;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#activate()
+	 */
 	public void activate() {
 		contentView.activate();
 		this.setVisible(true);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.PolicyPageTemplateDisplay#getContentView()
+	 */
 	public Display getContentView() {
 		return contentView;
 	}
 
 	/**
+	 * Sets the groups.
+	 * 
+	 * @param groups
+	 *            the new groups
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#setGroups(java.util.List)
 	 */
 	public void setGroups(List<SubjectGroup> groups) {
@@ -821,6 +844,9 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 	}
 
 	/**
+	 * Gets the search button.
+	 * 
+	 * @return the search button
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#getSearchButton()
 	 */
 	public HasClickHandlers getSearchButton() {
@@ -828,6 +854,9 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 	}
 
 	/**
+	 * Gets the search term.
+	 * 
+	 * @return the search term
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#getSearchTerm()
 	 */
 	public String getSearchTerm() {
@@ -835,6 +864,9 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 	}
 
 	/**
+	 * Gets the selected type.
+	 * 
+	 * @return the selected type
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#getType()
 	 */
 	public String getSelectedType() {
@@ -842,6 +874,9 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 	}
 
 	/**
+	 * Checks if is policy criteria enabled.
+	 * 
+	 * @return true, if is policy criteria enabled
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#isPolicyCriteriaEnabled()
 	 */
 	public boolean isPolicyCriteriaEnabled() {
@@ -850,6 +885,9 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 	}
 
 	/**
+	 * Checks if is subject criteria enabled.
+	 * 
+	 * @return true, if is subject criteria enabled
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#isSearchCriteriaEnabled()
 	 */
 	public boolean isSubjectCriteriaEnabled() {
@@ -858,39 +896,62 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 	}
 
 	/**
+	 * Sets the available types.
+	 * 
+	 * @param types
+	 *            the new available types
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#setAvailableTypes(java.util.List)
 	 */
 	public void setAvailableTypes(List<String> types) {
 		((ContentView) contentView).searchWidget.setAvailableTypes(types);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#getSubjectCriteriaButton()
+	 */
 	public HasClickHandlers getSubjectCriteriaButton() {
 		return ((ContentView) contentView).searchWidget
 				.getSubjectCriteriaButton();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#getPolicyCriteriaButton()
+	 */
 	public HasClickHandlers getPolicyCriteriaButton() {
 		return ((ContentView) contentView).searchWidget
 				.getPolicyCriteriaButton();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#setPermittedActions(org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup, java.util.List)
+	 */
 	public void setPermittedActions(SubjectGroup group,
 			List<UserAction> permittedActions) {
 		((ContentView) contentView).setUserActions(group, permittedActions);
 	}
 
 	/**
+	 * Gets the action button.
+	 * 
+	 * @return the action button
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#getActionButton()
 	 */
 	public HasClickHandlers getActionButton() {
 		return ((ContentView) contentView).getActionButton();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#getPendingActions()
+	 */
 	public Map<SubjectGroup, UserAction> getPendingActions() {
 		return ((ContentView) contentView).getPendingActions();
 	}
 
 	/**
+	 * Sets the selected search term.
+	 * 
+	 * @param name
+	 *            the new selected search term
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#setSelectedSearchTerm(java.lang.String)
 	 */
 	public void setSelectedSearchTerm(String name) {
@@ -899,6 +960,10 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 	}
 
 	/**
+	 * Sets the selected type.
+	 * 
+	 * @param type
+	 *            the new selected type
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#setSelectedType(java.lang.String)
 	 */
 	public void setSelectedType(String type) {
@@ -907,6 +972,10 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 	}
 
 	/**
+	 * Sets the policy criteria enabled.
+	 * 
+	 * @param enabled
+	 *            the new policy criteria enabled
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#setPolicyCriteriaEnabled(boolean)
 	 */
 	public void setPolicyCriteriaEnabled(boolean enabled) {
@@ -917,6 +986,10 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 	}
 
 	/**
+	 * Sets the search criteria enabled.
+	 * 
+	 * @param enabled
+	 *            the new search criteria enabled
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#setSearchCriteriaEnabled(boolean)
 	 */
 	public void setSearchCriteriaEnabled(boolean enabled) {
@@ -925,6 +998,9 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 				.setSubjectCriteriaEnabled(enabled);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#error(java.lang.String)
+	 */
 	public void error(String msg) {
 		ErrorDialog dialog = new ErrorDialog(true);
 		dialog.setMessage(msg);
@@ -932,6 +1008,9 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 		dialog.show();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#clearDataContent()
+	 */
 	public void clearDataContent() {
 		this.setGroups(null);
 	}

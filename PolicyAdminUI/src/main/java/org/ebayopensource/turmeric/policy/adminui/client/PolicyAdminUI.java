@@ -13,15 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.DummyPolicyQueryServiceImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnforcementServiceImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryServiceImpl;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyServiceImplTest;
 import org.ebayopensource.turmeric.policy.adminui.client.shared.AppUser;
 import org.ebayopensource.turmeric.policy.adminui.client.util.AppKeyUtil;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerManager;

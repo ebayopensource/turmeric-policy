@@ -15,19 +15,17 @@ import java.util.Map;
 
 import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.SupportedService;
-import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken;
+import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.EntityHistory;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.OperationKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetEntityHistoryResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.QueryCondition;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ResourceKey;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ResourceType;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroupKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectKey;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectType;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetEntityHistoryResponse;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter;
 import org.ebayopensource.turmeric.policy.adminui.client.util.PolicyKeysUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.PolicyTemplateDisplay.PolicyPageTemplateDisplay;
@@ -39,17 +37,32 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+/**
+ * The Class HistoryChangeSummaryPresenter.
+ */
 public class HistoryChangeSummaryPresenter extends AbstractGenericPresenter {
 	
+	/** The Constant PRESENTER_ID. */
 	public final static String PRESENTER_ID = "HistoryChangeSummary";
 	
+	/** The event bus. */
 	protected HandlerManager eventBus;
+	
+	/** The view. */
 	protected HistoryChangeSummaryDisplay view;
+	
+	/** The service map. */
 	protected Map<SupportedService, PolicyAdminUIService> serviceMap;
 	//TODO temporary
+	/** The entities. */
 	protected List<EntityHistory> entities;
+	
+	/** The service. */
 	protected PolicyQueryService service;
 	
+	/**
+	 * The Interface HistoryChangeSummaryDisplay.
+	 */
 	public interface HistoryChangeSummaryDisplay extends PolicyPageTemplateDisplay {
 	    void setEntities(List<EntityHistory> entities);
 	    void setEntityTypes(List<String> entityTypes) ;
@@ -62,6 +75,16 @@ public class HistoryChangeSummaryPresenter extends AbstractGenericPresenter {
 	
 	
 	
+	/**
+	 * Instantiates a new history change summary presenter.
+	 * 
+	 * @param eventBus
+	 *            the event bus
+	 * @param view
+	 *            the view
+	 * @param serviceMap
+	 *            the service map
+	 */
 	public HistoryChangeSummaryPresenter(HandlerManager eventBus, HistoryChangeSummaryDisplay view, Map<SupportedService, PolicyAdminUIService> serviceMap) {
 		this.eventBus = eventBus;
 		this.view = view;
@@ -71,15 +94,24 @@ public class HistoryChangeSummaryPresenter extends AbstractGenericPresenter {
 		bind();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#getId()
+	 */
 	public String getId() {
 		return PRESENTER_ID;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#getView()
+	 */
 	@Override
 	protected PolicyPageTemplateDisplay getView() {
 		return view;
 	}
 	
+	/**
+	 * Bind.
+	 */
 	public void bind() {		
 		
 		this.view.getSearchButton().addClickHandler(new ClickHandler() {
@@ -90,6 +122,9 @@ public class HistoryChangeSummaryPresenter extends AbstractGenericPresenter {
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#go(com.google.gwt.user.client.ui.HasWidgets, org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+	 */
 	@Override
 	public void go(HasWidgets container, final HistoryToken token) {
 		container.clear();
