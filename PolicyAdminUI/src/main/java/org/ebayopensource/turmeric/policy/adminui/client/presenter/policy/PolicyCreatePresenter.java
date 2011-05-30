@@ -1514,7 +1514,9 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	}
 
 	/**
-	 * Fetch subjects.
+	 * Fetch a subject entity from DB based on the subject key parameter.
+	 *
+	 * @see getSubject() method
 	 */
 	protected void fetchSubjects() {
 
@@ -1543,7 +1545,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	}
 
 	/**
-	 * Fetch subject groups.
+	 * Fetch a Subject Group entity from DB based on the subject Group key parameter.
 	 */
 	protected void fetchSubjectGroups() {
 
@@ -1572,9 +1574,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				});
 	}
 
-	
 	/**
-	 * Gets the subject type.
+	 * Creates a non persisted subject type bean based on these parameters.
 	 * 
 	 * @param name
 	 *            the name
@@ -1584,7 +1585,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	 *            the is subject type
 	 * @return the subject type
 	 */
-	public Subject getSubjectType(String name, String type, final boolean isSubjectType) {
+	private Subject getSubjectType(final String name, final String type, final boolean isSubjectType) {
 		final SubjectImpl s = new SubjectImpl();
 		s.setType(type);
 		
@@ -1607,10 +1608,14 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		return s;
 
 	}
-	
-	
+
 	/**
-	 * Gets the subject.
+	 * Creates a non persisted subject bean based on these parameters. Subjects
+	 * could be from inclusion lists or from exclusion list. Also if the subject
+	 * is a USER type, it could not exist, that is an external subject, so it is
+	 * firstly created in DB
+	 * 
+	 * @see createExternalAsInternalSubject() method
 	 * 
 	 * @param name
 	 *            the name
