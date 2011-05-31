@@ -18,15 +18,16 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ExtraField
  */
 public class AuthzPolicyCreateView extends PolicyCreateView {
 
-    /** The Constant SELECTED_ACTION. */
-    protected static final  UserAction SELECTED_ACTION = UserAction.AUTHZ_POLICY_CREATE;
-    private static final String TITLE_FORM= PolicyAdminUIUtil.policyAdminConstants.policyInformationAuthzCreate();
+	/** The Constant SELECTED_ACTION. */
+	protected static final  UserAction SELECTED_ACTION = UserAction.AUTHZ_POLICY_CREATE;
+	private static final String TITLE_FORM= PolicyAdminUIUtil.policyAdminConstants.policyInformationAuthzCreate();
+	
 
-    /* (non-Javadoc)
-     * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#getTitleForm()
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#getTitleForm()
 	 */
 	@Override
-	public final String getTitleForm() {
+	public String getTitleForm(){
 		return TITLE_FORM;
 	}
 
@@ -34,11 +35,11 @@ public class AuthzPolicyCreateView extends PolicyCreateView {
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#getSelectedAction()
 	 */
 	@Override
-	public final UserAction getSelectedAction() {
+	public UserAction getSelectedAction(){
 		return SELECTED_ACTION;
 	}
 
-
+	
 
 
 
@@ -46,7 +47,8 @@ public class AuthzPolicyCreateView extends PolicyCreateView {
      * @see org.ebayopensource.turmeric.policy.adminui.client.Display#getAssociatedId()
      */
     @Override
-	public final String getAssociatedId() {
+    public String getAssociatedId() {
+        // TODO Auto-generated method stub
         return null;
     }
 
@@ -56,41 +58,53 @@ public class AuthzPolicyCreateView extends PolicyCreateView {
      */
     @Override
     public void setAssociatedId(String id) {
+        // TODO Auto-generated method stub
+        
     }
 
 	/* (non-Javadoc)
-     * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#initializeExtraFields()
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#initializeExtraFields()
 	 */
 	@Override
 	protected void initializeExtraFields() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/* (non-Javadoc)
-	 *  * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#setPolicyDesc(java.lang.String)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#setPolicyDesc(java.lang.String)
 	 */
 	@Override
-	public void setPolicyDesc(final String policyDesc) {
+	public void setPolicyDesc(String policyDesc) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/* (non-Javadoc)
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#setPolicyName(java.lang.String)
 	 */
 	@Override
-	public void setPolicyName(final String policyName) {
+	public void setPolicyName(String policyName) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/* (non-Javadoc)
-	 * * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#setExtraFieldList(java.util.List)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#setExtraFieldList(java.util.List)
 	 */
 	@Override
-	public void setExtraFieldList(final List<ExtraField> extraFieldList) {
+	public void setExtraFieldList(List<ExtraField> extraFieldList) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/* (non-Javadoc)
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#setStatusListboxEnabled(boolean)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#setStatusListboxEnabled(boolean)
 	 */
 	@Override
-	public void setStatusListboxEnabled(final boolean enable) {
+	public void setStatusListboxEnabled(boolean enable) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

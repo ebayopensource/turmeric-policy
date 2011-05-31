@@ -45,7 +45,7 @@ public class DescriptionCell extends AbstractCell<String> {
 	 * @param valueUpdater
 	 *            the value updater
 	 */
-    public final void onBrowserEvent(Element parent, String value, Object key,
+    public void onBrowserEvent(Element parent, String value, Object key,
                                NativeEvent event, ValueUpdater<String> valueUpdater) {
         // Check that the value is not null.
         if (value == null) {
@@ -58,15 +58,13 @@ public class DescriptionCell extends AbstractCell<String> {
         // Handle click events.
         if ("click".equals(event.getType())) {
             showPopup(parent, value);
-        } else if ("mouseout".equals(event.getType())) {
-			hidePopup();
-		}
+        } else if ("mouseout".equals(event.getType()))
+            hidePopup();
     }
     
     private void hidePopup() {
-        if (popup != null) {
-			popup.hide(true);
-		}
+        if (popup != null)
+            popup.hide(true);
     }
 
     private void showPopup (Element parent, String sg) {         
@@ -88,14 +86,13 @@ public class DescriptionCell extends AbstractCell<String> {
 	 * @see com.google.gwt.cell.client.AbstractCell#render(java.lang.Object,
 	 *      java.lang.Object, com.google.gwt.safehtml.shared.SafeHtmlBuilder)
 	 */
-    public void render(final String sg, final Object arg1, final SafeHtmlBuilder safeHtml) {
+    public void render(String sg, Object arg1, SafeHtmlBuilder safeHtml) {
         safeHtml.appendHtmlConstant ("<div><p class=\"clickable\">");
         if (sg != null) {
             int length = 10;
-            if (sg.length()<length) {
-				length=sg.length();
-			}
-            safeHtml.appendEscaped(sg.substring(0, length).trim() + "...");
+            if (sg.length()<length)
+                length=sg.length();
+            safeHtml.appendEscaped(sg.substring(0, length).trim()+"...");
         }
         safeHtml.appendHtmlConstant("</p></div>");
     }
@@ -104,12 +101,12 @@ public class DescriptionCell extends AbstractCell<String> {
 	 * @see com.google.gwt.cell.client.AbstractCell#render(com.google.gwt.cell.client.Cell.Context, java.lang.Object, com.google.gwt.safehtml.shared.SafeHtmlBuilder)
 	 */
 	@Override
-	public final void render(final com.google.gwt.cell.client.Cell.Context paramContext,
-			final String paramC, final SafeHtmlBuilder paramSafeHtmlBuilder) {
+	public void render(com.google.gwt.cell.client.Cell.Context paramContext,
+			String paramC, SafeHtmlBuilder paramSafeHtmlBuilder) {
 		render(paramC,paramContext.getKey(),paramSafeHtmlBuilder);
-
+		
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.google.gwt.cell.client.AbstractCell#onBrowserEvent(com.google.gwt.cell.client.Cell.Context, com.google.gwt.dom.client.Element, java.lang.Object, com.google.gwt.dom.client.NativeEvent, com.google.gwt.cell.client.ValueUpdater)
 	 */

@@ -27,11 +27,12 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ApplicationMenuView extends ResizeComposite implements HasWidgets, MenuControllerDisplay {
 
-    private DockLayoutPanel mainPanel;
-    private HeaderWidget headerWidget;
+	private DockLayoutPanel mainPanel;
+	private HeaderWidget headerWidget;
 	private FooterWidget footerWidget;
+	private ScrollPanel contentPanel;
 	private Widget contentWidget;
-
+	
 	/**
 	 * Instantiates a new application menu view.
 	 */
@@ -43,8 +44,8 @@ public class ApplicationMenuView extends ResizeComposite implements HasWidgets, 
 	/**
 	 * Initialize.
 	 */
-	public final void initialize() {
-
+	public void initialize() {
+	    
 	    mainPanel = new DockLayoutPanel(Unit.PX);
         mainPanel.setWidth("100%");
 
@@ -55,55 +56,57 @@ public class ApplicationMenuView extends ResizeComposite implements HasWidgets, 
         mainPanel.addSouth(footerWidget,40);
 	}
 
-
-
+	
+	
 
     /**
-	 * Adds the. 
+	 * Adds the.
+	 * 
 	 * @param arg0
 	 *            the arg0
-     * @see com.google.gwt.user.client.ui.HasWidgets#add(com.google.gwt.user.client.ui.Widget)
+	 * @see com.google.gwt.user.client.ui.HasWidgets#add(com.google.gwt.user.client.ui.Widget)
 	 */
     @Override
-	public final void add(final Widget arg0) {
-        if (contentWidget != null){
+    public void add(Widget arg0) {
+        if (contentWidget != null)
             mainPanel.remove(contentWidget);
-        }
         contentWidget = arg0;
         mainPanel.add(contentWidget);
     }
 
     /**
 	 * Clear.
+	 * 
 	 * @see com.google.gwt.user.client.ui.HasWidgets#clear()
 	 */
     @Override
-	public final void clear() {
-        if (contentWidget != null) {
+    public void clear() {
+        if (contentWidget != null)
             mainPanel.remove(contentWidget);
-        }
         contentWidget = null;
     }
 
     /**
 	 * Iterator.
+	 * 
 	 * @return the iterator
 	 * @see com.google.gwt.user.client.ui.HasWidgets#iterator()
 	 */
     @Override
-	public final Iterator<Widget> iterator() {
+    public Iterator<Widget> iterator() {
         return mainPanel.iterator();
     }
 
     /**
 	 * Removes the.
+	 * 
 	 * @param arg0
 	 *            the arg0
 	 * @return true, if successful
-     * @see com.google.gwt.user.client.ui.HasWidgets#remove(com.google.gwt.user.client.ui.Widget)
+	 * @see com.google.gwt.user.client.ui.HasWidgets#remove(com.google.gwt.user.client.ui.Widget)
 	 */
     @Override
-	public final boolean remove(final Widget arg0) {
+    public boolean remove(Widget arg0) {
         boolean result = false;
         if (contentWidget != null) {
             result = mainPanel.remove(contentWidget);
@@ -114,21 +117,23 @@ public class ApplicationMenuView extends ResizeComposite implements HasWidgets, 
 
     /**
 	 * As widget.
+	 * 
 	 * @return the widget
-     * @see org.ebayopensource.turmeric.policy.adminui.client.Container#asWidget()
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Container#asWidget()
 	 */
     @Override
-	public final Widget asWidget() {
+    public Widget asWidget() {
         return this;
     }
 
     /**
 	 * Gets the logout component.
+	 * 
 	 * @return the logout component
-     * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.MenuController.MenuControllerDisplay#getLogoutComponent()
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.MenuController.MenuControllerDisplay#getLogoutComponent()
 	 */
     @Override
-	public final HasClickHandlers getLogoutComponent() {
+    public HasClickHandlers getLogoutComponent() {
        return headerWidget.getLogoutComponent();
     }
 
@@ -137,9 +142,10 @@ public class ApplicationMenuView extends ResizeComposite implements HasWidgets, 
      * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.MenuController.MenuControllerDisplay#setUserName(java.lang.String)
      */
     @Override
-	public final void setUserName(final String name) {
+    public void setUserName(String name) {
         headerWidget.setUserName(name);
     }
 
 
 }
+    

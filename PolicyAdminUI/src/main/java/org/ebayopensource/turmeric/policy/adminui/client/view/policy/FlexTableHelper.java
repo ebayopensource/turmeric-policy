@@ -45,6 +45,7 @@ public class FlexTableHelper {
 			int rowCount = flexTable.getRowCount();
 			for (int row = 0; row < rowCount; row++) {
 				int cellCount = flexTable.getCellCount(row);
+				//System.out.println("\tcellCount: " + row + " " + cellCount);
 				for (int cell = 0; cell < cellCount; cell++) {
 					int colSpan = flexTable.getFlexCellFormatter().getColSpan(row, cell);
 					int rowSpan = flexTable.getFlexCellFormatter().getRowSpan(row, cell);
@@ -54,7 +55,12 @@ public class FlexTableHelper {
 							int baseCell2 = getCellOfColumn(flexTable, row2, column);
 							for (int cell2 = baseCell2; cell2 < baseCell2 + colSpan; cell2++) {
 								if (cell2 != -1) {
-									
+									/*System.out.println("remove (row,cell,column): "
+										+ row2
+										+ " "
+										+ cell2
+										+ " "
+										+ column);*/
 									Element td = flexTable.getCellFormatter().getElement(row2, cell2);
 									tdToRemove.add(td);
 								}
@@ -70,7 +76,7 @@ public class FlexTableHelper {
 			DOM.removeChild(tr, td);
 		}
 	}
-	private static int getColumnOfCell(final FlexTable flexTable, final int row, final int cell) {
+	private static int getColumnOfCell(FlexTable flexTable, int row, int cell) {
 		int column = 0;
 		for (int _cell = 0; _cell < cell; _cell++) {
 			int colSpan = getColSpan(flexTable, row, _cell);
@@ -78,7 +84,7 @@ public class FlexTableHelper {
 		}
 		return column;
 	}
-	private static int getCellOfColumn(final FlexTable flexTable, final int row, final int column) {
+	private static int getCellOfColumn(FlexTable flexTable, int row, int column) {
 		int cellCount = flexTable.getCellCount(row);
 		int currentColumn = 0;
 		for (int cell = 0; cell < cellCount; cell++) {
@@ -90,7 +96,7 @@ public class FlexTableHelper {
 		}
 		return -1;
 	}
-	private static int getColSpan(final FlexTable flexTable, final int row, final int cell) {
+	private static int getColSpan(FlexTable flexTable, int row, int cell) {
 		return flexTable.getFlexCellFormatter().getColSpan(row, cell);
 	}
 }

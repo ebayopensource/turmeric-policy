@@ -88,19 +88,18 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
 	        
 	        entityLabel = new Label("Entity:");
 	        entityBox = new ListBox(false);
-            searchButton = new Button(PolicyAdminUIUtil.policyAdminConstants.search());
-
-
-            grid.setWidget(0, 0, fromLabel);
+	        searchButton = new Button(PolicyAdminUIUtil.policyAdminConstants.search());
+	         
+	        grid.setWidget(0, 0, fromLabel);
 	        grid.setWidget(0, 1, fromText);
 
 	        grid.setWidget(0, 2, toLabel);
 	        grid.setWidget(0, 3, toText);
-
+	        
 
 	        grid.setWidget(0, 4, entityLabel);
 	        grid.setWidget(0, 5, entityBox);
-
+	        
 	        grid.setWidget(1, 3, searchButton);
 	        	        
 	        mainPanel.add(grid);
@@ -119,26 +118,26 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
 	    }
 	    
 	    public long getTo() {
-	    	return (DateFormatUtil.resetTo1159pm(toText.getValue()).getTime());
+	        return (DateFormatUtil.resetTo1159pm(toText.getValue()).getTime());
+
 	    }
 
 	    public long getFrom() {
-	    	return (DateFormatUtil.resetTo12am(fromText.getValue()).getTime());
+	    	
+	        return (DateFormatUtil.resetTo12am(fromText.getValue()).getTime());
 	    }
 
 	    public String getEntity() {
-	        if (entityBox.getSelectedIndex() >= 0) {
-				return entityBox.getItemText(entityBox.getSelectedIndex());
-			} else {
-				return null;
-			}
+	        if (entityBox.getSelectedIndex() >= 0)
+	            return entityBox.getItemText(entityBox.getSelectedIndex());
+	        else
+	            return null;
 	    }
 
 	    public void setEntityTypes(List<String> entities) {
 	        entityBox.clear();
-	        for (String s:entities){
+	        for (String s:entities)
 	        	entityBox.addItem(s);
-	        }
 	    }
 	    
 
@@ -154,26 +153,26 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
 	    EntitySearchWidget searchWidget;
 	    List<EntityHistory> selections = new ArrayList<EntityHistory>();
 	    ListDataProvider<EntityHistory> dataProvider;
-
-
+	    
+	    
+	    
 	    public ContentView() {
 	        mainPanel = new FlowPanel();
-
+	        
 	        initWidget(mainPanel);
 
 	        initialize();
 	    }
-
-
+	    
+	    
 	    public void setEntities(List<EntityHistory> entities) {
 	        selections.clear();
 	        cellTable.setRowCount(0);
 	        List<EntityHistory> list;
-	        if (entities == null) {
-				list = Collections.emptyList();
-			} else {
-				list = entities;
-			}
+	        if (entities == null)
+	        	list = Collections.emptyList();
+	        else
+	            list = entities;
             
 	        dataProvider.setList(list);
 	        dataProvider.refresh();
@@ -194,11 +193,17 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
 	        searchWidget.clear();
 	        searchPanel = new DisclosurePanel(PolicyAdminUIUtil.policyAdminConstants.search());
 	        searchPanel.setContent(searchWidget);
-
-	        //bottom part of panel is a table with search results
+	        
+            //bottom part of panel is a table with search results
 	        Grid summaryGrid = new Grid (3, 1);
 	        summaryGrid.setStyleName("entity_history_grid");
+	 
 
+//	        keyProvider = new ProvidesKey<EntityHistory>() {
+//	            public Object getKey(EntityHistory entity) {
+//	                return entity == null ? null : entity.|getName();
+//	            }
+//	        };
 
 	        cellTable = new CellTable<EntityHistory>(keyProvider);
 	        cellTable.setSelectionModel(selectionModel);
@@ -215,11 +220,11 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
                 }
             };
             cellTable.addColumn(ehWhenCol, PolicyAdminUIUtil.policyAdminConstants.ehWhenColumn());
-
+	         
 	       //column for who
-            TextColumn<EntityHistory> ehWhoCol = new TextColumn<EntityHistory> () {
+	        TextColumn<EntityHistory> ehWhoCol = new TextColumn<EntityHistory> () {
 	            public String getValue(EntityHistory history) {
-                    return (history == null ? null : history.getLoginSubject());
+	                return (history == null ? null : history.getLoginSubject());
 	            }
 	        };
 	        cellTable.addColumn(ehWhoCol, PolicyAdminUIUtil.policyAdminConstants.ehWhoColumn());
@@ -245,10 +250,11 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
 	            }
 	        };
 	        cellTable.addColumn(ehCommentsCol, PolicyAdminUIUtil.policyAdminConstants.ehCommentsColumn());
-
+	       
+            
 	        summaryGrid.setWidget(1, 0, cellTable);
 	        summaryGrid.setWidget(2,0,pager);
-
+	        	   
 	        mainPanel.addStyleName("sg-summary");
 	        mainPanel.add(searchPanel);
 	        searchPanel.addStyleName("sg-content");
@@ -266,28 +272,29 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
 		mainPanel = new FlowPanel();
 		scrollPanel.add(mainPanel);
 		initWidget(scrollPanel);
-
+		
 		initialize();
 	}
-
+	
 	/* (non-Javadoc)
-     * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView#initialize()
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView#initialize()
 	 */
 	@Override
-	public final void initialize() {
+	public void initialize() {
 		mainPanel.clear();
-
+		
 		mainPanel.setWidth("100%");
 		mainPanel.add(initContentView());
 	}
-
-
+	
+	
+	
 	/**
 	 * Inits the content view.
 	 * 
 	 * @return the widget
 	 */
-	protected final Widget initContentView() {
+	protected Widget initContentView() {
 		ScrollPanel actionPanel = new ScrollPanel();
 	    contentView = new ContentView();
 	    actionPanel.add(contentView.asWidget());
@@ -315,15 +322,15 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
      * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.HistoryChangeSummaryPresenter.HistoryChangeSummaryDisplay#setEntities(java.util.List)
      */
     @Override
-	public final void setEntities(final List<EntityHistory> entities) {
+    public void setEntities(List<EntityHistory> entities) {
        ((ContentView)contentView).setEntities(entities);
     }
-
+    
     /* (non-Javadoc)
      * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.HistoryChangeSummaryPresenter.HistoryChangeSummaryDisplay#setEntityTypes(java.util.List)
      */
     @Override
-	public final void setEntityTypes(final List<String> entityTypes) {
+    public void setEntityTypes(List<String> entityTypes) {
         ((ContentView)contentView).searchWidget.setEntityTypes(entityTypes);
     }
 
@@ -332,7 +339,7 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
      */
     @Override
     public HasClickHandlers getSearchButton() {
-        return ((ContentView) contentView).searchWidget.getSearchButton();
+        return ((ContentView)contentView).searchWidget.getSearchButton();
     }
 
     /* (non-Javadoc)
@@ -340,7 +347,7 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
      */
     @Override
     public long getFrom() {
-        return ((ContentView) contentView).searchWidget.getFrom();
+        return ((ContentView)contentView).searchWidget.getFrom();
     }
 
 
@@ -348,16 +355,16 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
      * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.HistoryChangeSummaryPresenter.HistoryChangeSummaryDisplay#getTo()
      */
     @Override
-	public final long getTo() {
-        return ((ContentView) contentView).searchWidget.getTo();
+    public long getTo() {
+        return ((ContentView)contentView).searchWidget.getTo();
     }
 
     /* (non-Javadoc)
      * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.HistoryChangeSummaryPresenter.HistoryChangeSummaryDisplay#getEntity()
      */
     @Override
-	public final String getEntity() {
-        return ((ContentView) contentView).searchWidget.getEntity();
+    public String getEntity() {
+        return ((ContentView)contentView).searchWidget.getEntity();
     }
 
 
@@ -365,7 +372,7 @@ public class HistoryChangeSummaryView extends AbstractGenericView implements His
     /* (non-Javadoc)
      * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.HistoryChangeSummaryPresenter.HistoryChangeSummaryDisplay#error(java.lang.String)
      */
-    public void error(final String msg) {
+    public void error(String msg) {
 		ErrorDialog dialog = new ErrorDialog(true);
 		dialog.setMessage(msg);
 		dialog.getDialog().center();

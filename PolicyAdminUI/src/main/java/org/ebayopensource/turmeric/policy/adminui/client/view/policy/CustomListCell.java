@@ -23,9 +23,9 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
  * 
  */
 public class CustomListCell extends AbstractInputCell<List<String>, String> {
-    private int minScrollbarSize = 3;
+	private int minScrollbarSize = 3;
 
-    interface Template extends SafeHtmlTemplates {
+	interface Template extends SafeHtmlTemplates {
 		@Template("<select size=\"{0}\"  tabindex=\"-1\">{1}</select>")
 		SafeHtml selectTag(String size, SafeHtml content);
 		
@@ -50,23 +50,24 @@ public class CustomListCell extends AbstractInputCell<List<String>, String> {
 
 	/**
 	 * Instantiates a new custom list cell.
+	 * 
 	 * @param minScrollbarSize
 	 *            the min scrollbar size
 	 */
 	public CustomListCell(int minScrollbarSize) {
 		this();
 		if (minScrollbarSize < 0) {
-            throw new IllegalArgumentException("Invalid minScrollbarSize parameter = "
+			throw new IllegalArgumentException("Invalid minScrollbarSize parameter = "
 					+ minScrollbarSize);
 		}
 		this.minScrollbarSize = minScrollbarSize;
 	}
 
 	/**
-     * Renders the element list. If the list size >= minScrollbarSize then the
+	 * Renders the element list. If the list size >= minScrollbarSize then the
 	 * cell renders as a select element, else, as a text list of elements,
 	 * separated by br tags
-     * 
+	 * 
 	 * @param value
 	 *            the value
 	 * @param key
@@ -74,7 +75,7 @@ public class CustomListCell extends AbstractInputCell<List<String>, String> {
 	 * @param sb
 	 *            the sb
 	 */
-	public final void render(final List<String> value, final Object key, final SafeHtmlBuilder sb) {
+	public void render(List<String> value, Object key, SafeHtmlBuilder sb) {
 		if (value != null) {
 			if (value.size() >= minScrollbarSize) {
 				renderSelectList(value, sb);
@@ -85,7 +86,7 @@ public class CustomListCell extends AbstractInputCell<List<String>, String> {
 
 	}
 	
-	private void renderSimpleList(final List<String> value, final SafeHtmlBuilder sb) {
+	private void renderSimpleList(List<String> value, SafeHtmlBuilder sb) {
 		if (value != null && !value.isEmpty()) {
 			for (String option : value) {
 				sb.appendEscaped(option).appendHtmlConstant("<br>");
@@ -93,7 +94,7 @@ public class CustomListCell extends AbstractInputCell<List<String>, String> {
 		}
 	}
 
-	private void renderSelectList(final List<String> value, final SafeHtmlBuilder sb) {
+	private void renderSelectList(List<String> value, SafeHtmlBuilder sb) {
 		SafeHtmlBuilder content = new SafeHtmlBuilder();
 		if (value != null && !value.isEmpty()) {
 			for (String option : value) {
@@ -108,7 +109,7 @@ public class CustomListCell extends AbstractInputCell<List<String>, String> {
 	 * @see com.google.gwt.cell.client.AbstractCell#render(com.google.gwt.cell.client.Cell.Context, java.lang.Object, com.google.gwt.safehtml.shared.SafeHtmlBuilder)
 	 */
 	@Override
-	public final void render(com.google.gwt.cell.client.Cell.Context paramContext,
+	public void render(com.google.gwt.cell.client.Cell.Context paramContext,
 			List<String> paramC, SafeHtmlBuilder paramSafeHtmlBuilder) {
 		this.render(paramC, paramContext.getKey(), paramSafeHtmlBuilder);
 	}
