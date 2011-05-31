@@ -696,11 +696,11 @@ public class PolicyViewView extends ResizeComposite implements
 		dialog.show();
 	}
 
+	
 	/* (non-Javadoc)
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#setAssociatedId(java.lang.String)
 	 */
 	public void setAssociatedId(final String id) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -708,7 +708,6 @@ public class PolicyViewView extends ResizeComposite implements
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#getAssociatedId()
 	 */
 	public String getAssociatedId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

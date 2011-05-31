@@ -20,35 +20,34 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ExtraField
 public class AUTHZPolicyEditView extends PolicyEditView {
 
 	/** The Constant SELECTED_ACTION. */
-	protected static  final UserAction SELECTED_ACTION = UserAction.AUTHZ_POLICY_EDIT;
+    protected static  final UserAction SELECTED_ACTION = UserAction.AUTHZ_POLICY_EDIT;
 	
-	private static final String TITLE_FORM= PolicyAdminUIUtil.policyAdminConstants.policyInformationAuthzEdit();
+    private static final String TITLE_FORM= PolicyAdminUIUtil.policyAdminConstants.policyInformationAuthzEdit();
 	
 	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#getSelectedAction()
+     * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#getSelectedAction()
 	 */
 	@Override
-	public UserAction getSelectedAction(){
+	public final UserAction getSelectedAction(){
 		return SELECTED_ACTION;
 	}
-	
+
 	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#getTitleForm()
+     * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#getTitleForm()
 	 */
 	@Override
-	public String getTitleForm(){
+	public final String getTitleForm() {
 		return TITLE_FORM;
 	}
 
-	
-	
+
+
 
     /* (non-Javadoc)
      * @see org.ebayopensource.turmeric.policy.adminui.client.Display#getAssociatedId()
      */
     @Override
-    public String getAssociatedId() {
-        // TODO Auto-generated method stub
+	public final String getAssociatedId() {
         return null;
     }
 
@@ -57,9 +56,7 @@ public class AUTHZPolicyEditView extends PolicyEditView {
      * @see org.ebayopensource.turmeric.policy.adminui.client.Display#setAssociatedId(java.lang.String)
      */
     @Override
-    public void setAssociatedId(String id) {
-        // TODO Auto-generated method stub
-        
+    public void setAssociatedId(final String id) {
     }
 
 	/* (non-Javadoc)
@@ -67,19 +64,14 @@ public class AUTHZPolicyEditView extends PolicyEditView {
 	 */
 	@Override
 	protected void initializeExtraFields() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc)
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#setExtraFieldList(java.util.List)
 	 */
 	@Override
-	public void setExtraFieldList(List<ExtraField> extraFieldList) {
-		// TODO Auto-generated method stub
-		
+	public void setExtraFieldList(final List<ExtraField> extraFieldList) {
+
 	}
-
-
 
 }
