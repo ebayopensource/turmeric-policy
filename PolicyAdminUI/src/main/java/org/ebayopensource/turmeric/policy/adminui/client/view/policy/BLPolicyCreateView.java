@@ -28,25 +28,24 @@ public class BLPolicyCreateView extends PolicyCreateView {
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#getSelectedAction()
 	 */
 	@Override
-	public UserAction getSelectedAction(){
+	public final UserAction getSelectedAction() {
 		return SELECTED_ACTION;
 	}
-	
+
 	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#getTitleForm()
+     * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#getTitleForm()
 	 */
 	@Override
-	public String getTitleForm(){
+	public final String getTitleForm() {
 		return TITLE_FORM;
 	}
 
-	
+
     /* (non-Javadoc)
      * @see org.ebayopensource.turmeric.policy.adminui.client.Display#getAssociatedId()
      */
     @Override
-    public String getAssociatedId() {
-        // TODO Auto-generated method stub
+	public final String getAssociatedId() {
         return null;
     }
 
@@ -54,18 +53,14 @@ public class BLPolicyCreateView extends PolicyCreateView {
      * @see org.ebayopensource.turmeric.policy.adminui.client.Display#setAssociatedId(java.lang.String)
      */
     @Override
-    public void setAssociatedId(String id) {
-        // TODO Auto-generated method stub
-        
+    public void setAssociatedId(final String id) {
     }
 
 	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#initializeExtraFields()
+     * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#initializeExtraFields()
 	 */
 	@Override
 	protected void initializeExtraFields() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc)
@@ -73,17 +68,13 @@ public class BLPolicyCreateView extends PolicyCreateView {
 	 */
 	@Override
 	public void setPolicyDesc(String policyDesc) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc)
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#setPolicyName(java.lang.String)
 	 */
 	@Override
-	public void setPolicyName(String policyName) {
-		// TODO Auto-generated method stub
-		
+	public void setPolicyName(final String policyName) {
 	}
 
 
@@ -91,18 +82,14 @@ public class BLPolicyCreateView extends PolicyCreateView {
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#setExtraFieldList(java.util.List)
 	 */
 	@Override
-	public void setExtraFieldList(List<ExtraField> extraFieldList) {
-		// TODO Auto-generated method stub
-		
+	public void setExtraFieldList(final List<ExtraField> extraFieldList) {
 	}
 
 	/* (non-Javadoc)
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#setStatusListboxEnabled(boolean)
 	 */
 	@Override
-	public void setStatusListboxEnabled(boolean enable) {
-		// TODO Auto-generated method stub
-		
+	public void setStatusListboxEnabled(final boolean enable) {
 	}
 
 
