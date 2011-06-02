@@ -25,26 +25,27 @@ import com.google.gwt.user.client.ui.HasWidgets;
  * The Class SubjectGroupImportPresenter.
  */
 public class SubjectGroupImportPresenter extends AbstractGenericPresenter {
-	
+
 	/** The Constant PRESENTER_ID. */
-	public final static String PRESENTER_ID = "SubjectGroupImport";
-	
+	public static final String PRESENTER_ID = "SubjectGroupImport";
+
 	/** The event bus. */
 	protected HandlerManager eventBus;
-	
+
 	/** The view. */
 	protected SubjectGroupImportDisplay view;
-	
+
 	/** The service map. */
 	protected Map<SupportedService, PolicyAdminUIService> serviceMap;
-	
+
 	/**
 	 * The Interface SubjectGroupImportDisplay.
 	 */
-	public interface SubjectGroupImportDisplay extends PolicyPageTemplateDisplay {
+	public interface SubjectGroupImportDisplay extends
+			PolicyPageTemplateDisplay {
 		FormPanel getForm();
 	}
-	
+
 	/**
 	 * Instantiates a new subject group import presenter.
 	 * 
@@ -55,54 +56,67 @@ public class SubjectGroupImportPresenter extends AbstractGenericPresenter {
 	 * @param serviceMap
 	 *            the service map
 	 */
-	public SubjectGroupImportPresenter(HandlerManager eventBus, SubjectGroupImportDisplay view, Map<SupportedService, PolicyAdminUIService> serviceMap) {
+	public SubjectGroupImportPresenter(final HandlerManager eventBus,
+			final SubjectGroupImportDisplay view,
+			final Map<SupportedService, PolicyAdminUIService> serviceMap) {
 		this.eventBus = eventBus;
 		this.view = view;
 		this.view.setAssociatedId(getId());
 		this.serviceMap = serviceMap;
-		
+
 		bind();
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#getId()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter
+	 * #getId()
 	 */
 	public String getId() {
 		return PRESENTER_ID;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#getView()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.
+	 * AbstractGenericPresenter#getView()
 	 */
 	@Override
-	protected SubjectGroupImportDisplay getView() {
+	protected final SubjectGroupImportDisplay getView() {
 		return view;
 	}
-	
+
 	/**
 	 * Bind.
 	 */
 	public void bind() {
-		
+
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#go(com.google.gwt.user.client.ui.HasWidgets, org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.
+	 * AbstractGenericPresenter#go(com.google.gwt.user.client.ui.HasWidgets,
+	 * org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
 	 */
 	@Override
-	public void go(HasWidgets container, final HistoryToken token) {
+	public final void go(final HasWidgets container, final HistoryToken token) {
 		container.clear();
 		this.view.activate();
 		container.add(this.view.asWidget());
-		
+
 		StringBuffer importUrl = new StringBuffer();
 		importUrl.append("/importPlc/sg?");
-		
+
 		AppUser user = AppUser.getUser();
 		importUrl.append(user.getUsername() + "&");
 		importUrl.append(user.getPassword());
-		
+
 		this.view.getForm().setAction(importUrl.toString());
-		
+
 	}
 }

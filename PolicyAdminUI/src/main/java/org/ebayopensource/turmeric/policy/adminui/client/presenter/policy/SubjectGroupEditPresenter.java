@@ -1,8 +1,8 @@
 /*******************************************************************************
  * Copyright (c) 2006-2010 eBay Inc. All Rights Reserved.
- * Licensed under the Apache License, Version 2.0 (the "License"); 
- * you may not use this file except in compliance with the License. 
- * You may obtain a copy of the License at 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *******************************************************************************/
@@ -54,19 +54,19 @@ import com.google.gwt.user.client.ui.HasWidgets;
  * SubjectGroupEditPresenter.
  */
 public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
-	
+
 	/** The Constant PRESENTER_ID. */
-	public final static String PRESENTER_ID = "SubjectGroupEdit";
+	public static final String PRESENTER_ID = "SubjectGroupEdit";
 
 	/** The event bus. */
 	protected HandlerManager eventBus;
-	
+
 	/** The view. */
 	protected SubjectGroupEditDisplay view;
-	
+
 	/** The original group. */
 	protected SubjectGroup originalGroup;
-	
+
 	/** The service map. */
 	protected Map<SupportedService, PolicyAdminUIService> serviceMap;
 	private PolicyQueryService service;
@@ -75,21 +75,21 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 	 * The Interface SubjectGroupEditDisplay.
 	 */
 	public interface SubjectGroupEditDisplay extends PolicyPageTemplateDisplay {
-		
+
 		/**
 		 * Sets the name.
 		 * 
 		 * @param name
 		 *            the new name
 		 */
-		public void setName(String name);
+		void setName(String name);
 
 		/**
 		 * Gets the name.
 		 * 
 		 * @return the name
 		 */
-		public String getName();
+		String getName();
 
 		/**
 		 * Sets the description.
@@ -97,42 +97,42 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 		 * @param desc
 		 *            the new description
 		 */
-		public void setDescription(String desc);
+		void setDescription(String desc);
 
 		/**
 		 * Gets the description.
 		 * 
 		 * @return the description
 		 */
-		public String getDescription();
+		String getDescription();
 
 		/**
 		 * Gets the search button.
 		 * 
 		 * @return the search button
 		 */
-		public HasClickHandlers getSearchButton();
+		HasClickHandlers getSearchButton();
 
 		/**
 		 * Gets the cancel button.
 		 * 
 		 * @return the cancel button
 		 */
-		public HasClickHandlers getCancelButton();
+		HasClickHandlers getCancelButton();
 
 		/**
 		 * Gets the apply button.
 		 * 
 		 * @return the apply button
 		 */
-		public Button getApplyButton();
+		Button getApplyButton();
 
 		/**
 		 * Gets the selected subjects.
 		 * 
 		 * @return the selected subjects
 		 */
-		public List<String> getSelectedSubjects();
+		List<String> getSelectedSubjects();
 
 		/**
 		 * Sets the selected subjects.
@@ -140,7 +140,7 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 		 * @param subjects
 		 *            the new selected subjects
 		 */
-		public void setSelectedSubjects(List<String> subjects);
+		void setSelectedSubjects(List<String> subjects);
 
 		/**
 		 * Sets the available subjects.
@@ -148,14 +148,14 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 		 * @param subjects
 		 *            the new available subjects
 		 */
-		public void setAvailableSubjects(List<String> subjects);
+		void setAvailableSubjects(List<String> subjects);
 
 		/**
 		 * Gets the search term.
 		 * 
 		 * @return the search term
 		 */
-		public String getSearchTerm();
+		String getSearchTerm();
 
 		/**
 		 * Error.
@@ -163,43 +163,43 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 		 * @param msg
 		 *            the msg
 		 */
-		public void error(String msg);
+		void error(String msg);
 
 		/**
 		 * Clear.
 		 */
-		public void clear();
+		void clear();
 
-        /**
+		/**
 		 * Sets the subject group calculator.
 		 * 
 		 * @param groupCalculator
 		 *            the new subject group calculator
 		 */
-        public void setSubjectGroupCalculator(String groupCalculator);
+		void setSubjectGroupCalculator(String groupCalculator);
 
-        /**
+		/**
 		 * Sets the sg calculator map.
 		 * 
 		 * @param values
 		 *            the values
 		 */
-        public void setSgCalculatorMap(Map<String, String> values);
+		void setSgCalculatorMap(Map<String, String> values);
 
-        /**
+		/**
 		 * Sets the selected type.
 		 * 
 		 * @param type
 		 *            the new selected type
 		 */
-        public void setSelectedType(String type);
+		void setSelectedType(String type);
 
-        /**
+		/**
 		 * Gets the group calculator.
 		 * 
 		 * @return the group calculator
 		 */
-        public String getGroupCalculator();
+		String getGroupCalculator();
 	}
 
 	/**
@@ -222,15 +222,22 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 		bind();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#getId()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter
+	 * #getId()
 	 */
 	public String getId() {
 		return PRESENTER_ID;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#getView()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.
+	 * AbstractGenericPresenter#getView()
 	 */
 	@Override
 	protected Display getView() {
@@ -313,16 +320,24 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 											.getSubjects();
 									List<String> names = new ArrayList<String>();
 									if (subjects != null) {
-										if(subjects.size() > 0){
-											for (Subject s : subjects){
+										if (subjects.size() > 0) {
+											for (Subject s : subjects) {
 												names.add(s.getName());
 											}
-										}else {
-											final String newSubjectName = subjectQuery.getSubjectKeys().get(0).getName();
-											final String newSubjectType  = subjectQuery.getSubjectKeys().get(0).getType();
-											if(! newSubjectName.endsWith("%")){
-												if(Window.confirm(PolicyAdminUIUtil.policyAdminConstants.createInternalSubjects())){
-													createInternalSubject(newSubjectName, newSubjectType);
+										} else {
+											final String newSubjectName = subjectQuery
+													.getSubjectKeys().get(0)
+													.getName();
+											final String newSubjectType = subjectQuery
+													.getSubjectKeys().get(0)
+													.getType();
+											if (!newSubjectName.endsWith("%")) {
+												if (Window
+														.confirm(PolicyAdminUIUtil.policyAdminConstants
+																.createInternalSubjects())) {
+													createInternalSubject(
+															newSubjectName,
+															newSubjectType);
 													names.add(newSubjectName);
 												}
 											}
@@ -334,9 +349,9 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 									}
 									view.setAvailableSubjects(names);
 								}
-									
+
 							});
-					}
+				}
 			}
 		});
 
@@ -351,8 +366,6 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 					return;
 				}
 
-				// TODO Send the changes to the server side. When acknowledged
-				// go back to Summary
 				final SubjectGroupImpl editedGroup = new SubjectGroupImpl(
 						originalGroup);
 				editedGroup.setName(view.getName());
@@ -387,7 +400,7 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 								UpdateMode.REPLACE,
 								new AsyncCallback<UpdateSubjectGroupsResponse>() {
 
-									public void onFailure(Throwable arg) {
+									public void onFailure(final Throwable arg) {
 										if (arg.getLocalizedMessage().contains(
 												"500")) {
 											view.error(PolicyAdminUIUtil.messages
@@ -400,7 +413,7 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 									}
 
 									public void onSuccess(
-											UpdateSubjectGroupsResponse response) {
+											final UpdateSubjectGroupsResponse response) {
 										// copy changes from the editedGroup
 										// back to the group
 										((SubjectGroupImpl) originalGroup)
@@ -425,7 +438,7 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 										History.newItem(token.toString(), true);
 									}
 								});
-						
+
 						view.getApplyButton().setEnabled(true);
 
 					}
@@ -440,7 +453,7 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 		});
 
 		this.view.getCancelButton().addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				view.clear();
 				// Just go back to the summary
 				HistoryToken token = makeToken(PolicyController.PRESENTER_ID,
@@ -466,7 +479,7 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 		service.findSubjects(query,
 				new AsyncCallback<PolicyQueryService.FindSubjectsResponse>() {
 
-					public void onSuccess(FindSubjectsResponse result) {
+					public void onSuccess(final FindSubjectsResponse result) {
 						subjects.removeAll(result.getSubjects());
 						if (subjects.size() > 0) {
 
@@ -498,14 +511,14 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 
 					}
 
-					public void onFailure(Throwable arg) {
+					public void onFailure(final Throwable arg) {
 						if (arg.getLocalizedMessage().contains("500")) {
 							view.error(PolicyAdminUIUtil.messages
 									.serverError(PolicyAdminUIUtil.policyAdminConstants
 											.genericErrorMessage()));
 						} else {
-							view.error(PolicyAdminUIUtil.messages.serverError(arg
-									.getLocalizedMessage()));
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(arg.getLocalizedMessage()));
 						}
 					}
 
@@ -513,43 +526,44 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 
 	}
 
-	private void createInternalSubject(final String subjectName, final String subjectType) {
+	private void createInternalSubject(final String subjectName,
+			final String subjectType) {
 
 		List<Subject> subjects = new ArrayList<Subject>();
 		SubjectImpl subject = new SubjectImpl();
 		subject.setName(subjectName);
 		subject.setType(subjectType);
 		subjects.add(subject);
-		
-		service.createSubjects(
-				subjects,
+
+		service.createSubjects(subjects,
 				new AsyncCallback<PolicyQueryService.CreateSubjectsResponse>() {
 
-					public void onSuccess(
-							final CreateSubjectsResponse result) {
+					public void onSuccess(final CreateSubjectsResponse result) {
 						// do nothing, subjects has been
 						// stored,
 						// we can continue...
 					}
 
-					public void onFailure(
-							final Throwable arg) {
-						if (arg.getLocalizedMessage()
-								.contains("500")) {
+					public void onFailure(final Throwable arg) {
+						if (arg.getLocalizedMessage().contains("500")) {
 							view.error(PolicyAdminUIUtil.messages
 									.serverError(PolicyAdminUIUtil.policyAdminConstants
 											.genericErrorMessage()));
 						} else {
-							view.error(PolicyAdminUIUtil.messages.serverError(arg
-									.getLocalizedMessage()));
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(arg.getLocalizedMessage()));
 						}
 					}
 				});
-			
+
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#go(com.google.gwt.user.client.ui.HasWidgets, org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.
+	 * AbstractGenericPresenter#go(com.google.gwt.user.client.ui.HasWidgets,
+	 * org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
 	 */
 	public void go(final HasWidgets container, final HistoryToken token) {
 		// Get the id from the token
@@ -585,8 +599,8 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 										.serverError(PolicyAdminUIUtil.policyAdminConstants
 												.genericErrorMessage()));
 							} else {
-								view.error(PolicyAdminUIUtil.messages.serverError(arg
-										.getLocalizedMessage()));
+								view.error(PolicyAdminUIUtil.messages
+										.serverError(arg.getLocalizedMessage()));
 							}
 						}
 
@@ -602,10 +616,9 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 								view.setSelectedSubjects(originalGroup
 										.getSubjects());
 								view.setSelectedType(originalGroup.getType());
-								
-								
+
 								fetchSubjectGroupCalculators();
-								
+
 								// Get the available subjects of that type
 								SubjectKey key = new SubjectKey();
 								String subName = view.getSearchTerm();
@@ -658,35 +671,38 @@ public class SubjectGroupEditPresenter extends AbstractGenericPresenter {
 					});
 		}
 	}
-	
+
 	private void fetchSubjectGroupCalculators() {
-        QueryCondition queryCondition = new QueryCondition();
-        queryCondition.setResolution(null);
-        QueryCondition.Query query = new Query("SUBJECT_TYPE", "SubjectGroupCalculator");
-        queryCondition.getQueries().add(query);
-        
-        service = (PolicyQueryService) serviceMap.get(SupportedService.POLICY_QUERY_SERVICE);
-        
-        service.getMetaData(queryCondition, new AsyncCallback<PolicyQueryService.GetMetaDataResponse>() {
+		QueryCondition queryCondition = new QueryCondition();
+		queryCondition.setResolution(null);
+		QueryCondition.Query query = new Query("SUBJECT_TYPE",
+				"SubjectGroupCalculator");
+		queryCondition.getQueries().add(query);
 
-            @Override
-            public void onFailure(Throwable arg0) {
-                if (arg0.getLocalizedMessage()
-                                .contains("500")) {
-                            view.error(PolicyAdminUIUtil.messages
-                                    .serverError(PolicyAdminUIUtil.policyAdminConstants
-                                            .genericErrorMessage()));
-                        } else {
-                            view.error(PolicyAdminUIUtil.messages.serverError(arg0
-                                    .getLocalizedMessage()));
-                        }
-            }
+		service = (PolicyQueryService) serviceMap
+				.get(SupportedService.POLICY_QUERY_SERVICE);
 
-            @Override
-            public void onSuccess(GetMetaDataResponse arg0) {
-                view.setSgCalculatorMap(arg0.getValues());
-                view.setSubjectGroupCalculator(originalGroup.getGroupCalculator());
-            }
-        });
-    }
+		service.getMetaData(queryCondition,
+				new AsyncCallback<PolicyQueryService.GetMetaDataResponse>() {
+
+					@Override
+					public void onFailure(Throwable arg0) {
+						if (arg0.getLocalizedMessage().contains("500")) {
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(PolicyAdminUIUtil.policyAdminConstants
+											.genericErrorMessage()));
+						} else {
+							view.error(PolicyAdminUIUtil.messages
+									.serverError(arg0.getLocalizedMessage()));
+						}
+					}
+
+					@Override
+					public void onSuccess(GetMetaDataResponse arg0) {
+						view.setSgCalculatorMap(arg0.getValues());
+						view.setSubjectGroupCalculator(originalGroup
+								.getGroupCalculator());
+					}
+				});
+	}
 }

@@ -41,9 +41,9 @@ public class WLPolicyCreatePresenter extends PolicyCreatePresenter {
 	 * @param serviceMap
 	 *            the service map
 	 */
-	public WLPolicyCreatePresenter(HandlerManager eventBus,
-			PolicyCreateDisplay view,
-			Map<SupportedService, PolicyAdminUIService> serviceMap) {
+	public WLPolicyCreatePresenter(final HandlerManager eventBus,
+			final PolicyCreateDisplay view,
+			final Map<SupportedService, PolicyAdminUIService> serviceMap) {
 		super(eventBus, view, serviceMap);
 		view.setConditionBuilderVisible(false);
 		this.view.setPolicyType("WHITELIST");
@@ -51,21 +51,28 @@ public class WLPolicyCreatePresenter extends PolicyCreatePresenter {
 	}
 
 	/** The Constant PRESENTER_ID. */
-	public final static String PRESENTER_ID = "WLPolicyCreate";
+	public static final String PRESENTER_ID = "WLPolicyCreate";
 
-	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#getId()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter
+	 * #getId()
 	 */
 	@Override
-	public String getId() {
+	public final String getId() {
 		return PRESENTER_ID;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#getResourceLevels()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.
+	 * PolicyCreatePresenter#getResourceLevels()
 	 */
 	@Override
-	public List<String> getResourceLevels() {
+	public final List<String> getResourceLevels() {
 		List<String> rsLevels = new ArrayList<String>();
 
 		for (ResourceLevel rsLevel : ResourceLevel.values()) {
@@ -75,15 +82,18 @@ public class WLPolicyCreatePresenter extends PolicyCreatePresenter {
 		return rsLevels;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#bindSaveButton()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.
+	 * PolicyCreatePresenter#bindSaveButton()
 	 */
 	@Override
-	protected void bindSaveButton() {
+	protected final void bindSaveButton() {
 		{
 			// fired on saved policy
 			this.view.getSaveButton().addClickHandler(new ClickHandler() {
-				public void onClick(ClickEvent event) {
+				public void onClick(final ClickEvent event) {
 
 					final GenericPolicy p = getPolicy(view.getPolicyName()
 							.getValue(), "WHITELIST", view.getPolicyDesc()
@@ -103,7 +113,8 @@ public class WLPolicyCreatePresenter extends PolicyCreatePresenter {
 									p,
 									new AsyncCallback<org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreatePolicyResponse>() {
 
-										public void onFailure(Throwable arg) {
+										public void onFailure(
+												final Throwable arg) {
 											if (arg.getLocalizedMessage()
 													.contains("500")) {
 												view.error(PolicyAdminUIUtil.messages
@@ -116,7 +127,7 @@ public class WLPolicyCreatePresenter extends PolicyCreatePresenter {
 										}
 
 										public void onSuccess(
-												org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreatePolicyResponse response) {
+												final org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreatePolicyResponse response) {
 
 											WLPolicyCreatePresenter.this.view
 													.clear();
