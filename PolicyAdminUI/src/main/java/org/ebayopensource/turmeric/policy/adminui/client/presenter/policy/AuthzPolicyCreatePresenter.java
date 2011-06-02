@@ -41,9 +41,9 @@ public class AuthzPolicyCreatePresenter extends PolicyCreatePresenter {
 	 * @param serviceMap
 	 *            the service map
 	 */
-	public AuthzPolicyCreatePresenter(HandlerManager eventBus,
-			PolicyCreateDisplay view,
-			Map<SupportedService, PolicyAdminUIService> serviceMap) {
+	public AuthzPolicyCreatePresenter(final HandlerManager eventBus,
+			final PolicyCreateDisplay view,
+			final Map<SupportedService, PolicyAdminUIService> serviceMap) {
 		super(eventBus, view, serviceMap);
 		view.setConditionBuilderVisible(false);
 		this.view.setPolicyType("AUTHZ");
@@ -51,98 +51,106 @@ public class AuthzPolicyCreatePresenter extends PolicyCreatePresenter {
 	}
 
 	/** The Constant PRESENTER_ID. */
-	public final static String PRESENTER_ID = "AuthzPolicyCreate";
+	public static final String PRESENTER_ID = "AuthzPolicyCreate";
 
-	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#getId()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter
+	 * #getId()
 	 */
 	@Override
-	public String getId() {
+	public final String getId() {
 		return PRESENTER_ID;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#getResourceLevels()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.
+	 * PolicyCreatePresenter#getResourceLevels()
 	 */
 	@Override
-	public List<String> getResourceLevels() {
+	public final List<String> getResourceLevels() {
 		List<String> rsLevels = new ArrayList<String>();
 		rsLevels.add(ResourceLevel.OPERATION.name());
 		return rsLevels;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#bindSaveButton()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.
+	 * PolicyCreatePresenter#bindSaveButton()
 	 */
 	@Override
-	protected void bindSaveButton() {
-		{
-			// fired on saved policy
-			this.view.getSaveButton().addClickHandler(new ClickHandler() {
-				public void onClick(ClickEvent event) {
+	protected final void bindSaveButton() {
 
-					final GenericPolicy p = getPolicy(
-							view.getPolicyName().getValue(), "AUTHZ", view
-									.getPolicyDesc().getValue(),
-							resourceAssignments, view.getSubjectContentView()
-									.getAssignments(), null);
+		// fired on saved policy
+		this.view.getSaveButton().addClickHandler(new ClickHandler() {
+			public void onClick(final ClickEvent event) {
 
-					/**
-					 * This timer is needed due to GWT has only one thread, so
-					 * Thread.sleep is not a valid option The purpose of
-					 * sleeping time is wait until new external subject been
-					 * created into turmeric db, in order to assign them as
-					 * internal subjects
-					 */
-					Timer timer = new Timer() {
-						public void run() {
+				final GenericPolicy p = getPolicy(view.getPolicyName()
+						.getValue(), "AUTHZ", view.getPolicyDesc().getValue(),
+						resourceAssignments, view.getSubjectContentView()
+								.getAssignments(), null);
 
-							service.createPolicy(
-									p,
-									new AsyncCallback<org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreatePolicyResponse>() {
+				/**
+				 * This timer is needed due to GWT has only one thread, so
+				 * Thread.sleep is not a valid option The purpose of sleeping
+				 * time is wait until new external subject been created into
+				 * turmeric db, in order to assign them as internal subjects
+				 */
+				Timer timer = new Timer() {
+					public void run() {
 
-										public void onFailure(Throwable err) {
-											if(err.getLocalizedMessage().contains("500")){
-												view.getResourceContentView()
-												.error(PolicyAdminUIUtil.messages.serverError(
-														PolicyAdminUIUtil.policyAdminConstants.genericErrorMessage()));
-											}else{
-												view.getResourceContentView()
-												.error(PolicyAdminUIUtil.messages.serverError(err
-														.getLocalizedMessage()));
-											}
+						service.createPolicy(
+								p,
+								new AsyncCallback<org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreatePolicyResponse>() {
+
+									public void onFailure(Throwable err) {
+										if (err.getLocalizedMessage().contains(
+												"500")) {
+											view.getResourceContentView()
+													.error(PolicyAdminUIUtil.messages
+															.serverError(PolicyAdminUIUtil.policyAdminConstants
+																	.genericErrorMessage()));
+										} else {
+											view.getResourceContentView()
+													.error(PolicyAdminUIUtil.messages.serverError(err
+															.getLocalizedMessage()));
 										}
+									}
 
-										public void onSuccess(
-												org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreatePolicyResponse response) {
+									public void onSuccess(
+											final org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreatePolicyResponse response) {
 
-											AuthzPolicyCreatePresenter.this.view
-													.clear();
-											clearLists();
-											HistoryToken token = makeToken(
-													PolicyController.PRESENTER_ID,
-													PolicySummaryPresenter.PRESENTER_ID,
-													null);
-											History.newItem(token.toString(),
-													true);
-										}
-									});
-							view.getSaveButton().setEnabled(true);
-						}
-
-					};
-					if (view.getSubjectContentView().getAssignments().size() > 0
-							&& "USER".equals(view.getSubjectContentView()
-									.getAssignments().get(0).getSubjectType())) {
-						view.getSaveButton().setEnabled(false);
-						timer.schedule(3000);
-					} else {
-						timer.schedule(1);
+										AuthzPolicyCreatePresenter.this.view
+												.clear();
+										clearLists();
+										HistoryToken token = makeToken(
+												PolicyController.PRESENTER_ID,
+												PolicySummaryPresenter.PRESENTER_ID,
+												null);
+										History.newItem(token.toString(), true);
+									}
+								});
+						view.getSaveButton().setEnabled(true);
 					}
 
+				};
+				if (view.getSubjectContentView().getAssignments().size() > 0
+						&& "USER".equals(view.getSubjectContentView()
+								.getAssignments().get(0).getSubjectType())) {
+					view.getSaveButton().setEnabled(false);
+					timer.schedule(3000);
+				} else {
+					timer.schedule(1);
 				}
-			});
-		}
-	}
 
+			}
+		});
+
+	}
 }

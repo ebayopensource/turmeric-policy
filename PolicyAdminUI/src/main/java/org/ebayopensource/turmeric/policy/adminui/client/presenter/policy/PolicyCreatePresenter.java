@@ -83,19 +83,19 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 	/** The event bus. */
 	protected HandlerManager eventBus;
-	
+
 	/** The view. */
 	protected PolicyCreateDisplay view;
-	
+
 	/** The service map. */
 	protected Map<SupportedService, PolicyAdminUIService> serviceMap;
-	
+
 	/** The permitted actions. */
 	protected List<UserAction> permittedActions = new ArrayList<UserAction>();
-	
+
 	/** The available resources by type. */
 	protected final List<Resource> availableResourcesByType = new ArrayList<Resource>();
-	
+
 	/** The all subjects. */
 	protected List<Subject> allSubjects;
 
@@ -104,22 +104,22 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 	/** The all resources. */
 	protected final List<Resource> allResources = new ArrayList<Resource>();
-	
+
 	/** The internal subjects. */
 	protected List<Subject> internalSubjects;
 
 	/** The assigned unique resources. */
 	protected HashSet<String> assignedUniqueResources = new HashSet<String>();
-	
+
 	/** The subject types. */
 	protected List<String> subjectTypes;
-	
+
 	/** The subject assignments. */
 	protected List<PolicySubjectAssignment> subjectAssignments;
-	
+
 	/** The resource assignments. */
 	protected List<Resource> resourceAssignments;
-	
+
 	/** The rules. */
 	protected List<Rule> rules = new ArrayList<Rule>();;
 
@@ -128,7 +128,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 	/** The edit subject assignment. */
 	protected PolicySubjectAssignment editSubjectAssignment;
-	
+
 	/** The service. */
 	protected PolicyQueryService service;
 
@@ -142,9 +142,9 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	 * @param serviceMap
 	 *            the service map
 	 */
-	public PolicyCreatePresenter(HandlerManager eventBus,
-			PolicyCreateDisplay view,
-			Map<SupportedService, PolicyAdminUIService> serviceMap) {
+	public PolicyCreatePresenter(final HandlerManager eventBus,
+			final PolicyCreateDisplay view,
+			final Map<SupportedService, PolicyAdminUIService> serviceMap) {
 		this.eventBus = eventBus;
 		this.view = view;
 		this.view.setAssociatedId(getId());
@@ -172,22 +172,23 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		// search for matching SubjectGroup
 		this.view.getSubjectContentView().getGroupSearchButton()
 				.addClickHandler(new ClickHandler() {
-					public void onClick(ClickEvent event) {
+					public void onClick(final ClickEvent event) {
 						// do a lookup of all the matching SubjectGroups
 						SubjectGroupKey key = new SubjectGroupKey();
 						key.setType(view.getSubjectContentView()
 								.getSubjectType());
 						String name = view.getSubjectContentView()
 								.getGroupSearchTerm();
-						if (name != null && !name.trim().equals(""))
+						if (name != null && !name.trim().equals("")) {
 							key.setName(name);
+						}
 						SubjectGroupQuery query = new SubjectGroupQuery();
 						query.setGroupKeys(Collections.singletonList(key));
 
 						service.findSubjectGroups(query,
 								new AsyncCallback<FindSubjectGroupsResponse>() {
 
-									public void onFailure(Throwable arg) {
+									public void onFailure(final Throwable arg) {
 										if (arg.getLocalizedMessage().contains(
 												"500")) {
 											view.error(PolicyAdminUIUtil.messages
@@ -200,13 +201,14 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 									}
 
 									public void onSuccess(
-											FindSubjectGroupsResponse response) {
+											final FindSubjectGroupsResponse response) {
 										List<SubjectGroup> subjects = response
 												.getGroups();
 										List<String> names = new ArrayList<String>();
 										if (subjects != null) {
-											for (SubjectGroup s : subjects)
+											for (SubjectGroup s : subjects) {
 												names.add(s.getName());
+											}
 										}
 										view.getSubjectContentView()
 												.setAvailableSubjectGroups(
@@ -222,13 +224,14 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		// search for matching Subject
 		this.view.getSubjectContentView().getSubjectSearchButton()
 				.addClickHandler(new ClickHandler() {
-					public void onClick(ClickEvent event) {
+					public void onClick(final ClickEvent event) {
 						// do a lookup of all the matching Subjects
 						SubjectKey key = new SubjectKey();
 						String name = view.getSubjectContentView()
 								.getSubjectSearchTerm();
-						if (name != null && !name.trim().equals(""))
+						if (name != null && !name.trim().equals("")) {
 							key.setName(name);
+						}
 						key.setType(view.getSubjectContentView()
 								.getSubjectType());
 
@@ -240,7 +243,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 									query,
 									new AsyncCallback<FindExternalSubjectsResponse>() {
 
-										public void onFailure(Throwable arg) {
+										public void onFailure(
+												final Throwable arg) {
 											if (arg.getLocalizedMessage()
 													.contains("500")) {
 												view.error(PolicyAdminUIUtil.messages
@@ -258,8 +262,9 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 													.getSubjects();
 											List<String> names = new ArrayList<String>();
 											if (subjects != null) {
-												for (Subject s : subjects)
+												for (Subject s : subjects) {
 													names.add(s.getName());
+												}
 											}
 
 											view.getSubjectContentView()
@@ -276,7 +281,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 							service.findSubjects(query,
 									new AsyncCallback<FindSubjectsResponse>() {
 
-										public void onFailure(Throwable arg) {
+										public void onFailure(
+												final Throwable arg) {
 											if (arg.getLocalizedMessage()
 													.contains("500")) {
 												view.error(PolicyAdminUIUtil.messages
@@ -289,7 +295,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 										}
 
 										public void onSuccess(
-												FindSubjectsResponse response) {
+												final FindSubjectsResponse response) {
 											List<Subject> subjects = response
 													.getSubjects();
 											List<String> names = new ArrayList<String>();
@@ -327,13 +333,6 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 													.setAvailableExclusionSubjects(
 															names);
 
-											// view.getSubjectContentView()
-											// .setAvailableSubjects(
-											// getSubjectNames(subjects));
-											//
-											// view.getSubjectContentView()
-											// .setAvailableExclusionSubjects(
-											// getSubjectNames(subjects));
 										}
 
 									});
@@ -346,10 +345,11 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		// edit an assignment
 		this.view.getSubjectContentView().getEditButton()
 				.addClickHandler(new ClickHandler() {
-					public void onClick(ClickEvent event) {
+					public void onClick(final ClickEvent event) {
 						if (view.getSubjectContentView()
-								.getSelectedSubjectAssignments().size() != 1)
+								.getSelectedSubjectAssignments().size() != 1) {
 							return;
+						}
 						/**
 						 * edit the existing assignment - set the available
 						 * SubjectTypes as only the one in the assignment, and
@@ -358,7 +358,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 						 */
 						editSubjectAssignment = view.getSubjectContentView()
 								.getSelectedSubjectAssignments().get(0);
-						
+
 						// remove the assignment from the list of assignments
 						// while it is being edited
 
@@ -370,22 +370,21 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 						// being edited
 						List<String> typeList = new ArrayList<String>();
 						typeList.add(editSubjectAssignment.getSubjectType());
-						
 						view.getSubjectContentView().setAvailableSubjectTypes(
 								typeList);
-						//subject type attr values are: [0-9]+ when comes from server, null when it has not been saved yet
-						final boolean selectAllSubjects = (!editSubjectAssignment.getSubjects().isEmpty()
-								&& (editSubjectAssignment.getSubjects().
-										get(0).getSubjectMatchTypes().
-										get(0).getAttributeValue().getValue() == null || 
-										editSubjectAssignment.getSubjects().
-										get(0).getSubjectMatchTypes().
-										get(0).getAttributeValue().getValue().endsWith("+")));
-						
-						view.getSubjectContentView().setSelectAllSubjects(selectAllSubjects);
-						
-						
-						
+						// subject type attr values are: [0-9]+ when comes from
+						// server, null when it has not been saved yet
+						final boolean selectAllSubjects = (!editSubjectAssignment
+								.getSubjects().isEmpty() && (editSubjectAssignment
+								.getSubjects().get(0).getSubjectMatchTypes()
+								.get(0).getAttributeValue().getValue() == null || editSubjectAssignment
+								.getSubjects().get(0).getSubjectMatchTypes()
+								.get(0).getAttributeValue().getValue()
+								.endsWith("+")));
+
+						view.getSubjectContentView().setSelectAllSubjects(
+								selectAllSubjects);
+
 						// get all the subjects of this type
 						SubjectKey skey = new SubjectKey();
 						skey.setType(editSubjectAssignment.getSubjectType());
@@ -396,7 +395,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 						service.findSubjects(query,
 								new AsyncCallback<FindSubjectsResponse>() {
 
-									public void onFailure(Throwable arg) {
+									public void onFailure(final Throwable arg) {
 										if (arg.getLocalizedMessage().contains(
 												"500")) {
 											view.error(PolicyAdminUIUtil.messages
@@ -409,10 +408,10 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 									}
 
 									public void onSuccess(
-											FindSubjectsResponse response) {
+											final FindSubjectsResponse response) {
 										List<Subject> subjects = response
 												.getSubjects();
-										if(! selectAllSubjects){
+										if (!selectAllSubjects) {
 											view.getSubjectContentView()
 													.setSelectedSubjects(
 															getSubjectNames(editSubjectAssignment
@@ -450,7 +449,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 						service.findSubjectGroups(gquery,
 								new AsyncCallback<FindSubjectGroupsResponse>() {
 
-									public void onFailure(Throwable arg) {
+									public void onFailure(final Throwable arg) {
 										if (arg.getLocalizedMessage().contains(
 												"500")) {
 											view.error(PolicyAdminUIUtil.messages
@@ -463,7 +462,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 									}
 
 									public void onSuccess(
-											FindSubjectGroupsResponse response) {
+											final FindSubjectGroupsResponse response) {
 										List<SubjectGroup> subjectGroups = response
 												.getGroups();
 
@@ -488,14 +487,16 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 															&& existing
 																	.getId()
 																	.equals(g
-																			.getId()))
+																			.getId())) {
 														itor.remove();
-													else if (existing.getName() != null
+													} else if (existing
+															.getName() != null
 															&& existing
 																	.getName()
 																	.equals(g
-																			.getName()))
+																			.getName())) {
 														itor.remove();
+													}
 												}
 											}
 
@@ -530,14 +531,16 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 															&& existing
 																	.getId()
 																	.equals(g
-																			.getId()))
+																			.getId())) {
 														itor.remove();
-													else if (existing.getName() != null
+													} else if (existing
+															.getName() != null
 															&& existing
 																	.getName()
 																	.equals(g
-																			.getName()))
+																			.getName())) {
 														itor.remove();
+													}
 												}
 											}
 
@@ -556,7 +559,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		// delete an assignment
 		this.view.getSubjectContentView().getDelButton()
 				.addClickHandler(new ClickHandler() {
-					public void onClick(ClickEvent event) {
+					public void onClick(final ClickEvent event) {
 
 						if (view.getSubjectContentView()
 								.getSelectedSubjectAssignments().size() == 0) {
@@ -592,10 +595,11 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		// assign a new group of Subject/SubjectGroup to the policy
 		this.view.getSubjectContentView().getAddButton()
 				.addClickHandler(new ClickHandler() {
-					public void onClick(ClickEvent event) {
+					public void onClick(final ClickEvent event) {
 
-						if(completePopulatedForm()){
-							// Add a new set of subjects and groups for a given SubjectType
+						if (completePopulatedForm()) {
+							// Add a new set of subjects and groups for a given
+							// SubjectType
 							if (subjectAssignments == null) {
 								subjectAssignments = new ArrayList<PolicySubjectAssignment>();
 							}
@@ -607,33 +611,37 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 							} else {
 								assignment = new PolicySubjectAssignment();
 							}
-	
-							assignment.setSubjectType(view.getSubjectContentView()
-									.getSubjectType());
-							
-							//subject 
+							assignment.setSubjectType(view
+									.getSubjectContentView().getSubjectType());
+
+							// subject
 							List<Subject> subjects = new ArrayList<Subject>();
-	
-							if(view.getSubjectContentView().getSelectAllSubjects()){
-								Subject assignedSubject = getSubjectType(PolicyAdminUIUtil.policyAdminConstants
-										.all(), assignment.getSubjectType(), false);
-								
+
+							if (view.getSubjectContentView()
+									.getSelectAllSubjects()) {
+								Subject assignedSubject = getSubjectType(
+										PolicyAdminUIUtil.policyAdminConstants
+												.all(), assignment
+												.getSubjectType(), false);
+
 								subjects.add(assignedSubject);
-	
-							}else{
+
+							} else {
 								for (String s : view.getSubjectContentView()
 										.getSelectedSubjects()) {
 									Subject assignedSubject = getSubject(s,
 											assignment.getSubjectType(), false);
-									// let's do a second loading, external subjects
+									// let's do a second loading, external
+									// subjects
 									// should stored in local now
 									if (assignedSubject.getSubjectMatchTypes() == null) {
 										assignedSubject = getSubject(s,
-												assignment.getSubjectType(), true);
+												assignment.getSubjectType(),
+												true);
 									}
 									subjects.add(assignedSubject);
 								}
-							
+
 							}
 							// exclusionSubjects
 							List<Subject> exclusionSubjects = new ArrayList<Subject>();
@@ -641,7 +649,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 									.getSelectedExclusionSubjects()) {
 								Subject assignedSubject = getSubject(s,
 										assignment.getSubjectType(), true);
-	
+
 								// let's do a second loading, external subjects
 								// should stored in local now
 								if (assignedSubject.getSubjectMatchTypes() == null) {
@@ -649,45 +657,44 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 											assignment.getSubjectType(), true);
 								}
 								exclusionSubjects.add(assignedSubject);
-	
 							}
 							// groups
 							List<SubjectGroup> groups = new ArrayList<SubjectGroup>();
 							for (String s : view.getSubjectContentView()
 									.getSelectedSubjectGroups()) {
-								groups.add(getGroup(s, assignment.getSubjectType(),
-										false));
+								groups.add(getGroup(s,
+										assignment.getSubjectType(), false));
 							}
 							// exclusion Subjectgroups
 							List<SubjectGroup> exclSg = new ArrayList<SubjectGroup>();
 							for (String s : view.getSubjectContentView()
 									.getSelectedExclusionSG()) {
-								exclSg.add(getGroup(s, assignment.getSubjectType(),
-										true));
+								exclSg.add(getGroup(s,
+										assignment.getSubjectType(), true));
 							}
-	
+
 							assignment.setSubjects(subjects);
 							assignment.setExclusionSubjects(exclusionSubjects);
 							assignment.setSubjectGroups(groups);
 							assignment.setExclusionSubjectGroups(exclSg);
 							subjectAssignments.add(assignment);
-	
-					
+
 							view.getSubjectContentView().setAssignments(
 									subjectAssignments);
 							// take the SubjectType of the assignment out of the
 							// list of available types
 							subjectTypes.remove(assignment.getSubjectType());
-							view.getSubjectContentView().setAvailableSubjectTypes(
-									subjectTypes);
-							view.getSubjectContentView().clearAssignmentWidget();
+							view.getSubjectContentView()
+									.setAvailableSubjectTypes(subjectTypes);
+							view.getSubjectContentView()
+									.clearAssignmentWidget();
 						}
-					}			
+					}
 				});
 
 		view.getSubjectContentView().getCancelButton()
 				.addClickHandler(new ClickHandler() {
-					public void onClick(ClickEvent event) {
+					public void onClick(final ClickEvent event) {
 						if (editSubjectAssignment != null) {
 							subjectAssignments.add(editSubjectAssignment);
 							editSubjectAssignment = null;
@@ -706,16 +713,16 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				});
 
 	}
-					
-	private boolean completePopulatedForm(){
+
+	private boolean completePopulatedForm() {
 		SubjectContentDisplay scView = view.getSubjectContentView();
 		return (scView.getSelectAllSubjects()
 				|| !scView.getSelectedSubjects().isEmpty()
 				|| !scView.getSelectedExclusionSubjects().isEmpty()
-				|| !scView.getSelectedSubjectGroups().isEmpty()
-				|| !scView.getSelectedExclusionSG().isEmpty());
+				|| !scView.getSelectedSubjectGroups().isEmpty() || !scView
+				.getSelectedExclusionSG().isEmpty());
 	}
-	
+
 	private void display() {
 		if (ResourceLevel.GLOBAL.name().equals(
 				view.getResourceContentView().getResourceLevel())) {
@@ -772,7 +779,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		this.view.getResourceContentView().getResourceLevelBox()
 				.addChangeHandler(new ChangeHandler() {
 
-					public void onChange(ChangeEvent event) {
+					public void onChange(final ChangeEvent event) {
 						display();
 
 					}
@@ -783,7 +790,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		this.view.getResourceContentView().getEditButton()
 				.addClickHandler(new ClickHandler() {
 
-					public void onClick(ClickEvent event) {
+					public void onClick(final ClickEvent event) {
 						if (view.getResourceContentView().getSelections()
 								.size() != 1) {
 							return;
@@ -835,7 +842,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 						service.getResources(rsKeys,
 								new AsyncCallback<GetResourcesResponse>() {
 
-									public void onFailure(Throwable arg) {
+									public void onFailure(final Throwable arg) {
 										if (arg.getLocalizedMessage().contains(
 												"500")) {
 											view.error(PolicyAdminUIUtil.messages
@@ -848,7 +855,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 									}
 
 									public void onSuccess(
-											GetResourcesResponse response) {
+											final GetResourcesResponse response) {
 										List<Resource> resources = new ArrayList<Resource>(
 												response.getResources());
 										view.getResourceContentView()
@@ -886,7 +893,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 		view.getResourceContentView().getCancelResourceButton()
 				.addClickHandler(new ClickHandler() {
-					public void onClick(ClickEvent event) {
+					public void onClick(final ClickEvent event) {
 						if (editResourceAssignment != null) {
 							resourceAssignments.add(editResourceAssignment);
 							editResourceAssignment = null;
@@ -908,7 +915,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		this.view.getResourceContentView().getResourceTypeBox()
 				.addChangeHandler(new ChangeHandler() {
 
-					public void onChange(ChangeEvent event) {
+					public void onChange(final ChangeEvent event) {
 
 						getRemainingResourceNames();
 					}
@@ -919,7 +926,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		this.view.getResourceContentView().getResourceNameBox()
 				.addClickHandler(new ClickHandler() {
 
-					public void onClick(ClickEvent event) {
+					public void onClick(final ClickEvent event) {
 						getAvailableOperations();
 					}
 
@@ -928,7 +935,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		// assign a new rs to the policy
 		this.view.getResourceContentView().getAddResourceButton()
 				.addClickHandler(new ClickHandler() {
-					public void onClick(ClickEvent event) {
+					public void onClick(final ClickEvent event) {
 
 						/*
 						 * Resources could be assigned at 3 levels GLOBAL: means
@@ -1018,7 +1025,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		// delete an assignment
 		this.view.getResourceContentView().getDelButton()
 				.addClickHandler(new ClickHandler() {
-					public void onClick(ClickEvent event) {
+					public void onClick(final ClickEvent event) {
 						if (view.getResourceContentView().getSelections()
 								.size() == 0) {
 							return;
@@ -1231,7 +1238,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		String getSubjectType();
 
 		boolean getSelectAllSubjects();
-		
+
 		void setSelectAllSubjects(boolean selected);
 
 		HasClickHandlers getGroupSearchButton();
@@ -1296,7 +1303,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	/**
 	 * Clear lists.
 	 */
-	protected void clearLists() {
+	protected final void clearLists() {
 
 		if (assignedUniqueResources != null) {
 			assignedUniqueResources.clear();
@@ -1321,11 +1328,14 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#getView()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.
+	 * AbstractGenericPresenter#getView()
 	 */
 	@Override
-	protected PolicyCreateDisplay getView() {
+	protected final PolicyCreateDisplay getView() {
 		return view;
 	}
 
@@ -1335,35 +1345,43 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	public void bind() {
 
 		this.view.getCancelButton().addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				PolicyCreatePresenter.this.view.clear();
 
 				if (subjectAssignments != null)
 					subjectAssignments.clear();
 
-				if (resourceAssignments != null)
+				if (resourceAssignments != null) {
 					resourceAssignments.clear();
+				}
 
-				if (rules != null)
+				if (rules != null) {
 					rules.clear();
+				}
 
-				if (assignedUniqueResources != null)
+				if (assignedUniqueResources != null) {
 					assignedUniqueResources.clear();
+				}
 
-				if (availableResourcesByType != null)
+				if (availableResourcesByType != null) {
 					availableResourcesByType.clear();
+				}
 
-				if (allResources != null)
+				if (allResources != null) {
 					allResources.clear();
+				}
 
-				if (allSubjects != null)
+				if (allSubjects != null) {
 					allSubjects.clear();
+				}
 
-				if (allSubjectGroups != null)
+				if (allSubjectGroups != null) {
 					allSubjectGroups.clear();
+				}
 
-				if (allSubjectGroups != null)
+				if (allSubjectGroups != null) {
 					editResourceAssignment = null;
+				}
 
 				HistoryToken token = makeToken(PolicyController.PRESENTER_ID,
 						PolicySummaryPresenter.PRESENTER_ID, null);
@@ -1373,11 +1391,15 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.AbstractGenericPresenter#go(com.google.gwt.user.client.ui.HasWidgets, org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.
+	 * AbstractGenericPresenter#go(com.google.gwt.user.client.ui.HasWidgets,
+	 * org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
 	 */
 	@Override
-	public void go(HasWidgets container, final HistoryToken token) {
+	public void go(final HasWidgets container, final HistoryToken token) {
 		container.clear();
 		// this.view.clear();
 
@@ -1387,7 +1409,6 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		service = (PolicyQueryService) serviceMap
 				.get(SupportedService.POLICY_QUERY_SERVICE);
 
-		// TODO fetch from server
 		permittedActions = Arrays.asList(UserAction.values());
 		this.view.setUserActions(permittedActions);
 
@@ -1441,12 +1462,12 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 		service.getResources(PolicyKeysUtil.getAllResourceKeyList(),
 				new AsyncCallback<GetResourcesResponse>() {
-					public void onSuccess(GetResourcesResponse response) {
+					public void onSuccess(final GetResourcesResponse response) {
 						allResources.clear();
 						allResources.addAll(response.getResources());
 					}
 
-					public void onFailure(Throwable arg) {
+					public void onFailure(final Throwable arg) {
 						if (arg.getLocalizedMessage().contains("500")) {
 							view.getResourceContentView()
 									.error(PolicyAdminUIUtil.messages
@@ -1469,7 +1490,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 		service.getResources(Collections.singletonList(key),
 				new AsyncCallback<GetResourcesResponse>() {
-					public void onSuccess(GetResourcesResponse response) {
+					public void onSuccess(final GetResourcesResponse response) {
 						availableResourcesByType.clear();
 						availableResourcesByType.addAll(response.getResources());
 						List<String> resourceNames = new ArrayList<String>();
@@ -1488,7 +1509,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 								.setSelectedIndex(-1);
 					}
 
-					public void onFailure(Throwable arg) {
+					public void onFailure(final Throwable arg) {
 						if (arg.getLocalizedMessage().contains("500")) {
 							view.getResourceContentView()
 									.error(PolicyAdminUIUtil.messages
@@ -1503,7 +1524,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				});
 	}
 
-	private List<String> getResourceNames(List<Resource> resources) {
+	private List<String> getResourceNames(final List<Resource> resources) {
 
 		List<String> resourceNames = new ArrayList<String>();
 
@@ -1515,10 +1536,10 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 	/**
 	 * Fetch a subject entity from DB based on the subject key parameter.
-	 *
+	 * 
 	 * @see getSubject() method
 	 */
-	protected void fetchSubjects() {
+	protected final void fetchSubjects() {
 
 		SubjectQuery query = new SubjectQuery();
 
@@ -1526,12 +1547,12 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		service.findSubjects(query,
 				new AsyncCallback<PolicyQueryService.FindSubjectsResponse>() {
 
-					public void onSuccess(FindSubjectsResponse result) {
+					public void onSuccess(final FindSubjectsResponse result) {
 						allSubjects = new ArrayList<Subject>(result
 								.getSubjects());
 					}
 
-					public void onFailure(Throwable arg) {
+					public void onFailure(final Throwable arg) {
 						if (arg.getLocalizedMessage().contains("500")) {
 							view.error(PolicyAdminUIUtil.messages
 									.serverError(PolicyAdminUIUtil.policyAdminConstants
@@ -1545,9 +1566,10 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	}
 
 	/**
-	 * Fetch a Subject Group entity from DB based on the subject Group key parameter.
+	 * Fetch a Subject Group entity from DB based on the subject Group key
+	 * parameter.
 	 */
-	protected void fetchSubjectGroups() {
+	protected final void fetchSubjectGroups() {
 
 		SubjectGroupQuery query = new SubjectGroupQuery();
 
@@ -1556,7 +1578,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				query,
 				new AsyncCallback<PolicyQueryService.FindSubjectGroupsResponse>() {
 
-					public void onSuccess(FindSubjectGroupsResponse result) {
+					public void onSuccess(final FindSubjectGroupsResponse result) {
 						allSubjectGroups = new ArrayList<SubjectGroup>(result
 								.getGroups());
 					}
@@ -1585,17 +1607,18 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	 *            the is subject type
 	 * @return the subject type
 	 */
-	private Subject getSubjectType(final String name, final String type, final boolean isSubjectType) {
+	private Subject getSubjectType(final String name, final String type,
+			final boolean isSubjectType) {
 		final SubjectImpl s = new SubjectImpl();
 		s.setType(type);
-		
+
 		SubjectMatchTypeImpl smt = new SubjectMatchTypeImpl();
 		AttributeValueImpl attr = new AttributeValueImpl();
-		
+
 		SubjectAttributeDesignatorImpl designator = new SubjectAttributeDesignatorImpl();
 		smt.setMatchId("urn:oasis:names:tc:xacml:1.0:function:string-regexp-match");
 		attr.setDataType("http://www.w3.org/2001/XMLSchema#string");
-		
+
 		designator
 				.setAttributeId("urn:oasis:names:tc:xacml:1.0:subject:subject-id");
 		designator.setDataType("http://www.w3.org/2001/XMLSchema#string");
@@ -1604,7 +1627,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 		s.setSubjectMatch(new ArrayList<SubjectMatchType>(Collections
 				.singletonList(smt)));
-	
+
 		return s;
 
 	}
@@ -1615,8 +1638,6 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	 * is a USER type, it could not exist, that is an external subject, so it is
 	 * firstly created in DB
 	 * 
-	 * @see createExternalAsInternalSubject() method
-	 * 
 	 * @param name
 	 *            the name
 	 * @param type
@@ -1624,8 +1645,9 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	 * @param exclusionList
 	 *            the exclusion list
 	 * @return the subject
+	 * @see createExternalAsInternalSubject() method
 	 */
-	public Subject getSubject(String name, String type,
+	public Subject getSubject(final String name, final String type,
 			final boolean exclusionList) {
 		final SubjectImpl s = new SubjectImpl();
 		for (Subject subject : allSubjects) {
@@ -1671,7 +1693,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		if (s.getSubjectMatchTypes() == null) {
 			s.setType(type);
 			s.setName(name);
-			if("USER".equals(type)){
+			if ("USER".equals(type)) {
 				createExternalAsInternalSubject(new ArrayList<Subject>(
 						Collections.singletonList(s)));
 			}
@@ -1693,7 +1715,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	 *            the exclusion list
 	 * @return the group
 	 */
-	public SubjectGroup getGroup(String name, String type,
+	public SubjectGroup getGroup(final String name, final String type,
 			final boolean exclusionList) {
 		SubjectGroupImpl group = new SubjectGroupImpl();
 		for (SubjectGroup subjectGroup : allSubjectGroups) {
@@ -1755,9 +1777,11 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	 *            the rules
 	 * @return the policy
 	 */
-	protected GenericPolicy getPolicy(String name, String type,
-			String description, List<Resource> resources,
-			List<PolicySubjectAssignment> subjectAssignments, List<Rule> rules) {
+	protected final GenericPolicy getPolicy(final String name,
+			final String type, final String description,
+			final List<Resource> resources,
+			final List<PolicySubjectAssignment> subjectAssignments,
+			final List<Rule> rules) {
 		GenericPolicyImpl p = new GenericPolicyImpl();
 		p.setName(name);
 		p.setType(type);
@@ -1786,11 +1810,11 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				if (a.getSubjects() != null) {
 					subjects.addAll(a.getSubjects());
 				}
-				
+
 				if (a.getExclusionSubjects() != null) {
 					exclusionSubjects.addAll(a.getExclusionSubjects());
 				}
-		
+
 				if (a.getSubjectGroups() != null) {
 					groups.addAll(a.getSubjectGroups());
 				}
@@ -1813,7 +1837,8 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	 * @param subjects
 	 *            the subjects
 	 */
-	protected void createExternalAsInternalSubject(final List<Subject> subjects) {
+	protected final void createExternalAsInternalSubject(
+			final List<Subject> subjects) {
 		List<SubjectKey> keys = new ArrayList<SubjectKey>();
 
 		for (Subject subj : subjects) {
@@ -1829,7 +1854,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		service.findSubjects(query,
 				new AsyncCallback<PolicyQueryService.FindSubjectsResponse>() {
 
-					public void onSuccess(FindSubjectsResponse result) {
+					public void onSuccess(final FindSubjectsResponse result) {
 						subjects.removeAll(result.getSubjects());
 						if (subjects.size() > 0) {
 							service.createSubjects(
@@ -1859,7 +1884,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 						}
 					}
 
-					public void onFailure(Throwable arg) {
+					public void onFailure(final Throwable arg) {
 						if (arg.getLocalizedMessage().contains("500")) {
 							view.error(PolicyAdminUIUtil.messages
 									.serverError(PolicyAdminUIUtil.policyAdminConstants
@@ -1877,14 +1902,14 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	/**
 	 * Fetch resources.
 	 */
-	protected void fetchResources() {
+	protected final void fetchResources() {
 		service.getResources(null, new AsyncCallback<GetResourcesResponse>() {
 			public void onSuccess(GetResourcesResponse response) {
 				availableResourcesByType.addAll(response.getResources());
 
 			}
 
-			public void onFailure(Throwable arg) {
+			public void onFailure(final Throwable arg) {
 				if (arg.getLocalizedMessage().contains("500")) {
 					view.getResourceContentView()
 							.error(PolicyAdminUIUtil.messages
@@ -1900,7 +1925,10 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 	}
 
-	private List<String> getSubjectNames(List<Subject> subjects) {
+	/**
+	 * Obtain Subject Names from subject objects.
+	 */
+	private List<String> getSubjectNames(final List<Subject> subjects) {
 		List<String> names = new ArrayList<String>();
 		if (subjects != null) {
 			for (Subject s : subjects) {
@@ -1910,7 +1938,10 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		return names;
 	}
 
-	private List<String> getGroupNames(List<SubjectGroup> groups) {
+	/**
+	 * Obtain Subject Group Names from SG objects.
+	 */
+	private List<String> getGroupNames(final List<SubjectGroup> groups) {
 		List<String> names = new ArrayList<String>();
 		if (groups != null) {
 			for (SubjectGroup s : groups) {
@@ -1920,7 +1951,10 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		return names;
 	}
 
-	private List<String> getOperationNames(List<Operation> operations) {
+	/**
+	 * Obtain Operation Names from Operations objects.
+	 */
+	private List<String> getOperationNames(final List<Operation> operations) {
 		List<String> names = new ArrayList<String>();
 		if (operations != null) {
 			for (Operation op : operations) {
@@ -1930,7 +1964,11 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		return names;
 	}
 
-	private int getResourceIndex(List<Resource> resources, String rsName) {
+	/**
+	 * Obtain index of getResource(name).
+	 */
+	private int getResourceIndex(final List<Resource> resources,
+			final String rsName) {
 		int index = -1;
 		for (int i = 0; i < resources.size(); i++) {
 			if (resources.get(i).getResourceName().equals(rsName)) {

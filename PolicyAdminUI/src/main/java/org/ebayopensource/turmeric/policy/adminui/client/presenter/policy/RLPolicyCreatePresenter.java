@@ -116,7 +116,7 @@ public class RLPolicyCreatePresenter extends PolicyCreatePresenter {
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#bind()
 	 */
 	@Override
-	public void bind() {
+	public final void bind() {
 		super.bind();
 
 		this.view.getAddConditionButton().addClickHandler(new ClickHandler() {

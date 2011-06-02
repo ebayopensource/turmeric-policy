@@ -44,8 +44,8 @@ public class AUTHZPolicyEditPresenter extends PolicyEditPresenter {
 	 * @param serviceMap
 	 *            the service map
 	 */
-	public AUTHZPolicyEditPresenter(HandlerManager eventBus,
-			PolicyEditDisplay view,
+	public AUTHZPolicyEditPresenter(final HandlerManager eventBus,
+			final PolicyEditDisplay view,
 			Map<SupportedService, PolicyAdminUIService> serviceMap) {
 		super(eventBus, view, serviceMap);
 		view.setConditionBuilderVisible(false);
@@ -54,35 +54,45 @@ public class AUTHZPolicyEditPresenter extends PolicyEditPresenter {
 	}
 
 	/** The Constant PRESENTER_ID. */
-	public final static String PRESENTER_ID = "AUTHZPolicyEdit";
+	public static final String PRESENTER_ID = "AUTHZPolicyEdit";
 
-	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter#getId()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter
+	 * #getId()
 	 */
 	@Override
-	public String getId() {
+	public final String getId() {
 		return PRESENTER_ID;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#getResourceLevels()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.
+	 * PolicyCreatePresenter#getResourceLevels()
 	 */
 	@Override
-	public List<String> getResourceLevels() {
+	public final List<String> getResourceLevels() {
 		List<String> rsLevels = new ArrayList<String>();
 		rsLevels.add(ResourceLevel.OPERATION.name());
 		return rsLevels;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter#bindSaveButton()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.
+	 * PolicyCreatePresenter#bindSaveButton()
 	 */
 	@Override
-	protected void bindSaveButton() {
+	protected final void bindSaveButton() {
 		{
 			// fired on saved policy
 			this.view.getSaveButton().addClickHandler(new ClickHandler() {
-				public void onClick(ClickEvent event) {
+				public void onClick(final ClickEvent event) {
 					GWT.log("EDITION MODE:");
 
 					final GenericPolicy p = getPolicy(view.getPolicyName()
@@ -105,7 +115,8 @@ public class AUTHZPolicyEditPresenter extends PolicyEditPresenter {
 							service.updatePolicy(UpdateMode.REPLACE, p,
 									new AsyncCallback<UpdatePolicyResponse>() {
 
-										public void onFailure(Throwable err) {
+										public void onFailure(
+												final Throwable err) {
 											if (err.getLocalizedMessage()
 													.contains("500")) {
 												view.getResourceContentView()
@@ -122,7 +133,7 @@ public class AUTHZPolicyEditPresenter extends PolicyEditPresenter {
 										}
 
 										public void onSuccess(
-												UpdatePolicyResponse response) {
+												final UpdatePolicyResponse response) {
 											GWT.log("Updated policy");
 											AUTHZPolicyEditPresenter.this.view
 													.clear();
