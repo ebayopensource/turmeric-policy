@@ -19,31 +19,31 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface PolicyEnforcementService {
     
     /** The Constant SUBJECT_GROUP_DELETE_RESOURCE. */
-    public static final String SUBJECT_GROUP_DELETE_RESOURCE = "SERVICE.PolicyService.deleteSubjectGroups";
+    String SUBJECT_GROUP_DELETE_RESOURCE = "SERVICE.PolicyService.deleteSubjectGroups";
     
     /** The Constant SUBJECT_GROUP_EDIT_RESOURCE. */
-    public static final String SUBJECT_GROUP_EDIT_RESOURCE = "SERVICE.PolicyService.updateSubjectGroups";
+    String SUBJECT_GROUP_EDIT_RESOURCE = "SERVICE.PolicyService.updateSubjectGroups";
     
     /** The Constant SUBJECT_GROUP_DELETE_OPERATION_NAME. */
-    public static final String SUBJECT_GROUP_DELETE_OPERATION_NAME = "deleteSubjectGroups";
+    String SUBJECT_GROUP_DELETE_OPERATION_NAME = "deleteSubjectGroups";
     
     /** The Constant SUBJECT_GROUP_OPERATION_NAME. */
-    public static final String SUBJECT_GROUP_OPERATION_NAME = "updateSubjectGroups";
+    String SUBJECT_GROUP_OPERATION_NAME = "updateSubjectGroups";
     
     /** The Constant POLICY_DELETE_RESOURCE. */
-    public static final String POLICY_DELETE_RESOURCE = "SERVICE.PolicyService.deletePolicy";
+    String POLICY_DELETE_RESOURCE = "SERVICE.PolicyService.deletePolicy";
     
     /** The Constant POLICY_EDIT_RESOURCE. */
-    public static final String POLICY_EDIT_RESOURCE = "SERVICE.PolicyService.updatePolicy";
+    String POLICY_EDIT_RESOURCE = "SERVICE.PolicyService.updatePolicy";
     
     /** The Constant POLICY_DELETE_OPERATION_NAME. */
-    public static final String POLICY_DELETE_OPERATION_NAME = "deletePolicy";
+    String POLICY_DELETE_OPERATION_NAME = "deletePolicy";
     
     /** The Constant POLICY_EDIT_OPERATION_NAME. */
-    public static final String POLICY_EDIT_OPERATION_NAME = "updatePolicy";
+    String POLICY_EDIT_OPERATION_NAME = "updatePolicy";
     
     /** The Constant POLICY_SERVICE_NAME. */
-    public static final String POLICY_SERVICE_NAME = "PolicyService";
+    String POLICY_SERVICE_NAME = "PolicyService";
     
     /**
 	 * Verify.
@@ -65,11 +65,11 @@ public interface PolicyEnforcementService {
 	 * @param callback
 	 *            the callback
 	 */
-    public void verify (OperationKey opKey,
-                        List<String> policyTypes,
-                        Map<String,String> credentials,
-                        List<String[]> subjectTypes,
-                        Map<String,String> extendedInfo,
+    void verify (OperationKey opKey,
+                        List<String> policyTypes, 
+                        Map<String,String> credentials, 
+                        List<String[]> subjectTypes, 
+                        Map<String,String> extendedInfo, 
                         List<String> accessControlObjects,
                         String resourceType,
                         AsyncCallback<VerifyAccessResponse> callback);
@@ -79,13 +79,12 @@ public interface PolicyEnforcementService {
 	 * The Interface VerifyAccessResponse.
 	 */
     public interface VerifyAccessResponse {
-        //TODO add other data access methods if necessary
         /**
 		 * Checks if is errored.
 		 * 
 		 * @return true, if is errored
 		 */
-        public boolean isErrored();
+        boolean isErrored();
     }
 
 }

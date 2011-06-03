@@ -127,7 +127,7 @@ public class GenericConfirmationWidget extends PopupPanel {
 		 * @param event
 		 *            the event
 		 */
-    	public void onSelection(ConfirmEvent event);
+    	void onSelection(ConfirmEvent event);
 	}
 
 	/**

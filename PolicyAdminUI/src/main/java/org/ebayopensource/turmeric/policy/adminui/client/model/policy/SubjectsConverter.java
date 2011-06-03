@@ -64,7 +64,6 @@ public class SubjectsConverter {
         if (subjects == null)
             return json;
         
-        //TODO
         
         return json;
     }

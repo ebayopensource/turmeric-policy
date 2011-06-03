@@ -66,7 +66,6 @@ public class ErrorResponse extends JavaScriptObject {
             
     }-*/;
     
-    //TODO - remove these!
     /**
 	 * Checks if is error response.
 	 * 

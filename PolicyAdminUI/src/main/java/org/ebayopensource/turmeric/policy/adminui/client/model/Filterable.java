@@ -29,56 +29,56 @@ public interface Filterable {
 	 * 
 	 * @return the apply button
 	 */
-    public HasClickHandlers getApplyButton();    
+    HasClickHandlers getApplyButton();    
     
     /**
 	 * Gets the cancel button.
 	 * 
 	 * @return the cancel button
 	 */
-    public HasClickHandlers getCancelButton();
+    HasClickHandlers getCancelButton();
     
     /**
 	 * Gets the hour1.
 	 * 
 	 * @return the hour1
 	 */
-    public int getHour1 ();
+    int getHour1 ();
     
     /**
 	 * Gets the hour2.
 	 * 
 	 * @return the hour2
 	 */
-    public int getHour2 ();
+    int getHour2 ();
     
     /**
 	 * Gets the duration.
 	 * 
 	 * @return the duration
 	 */
-    public int getDuration ();
+    int getDuration ();
     
     /**
 	 * Gets the date1.
 	 * 
 	 * @return the date1
 	 */
-    public HasValue<Date> getDate1();
+    HasValue<Date> getDate1();
     
     /**
 	 * Gets the date2.
 	 * 
 	 * @return the date2
 	 */
-    public HasValue<Date> getDate2();
+    HasValue<Date> getDate2();
     
     /**
 	 * Gets the selected metric names.
 	 * 
 	 * @return the selected metric names
 	 */
-    public List<String> getSelectedMetricNames();
+    List<String> getSelectedMetricNames();
     
     /**
 	 * Sets the duration.
@@ -86,7 +86,7 @@ public interface Filterable {
 	 * @param duration
 	 *            the new duration
 	 */
-    public void setDuration (int duration);
+    void setDuration (int duration);
     
     /**
 	 * Sets the durations.
@@ -94,7 +94,7 @@ public interface Filterable {
 	 * @param durations
 	 *            the new durations
 	 */
-    public void setDurations (int[] durations);     
+    void setDurations (int[] durations);     
     
     /**
 	 * Sets the date1.
@@ -102,7 +102,7 @@ public interface Filterable {
 	 * @param d
 	 *            the new date1
 	 */
-    public void setDate1(Date d);
+    void setDate1(Date d);
     
     /**
 	 * Sets the date2.
@@ -110,7 +110,7 @@ public interface Filterable {
 	 * @param d
 	 *            the new date2
 	 */
-    public void setDate2(Date d);
+    void setDate2(Date d);
     
     /**
 	 * Sets the hour1.
@@ -118,7 +118,7 @@ public interface Filterable {
 	 * @param hour
 	 *            the new hour1
 	 */
-    public void setHour1 (int hour);
+    void setHour1 (int hour);
     
     /**
 	 * Sets the hour2.
@@ -126,7 +126,7 @@ public interface Filterable {
 	 * @param hour
 	 *            the new hour2
 	 */
-    public void setHour2 (int hour);
+    void setHour2 (int hour);
     
     /**
 	 * Sets the hours1.
@@ -134,7 +134,7 @@ public interface Filterable {
 	 * @param hours
 	 *            the new hours1
 	 */
-    public void setHours1 (int[] hours);
+    void setHours1 (int[] hours);
     
     /**
 	 * Sets the hours2.
@@ -142,7 +142,7 @@ public interface Filterable {
 	 * @param hours
 	 *            the new hours2
 	 */
-    public void setHours2 (int[] hours);
+    void setHours2 (int[] hours);
     
     /**
 	 * Sets the metric names.
@@ -150,7 +150,7 @@ public interface Filterable {
 	 * @param names
 	 *            the new metric names
 	 */
-    public void setMetricNames (List<String> names);
+    void setMetricNames (List<String> names);
     
     /**
 	 * Sets the selected metric names.
@@ -158,7 +158,7 @@ public interface Filterable {
 	 * @param names
 	 *            the new selected metric names
 	 */
-    public void setSelectedMetricNames (List<String> names);
+    void setSelectedMetricNames (List<String> names);
     
     
     /**
@@ -172,7 +172,7 @@ public interface Filterable {
 		 * @param names
 		 *            the new category view names
 		 */
-        public void setCategoryViewNames (List<String> names);
+        void setCategoryViewNames (List<String> names);
         
         /**
 		 * Sets the selected category view names.
@@ -180,14 +180,14 @@ public interface Filterable {
 		 * @param names
 		 *            the new selected category view names
 		 */
-        public void setSelectedCategoryViewNames (List<String> names);
+        void setSelectedCategoryViewNames (List<String> names);
         
         /**
 		 * Gets the selected category view names.
 		 * 
 		 * @return the selected category view names
 		 */
-        public List<String> getSelectedCategoryViewNames ();
+        List<String> getSelectedCategoryViewNames ();
         
         /**
 		 * Sets the severity view names.
@@ -195,7 +195,7 @@ public interface Filterable {
 		 * @param names
 		 *            the new severity view names
 		 */
-        public void setSeverityViewNames (List<String> names);
+        void setSeverityViewNames (List<String> names);
         
         /**
 		 * Sets the selected severity view names.
@@ -203,13 +203,13 @@ public interface Filterable {
 		 * @param names
 		 *            the new selected severity view names
 		 */
-        public void setSelectedSeverityViewNames(List<String> names);
+        void setSelectedSeverityViewNames(List<String> names);
         
         /**
 		 * Gets the selected severity view names.
 		 * 
 		 * @return the selected severity view names
 		 */
-        public List<String> getSelectedSeverityViewNames();
+        List<String> getSelectedSeverityViewNames();
     }
 }

@@ -18,40 +18,40 @@ public interface ErrorDetail {
 	 * 
 	 * @return the id
 	 */
-    public String getId();
+    String getId();
 
     /**
 	 * Gets the name.
 	 * 
 	 * @return the name
 	 */
-    public String getName();
+    String getName();
 
     /**
 	 * Gets the domain.
 	 * 
 	 * @return the domain
 	 */
-    public String getDomain();
+    String getDomain();
 
     /**
 	 * Gets the sub domain.
 	 * 
 	 * @return the sub domain
 	 */
-    public String getSubDomain();
+    String getSubDomain();
 
     /**
 	 * Gets the severity.
 	 * 
 	 * @return the severity
 	 */
-    public String getSeverity();
+    String getSeverity();
 
     /**
 	 * Gets the category.
 	 * 
 	 * @return the category
 	 */
-    public String getCategory();
+    String getCategory();
 }

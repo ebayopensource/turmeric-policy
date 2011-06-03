@@ -21,7 +21,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("SubjectGroup Calculator")
-    public String sgCalculator();
+    String sgCalculator();
     
     /**
 	 * Calculated.
@@ -29,7 +29,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Calculated")
-    public String calculated();
+    String calculated();
     
     /**
 	 * Subject criteria.
@@ -37,7 +37,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Subject")
-    public String subjectCriteria();
+    String subjectCriteria();
 
     /**
 	 * Subject group criteria.
@@ -45,7 +45,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Subject Group")
-    public String subjectGroupCriteria();
+    String subjectGroupCriteria();
     
     /**
 	 * Policy criteria.
@@ -53,7 +53,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Policy")
-    public String policyCriteria();
+    String policyCriteria();
 
     /**
 	 * Resource criteria.
@@ -61,7 +61,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Resource")
-    public String resourceCriteria();
+    String resourceCriteria();
     
     /**
 	 * Subjects and subject groups.
@@ -69,7 +69,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Subjects and Subject Groups")
-    public String subjectsAndSubjectGroups();
+    String subjectsAndSubjectGroups();
     
     /**
 	 * Assign subjects and subject groups.
@@ -77,7 +77,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Assign Subjects and Subject Groups")
-    public String assignSubjectsAndSubjectGroups();
+    String assignSubjectsAndSubjectGroups();
     
     /**
 	 * Assign resources.
@@ -85,7 +85,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Assign Resources")
-    public String assignResources();
+    String assignResources();
     
     /**
 	 * Condition builder.
@@ -93,7 +93,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Condition Builder")
-    public String conditionBuilder();
+    String conditionBuilder();
      
     /**
 	 * Search.
@@ -101,7 +101,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Search")
-    public String search();
+    String search();
     
     /**
 	 * Search groups.
@@ -109,7 +109,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Search Groups")
-    public String searchGroups();
+    String searchGroups();
     
     /**
 	 * Search subjects.
@@ -117,7 +117,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Search Subjects")
-    public String searchSubjects();
+    String searchSubjects();
 
     /**
 	 * Available operations.
@@ -125,7 +125,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Available Operations")
-    public String availableOperations();
+    String availableOperations();
 
     /**
 	 * Selected operations.
@@ -133,7 +133,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Selected Operations")
-    public String selectedOperations();
+    String selectedOperations();
     
     
     /**
@@ -142,7 +142,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Available Subjects")
-    public String availableSubjects();
+    String availableSubjects();
     
     /**
 	 * Available subject groups.
@@ -150,7 +150,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Available Subject Groups")
-    public String availableSubjectGroups();
+    String availableSubjectGroups();
     
 	/**
 	 * Subject group.
@@ -158,7 +158,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Subject Group")
-	public String subjectGroup();
+	String subjectGroup();
 	
 	/**
 	 * Subject groups.
@@ -166,7 +166,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Subject Groups")
-	public String subjectGroups();
+	String subjectGroups();
 	
 	/**
 	 * Selected subject groups.
@@ -174,7 +174,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Selected Subject Groups")
-	public String selectedSubjectGroups();
+	String selectedSubjectGroups();
 	
 	/**
 	 * Selected exclusion subject.
@@ -182,7 +182,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Selected Exclusion Subject")
-	public String selectedExclusionSubject();
+	String selectedExclusionSubject();
 
 	/**
 	 * Selected exclusion sg.
@@ -190,7 +190,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Selected Exclusion Subject Groups")
-	public String selectedExclusionSG();
+	String selectedExclusionSG();
 	
 	/**
 	 * Subject type.
@@ -198,7 +198,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Subject Type")
-	public String subjectType();
+	String subjectType();
 
 	/**
 	 * Subject name.
@@ -206,7 +206,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Subject Name")
-	public String subjectName();
+	String subjectName();
 	
 	/**
 	 * Subject group description.
@@ -214,7 +214,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue ("Subject Group Description")
-	public String subjectGroupDescription();
+	String subjectGroupDescription();
 	
 	/**
 	 * Subject group name.
@@ -222,7 +222,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue ("Subject Group Name")
-	public String subjectGroupName();
+	String subjectGroupName();
 	
 	/**
 	 * Selected subjects.
@@ -230,7 +230,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue ("Selected Subjects")
-	public String selectedSubjects();
+	String selectedSubjects();
 	
 	/**
 	 * Select all subjects.
@@ -238,7 +238,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue ("Select All Subjects")
-	public String selectAllSubjects();
+	String selectAllSubjects();
 	
 	/**
 	 * Subjects.
@@ -246,7 +246,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue ("Subjects")
-	public String subjects();
+	String subjects();
 	
 	/**
 	 * Exclusion subjects.
@@ -254,7 +254,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue ("Exclusion Subjects")
-	public String exclusionSubjects();
+	String exclusionSubjects();
 	
 	/**
 	 * Exclusion subject groups.
@@ -262,7 +262,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue ("Exclusion Subject Groups")
-	public String exclusionSubjectGroups();
+	String exclusionSubjectGroups();
 	
 	/**
 	 * Subjects assigned.
@@ -270,7 +270,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue ("Subjects Assigned")
-	public String subjectsAssigned();
+	String subjectsAssigned();
 	
 	/**
 	 * Policies assigned.
@@ -278,7 +278,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue ("Policies Assigned")
-	public String policiesAssigned();
+	String policiesAssigned();
 	
 	/**
 	 * Created by.
@@ -286,7 +286,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue ("Created By")
-	public String createdBy();
+	String createdBy();
 
 	/**
 	 * Last modified by.
@@ -294,7 +294,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue ("Last Modified By")
-	public String lastModifiedBy();
+	String lastModifiedBy();
 
 	/**
 	 * Last modified time.
@@ -302,7 +302,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue ("Last Modified Time")
-	public String lastModifiedTime();
+	String lastModifiedTime();
 	
 	/**
 	 * Creates the time.
@@ -310,7 +310,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Create Time")
-	public String createTime();
+	String createTime();
 
 	/**
 	 * Actions.
@@ -318,7 +318,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue ("Actions")
-	public String actions();
+	String actions();
 	
 	/**
 	 * Creates the.
@@ -326,7 +326,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Create")
-	public String create();
+	String create();
 	
 	/**
 	 * Import action.
@@ -334,7 +334,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Import")
-	public String importAction();
+	String importAction();
 	
 	/**
 	 * Import policy action.
@@ -342,7 +342,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Import Policy")
-	public String importPolicyAction();
+	String importPolicyAction();
 	
 	/**
 	 * Import sg action.
@@ -350,7 +350,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Import Subject Group")
-	public String importSGAction();
+	String importSGAction();
 	
 	/**
 	 * From.
@@ -358,7 +358,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("from")
-	public String from();
+	String from();
 	
 	/**
 	 * Import conditional file msg.
@@ -366,7 +366,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("<< Selected file must be in XML format >>")
-	public String importConditionalFileMsg();
+	String importConditionalFileMsg();
 	
 	/**
 	 * All policies.
@@ -374,7 +374,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("All Policies")
-	public String allPolicies();
+	String allPolicies();
 
 	/**
 	 * All.
@@ -382,7 +382,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("All")
-	public String all();
+	String all();
 
 	
 	/**
@@ -391,7 +391,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Summary")
-	public String summary();
+	String summary();
 	
 	/**
 	 * Authz policy.
@@ -399,7 +399,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Authorization Policy")
-	public String authzPolicy();
+	String authzPolicy();
 	
 	/**
 	 * Rate limiting policy.
@@ -407,7 +407,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Rate Limiting Policy")
-	public String rateLimitingPolicy();
+	String rateLimitingPolicy();
 	
 	/**
 	 * Bl policy.
@@ -415,7 +415,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Blacklist Policy")
-	public String blPolicy();
+	String blPolicy();
 	
 	/**
 	 * Wl policy.
@@ -423,7 +423,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Whitelist Policy")
-	public String wlPolicy();
+	String wlPolicy();
 	
 	/**
 	 * Change history.
@@ -431,7 +431,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Change History")
-	public String changeHistory();
+	String changeHistory();
 
 	/**
 	 * Policy name.
@@ -439,7 +439,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Policy Name")
-	public String policyName();
+	String policyName();
 	
 	/**
 	 * Policy description.
@@ -447,7 +447,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Policy Description")
-	public String policyDescription();
+	String policyDescription();
 	
 	/**
 	 * Policy type.
@@ -455,7 +455,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Policy Type")
-	public String policyType();
+	String policyType();
 
 	/**
 	 * Policy based email address.
@@ -463,7 +463,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Policy Based Email Address")
-	public String policyBasedEmailAddress();
+	String policyBasedEmailAddress();
 
 	/**
 	 * Subject based email address.
@@ -471,7 +471,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Subject Based Email Address")
-	public String subjectBasedEmailAddress();
+	String subjectBasedEmailAddress();
 
 	/**
 	 * Effect duration.
@@ -479,7 +479,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Effect Duration")
-	public String effectDuration();
+	String effectDuration();
 	
 	/**
 	 * Rollovel period.
@@ -487,7 +487,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Rollover Period")
-	public String rollovelPeriod();
+	String rollovelPeriod();
 
 	/**
 	 * Priority.
@@ -495,7 +495,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Priority")
-	public String priority();
+	String priority();
 	
 	/**
 	 * Effect.
@@ -503,7 +503,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Effect")
-	public String effect();
+	String effect();
 	
 	/**
 	 * Condition.
@@ -511,7 +511,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Condition")
-	public String condition();
+	String condition();
 	
 	/**
 	 * Field unit secs.
@@ -519,7 +519,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("(secs)")
-	public String fieldUnitSecs();
+	String fieldUnitSecs();
 	
 	/**
 	 * Status.
@@ -527,7 +527,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Status")
-	public String status();
+	String status();
 	
 	/**
 	 * View.
@@ -535,7 +535,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("View")
-	public String view();
+	String view();
 	
 	/**
 	 * Enable.
@@ -543,7 +543,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Enable")
-	public String enable();
+	String enable();
 	
 	/**
 	 * Disable.
@@ -551,7 +551,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Disable")
-	public String disable();
+	String disable();
 	
 	/**
 	 * Submit trace ticket.
@@ -559,7 +559,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Submit a Trace Ticket")
-	public String submitTraceTicket();
+	String submitTraceTicket();
 	
 	/**
 	 * Delete.
@@ -567,7 +567,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Delete")
-	public String delete();
+	String delete();
 	
 	/**
 	 * Export.
@@ -575,7 +575,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Export")
-	public String export();
+	String export();
 	
 	/**
 	 * Confirm.
@@ -583,7 +583,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Confirm")
-	public String confirm();
+	String confirm();
 	
 	/**
 	 * Cancel.
@@ -591,7 +591,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Cancel")
-	public String cancel();
+	String cancel();
 	
 	/**
 	 * Close.
@@ -599,7 +599,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Close")
-	public String close();
+	String close();
 
 	/**
 	 * Save.
@@ -607,7 +607,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Save")
-	public String save();
+	String save();
 
     /**
 	 * Edits the.
@@ -615,7 +615,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Edit")
-    public String edit();
+    String edit();
     
     /**
 	 * Adds the.
@@ -623,7 +623,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Add")
-    public String add();
+    String add();
     
     /**
 	 * Policy information authz edit.
@@ -631,7 +631,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Editing Authorization Policy")
-    public String policyInformationAuthzEdit();
+    String policyInformationAuthzEdit();
 
     /**
 	 * Policy information authz create.
@@ -639,7 +639,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("New Authorization Policy")
-    public String policyInformationAuthzCreate();
+    String policyInformationAuthzCreate();
 
     /**
 	 * Policy information bl edit.
@@ -647,7 +647,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Editing BlackList Policy")
-    public String policyInformationBLEdit();
+    String policyInformationBLEdit();
 
     /**
 	 * Policy information bl create.
@@ -655,7 +655,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("New Blacklist Policy")
-    public String policyInformationBLCreate();
+    String policyInformationBLCreate();
     
     /**
 	 * Policy information wl create.
@@ -663,7 +663,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("New Whitelist Policy")
-    public String policyInformationWLCreate();
+    String policyInformationWLCreate();
 
     /**
 	 * Policy information wl edit.
@@ -671,7 +671,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Editing WhiteList Policy")
-    public String policyInformationWLEdit();
+    String policyInformationWLEdit();
 
     /**
 	 * Policy information rl create.
@@ -679,7 +679,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("New Rate Limiting Policy")
-    public String policyInformationRLCreate();
+    String policyInformationRLCreate();
 
     /**
 	 * Policy information rl edit.
@@ -687,7 +687,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Editing Rate Limiting Policy")
-    public String policyInformationRLEdit();
+    String policyInformationRLEdit();
     
     /**
 	 * Policy information view.
@@ -695,7 +695,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("View Policy")
-    public String policyInformationView();
+    String policyInformationView();
     
 	/**
 	 * Resources.
@@ -703,7 +703,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Resources")
-    public String resources();
+    String resources();
  
 	/**
 	 * Service.
@@ -711,7 +711,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Service")
-    public String service();
+    String service();
 
 	/**
 	 * Resource name.
@@ -719,7 +719,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
 	@DefaultStringValue("Resource Name")
-    public String resourceName();
+    String resourceName();
     
     /**
 	 * Operation name.
@@ -727,7 +727,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Operation Name")
-    public String operationName();
+    String operationName();
     
     /**
 	 * Resource type.
@@ -735,7 +735,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Resource Type")
-    public String resourceType();
+    String resourceType();
     
     /**
 	 * Resource level.
@@ -743,7 +743,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Level")
-    public String resourceLevel();
+    String resourceLevel();
     
     /**
 	 * Resource assign resources.
@@ -751,7 +751,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Assign resources...")
-    public String resourceAssignResources();
+    String resourceAssignResources();
     
     /**
 	 * Subject assign subjects.
@@ -759,7 +759,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Assign subjects...")
-    public String subjectAssignSubjects();
+    String subjectAssignSubjects();
     
     /**
 	 * Operations.
@@ -767,7 +767,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Operations")
-    public String operations();
+    String operations();
  
     /**
 	 * Search criteria invalid.
@@ -775,7 +775,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Must select a searching criteria")
-    public String searchCriteriaInvalid();
+    String searchCriteriaInvalid();
     
     /**
 	 * Delete subjet group invalid.
@@ -783,7 +783,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Cannot delete a subject group that is assigned to a policy")
-    public String deleteSubjetGroupInvalid();
+    String deleteSubjetGroupInvalid();
  
     /**
 	 * Populate all fiedls.
@@ -791,7 +791,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("All fields must be populated")
-    public String populateAllFiedls();
+    String populateAllFiedls();
     
     /**
 	 * Description.
@@ -799,7 +799,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Description")
-    public String description();
+    String description();
     
     /**
 	 * Policies.
@@ -807,7 +807,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Policies")
-    public String policies();
+    String policies();
 
     /**
 	 * Policy administration.
@@ -815,7 +815,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Policy Administration")
-    public String policyAdministration();
+    String policyAdministration();
  
     /*
      * Entity History View
@@ -826,7 +826,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("When")
-    public String ehWhenColumn();
+    String ehWhenColumn();
 
     /**
 	 * Eh who column.
@@ -834,7 +834,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Who")
-    public String ehWhoColumn();
+    String ehWhoColumn();
 
     /**
 	 * Eh ip column.
@@ -842,7 +842,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Source IP")
-    public String ehIPColumn();
+    String ehIPColumn();
 
     /**
 	 * Eh change type column.
@@ -850,7 +850,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Type of Change")
-    public String ehChangeTypeColumn();
+    String ehChangeTypeColumn();
 
     /**
 	 * Eh comments column.
@@ -858,7 +858,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Comments")
-    public String ehCommentsColumn();
+    String ehCommentsColumn();
     
     /**
 	 * Delete selected.
@@ -866,7 +866,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Delete selected items?")
-    public String deleteSelected();
+    String deleteSelected();
     
     /**
 	 * Creates the internal subjects.
@@ -874,7 +874,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("Subject not found. Do you want to create it?")
-    public String createInternalSubjects();
+    String createInternalSubjects();
 
     /**
 	 * Select allsubjects alert.
@@ -882,18 +882,14 @@ public interface PolicyAdminConstants extends Constants {
 	 * @return the string
 	 */
     @DefaultStringValue("('Selected Subject' will not be saved)")
-    public String selectAllsubjectsAlert();
+    String selectAllsubjectsAlert();
     
-    /*
+    /**
      * Generic Error message. This message should never be shown  unless 
      * that the error message received from server be improperly set 
-     */
-    /**
-	 * Generic error message.
-	 * 
-	 * @return the string
+     * @return the string
 	 */
     @DefaultStringValue("Operation not valid. Please contact your site administrator.")
-    public String genericErrorMessage();
+    String genericErrorMessage();
   
 }

@@ -25,14 +25,14 @@ public interface Presenter {
 	 * @param token
 	 *            the token
 	 */
-	public void go(final HasWidgets container, HistoryToken token);
+	void go(final HasWidgets container, HistoryToken token);
 	
 	/**
 	 * Gets the id.
 	 * 
 	 * @return the id
 	 */
-	public String getId();
+	String getId();
 	
 	/**
 	 * The Interface TabPresenter.
@@ -44,7 +44,7 @@ public interface Presenter {
 		 * 
 		 * @return the state as history token
 		 */
-    	public HistoryToken getStateAsHistoryToken();
+    	HistoryToken getStateAsHistoryToken();
 	}
 
 }

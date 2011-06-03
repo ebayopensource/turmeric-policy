@@ -20,5 +20,5 @@ public interface Condition {
 	 * 
 	 * @return the expression
 	 */
-    public Expression getExpression();
+    Expression getExpression();
 }

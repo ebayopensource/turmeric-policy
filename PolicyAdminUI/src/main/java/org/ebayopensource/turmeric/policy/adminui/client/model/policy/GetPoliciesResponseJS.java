@@ -323,7 +323,6 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		 */
 		@Override
 		public final Date getCreationDate() {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
@@ -460,7 +459,6 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		 */
 		@Override
 		public final String getDescription() {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
@@ -499,7 +497,6 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		 */
 		@Override
 		public final Integer getVersion() {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
@@ -538,7 +535,6 @@ public class GetPoliciesResponseJS extends JavaScriptObject implements
 		 */
 		@Override
 		public final Long getConditionDuration() {
-			// TODO Auto-generated method stub
 			return null;
 		}
 

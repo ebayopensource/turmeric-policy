@@ -199,7 +199,6 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 	@Override
 	public void deleteResources(List<ResourceKey> keys,
 			AsyncCallback<DeleteResourceResponse> callback) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -308,7 +307,6 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 
 				public void onResponseReceived(Request request,
 						Response response) {
-					// TODO
 					if (response.getStatusCode() != Response.SC_OK) {
 						callback.onFailure(new Throwable(PolicyAdminUIUtil.constants
 								.error() + " " + response.getStatusCode()));
@@ -1143,9 +1141,7 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 						+ i + ").@Description=" + g.getDescription());
 				url += ("&ns1:subjectGroups(" + i + ").@SubjectGroupCalculator="+ (g.getGroupCalculator()!=null?g.getGroupCalculator():""));
 
-				// TODO - what about all the other stuff
-				// ApplyToEach
-				// ApplyToAll
+				
 
 				// Subjects must have name && type?
 				if (g.getSubjects() != null && g.getSubjects().size() > 0) {

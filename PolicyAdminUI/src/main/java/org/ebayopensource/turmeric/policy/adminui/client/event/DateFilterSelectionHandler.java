@@ -21,5 +21,5 @@ public interface DateFilterSelectionHandler extends EventHandler {
 	 * @param event
 	 *            the event
 	 */
-    public void onSelection (DateFilterSelectionEvent event);
+    void onSelection (DateFilterSelectionEvent event);
 }

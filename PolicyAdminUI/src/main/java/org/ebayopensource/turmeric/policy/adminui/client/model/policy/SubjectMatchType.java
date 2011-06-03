@@ -18,19 +18,19 @@ public interface SubjectMatchType {
 	 * 
 	 * @return the match id
 	 */
-    public String getMatchId();
+    String getMatchId();
     
     /**
 	 * Gets the attribute value.
 	 * 
 	 * @return the attribute value
 	 */
-    public AttributeValue getAttributeValue();
+    AttributeValue getAttributeValue();
     
     /**
 	 * Gets the subject attribute designator.
 	 * 
 	 * @return the subject attribute designator
 	 */
-    public SubjectAttributeDesignator getSubjectAttributeDesignator();
+    SubjectAttributeDesignator getSubjectAttributeDesignator();
 }

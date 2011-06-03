@@ -475,7 +475,6 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 	public void deleteSubjectGroups(List<SubjectGroupKey> keys,
 			AsyncCallback<DeleteSubjectGroupResponse> callback) {
 		
-		//TODO needs to verify if no policy uses them
 		DeleteSubjectGroupResponse response = new DeleteSubjectGroupResponse() {
             @Override
             public String getErrorMessage() {

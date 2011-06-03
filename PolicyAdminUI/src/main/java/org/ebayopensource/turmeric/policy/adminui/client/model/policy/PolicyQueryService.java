@@ -108,21 +108,21 @@ public interface PolicyQueryService extends PolicyAdminUIService {
 		 * 
 		 * @return the resources
 		 */
-    	public Collection<Resource> getResources();
+    	Collection<Resource> getResources();
 	    
     	/**
 		 * Checks if is errored.
 		 * 
 		 * @return true, if is errored
 		 */
-    	public boolean isErrored();
+    	boolean isErrored();
 	    
     	/**
 		 * Gets the error message.
 		 * 
 		 * @return the error message
 		 */
-    	public String getErrorMessage();
+    	String getErrorMessage();
 	}
 
 	/**
@@ -135,21 +135,21 @@ public interface PolicyQueryService extends PolicyAdminUIService {
 		 * 
 		 * @return the entities
 		 */
-    	public Collection<EntityHistory> getEntities();
+    	Collection<EntityHistory> getEntities();
 	    
     	/**
 		 * Checks if is errored.
 		 * 
 		 * @return true, if is errored
 		 */
-    	public boolean isErrored();
+    	boolean isErrored();
 	    
     	/**
 		 * Gets the error message.
 		 * 
 		 * @return the error message
 		 */
-    	public String getErrorMessage();
+    	String getErrorMessage();
 	}
 
 	/**
@@ -162,21 +162,21 @@ public interface PolicyQueryService extends PolicyAdminUIService {
 		 * 
 		 * @return the policies
 		 */
-    	public Collection<GenericPolicy> getPolicies();
+    	Collection<GenericPolicy> getPolicies();
 	    
     	/**
 		 * Checks if is errored.
 		 * 
 		 * @return true, if is errored
 		 */
-    	public boolean isErrored();
+    	boolean isErrored();
 	    
     	/**
 		 * Gets the error message.
 		 * 
 		 * @return the error message
 		 */
-    	public String getErrorMessage();
+    	String getErrorMessage();
 	}
 
 	/**
@@ -189,14 +189,14 @@ public interface PolicyQueryService extends PolicyAdminUIService {
 		 * 
 		 * @return true, if is errored
 		 */
-    	public boolean isErrored();
+    	boolean isErrored();
 	    
     	/**
 		 * Gets the error message.
 		 * 
 		 * @return the error message
 		 */
-    	public String getErrorMessage();
+    	String getErrorMessage();
 	}  
 
 	/**
@@ -209,14 +209,14 @@ public interface PolicyQueryService extends PolicyAdminUIService {
 		 * 
 		 * @return true, if is errored
 		 */
-    	public boolean isErrored();
+    	boolean isErrored();
 	    
     	/**
 		 * Gets the error message.
 		 * 
 		 * @return the error message
 		 */
-    	public String getErrorMessage();
+    	String getErrorMessage();
 	}
 
 	/**
@@ -229,21 +229,21 @@ public interface PolicyQueryService extends PolicyAdminUIService {
 		 * 
 		 * @return the boolean
 		 */
-		public Boolean isSuccess();       
+		Boolean isSuccess();       
 		
 		/**
 		 * Checks if is errored.
 		 * 
 		 * @return true, if is errored
 		 */
-		public boolean isErrored();
+		boolean isErrored();
         
         /**
 		 * Gets the error message.
 		 * 
 		 * @return the error message
 		 */
-        public String getErrorMessage();
+        String getErrorMessage();
 	}
 
 	/**
@@ -256,14 +256,14 @@ public interface PolicyQueryService extends PolicyAdminUIService {
 		 * 
 		 * @return true, if is errored
 		 */
-    	public boolean isErrored();
+    	boolean isErrored();
 	    
     	/**
 		 * Gets the error message.
 		 * 
 		 * @return the error message
 		 */
-    	public String getErrorMessage();
+    	String getErrorMessage();
 	}
 
 	/**
@@ -276,14 +276,14 @@ public interface PolicyQueryService extends PolicyAdminUIService {
 		 * 
 		 * @return true, if is errored
 		 */
-    	public boolean isErrored();
+    	boolean isErrored();
 	    
     	/**
 		 * Gets the error message.
 		 * 
 		 * @return the error message
 		 */
-    	public String getErrorMessage();
+    	String getErrorMessage();
 	}
 
 	/**
@@ -296,21 +296,21 @@ public interface PolicyQueryService extends PolicyAdminUIService {
 		 * 
 		 * @return the subject group ids
 		 */
-    	public List<Long> getSubjectGroupIds();
+    	List<Long> getSubjectGroupIds();
 	    
     	/**
 		 * Checks if is errored.
 		 * 
 		 * @return true, if is errored
 		 */
-    	public boolean isErrored();
+    	boolean isErrored();
         
         /**
 		 * Gets the error message.
 		 * 
 		 * @return the error message
 		 */
-        public String getErrorMessage();
+        String getErrorMessage();
 	}
 
 	/**
@@ -323,21 +323,21 @@ public interface PolicyQueryService extends PolicyAdminUIService {
 		 * 
 		 * @return the policy id
 		 */
-    	public Long getPolicyId();
+    	Long getPolicyId();
 	    
     	/**
 		 * Checks if is errored.
 		 * 
 		 * @return true, if is errored
 		 */
-    	public boolean isErrored();
+    	boolean isErrored();
 	    
     	/**
 		 * Gets the error message.
 		 * 
 		 * @return the error message
 		 */
-    	public String getErrorMessage();
+    	String getErrorMessage();
 	}
 
 	/**
@@ -350,21 +350,21 @@ public interface PolicyQueryService extends PolicyAdminUIService {
 		 * 
 		 * @return the subject ids
 		 */
-    	public List<Long> getSubjectIds();
+    	List<Long> getSubjectIds();
 	    
     	/**
 		 * Checks if is errored.
 		 * 
 		 * @return true, if is errored
 		 */
-    	public boolean isErrored();
+    	boolean isErrored();
 	    
     	/**
 		 * Gets the error message.
 		 * 
 		 * @return the error message
 		 */
-    	public String getErrorMessage();
+    	String getErrorMessage();
 	}
 
 	/**
@@ -377,21 +377,21 @@ public interface PolicyQueryService extends PolicyAdminUIService {
 		 * 
 		 * @return the groups
 		 */
-    	public List<SubjectGroup> getGroups();
+    	List<SubjectGroup> getGroups();
 	    
     	/**
 		 * Checks if is errored.
 		 * 
 		 * @return true, if is errored
 		 */
-    	public boolean isErrored();
+    	boolean isErrored();
 	    
     	/**
 		 * Gets the error message.
 		 * 
 		 * @return the error message
 		 */
-    	public String getErrorMessage();
+    	String getErrorMessage();
 	}
 
 	/**
@@ -404,21 +404,21 @@ public interface PolicyQueryService extends PolicyAdminUIService {
 		 * 
 		 * @return the subjects
 		 */
-    	public List<Subject> getSubjects();
+    	List<Subject> getSubjects();
 	    
     	/**
 		 * Checks if is errored.
 		 * 
 		 * @return true, if is errored
 		 */
-    	public boolean isErrored();
+    	boolean isErrored();
 	    
     	/**
 		 * Gets the error message.
 		 * 
 		 * @return the error message
 		 */
-    	public String getErrorMessage();
+    	String getErrorMessage();
 	}
 	
 	/**
@@ -431,21 +431,21 @@ public interface PolicyQueryService extends PolicyAdminUIService {
 		 * 
 		 * @return the subjects
 		 */
-    	public List<Subject> getSubjects();
+    	List<Subject> getSubjects();
 	    
     	/**
 		 * Checks if is errored.
 		 * 
 		 * @return true, if is errored
 		 */
-    	public boolean isErrored();
+    	boolean isErrored();
 	    
     	/**
 		 * Gets the error message.
 		 * 
 		 * @return the error message
 		 */
-    	public String getErrorMessage();
+    	String getErrorMessage();
 	}
 
 	/**
@@ -458,21 +458,21 @@ public interface PolicyQueryService extends PolicyAdminUIService {
 		 * 
 		 * @return the values
 		 */
-    	public Map<String,String> getValues();
+    	Map<String,String> getValues();
 	    
     	/**
 		 * Checks if is errored.
 		 * 
 		 * @return true, if is errored
 		 */
-    	public boolean isErrored();
+    	boolean isErrored();
 	    
     	/**
 		 * Gets the error message.
 		 * 
 		 * @return the error message
 		 */
-    	public String getErrorMessage();
+    	String getErrorMessage();
 	}
 
 	/**
@@ -485,14 +485,14 @@ public interface PolicyQueryService extends PolicyAdminUIService {
 		 * 
 		 * @return true, if is errored
 		 */
-    	public boolean isErrored();
+    	boolean isErrored();
 	    
     	/**
 		 * Gets the error message.
 		 * 
 		 * @return the error message
 		 */
-    	public String getErrorMessage();
+    	String getErrorMessage();
 	}
 
 	/**
@@ -505,13 +505,13 @@ public interface PolicyQueryService extends PolicyAdminUIService {
 		 * 
 		 * @return true, if is errored
 		 */
-    	public boolean isErrored();
+    	boolean isErrored();
 	    
     	/**
 		 * Gets the error message.
 		 * 
 		 * @return the error message
 		 */
-    	public String getErrorMessage();
+    	String getErrorMessage();
 	}
 }

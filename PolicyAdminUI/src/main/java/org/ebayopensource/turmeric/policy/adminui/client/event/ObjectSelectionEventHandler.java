@@ -21,5 +21,5 @@ public interface ObjectSelectionEventHandler extends EventHandler {
 	 * @param event
 	 *            the event
 	 */
-    public void onSelection (ObjectSelectionEvent event);
+    void onSelection (ObjectSelectionEvent event);
 }

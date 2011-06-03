@@ -18,12 +18,12 @@ public interface SubjectAttributeDesignator {
 	 * 
 	 * @return the attribute id
 	 */
-    public String getAttributeId();
+    String getAttributeId();
     
     /**
 	 * Gets the data type.
 	 * 
 	 * @return the data type
 	 */
-    public String getDataType();
+    String getDataType();
 }

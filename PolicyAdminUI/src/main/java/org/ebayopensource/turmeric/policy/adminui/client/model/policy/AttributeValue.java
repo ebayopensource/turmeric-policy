@@ -18,12 +18,12 @@ public interface AttributeValue {
      *
      * @return the data type
      */
-    public String getDataType();
+    String getDataType();
     
     /**
      * Gets the value.
      *
      * @return the value
      */
-    public String getValue();
+    String getValue();
 }

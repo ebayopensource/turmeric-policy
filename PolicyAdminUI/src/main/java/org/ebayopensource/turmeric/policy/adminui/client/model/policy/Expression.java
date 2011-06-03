@@ -20,26 +20,26 @@ public interface Expression {
 	 * 
 	 * @return the id
 	 */
-    public Long getId();
+    Long getId();
     
     /**
 	 * Gets the name.
 	 * 
 	 * @return the name
 	 */
-    public String getName();
+    String getName();
     
     /**
 	 * Gets the comment.
 	 * 
 	 * @return the comment
 	 */
-    public String getComment();
+    String getComment();
     
     /**
 	 * Gets the primitive value.
 	 * 
 	 * @return the primitive value
 	 */
-    public PrimitiveValue getPrimitiveValue();
+    PrimitiveValue getPrimitiveValue();
 }

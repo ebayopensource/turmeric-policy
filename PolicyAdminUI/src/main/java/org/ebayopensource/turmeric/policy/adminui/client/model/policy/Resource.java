@@ -22,35 +22,35 @@ public interface Resource {
 	 * 
 	 * @return the id
 	 */
-    public Long getId();
+    Long getId();
     
     /**
 	 * Gets the resource type.
 	 * 
 	 * @return the resource type
 	 */
-    public String getResourceType();
+    String getResourceType();
     
     /**
 	 * Gets the resource name.
 	 * 
 	 * @return the resource name
 	 */
-    public String getResourceName();
+    String getResourceName();
     
     /**
 	 * Gets the description.
 	 * 
 	 * @return the description
 	 */
-    public String getDescription();
+    String getDescription();
     
     /**
 	 * Gets the op list.
 	 * 
 	 * @return the op list
 	 */
-    public List<Operation> getOpList();
+    List<Operation> getOpList();
     
     
 }

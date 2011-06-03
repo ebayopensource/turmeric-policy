@@ -22,76 +22,76 @@ public interface Rule {
 	 * 
 	 * @return the id
 	 */
-    public Long getId();
+    Long getId();
     
     /**
 	 * Gets the rule name.
 	 * 
 	 * @return the rule name
 	 */
-    public String getRuleName();
+    String getRuleName();
     
     /**
 	 * Gets the description.
 	 * 
 	 * @return the description
 	 */
-    public String getDescription();
+    String getDescription();
     
     /**
 	 * Gets the effect.
 	 * 
 	 * @return the effect
 	 */
-    public RuleEffectType getEffect();
+    RuleEffectType getEffect();
     
     /**
 	 * Gets the priority.
 	 * 
 	 * @return the priority
 	 */
-    public Integer getPriority();
+    Integer getPriority();
     
     /**
 	 * Gets the version.
 	 * 
 	 * @return the version
 	 */
-    public Integer getVersion();
+    Integer getVersion();
     
     /**
 	 * Gets the rollover period.
 	 * 
 	 * @return the rollover period
 	 */
-    public Long getRolloverPeriod();
+    Long getRolloverPeriod();
     
     /**
 	 * Gets the effect duration.
 	 * 
 	 * @return the effect duration
 	 */
-    public Long getEffectDuration();
+    Long getEffectDuration();
     
     /**
 	 * Gets the condition duration.
 	 * 
 	 * @return the condition duration
 	 */
-    public Long getConditionDuration();
+    Long getConditionDuration();
     
     /**
 	 * Gets the condition.
 	 * 
 	 * @return the condition
 	 */
-    public Condition getCondition();
+    Condition getCondition();
     
     /**
 	 * Gets the attribute list.
 	 * 
 	 * @return the attribute list
 	 */
-    public List<RuleAttribute> getAttributeList();
+    List<RuleAttribute> getAttributeList();
 
 }

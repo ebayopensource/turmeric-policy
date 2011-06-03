@@ -24,107 +24,104 @@ public interface GenericPolicy {
 	 * 
 	 * @return the id
 	 */
-    public Long getId();
+    Long getId();
     
     /**
 	 * Gets the type.
 	 * 
 	 * @return the type
 	 */
-    public String getType();
+    String getType();
     
     /**
 	 * Gets the name.
 	 * 
 	 * @return the name
 	 */
-    public String getName();
+    String getName();
     
     /**
 	 * Gets the description.
 	 * 
 	 * @return the description
 	 */
-    public String getDescription();
+    String getDescription();
     
     /**
 	 * Gets the subject groups.
 	 * 
 	 * @return the subject groups
 	 */
-    public List<SubjectGroup> getSubjectGroups();
+    List<SubjectGroup> getSubjectGroups();
     
     /**
 	 * Gets the subjects.
 	 * 
 	 * @return the subjects
 	 */
-    public List<Subject> getSubjects();
+    List<Subject> getSubjects();
     
     /**
 	 * Gets the exclusion subjects.
 	 * 
 	 * @return the exclusion subjects
 	 */
-    public List<Subject> getExclusionSubjects();
+    List<Subject> getExclusionSubjects();
     
     /**
 	 * Gets the resources.
 	 * 
 	 * @return the resources
 	 */
-    public List<Resource> getResources();
+    List<Resource> getResources();
     
     /**
 	 * Gets the exclusion sg.
 	 * 
 	 * @return the exclusion sg
 	 */
-    public List<SubjectGroup> getExclusionSG();
+    List<SubjectGroup> getExclusionSG();
     
     /**
 	 * Gets the last modified.
 	 * 
 	 * @return the last modified
 	 */
-    public Date getLastModified();
+    Date getLastModified();
 	
 	/**
 	 * Gets the created by.
 	 * 
 	 * @return the created by
 	 */
-	public String getCreatedBy();
+	String getCreatedBy();
 	
 	/**
 	 * Gets the last modified by.
 	 * 
 	 * @return the last modified by
 	 */
-	public String getLastModifiedBy() ;
+	String getLastModifiedBy() ;
 	
 	/**
 	 * Gets the creation date.
 	 * 
 	 * @return the creation date
 	 */
-	public Date getCreationDate();
+	Date getCreationDate();
 	
 	/**
 	 * Gets the enabled.
 	 * 
 	 * @return the enabled
 	 */
-	public boolean getEnabled();
+	boolean getEnabled();
 	
 	/**
 	 * Gets the rules.
 	 * 
 	 * @return the rules
 	 */
-	public List<Rule> getRules();
+	List<Rule> getRules();
 
-	//TODO
-	//public Version getVersion();
-    
 }

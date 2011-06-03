@@ -82,56 +82,56 @@ public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 		 * 
 		 * @return the creates the button
 		 */
-		public Button getCreateButton();
+		Button getCreateButton();
 
 		/**
 		 * Gets the cancel button.
 		 * 
 		 * @return the cancel button
 		 */
-		public HasClickHandlers getCancelButton();
+		HasClickHandlers getCancelButton();
 
 		/**
 		 * Gets the search button.
 		 * 
 		 * @return the search button
 		 */
-		public HasClickHandlers getSearchButton();
+		HasClickHandlers getSearchButton();
 
 		/**
 		 * Gets the selected subjects.
 		 * 
 		 * @return the selected subjects
 		 */
-		public List<String> getSelectedSubjects();
+		List<String> getSelectedSubjects();
 
 		/**
 		 * Gets the subject type.
 		 * 
 		 * @return the subject type
 		 */
-		public String getSubjectType();
+		String getSubjectType();
 
 		/**
 		 * Gets the search term.
 		 * 
 		 * @return the search term
 		 */
-		public String getSearchTerm();
+		String getSearchTerm();
 
 		/**
 		 * Gets the description.
 		 * 
 		 * @return the description
 		 */
-		public String getDescription();
+		String getDescription();
 
 		/**
 		 * Gets the name.
 		 * 
 		 * @return the name
 		 */
-		public String getName();
+		String getName();
 
 		/**
 		 * Sets the available subjects.
@@ -139,7 +139,7 @@ public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 		 * @param subjects
 		 *            the new available subjects
 		 */
-		public void setAvailableSubjects(List<String> subjects);
+		void setAvailableSubjects(List<String> subjects);
 
 		/**
 		 * Sets the subject types.
@@ -147,7 +147,7 @@ public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 		 * @param subjectTypes
 		 *            the new subject types
 		 */
-		public void setSubjectTypes(List<String> subjectTypes);
+		void setSubjectTypes(List<String> subjectTypes);
 
 		/**
 		 * Error.
@@ -155,7 +155,7 @@ public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 		 * @param msg
 		 *            the msg
 		 */
-		public void error(String msg);
+		void error(String msg);
 		
 		/**
 		 * Sets the sg calculator map.
@@ -163,21 +163,21 @@ public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 		 * @param sgCalculatorMap
 		 *            the sg calculator map
 		 */
-		public void setSgCalculatorMap(Map<String, String> sgCalculatorMap);
+		void setSgCalculatorMap(Map<String, String> sgCalculatorMap);
 		
 		/**
 		 * Checks if is sg calculated.
 		 * 
 		 * @return the boolean
 		 */
-		public Boolean isSgCalculated();
+		Boolean isSgCalculated();
 		
 		/**
 		 * Gets the selected subject group calculator name.
 		 * 
 		 * @return the selected subject group calculator name
 		 */
-		public String getSelectedSubjectGroupCalculatorName();
+		String getSelectedSubjectGroupCalculatorName();
 
 	}
 

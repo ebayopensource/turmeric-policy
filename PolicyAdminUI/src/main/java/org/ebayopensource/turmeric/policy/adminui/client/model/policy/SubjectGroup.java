@@ -23,75 +23,75 @@ public interface SubjectGroup {
 	 * 
 	 * @return the id
 	 */
-    public Long getId();
+    Long getId();
     
     /**
 	 * Gets the description.
 	 * 
 	 * @return the description
 	 */
-    public String getDescription();
+    String getDescription();
     
     /**
 	 * Gets the type.
 	 * 
 	 * @return the type
 	 */
-    public String getType();
+    String getType();
     
     /**
 	 * Gets the name.
 	 * 
 	 * @return the name
 	 */
-    public String getName();
+    String getName();
     
     /**
 	 * Gets the last modified by.
 	 * 
 	 * @return the last modified by
 	 */
-    public String getLastModifiedBy();
-//    public SubjectMatchType getSubjectMatchType();
+    String getLastModifiedBy();
+    
     /**
- * Gets the subject match types.
- * 
- * @return the subject match types
- */
-public List<SubjectMatchType> getSubjectMatchTypes();
+	 * Gets the subject match types.
+	 * 
+	 * @return the subject match types
+	 */
+    List<SubjectMatchType> getSubjectMatchTypes();
 
     /**
 	 * Gets the last modified time.
 	 * 
 	 * @return the last modified time
 	 */
-    public Date getLastModifiedTime();
+    Date getLastModifiedTime();
     
     /**
 	 * Gets the created by.
 	 * 
 	 * @return the created by
 	 */
-    public String getCreatedBy();
+    String getCreatedBy();
     
     /**
 	 * Gets the subjects.
 	 * 
 	 * @return the subjects
 	 */
-    public List<String> getSubjects();
+    List<String> getSubjects();
     
     /**
 	 * Gets the policies.
 	 * 
 	 * @return the policies
 	 */
-    public List<String> getPolicies();
+    List<String> getPolicies();
     
     /**
 	 * Gets the group calculator.
 	 * 
 	 * @return the group calculator
 	 */
-    public String getGroupCalculator();
+    String getGroupCalculator();
 }

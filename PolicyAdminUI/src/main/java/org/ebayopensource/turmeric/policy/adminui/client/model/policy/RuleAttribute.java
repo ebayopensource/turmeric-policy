@@ -16,25 +16,25 @@ public interface RuleAttribute {
 	/**
 	 * The Enum NotifyKeys.
 	 */
-	public static enum NotifyKeys {NotifyEmails,  NotifyActive};
+	public static enum NotifyKeys { NotifyEmails,  NotifyActive };
 	
 	/**
 	 * The Enum NotifyActiveValue.
 	 */
-	public static enum NotifyActiveValue {TRUE, FALSE};
+	public static enum NotifyActiveValue { TRUE, FALSE };
 	    
 	/**
 	 * Gets the key.
 	 * 
 	 * @return the key
 	 */
-	public String getKey();
+	String getKey();
 
 	/**
 	 * Gets the value.
 	 * 
 	 * @return the value
 	 */
-	public String getValue();
+	String getValue();
 
 }

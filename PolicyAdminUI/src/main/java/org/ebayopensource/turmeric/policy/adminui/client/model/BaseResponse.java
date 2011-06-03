@@ -60,7 +60,6 @@ public abstract class BaseResponse extends JavaScriptObject {
 	 * @return the version
 	 */
     public final native String getVersion (String response) /*-{
-        //TODO
         return null;
  
     }-*/;

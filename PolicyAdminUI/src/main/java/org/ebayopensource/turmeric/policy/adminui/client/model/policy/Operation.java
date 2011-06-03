@@ -18,47 +18,47 @@ public interface Operation {
 	 * 
 	 * @return the description
 	 */
-    public String getDescription();
+     String getDescription();
     
     /**
 	 * Gets the operation name.
 	 * 
 	 * @return the operation name
 	 */
-    public String getOperationName();
+    String getOperationName();
     
     /**
 	 * Gets the operation id.
 	 * 
 	 * @return the operation id
 	 */
-    public String getOperationId();
+    String getOperationId();
     
     /**
 	 * Gets the creation date.
 	 * 
 	 * @return the creation date
 	 */
-    public long getCreationDate();
+    long getCreationDate();
     
     /**
 	 * Gets the creation by.
 	 * 
 	 * @return the creation by
 	 */
-    public String getCreationBy();
+    String getCreationBy();
     
     /**
 	 * Gets the last modified time.
 	 * 
 	 * @return the last modified time
 	 */
-    public long getLastModifiedTime();
+    long getLastModifiedTime();
     
     /**
 	 * Gets the last modified by.
 	 * 
 	 * @return the last modified by
 	 */
-    public String getLastModifiedBy();
+    String getLastModifiedBy();
 }

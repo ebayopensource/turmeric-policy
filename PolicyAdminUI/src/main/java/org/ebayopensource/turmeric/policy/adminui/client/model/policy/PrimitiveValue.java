@@ -20,19 +20,19 @@ public interface PrimitiveValue {
 	 * 
 	 * @return the id
 	 */
-    public Long getId();
+    Long getId();
     
     /**
 	 * Gets the type.
 	 * 
 	 * @return the type
 	 */
-    public SupportedPrimitive getType();
+    SupportedPrimitive getType();
     
     /**
 	 * Gets the value.
 	 * 
 	 * @return the value
 	 */
-    public String getValue();
+    String getValue();
 }

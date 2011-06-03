@@ -26,7 +26,7 @@ public interface Dashboard extends Container {
 	 *            the name
 	 * @return the int
 	 */
-	public int addView (Display view, String name);
+	int addView (Display view, String name);
 	
 	/**
 	 * Gets the view.
@@ -35,7 +35,7 @@ public interface Dashboard extends Container {
 	 *            the index
 	 * @return the view
 	 */
-	public Display getView(Integer index);
+	Display getView(Integer index);
 	
 	/**
 	 * Gets the index.
@@ -44,7 +44,7 @@ public interface Dashboard extends Container {
 	 *            the view
 	 * @return the index
 	 */
-	public int getIndex (Display view);
+	int getIndex (Display view);
 	
 	/**
 	 * Activate.
@@ -52,12 +52,12 @@ public interface Dashboard extends Container {
 	 * @param view
 	 *            the view
 	 */
-	public void activate (Display view);
+	void activate (Display view);
     
     /**
 	 * Gets the tab selector.
 	 * 
 	 * @return the tab selector
 	 */
-    public HasSelectionHandlers<Integer> getTabSelector();
+    HasSelectionHandlers<Integer> getTabSelector();
 }

@@ -21,6 +21,6 @@ public interface LogoutEventHandler extends EventHandler {
 	 * @param event
 	 *            the event
 	 */
-	public void onLogout(LogoutEvent event);
+	void onLogout(LogoutEvent event);
 
 }

@@ -21,7 +21,7 @@ public interface PolicyAdminMessageConstants extends Messages {
 	 * @return the string
 	 */
     @DefaultMessage("The operation was not successful")
-    public String operationUnsuccessful();
+    String operationUnsuccessful();
     
 	/**
 	 * Failed operation message.
@@ -29,7 +29,7 @@ public interface PolicyAdminMessageConstants extends Messages {
 	 * @return the string
 	 */
 	@DefaultMessage("Request failed. Please try again later.")
-	public String failedOperationMessage();
+	String failedOperationMessage();
 	
 	/**
 	 * Successful operation message.
@@ -37,7 +37,7 @@ public interface PolicyAdminMessageConstants extends Messages {
 	 * @return the string
 	 */
 	@DefaultMessage("Request has been successfully sent.")
-	public String successfulOperationMessage();
+	String successfulOperationMessage();
 	
 	/**
 	 * Name field message.
@@ -45,7 +45,7 @@ public interface PolicyAdminMessageConstants extends Messages {
 	 * @return the string
 	 */
 	@DefaultMessage("Name field is required")
-	public String nameFieldMessage();
+	String nameFieldMessage();
 	
 	/**
 	 * Minimum subjects message.
@@ -53,7 +53,7 @@ public interface PolicyAdminMessageConstants extends Messages {
 	 * @return the string
 	 */
 	@DefaultMessage("At least one Subject is required")
-	public String minimumSubjectsMessage();
+	String minimumSubjectsMessage();
 	
 	/**
 	 * Enable policy confirm message.
@@ -63,7 +63,7 @@ public interface PolicyAdminMessageConstants extends Messages {
 	 * @return the string
 	 */
 	@DefaultMessage("Do you wish to enable this policy : \"{0}\" ?")
-	public String enablePolicyConfirmMessage(String policyName);
+	String enablePolicyConfirmMessage(String policyName);
 	
 	/**
 	 * Enable policies confirm message.
@@ -71,7 +71,7 @@ public interface PolicyAdminMessageConstants extends Messages {
 	 * @return the string
 	 */
 	@DefaultMessage("Do you wish to enable all selected policies ?")
-	public String enablePoliciesConfirmMessage();
+	String enablePoliciesConfirmMessage();
 	
 	/**
 	 * Disable policies confirm message.
@@ -79,7 +79,7 @@ public interface PolicyAdminMessageConstants extends Messages {
 	 * @return the string
 	 */
 	@DefaultMessage("Do you wish to disable all selected policies ?")
-	public String disablePoliciesConfirmMessage();
+	String disablePoliciesConfirmMessage();
 	
 	/**
 	 * Delete policies confirm message.
@@ -87,7 +87,7 @@ public interface PolicyAdminMessageConstants extends Messages {
 	 * @return the string
 	 */
 	@DefaultMessage("Do you wish to delete all selected policies ?")
-	public String deletePoliciesConfirmMessage();
+	String deletePoliciesConfirmMessage();
 	
 	/**
 	 * Export policies confirm message.
@@ -95,7 +95,7 @@ public interface PolicyAdminMessageConstants extends Messages {
 	 * @return the string
 	 */
 	@DefaultMessage("Do you wish to export all selected policies ?")
-	public String exportPoliciesConfirmMessage();
+	String exportPoliciesConfirmMessage();
 	
 	/**
 	 * Disable policy confirm message.
@@ -105,7 +105,7 @@ public interface PolicyAdminMessageConstants extends Messages {
 	 * @return the string
 	 */
 	@DefaultMessage("Do you wish to disable this policy : \"{0}\" ?")
-	public String disablePolicyConfirmMessage(String policyName);
+	String disablePolicyConfirmMessage(String policyName);
 		
 	/**
 	 * Delete policy confirm message.
@@ -115,7 +115,7 @@ public interface PolicyAdminMessageConstants extends Messages {
 	 * @return the string
 	 */
 	@DefaultMessage("Do you wish to delete this policy : \"{0}\" ?")
-	public String deletePolicyConfirmMessage(String policyName);
+	String deletePolicyConfirmMessage(String policyName);
 	
 	/**
 	 * Select an application.
@@ -123,5 +123,5 @@ public interface PolicyAdminMessageConstants extends Messages {
 	 * @return the string
 	 */
 	@DefaultMessage("Select an application")
-	public String selectAnApplication ();
+	String selectAnApplication ();
 }

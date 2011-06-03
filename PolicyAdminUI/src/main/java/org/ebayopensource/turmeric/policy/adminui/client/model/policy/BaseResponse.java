@@ -18,12 +18,12 @@ public interface BaseResponse {
 	 * 
 	 * @return true, if is errored
 	 */
-    public boolean isErrored();
+    boolean isErrored();
     
     /**
 	 * Gets the error message.
 	 * 
 	 * @return the error message
 	 */
-    public String getErrorMessage();
+    String getErrorMessage();
 }

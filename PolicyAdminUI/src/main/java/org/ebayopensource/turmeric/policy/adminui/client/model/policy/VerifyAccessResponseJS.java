@@ -77,14 +77,6 @@ public class VerifyAccessResponseJS  extends JavaScriptObject implements VerifyA
      
     }-*/;
     
-    //TODO: javascript should look like the following, but as of Release 1, PES is
-    //generating strange JSON.
-    //if (this["ns1.verifyAccessResponse"]["ms.ack"] === "Success")
-    //     return false;
-    // else
-    //     return true;
-    // return false;
-    
-    
+  
     
 }

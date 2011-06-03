@@ -24,7 +24,7 @@ public interface Controller {
 	 * @param p
 	 *            the p
 	 */
-    public void addPresenter(String id, Presenter p);
+    void addPresenter(String id, Presenter p);
     
     /**
 	 * Gets the presenter.
@@ -33,7 +33,7 @@ public interface Controller {
 	 *            the id
 	 * @return the presenter
 	 */
-    public Presenter getPresenter(String id);
+    Presenter getPresenter(String id);
     
     /**
 	 * Select presenter.
@@ -41,5 +41,5 @@ public interface Controller {
 	 * @param token
 	 *            the token
 	 */
-    public void selectPresenter(HistoryToken token);
+    void selectPresenter(HistoryToken token);
 }

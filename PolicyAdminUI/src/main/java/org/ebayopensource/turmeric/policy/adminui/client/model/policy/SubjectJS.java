@@ -50,7 +50,6 @@ public class SubjectJS extends JavaScriptObject implements Subject {
      */
     @Override
     public final long getLastModifiedTime() {
-        // TODO Auto-generated method stub
         return 0;
     }
 

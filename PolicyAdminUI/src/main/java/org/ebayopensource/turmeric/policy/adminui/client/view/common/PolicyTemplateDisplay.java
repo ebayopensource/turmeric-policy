@@ -81,7 +81,7 @@ public interface PolicyTemplateDisplay {
 	public interface PolicyPageTemplateDisplay extends Display {
 		//Minimun size required in a elements list to be rendered with scrollbar
 		/** The MI n_ scrollba r_ size. */
-		public static int MIN_SCROLLBAR_SIZE = 5;
+		int MIN_SCROLLBAR_SIZE = 5;
 		Display getContentView();
 	
 	}

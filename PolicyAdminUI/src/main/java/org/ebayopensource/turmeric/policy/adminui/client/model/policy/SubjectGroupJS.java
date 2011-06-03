@@ -106,7 +106,6 @@ public class SubjectGroupJS extends JavaScriptObject implements SubjectGroup {
      */
     @Override
     public final List<String> getPolicies() {
-        // TODO Auto-generated method stub
         return null;
     }
 
