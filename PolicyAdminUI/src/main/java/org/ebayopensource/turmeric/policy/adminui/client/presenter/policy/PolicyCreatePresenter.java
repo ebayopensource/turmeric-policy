@@ -81,55 +81,38 @@ import com.google.gwt.view.client.MultiSelectionModel;
  */
 public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
-	/** The event bus. */
 	protected HandlerManager eventBus;
 
-	/** The view. */
 	protected PolicyCreateDisplay view;
 
-	/** The service map. */
 	protected Map<SupportedService, PolicyAdminUIService> serviceMap;
 
-	/** The permitted actions. */
 	protected List<UserAction> permittedActions = new ArrayList<UserAction>();
 
-	/** The available resources by type. */
 	protected final List<Resource> availableResourcesByType = new ArrayList<Resource>();
 
-	/** The all subjects. */
 	protected List<Subject> allSubjects;
 
-	/** The all subject groups. */
 	protected List<SubjectGroup> allSubjectGroups;
 
-	/** The all resources. */
 	protected final List<Resource> allResources = new ArrayList<Resource>();
 
-	/** The internal subjects. */
 	protected List<Subject> internalSubjects;
 
-	/** The assigned unique resources. */
 	protected HashSet<String> assignedUniqueResources = new HashSet<String>();
 
-	/** The subject types. */
 	protected List<String> subjectTypes;
 
-	/** The subject assignments. */
 	protected List<PolicySubjectAssignment> subjectAssignments;
 
-	/** The resource assignments. */
 	protected List<Resource> resourceAssignments;
 
-	/** The rules. */
 	protected List<Rule> rules = new ArrayList<Rule>();;
 
-	/** The edit resource assignment. */
 	protected Resource editResourceAssignment;
 
-	/** The edit subject assignment. */
 	protected PolicySubjectAssignment editSubjectAssignment;
 
-	/** The service. */
 	protected PolicyQueryService service;
 
 	/**
@@ -257,7 +240,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 										}
 
 										public void onSuccess(
-												FindExternalSubjectsResponse response) {
+												final FindExternalSubjectsResponse response) {
 											List<Subject> subjects = response
 													.getSubjects();
 											List<String> names = new ArrayList<String>();
@@ -1098,73 +1081,255 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	 * The Interface PolicyCreateDisplay.
 	 */
 	public interface PolicyCreateDisplay extends PolicyPageTemplateDisplay {
+		
+		/**
+		 * Gets the policy name.
+		 * 
+		 * @return the policy name
+		 */
 		HasValue<String> getPolicyName();
 
+		/**
+		 * Gets the policy desc.
+		 * 
+		 * @return the policy desc
+		 */
 		HasValue<String> getPolicyDesc();
 
+		/**
+		 * Gets the policy enabled.
+		 * 
+		 * @return the policy enabled
+		 */
 		boolean getPolicyEnabled();
 
+		/**
+		 * Gets the save button.
+		 * 
+		 * @return the save button
+		 */
 		Button getSaveButton();
 
+		/**
+		 * Gets the cancel button.
+		 * 
+		 * @return the cancel button
+		 */
 		Button getCancelButton();
 
+		/**
+		 * Gets the resource content view.
+		 * 
+		 * @return the resource content view
+		 */
 		ResourcesContentDisplay getResourceContentView();
 
+		/**
+		 * Gets the subject content view.
+		 * 
+		 * @return the subject content view
+		 */
 		SubjectContentDisplay getSubjectContentView();
 
+		/**
+		 * Gets the extra field value.
+		 * 
+		 * @param order
+		 *            the order
+		 * @return the extra field value
+		 */
 		String getExtraFieldValue(int order);
 
+		/**
+		 * Sets the status listbox enabled.
+		 * 
+		 * @param enable
+		 *            the new status listbox enabled
+		 */
 		void setStatusListboxEnabled(boolean enable);
 
+		/**
+		 * Sets the extra field value.
+		 * 
+		 * @param order
+		 *            the order
+		 * @param value
+		 *            the value
+		 * @param append
+		 *            the append
+		 */
 		void setExtraFieldValue(int order, String value, boolean append);
 
+		/**
+		 * Sets the user actions.
+		 * 
+		 * @param permittedActions
+		 *            the new user actions
+		 */
 		void setUserActions(List<UserAction> permittedActions);
 
+		/**
+		 * Clear.
+		 */
 		void clear();
 
+		/**
+		 * Error.
+		 * 
+		 * @param msg
+		 *            the msg
+		 */
 		void error(String msg);
 
+		/**
+		 * Sets the policy desc.
+		 * 
+		 * @param policyDesc
+		 *            the new policy desc
+		 */
 		void setPolicyDesc(String policyDesc);
 
+		/**
+		 * Sets the policy name.
+		 * 
+		 * @param policyName
+		 *            the new policy name
+		 */
 		void setPolicyName(String policyName);
 
+		/**
+		 * Sets the policy status.
+		 * 
+		 * @param enabled
+		 *            the new policy status
+		 */
 		void setPolicyStatus(boolean enabled);
 
+		/**
+		 * Sets the policy type.
+		 * 
+		 * @param policyType
+		 *            the new policy type
+		 */
 		void setPolicyType(String policyType);
 
+		/**
+		 * Sets the extra field list.
+		 * 
+		 * @param extraFieldList
+		 *            the new extra field list
+		 */
 		void setExtraFieldList(List<ExtraField> extraFieldList);
 
 		/*
 		 * Condition Builder methods
 		 */
+		/**
+		 * Sets the condition builder visible.
+		 * 
+		 * @param visible
+		 *            the new condition builder visible
+		 */
 		void setConditionBuilderVisible(boolean visible);
 
+		/**
+		 * Sets the exclusion lists visible.
+		 * 
+		 * @param visible
+		 *            the new exclusion lists visible
+		 */
 		void setExclusionListsVisible(boolean visible);
 
+		/**
+		 * Gets the adds the condition button.
+		 * 
+		 * @return the adds the condition button
+		 */
 		HasClickHandlers getAddConditionButton();
 
+		/**
+		 * Gets the rs list box.
+		 * 
+		 * @return the rs list box
+		 */
 		HasChangeHandlers getRsListBox();
 
+		/**
+		 * Gets the rs name selected.
+		 * 
+		 * @return the rs name selected
+		 */
 		String getRsNameSelected();
 
+		/**
+		 * Gets the aritm sign selected.
+		 * 
+		 * @return the aritm sign selected
+		 */
 		String getAritmSignSelected();
 
+		/**
+		 * Gets the condition selected.
+		 * 
+		 * @return the condition selected
+		 */
 		String getConditionSelected();
 
+		/**
+		 * Gets the quantity box.
+		 * 
+		 * @return the quantity box
+		 */
 		String getQuantityBox();
 
+		/**
+		 * Gets the op name selected.
+		 * 
+		 * @return the op name selected
+		 */
 		String getOpNameSelected();
 
+		/**
+		 * Gets the logic op selected.
+		 * 
+		 * @return the logic op selected
+		 */
 		String getLogicOpSelected();
 
+		/**
+		 * Sets the rs names.
+		 * 
+		 * @param names
+		 *            the new rs names
+		 */
 		void setRsNames(List<String> names);
 
+		/**
+		 * Sets the op names.
+		 * 
+		 * @param names
+		 *            the new op names
+		 */
 		void setOpNames(List<String> names);
 
+		/**
+		 * Sets the condition names.
+		 * 
+		 * @param conditions
+		 *            the new condition names
+		 */
 		void setConditionNames(List<String> conditions);
 
+		/**
+		 * Clear condition builder.
+		 */
 		void clearConditionBuilder();
 
+		/**
+		 * Valid all condition fields.
+		 * 
+		 * @return true, if successful
+		 */
 		boolean validAllConditionFields();
 	}
 
@@ -1172,62 +1337,210 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	 * The Interface ResourcesContentDisplay.
 	 */
 	public interface ResourcesContentDisplay extends Display {
+		
+		/**
+		 * Sets the user actions.
+		 * 
+		 * @param permittedActions
+		 *            the new user actions
+		 */
 		void setUserActions(List<UserAction> permittedActions);
 
+		/**
+		 * Sets the assignments.
+		 * 
+		 * @param assignments
+		 *            the new assignments
+		 */
 		void setAssignments(List<Resource> assignments);
 
+		/**
+		 * Sets the available operations.
+		 * 
+		 * @param operations
+		 *            the new available operations
+		 */
 		void setAvailableOperations(List<String> operations);
 
+		/**
+		 * Sets the selected operations.
+		 * 
+		 * @param operations
+		 *            the new selected operations
+		 */
 		void setSelectedOperations(List<String> operations);
 
+		/**
+		 * Sets the resource level.
+		 * 
+		 * @param resourceLevels
+		 *            the new resource level
+		 */
 		void setResourceLevel(List<String> resourceLevels);
 
+		/**
+		 * Sets the resource types.
+		 * 
+		 * @param resourceTypes
+		 *            the new resource types
+		 */
 		void setResourceTypes(List<String> resourceTypes);
 
+		/**
+		 * Sets the resource names.
+		 * 
+		 * @param resourceNames
+		 *            the new resource names
+		 */
 		void setResourceNames(List<String> resourceNames);
 
+		/**
+		 * Gets the selections.
+		 * 
+		 * @return the selections
+		 */
 		List<Resource> getSelections();
 
+		/**
+		 * Gets the select boxes widget.
+		 * 
+		 * @return the select boxes widget
+		 */
 		SelectBoxesWidget getSelectBoxesWidget();
 
+		/**
+		 * Gets the selected operations.
+		 * 
+		 * @return the selected operations
+		 */
 		List<String> getSelectedOperations();
 
+		/**
+		 * Gets the available operations.
+		 * 
+		 * @return the available operations
+		 */
 		List<String> getAvailableOperations();
 
+		/**
+		 * Gets the resource name.
+		 * 
+		 * @return the resource name
+		 */
 		String getResourceName();
 
+		/**
+		 * Gets the resource level.
+		 * 
+		 * @return the resource level
+		 */
 		String getResourceLevel();
 
+		/**
+		 * Gets the resource level label.
+		 * 
+		 * @return the resource level label
+		 */
 		Label getResourceLevelLabel();
 
+		/**
+		 * Gets the resource name label.
+		 * 
+		 * @return the resource name label
+		 */
 		Label getResourceNameLabel();
 
+		/**
+		 * Gets the resource type label.
+		 * 
+		 * @return the resource type label
+		 */
 		Label getResourceTypeLabel();
 
+		/**
+		 * Gets the resource type.
+		 * 
+		 * @return the resource type
+		 */
 		String getResourceType();
 
+		/**
+		 * Gets the resource type box.
+		 * 
+		 * @return the resource type box
+		 */
 		ListBox getResourceTypeBox();
 
+		/**
+		 * Gets the resource level box.
+		 * 
+		 * @return the resource level box
+		 */
 		ListBox getResourceLevelBox();
 
+		/**
+		 * Gets the resource name box.
+		 * 
+		 * @return the resource name box
+		 */
 		ListBox getResourceNameBox();
 
+		/**
+		 * Gets the selection model.
+		 * 
+		 * @return the selection model
+		 */
 		MultiSelectionModel<Resource> getSelectionModel();
 
+		/**
+		 * Gets the adds the resource button.
+		 * 
+		 * @return the adds the resource button
+		 */
 		HasClickHandlers getAddResourceButton();
 
+		/**
+		 * Gets the cancel resource button.
+		 * 
+		 * @return the cancel resource button
+		 */
 		HasClickHandlers getCancelResourceButton();
 
+		/**
+		 * Error.
+		 * 
+		 * @param msg
+		 *            the msg
+		 */
 		void error(String msg);
 
+		/**
+		 * Clear assignment widget.
+		 */
 		void clearAssignmentWidget();
 
+		/**
+		 * Gets the edits the button.
+		 * 
+		 * @return the edits the button
+		 */
 		HasClickHandlers getEditButton();
 
+		/**
+		 * Gets the del button.
+		 * 
+		 * @return the del button
+		 */
 		HasClickHandlers getDelButton();
 
+		/**
+		 * Show.
+		 */
 		void show();
 
+		/**
+		 * Hide.
+		 */
 		void hide();
 	}
 
@@ -1235,68 +1548,235 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	 * The Interface SubjectContentDisplay.
 	 */
 	public interface SubjectContentDisplay extends Display {
+		
+		/**
+		 * Gets the subject type.
+		 * 
+		 * @return the subject type
+		 */
 		String getSubjectType();
 
+		/**
+		 * Gets the select all subjects.
+		 * 
+		 * @return the select all subjects
+		 */
 		boolean getSelectAllSubjects();
 
+		/**
+		 * Sets the select all subjects.
+		 * 
+		 * @param selected
+		 *            the new select all subjects
+		 */
 		void setSelectAllSubjects(boolean selected);
 
+		/**
+		 * Gets the group search button.
+		 * 
+		 * @return the group search button
+		 */
 		HasClickHandlers getGroupSearchButton();
 
+		/**
+		 * Gets the subject search button.
+		 * 
+		 * @return the subject search button
+		 */
 		HasClickHandlers getSubjectSearchButton();
 
+		/**
+		 * Gets the adds the button.
+		 * 
+		 * @return the adds the button
+		 */
 		HasClickHandlers getAddButton();
 
+		/**
+		 * Gets the cancel button.
+		 * 
+		 * @return the cancel button
+		 */
 		HasClickHandlers getCancelButton();
 
+		/**
+		 * Gets the edits the button.
+		 * 
+		 * @return the edits the button
+		 */
 		HasClickHandlers getEditButton();
 
+		/**
+		 * Gets the del button.
+		 * 
+		 * @return the del button
+		 */
 		HasClickHandlers getDelButton();
 
+		/**
+		 * Gets the subject search term.
+		 * 
+		 * @return the subject search term
+		 */
 		String getSubjectSearchTerm();
 
+		/**
+		 * Gets the group search term.
+		 * 
+		 * @return the group search term
+		 */
 		String getGroupSearchTerm();
 
+		/**
+		 * Gets the selection model.
+		 * 
+		 * @return the selection model
+		 */
 		MultiSelectionModel<PolicySubjectAssignment> getSelectionModel();
 
+		/**
+		 * Gets the selected subject groups.
+		 * 
+		 * @return the selected subject groups
+		 */
 		List<String> getSelectedSubjectGroups();
 
+		/**
+		 * Gets the selected exclusion sg.
+		 * 
+		 * @return the selected exclusion sg
+		 */
 		List<String> getSelectedExclusionSG();
 
+		/**
+		 * Gets the selected subjects.
+		 * 
+		 * @return the selected subjects
+		 */
 		List<String> getSelectedSubjects();
 
+		/**
+		 * Gets the selected exclusion subjects.
+		 * 
+		 * @return the selected exclusion subjects
+		 */
 		List<String> getSelectedExclusionSubjects();
 
+		/**
+		 * Gets the selected subject assignments.
+		 * 
+		 * @return the selected subject assignments
+		 */
 		List<PolicySubjectAssignment> getSelectedSubjectAssignments();
 
+		/**
+		 * Gets the assignments.
+		 * 
+		 * @return the assignments
+		 */
 		List<PolicySubjectAssignment> getAssignments();
 
+		/**
+		 * Sets the available subject groups.
+		 * 
+		 * @param list
+		 *            the new available subject groups
+		 */
 		void setAvailableSubjectGroups(List<String> list);
 
+		/**
+		 * Sets the available exclusion sg.
+		 * 
+		 * @param list
+		 *            the new available exclusion sg
+		 */
 		void setAvailableExclusionSG(List<String> list);
 
+		/**
+		 * Sets the available subjects.
+		 * 
+		 * @param list
+		 *            the new available subjects
+		 */
 		void setAvailableSubjects(List<String> list);
 
+		/**
+		 * Sets the available exclusion subjects.
+		 * 
+		 * @param list
+		 *            the new available exclusion subjects
+		 */
 		void setAvailableExclusionSubjects(List<String> list);
 
+		/**
+		 * Sets the available subject types.
+		 * 
+		 * @param list
+		 *            the new available subject types
+		 */
 		void setAvailableSubjectTypes(List<String> list);
 
+		/**
+		 * Sets the assignments.
+		 * 
+		 * @param assignments
+		 *            the new assignments
+		 */
 		void setAssignments(List<PolicySubjectAssignment> assignments);
 
+		/**
+		 * Sets the selected subjects.
+		 * 
+		 * @param list
+		 *            the new selected subjects
+		 */
 		void setSelectedSubjects(List<String> list);
 
+		/**
+		 * Sets the selected exclusion subjects.
+		 * 
+		 * @param list
+		 *            the new selected exclusion subjects
+		 */
 		void setSelectedExclusionSubjects(List<String> list);
 
+		/**
+		 * Sets the selected subject groups.
+		 * 
+		 * @param list
+		 *            the new selected subject groups
+		 */
 		void setSelectedSubjectGroups(List<String> list);
 
+		/**
+		 * Sets the selected exclusion sg.
+		 * 
+		 * @param list
+		 *            the new selected exclusion sg
+		 */
 		void setSelectedExclusionSG(List<String> list);
 
+		/**
+		 * Sets the user actions.
+		 * 
+		 * @param permissions
+		 *            the new user actions
+		 */
 		void setUserActions(List<UserAction> permissions);
 
+		/**
+		 * Clear assignment widget.
+		 */
 		void clearAssignmentWidget();
 
+		/**
+		 * Show.
+		 */
 		void show();
 
+		/**
+		 * Hide.
+		 */
 		void hide();
 	}
 
