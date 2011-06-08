@@ -98,7 +98,8 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 	 * The Interface PolicySummaryDisplay.
 	 */
     public interface PolicySummaryDisplay extends PolicyPageTemplateDisplay {
-        void setPolicies(List<GenericPolicy> policies);
+    	
+    	void setPolicies(List<GenericPolicy> policies);
 
         HasClickHandlers getSubjectCriteriaButton();
 
@@ -175,6 +176,23 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
         void setEffect(List<String> types);
 
         String getSelectedEffect();
+        
+        void addSubjectCriteriaButtonClickHandler(ClickHandler handler);
+        
+		void addPolicyCriteriaButtonClickHandler(ClickHandler clickHandler);
+
+		void addResourceCriteriaButtonClickHandler(ClickHandler clickHandler);
+
+		void addAvailableTypesBoxChangeHandler(ChangeHandler changeHandler);
+
+		void addResourceNameBoxChangeHandler(ChangeHandler changeHandler);
+
+		void addSubjectGroupCriteriaButtonClickHandler(
+				ClickHandler clickHandler);
+
+		void addSearchButtonClickHandler(ClickHandler clickHandler);
+
+		void addActionButtonAboveClickHandler(ClickHandler clickHandler);
     }
 
     /**
@@ -218,28 +236,28 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
     public void bind() {
 
         // The user wants to search by subject group type + name
-        this.view.getSubjectCriteriaButton().addClickHandler(new ClickHandler() {
+        this.view.addSubjectCriteriaButtonClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 view.setAvailableTypes(fetchSubjectTypes());
             }
         });
 
         // the user wants to search by policy type and name
-        this.view.getPolicyCriteriaButton().addClickHandler(new ClickHandler() {
+        this.view.addPolicyCriteriaButtonClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 view.setAvailableTypes(fetchPolicyTypes());
             }
         });
 
         // the user wants to search by resource type
-        this.view.getResourceCriteriaButton().addClickHandler(new ClickHandler() {
+        this.view.addResourceCriteriaButtonClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 view.setAvailableTypes(fetchResourceTypes());
             }
         });
 
         // the user wants to search by resource type
-        this.view.getAvailableTypesBox().addChangeHandler(new ChangeHandler() {
+        this.view.addAvailableTypesBoxChangeHandler(new ChangeHandler() {
 
             public void onChange(ChangeEvent event) {
                 if (view.isResourceCriteriaEnabled()) {
@@ -263,7 +281,7 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
         });
 
         // the user wants to search by rs name
-        this.view.getResourceNameBox().addChangeHandler(new ChangeHandler() {
+        this.view.addResourceNameBoxChangeHandler(new ChangeHandler() {
 
             public void onChange(ChangeEvent event) {
                 if (view.getSelectedType() != null && !"".equals(view.getSelectedResource())) {
@@ -275,13 +293,13 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
         });
 
         // the user wants to search by SubjectGroup type and name
-        this.view.getSubjectGroupCriteriaButton().addClickHandler(new ClickHandler() {
+        this.view.addSubjectGroupCriteriaButtonClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 view.setAvailableTypes(fetchSubjectTypes());
             }
         });
 
-        this.view.getSearchButton().addClickHandler(new ClickHandler() {
+        this.view.addSearchButtonClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
                 if (PolicySummaryPresenter.this.view.isPolicyCriteriaEnabled()) {
@@ -316,7 +334,7 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
             }
         });
 
-        this.view.getActionButtonAbove().addClickHandler(new ClickHandler() {
+        this.view.addActionButtonAboveClickHandler(new ClickHandler() {
 
             /* (non-Javadoc)
              * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)

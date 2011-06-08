@@ -1547,4 +1547,46 @@ public class PolicySummaryView extends AbstractGenericView implements
 	public Map<GenericPolicy, UserAction> getPendingActions() {
 		return ((ContentView) contentView).getPendingActions();
 	}
+
+	@Override
+	public void addSubjectCriteriaButtonClickHandler(ClickHandler handler) {
+		getSubjectCriteriaButton().addClickHandler(handler);		
+	}
+	
+	@Override
+	public void addPolicyCriteriaButtonClickHandler(ClickHandler handler) {
+		getPolicyCriteriaButton().addClickHandler(handler);		
+	}
+	
+	@Override
+	public void addResourceCriteriaButtonClickHandler(ClickHandler handler) {
+		getResourceCriteriaButton().addClickHandler(handler);		
+	}
+
+	@Override
+	public void addAvailableTypesBoxChangeHandler(ChangeHandler changeHandler) {
+		getAvailableTypesBox().addChangeHandler(changeHandler);		
+	}
+
+	@Override
+	public void addResourceNameBoxChangeHandler(ChangeHandler changeHandler) {
+		getResourceNameBox().addChangeHandler(changeHandler);		
+	}
+
+	@Override
+	public void addSubjectGroupCriteriaButtonClickHandler(
+			ClickHandler clickHandler) {
+		getSubjectGroupCriteriaButton().addClickHandler(clickHandler);		
+	}
+
+	@Override
+	public void addSearchButtonClickHandler(ClickHandler clickHandler) {
+		getSearchButton().addClickHandler(clickHandler);		
+	}
+
+	@Override
+	public void addActionButtonAboveClickHandler(ClickHandler clickHandler) {
+		getActionButtonAbove().addClickHandler(clickHandler);		
+	}
+	
 }

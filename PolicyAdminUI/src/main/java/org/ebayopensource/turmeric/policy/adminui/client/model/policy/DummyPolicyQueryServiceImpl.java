@@ -22,7 +22,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
     private static long subjectGroupIdCounter = 0;
     
-	private static Collection<GenericPolicyImpl> tmpPolicies;
+	public static Collection<GenericPolicyImpl> tmpPolicies;
 	static {
 		tmpPolicies = new ArrayList<GenericPolicyImpl>();
 		GenericPolicyImpl policy = null;
