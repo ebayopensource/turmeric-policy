@@ -64,7 +64,7 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 	static {
 		tmpPolicies = new ArrayList<GenericPolicyImpl>();
 		GenericPolicyImpl policy = null;
-		for (int i = 0; i < 12; i++) { 
+		for (int i = 0; i < 12; i++) {
 			policy = new GenericPolicyImpl();
 			policy.setId(new Long(i));
 			policy.setName("Policy_" + i);
