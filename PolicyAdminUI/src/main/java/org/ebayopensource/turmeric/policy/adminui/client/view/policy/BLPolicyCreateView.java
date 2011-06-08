@@ -14,6 +14,9 @@ import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ExtraField;
 
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickHandler;
+
 /**
  * The Class BLPolicyCreateView.
  */
@@ -91,6 +94,5 @@ public class BLPolicyCreateView extends PolicyCreateView {
 	@Override
 	public void setStatusListboxEnabled(final boolean enable) {
 	}
-
 
 }

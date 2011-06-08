@@ -39,6 +39,7 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasChangeHandlers;
@@ -908,7 +909,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		public List<String> getAvailableOperations() {
 			return resourceAssignmentWidget.getAvailableOperations();
 		}
-
+		
 	}
 
 	private class SubjectContentView extends AbstractGenericView implements
@@ -1778,4 +1779,99 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		return ((ContentView) contentView).conditionWidget.validAllFields();
 	}
 
+
+	@Override
+	public void addSaveButtonClickHandler(ClickHandler clickHandler) {
+		getSaveButton().addClickHandler(clickHandler);		
+	}
+
+
+	@Override
+	public void addCancelButtonClickHandler(ClickHandler clickHandler) {
+		getCancelButton().addClickHandler(clickHandler);		
+	}
+
+	/**
+	 * RESOURCE SECTION
+	 */
+	
+	@Override
+	public void addRsResourceLevelBoxChange(ChangeHandler changeHandler) {
+		getResourceContentView().getResourceLevelBox().addChangeHandler(
+				changeHandler);
+	}
+
+	@Override
+	public void addRsEditButtonClick(ClickHandler clickHandler) {
+		getResourceContentView().getEditButton().addClickHandler(clickHandler);
+		
+	}
+
+	@Override
+	public void addRsCancelResourceButtonClick(ClickHandler clickHandler) {
+		getResourceContentView().getCancelResourceButton()
+		.addClickHandler(clickHandler);	
+	}
+	
+	@Override
+	public void addRsResourceTypeBoxChange(ChangeHandler changeHandler) {
+		getResourceContentView().getResourceTypeBox()
+		.addChangeHandler(changeHandler);
+	}
+	
+	@Override
+	public void addRsResourceNameBoxClick(ClickHandler clickHandler) {
+		getResourceContentView().getResourceNameBox()
+		.addClickHandler(clickHandler);	
+	}
+
+	@Override
+	public void addRsResourceButtonClick(ClickHandler clickHandler) {
+		getResourceContentView().getAddResourceButton()
+		.addClickHandler(clickHandler);
+	}
+	
+	@Override
+	public void addRsDelButtonClick(ClickHandler clickHandler) {
+		getResourceContentView().getDelButton().addClickHandler(clickHandler);
+	}
+
+	/**
+	 * SUBJECT SECTION
+	 */
+	@Override
+	public void addSbGroupSearchButtonClickHandler(ClickHandler clickHandler) {
+		getSubjectContentView().getGroupSearchButton()
+		.addClickHandler(clickHandler);	
+	}
+	
+	@Override
+	public void addSbSubjectSearchButtonClickHandler(ClickHandler clickHandler) {
+		getSubjectContentView().getSubjectSearchButton()
+		.addClickHandler(clickHandler);		
+	}
+	
+	@Override
+	public void addSbEditButtonClickHandler(ClickHandler clickHandler) {
+		getSubjectContentView().getEditButton()
+		.addClickHandler(clickHandler);		
+	}
+
+	@Override
+	public void addSbDelButtonClickHandler(ClickHandler clickHandler) {
+		getSubjectContentView().getDelButton()
+		.addClickHandler(clickHandler);		
+	}
+
+	@Override
+	public void addSbAddButtonClickHandler(ClickHandler clickHandler) {
+		getSubjectContentView().getAddButton()
+		.addClickHandler(clickHandler);		
+	}
+
+	@Override
+	public void addSbCancelButtonClickHandler(ClickHandler clickHandler) {
+		getSubjectContentView().getCancelButton()
+		.addClickHandler(clickHandler);		
+	}
 }

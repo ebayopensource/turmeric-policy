@@ -10,10 +10,13 @@ package org.ebayopensource.turmeric.policy.adminui.client.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.AttributeValueImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicyImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Operation;
@@ -26,31 +29,16 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Resource;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ResourceImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ResourceKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.Subject;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectAttributeDesignatorImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroupImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroupKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroupQuery;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectKey;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectMatchType;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectMatchTypeImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectQuery;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreatePolicyResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreateSubjectGroupsResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.CreateSubjectsResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.DeletePolicyResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.DeleteResourceResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.DeleteSubjectGroupResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.DisablePolicyResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.EnablePolicyResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindExternalSubjectsResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectGroupsResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.FindSubjectsResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetEntityHistoryResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetMetaDataResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetPoliciesResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.GetResourcesResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.PolicyOutputSelector;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.UpdateMode;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.UpdatePolicyResponse;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService.UpdateSubjectGroupsResponse;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -61,6 +49,8 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
     private static long subjectGroupIdCounter = 0;
     
 	public static Collection<GenericPolicyImpl> tmpPolicies;
+	public static Collection<Resource> tmpResources;
+	public static Collection<Subject> tmpSubjects;
 	static {
 		tmpPolicies = new ArrayList<GenericPolicyImpl>();
 		GenericPolicyImpl policy = null;
@@ -96,6 +86,134 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 			tmpPolicies.add(policy);
 		}
 
+		/*
+		 * Subjects
+		 */
+		tmpSubjects = new ArrayList<Subject>();
+
+		SubjectImpl subject = null;
+		for (int i = 0; i < 3; i++) {
+			subject = new SubjectImpl();
+			subject.setType("USER");
+			subject.setName("user_" + i);
+			SubjectMatchTypeImpl smt = new SubjectMatchTypeImpl();
+			AttributeValueImpl attr = new AttributeValueImpl();
+			SubjectAttributeDesignatorImpl designator = new SubjectAttributeDesignatorImpl();
+			smt.setMatchId("urn:oasis:names:tc:xacml:1.0:function:integer-equal");
+			attr.setDataType("http://www.w3.org/2001/XMLSchema#integer");
+			attr.setValue(String.valueOf(i ));
+			designator
+					.setAttributeId("urn:oasis:names:tc:xacml:1.0:subject:subject-id");
+			designator
+					.setDataType("http://www.w3.org/2001/XMLSchema#integer");
+			smt.setAttributeValue(attr);
+			smt.setSubjectAttributeDesignator(designator);
+			subject.setSubjectMatch(new ArrayList<SubjectMatchType>(Collections
+					.singletonList(smt)));
+
+			tmpSubjects.add(subject);
+		}
+		
+		for (int i = 3; i < 6; i++) {
+			subject = new SubjectImpl();
+			subject.setType("IP");
+			subject.setName("192.168.1." + i);
+			SubjectMatchTypeImpl smt = new SubjectMatchTypeImpl();
+			AttributeValueImpl attr = new AttributeValueImpl();
+			SubjectAttributeDesignatorImpl designator = new SubjectAttributeDesignatorImpl();
+			smt.setMatchId("urn:oasis:names:tc:xacml:1.0:function:integer-equal");
+			attr.setDataType("http://www.w3.org/2001/XMLSchema#integer");
+			attr.setValue(String.valueOf(i + 3));
+			designator
+					.setAttributeId("urn:oasis:names:tc:xacml:1.0:subject:subject-id");
+			designator
+					.setDataType("http://www.w3.org/2001/XMLSchema#integer");
+			smt.setAttributeValue(attr);
+			smt.setSubjectAttributeDesignator(designator);
+			subject.setSubjectMatch(new ArrayList<SubjectMatchType>(Collections
+					.singletonList(smt)));
+
+			tmpSubjects.add(subject);
+		}
+		
+		
+		/*
+		 * Resources
+		 */
+		tmpResources = new ArrayList<Resource>();
+
+		 for (int iter = 0; iter < 6; iter++) {
+             ResourceImpl resource = new ResourceImpl();
+             resource.setId((long) iter);
+             resource.setResourceName("Resource"
+                                      + "SERVICE"
+                                      + iter);
+             resource.setDescription("Description" + iter);
+             resource.setResourceType("SERVICE");
+
+             List<Operation> opList = new ArrayList<Operation>();
+	            OperationImpl op = new OperationImpl();
+	            op.setOperationName("Operation_1");
+	            opList.add(op);
+	            OperationImpl op2 = new OperationImpl();
+	            op2.setOperationName("Operation_2");
+	            opList.add(op2);
+	            OperationImpl op3 = new OperationImpl();
+	            op3.setOperationName("Operation_3");
+	            opList.add(op3);
+	            
+	            resource.setOpList(opList);
+
+	            tmpResources.add(resource);
+         }
+     
+         for (int iter = 6; iter < 11; iter++) {
+             ResourceImpl resource = new ResourceImpl();
+             resource.setId((long) iter);
+             resource.setResourceName("Resource"
+                                      + "URL" + iter);
+             resource.setDescription("Description" + iter);
+             resource.setResourceType("URL");
+
+             List<Operation> opList = new ArrayList<Operation>();
+	            OperationImpl op = new OperationImpl();
+	            op.setOperationName("Operation_1");
+	            opList.add(op);
+	            OperationImpl op2 = new OperationImpl();
+	            op2.setOperationName("Operation_2");
+	            opList.add(op2);
+	            OperationImpl op3 = new OperationImpl();
+	            op3.setOperationName("Operation_3");
+	            opList.add(op3);
+	            
+	            resource.setOpList(opList);
+
+	            tmpResources.add(resource);
+         }
+         for (int iter = 11; iter < 16; iter++) {
+             ResourceImpl resource = new ResourceImpl();
+             resource.setId((long) iter);
+             resource.setResourceName("Resource"
+                                      + "OBJECT"
+                                      + iter);
+             resource.setDescription("Description" + iter);
+             resource.setResourceType("OBJECT");
+
+             List<Operation> opList = new ArrayList<Operation>();
+	            OperationImpl op = new OperationImpl();
+	            op.setOperationName("Operation_1");
+	            opList.add(op);
+	            OperationImpl op2 = new OperationImpl();
+	            op2.setOperationName("Operation_2");
+	            opList.add(op2);
+	            OperationImpl op3 = new OperationImpl();
+	            op3.setOperationName("Operation_3");
+	            opList.add(op3);
+	            
+	            resource.setOpList(opList);
+	            
+	            tmpResources.add(resource);
+         }
 	}
 
 	
@@ -150,134 +268,18 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 
 	    final Collection<Resource> result = new ArrayList<Resource>();
 	    if (keys == null) {
-	        for (int iter = 1; iter < 15; iter++) {
-	            ResourceImpl resource = new ResourceImpl();
-	            resource.setId((long) iter);
-	            resource.setResourceName("Resource" + iter);
-	            resource.setDescription("Description" + iter);
-	            resource.setResourceType("Resource Type" + iter);
-
-	            List<Operation> opList = new ArrayList<Operation>();
-	            OperationImpl op = new OperationImpl();
-	            op.setOperationName("Operation_1");
-	            opList.add(op);
-	            OperationImpl op2 = new OperationImpl();
-	            op2.setOperationName("Operation_2");
-	            opList.add(op2);
-	            OperationImpl op3 = new OperationImpl();
-	            op3.setOperationName("Operation_3");
-	            opList.add(op3);
-	            
-	            resource.setOpList(opList);
-
-	            result.add(resource);
-	        }
+	        result.addAll(tmpResources);
+	        
 	    } else {
 	        for (ResourceKey key:keys) {
-	            if ("GENERIC".equals(key.getType())) {
-	                for (int iter = 1; iter < 4; iter++) {
-	                    ResourceImpl resource = new ResourceImpl();
-	                    resource.setId((long) iter);
-	                    resource.setResourceName("Resource"
-	                                             + "GENERIC"
-	                                             + iter);
-	                    resource.setDescription("Description" + iter);
-	                    resource.setResourceType("GENERIC");
-
-	                    List<Operation> opList = new ArrayList<Operation>();
-	    	            OperationImpl op = new OperationImpl();
-	    	            op.setOperationName("Operation_1");
-	    	            opList.add(op);
-	    	            OperationImpl op2 = new OperationImpl();
-	    	            op2.setOperationName("Operation_2");
-	    	            opList.add(op2);
-	    	            OperationImpl op3 = new OperationImpl();
-	    	            op3.setOperationName("Operation_3");
-	    	            opList.add(op3);
-	    	            
-	    	            resource.setOpList(opList);
-
-	                    result.add(resource);
-	                }
-
-	            } else if ("SERVICE".equals(key.getType())) {
-	                for (int iter = 4; iter < 6; iter++) {
-	                    ResourceImpl resource = new ResourceImpl();
-	                    resource.setId((long) iter);
-	                    resource.setResourceName("Resource"
-	                                             + "SERVICE"
-	                                             + iter);
-	                    resource.setDescription("Description" + iter);
-	                    resource.setResourceType("SERVICE");
-
-	                    List<Operation> opList = new ArrayList<Operation>();
-	    	            OperationImpl op = new OperationImpl();
-	    	            op.setOperationName("Operation_1");
-	    	            opList.add(op);
-	    	            OperationImpl op2 = new OperationImpl();
-	    	            op2.setOperationName("Operation_2");
-	    	            opList.add(op2);
-	    	            OperationImpl op3 = new OperationImpl();
-	    	            op3.setOperationName("Operation_3");
-	    	            opList.add(op3);
-	    	            
-	    	            resource.setOpList(opList);
-
-	                    result.add(resource);
-	                }
-
-	            } else if ("URL".equals(key.getType())) {
-	                for (int iter = 6; iter < 11; iter++) {
-	                    ResourceImpl resource = new ResourceImpl();
-	                    resource.setId((long) iter);
-	                    resource.setResourceName("Resource"
-	                                             + "URL" + iter);
-	                    resource.setDescription("Description" + iter);
-	                    resource.setResourceType("URL");
-
-	                    List<Operation> opList = new ArrayList<Operation>();
-	    	            OperationImpl op = new OperationImpl();
-	    	            op.setOperationName("Operation_1");
-	    	            opList.add(op);
-	    	            OperationImpl op2 = new OperationImpl();
-	    	            op2.setOperationName("Operation_2");
-	    	            opList.add(op2);
-	    	            OperationImpl op3 = new OperationImpl();
-	    	            op3.setOperationName("Operation_3");
-	    	            opList.add(op3);
-	    	            
-	    	            resource.setOpList(opList);
-
-	                    result.add(resource);
-	                }
-	            } else if ("OBJECT".equals(key.getType())) {
-	                for (int iter = 11; iter < 16; iter++) {
-	                    ResourceImpl resource = new ResourceImpl();
-	                    resource.setId((long) iter);
-	                    resource.setResourceName("Resource"
-	                                             + "OBJECT"
-	                                             + iter);
-	                    resource.setDescription("Description" + iter);
-	                    resource.setResourceType("OBJECT");
-
-	                    List<Operation> opList = new ArrayList<Operation>();
-	    	            OperationImpl op = new OperationImpl();
-	    	            op.setOperationName("Operation_1");
-	    	            opList.add(op);
-	    	            OperationImpl op2 = new OperationImpl();
-	    	            op2.setOperationName("Operation_2");
-	    	            opList.add(op2);
-	    	            OperationImpl op3 = new OperationImpl();
-	    	            op3.setOperationName("Operation_3");
-	    	            opList.add(op3);
-	    	            
-	    	            resource.setOpList(opList);
-
-
-	                    result.add(resource);
-	                }
-	            }
+	           for (Resource resource : tmpResources) {
+	        	   if (key.getType().equals(resource.getResourceType())) {
+	                
+	            	result.add(resource);
+	        	   }
+	           }
 	        }
+	            
 	    }
 		
 		
@@ -296,6 +298,7 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 		};
 		
 		callback.onSuccess(response);
+        return;
 	}
 
 	/* (non-Javadoc)
@@ -572,7 +575,60 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
     @Override
     public void findSubjects(SubjectQuery query,
                              AsyncCallback<FindSubjectsResponse> callback) {
+    	
+    	
+		// get by name, type or id
+		final List<Subject> subjects = new ArrayList<Subject>();
+		for (SubjectKey subjectKey : query.getSubjectKeys()) {
+			
+		
+			if (subjectKey.getType() != null) {
+	
+				String type = subjectKey.getType();
+	
+				for (Subject subject : tmpSubjects) {
+					if (subject.getType().toLowerCase().equals(type.toLowerCase())) {
+						subjects.add(subject);
+					}
+				}
+	
+			} else if (subjectKey.getName() != null) {
+	
+				String name = subjectKey.getName();
+	
+				for (Subject subject : tmpSubjects) {
+					if (subject.getName().toLowerCase().equals(name.toLowerCase())) {
+						subjects.add(subject);
+					}
+				}
+			} else if (subjectKey.getId() != null) {
+				Long id = subjectKey.getId();
+				for (Subject subject : tmpSubjects) {
+					if (subject.getSubjectMatchTypes().get(0).getAttributeValue().getValue().equals(id.toString())){
+						subjects.add(subject);
+					}
+				}
+			}    	
+		}
+    	FindSubjectsResponse response = new FindSubjectsResponse () {   
+            @Override
+            public String getErrorMessage() {
+                return null;
+            }
+
+            @Override
+            public boolean isErrored() {
+                return false;
+            }
+
+            @Override
+            public List<Subject> getSubjects() {
+                return subjects;
+            }
+        };
         
+        callback.onSuccess(response);
+        return;
         
     }
 
@@ -580,10 +636,50 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
      * @see org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService#getMetaData(org.ebayopensource.turmeric.policy.adminui.client.model.policy.QueryCondition, com.google.gwt.user.client.rpc.AsyncCallback)
      */
     @Override
-    public void getMetaData(QueryCondition condition,
+    public void getMetaData(final QueryCondition condition,
                             AsyncCallback<GetMetaDataResponse> callback) {
         
-        
+    	GetMetaDataResponse response = new GetMetaDataResponse(){
+
+			@Override
+			public Map<String, String> getValues() {
+				Map<String,String> map = new HashMap<String,String>();
+				if(condition.getQueries().get(0).getType().equals("POLICY_TYPE")){
+					map.put("BL", "BL");
+			        map.put("WL", "WL");
+			        map.put("RL", "RL");
+			        map.put("AUTHZ", "AUTHZ");
+				}else if(condition.getQueries().get(0).getType().equals("RESOURCE_TYPE")){
+				    map.put("OBJECT", "OBJECT");
+			        map.put("SERVICE", "SERVICE");
+			        map.put("URL", "URL");
+				}else if(condition.getQueries().get(0).getType().equals("SUBJECT_TYPE")){
+					
+			        map.put("USER", "USER");
+			        map.put("APP", "APP");
+			        map.put("DEV", "DEV");
+			        map.put("IP", "IP");
+				}
+		        return  map;
+				
+			}
+
+			@Override
+			public boolean isErrored() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public String getErrorMessage() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+    		
+    	};
+
+        callback.onSuccess(response);
+        return;
     }
 
     /* (non-Javadoc)

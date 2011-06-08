@@ -94,7 +94,7 @@ public class BLPolicyCreatePresenter extends PolicyCreatePresenter {
 	protected final void bindSaveButton() {
 
 		// fired on saved policy
-		this.view.getSaveButton().addClickHandler(new ClickHandler() {
+		this.view.addSaveButtonClickHandler(new ClickHandler() {
 			public void onClick(final ClickEvent event) {
 
 				final GenericPolicy p = getPolicy(view.getPolicyName()

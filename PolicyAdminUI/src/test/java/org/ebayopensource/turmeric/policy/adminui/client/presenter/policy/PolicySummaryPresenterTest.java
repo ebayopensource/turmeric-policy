@@ -8,14 +8,10 @@
  *    
  *******************************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.client.presenter.policy;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.createMock;
-
+import static org.easymock.EasyMock.replay;
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +22,6 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.DummyPolicyEnforc
 import org.ebayopensource.turmeric.policy.adminui.client.model.DummyPolicyQueryServiceImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnforcementServiceImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService;
 import org.ebayopensource.turmeric.policy.adminui.client.shared.AppUser;
 import org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicySummaryView;
@@ -36,7 +31,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.rpc.core.java.util.Collections;
 import com.octo.gwt.test.utils.GwtReflectionUtils;
 
 public class PolicySummaryPresenterTest extends PolicyAdminUIGWTTestBase {
@@ -69,14 +63,13 @@ public class PolicySummaryPresenterTest extends PolicyAdminUIGWTTestBase {
 				serviceMap);
 		summaryPresenter.service = (PolicyQueryService) serviceMap.get(SupportedService.POLICY_QUERY_SERVICE);
 		
-		view.setRsNames(new ArrayList<String>(Arrays.asList("ResourceSERVICE4",
-				"ResourceSERVICE5")));
+		view.setRsNames((List<String>)EasyMock.anyObject());
 		view.setResourceNames();
 		replay(view);
 
 		GwtReflectionUtils.callPrivateMethod(summaryPresenter,
 				"fetchResourcesByType", "SERVICE");
-		assertEquals(2, summaryPresenter.resources.size());
+		assertEquals(6, summaryPresenter.resources.size());
 	}
 
 
@@ -87,10 +80,7 @@ public class PolicySummaryPresenterTest extends PolicyAdminUIGWTTestBase {
 		summaryPresenter.service = (PolicyQueryService) serviceMap.get(SupportedService.POLICY_QUERY_SERVICE);
 		view.setPolicies((List<GenericPolicy>)EasyMock.anyObject());
 		
-		
 		AppUser user = AppUser.newAppUser("admin", "admin", "");
-		//expect( AppUser.getUser()).andReturn(user);
-		
 		
 		replay(view);
 		

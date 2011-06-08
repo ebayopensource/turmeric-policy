@@ -81,38 +81,55 @@ import com.google.gwt.view.client.MultiSelectionModel;
  */
 public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
+	/** The event bus. */
 	protected HandlerManager eventBus;
 
+	/** The view. */
 	protected PolicyCreateDisplay view;
 
+	/** The service map. */
 	protected Map<SupportedService, PolicyAdminUIService> serviceMap;
 
+	/** The permitted actions. */
 	protected List<UserAction> permittedActions = new ArrayList<UserAction>();
 
+	/** The available resources by type. */
 	protected final List<Resource> availableResourcesByType = new ArrayList<Resource>();
 
+	/** The all subjects. */
 	protected List<Subject> allSubjects;
 
+	/** The all subject groups. */
 	protected List<SubjectGroup> allSubjectGroups;
 
+	/** The all resources. */
 	protected final List<Resource> allResources = new ArrayList<Resource>();
 
+	/** The internal subjects. */
 	protected List<Subject> internalSubjects;
 
+	/** The assigned unique resources. */
 	protected HashSet<String> assignedUniqueResources = new HashSet<String>();
 
+	/** The subject types. */
 	protected List<String> subjectTypes;
 
+	/** The subject assignments. */
 	protected List<PolicySubjectAssignment> subjectAssignments;
 
+	/** The resource assignments. */
 	protected List<Resource> resourceAssignments;
 
+	/** The rules. */
 	protected List<Rule> rules = new ArrayList<Rule>();;
 
+	/** The edit resource assignment. */
 	protected Resource editResourceAssignment;
 
+	/** The edit subject assignment. */
 	protected PolicySubjectAssignment editSubjectAssignment;
 
+	/** The service. */
 	protected PolicyQueryService service;
 
 	/**
@@ -153,8 +170,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	private void bindSubjectSection() {
 
 		// search for matching SubjectGroup
-		this.view.getSubjectContentView().getGroupSearchButton()
-				.addClickHandler(new ClickHandler() {
+		this.view.addSbGroupSearchButtonClickHandler(new ClickHandler() {
 					public void onClick(final ClickEvent event) {
 						// do a lookup of all the matching SubjectGroups
 						SubjectGroupKey key = new SubjectGroupKey();
@@ -205,8 +221,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				});
 
 		// search for matching Subject
-		this.view.getSubjectContentView().getSubjectSearchButton()
-				.addClickHandler(new ClickHandler() {
+		this.view.addSbSubjectSearchButtonClickHandler(new ClickHandler() {
 					public void onClick(final ClickEvent event) {
 						// do a lookup of all the matching Subjects
 						SubjectKey key = new SubjectKey();
@@ -326,8 +341,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				});
 
 		// edit an assignment
-		this.view.getSubjectContentView().getEditButton()
-				.addClickHandler(new ClickHandler() {
+		this.view.addSbEditButtonClickHandler(new ClickHandler() {
 					public void onClick(final ClickEvent event) {
 						if (view.getSubjectContentView()
 								.getSelectedSubjectAssignments().size() != 1) {
@@ -540,8 +554,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				});
 
 		// delete an assignment
-		this.view.getSubjectContentView().getDelButton()
-				.addClickHandler(new ClickHandler() {
+		this.view.addSbDelButtonClickHandler(new ClickHandler() {
 					public void onClick(final ClickEvent event) {
 
 						if (view.getSubjectContentView()
@@ -576,8 +589,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				});
 
 		// assign a new group of Subject/SubjectGroup to the policy
-		this.view.getSubjectContentView().getAddButton()
-				.addClickHandler(new ClickHandler() {
+		this.view.addSbAddButtonClickHandler(new ClickHandler() {
 					public void onClick(final ClickEvent event) {
 
 						if (completePopulatedForm()) {
@@ -675,8 +687,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 					}
 				});
 
-		view.getSubjectContentView().getCancelButton()
-				.addClickHandler(new ClickHandler() {
+		view.addSbCancelButtonClickHandler(new ClickHandler() {
 					public void onClick(final ClickEvent event) {
 						if (editSubjectAssignment != null) {
 							subjectAssignments.add(editSubjectAssignment);
@@ -759,8 +770,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 	private void bindResourceSection() {
 
-		this.view.getResourceContentView().getResourceLevelBox()
-				.addChangeHandler(new ChangeHandler() {
+		this.view.addRsResourceLevelBoxChange(new ChangeHandler() {
 
 					public void onChange(final ChangeEvent event) {
 						display();
@@ -770,8 +780,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				});
 
 		// edit an assignment
-		this.view.getResourceContentView().getEditButton()
-				.addClickHandler(new ClickHandler() {
+		this.view.addRsEditButtonClick(new ClickHandler() {
 
 					public void onClick(final ClickEvent event) {
 						if (view.getResourceContentView().getSelections()
@@ -874,8 +883,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 				});
 
-		view.getResourceContentView().getCancelResourceButton()
-				.addClickHandler(new ClickHandler() {
+		view.addRsCancelResourceButtonClick(new ClickHandler() {
 					public void onClick(final ClickEvent event) {
 						if (editResourceAssignment != null) {
 							resourceAssignments.add(editResourceAssignment);
@@ -895,8 +903,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				});
 
 		// retrieve resource names based on selected type
-		this.view.getResourceContentView().getResourceTypeBox()
-				.addChangeHandler(new ChangeHandler() {
+		this.view.addRsResourceTypeBoxChange(new ChangeHandler() {
 
 					public void onChange(final ChangeEvent event) {
 
@@ -906,8 +913,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				});
 
 		// retrieve available operations based on selected name
-		this.view.getResourceContentView().getResourceNameBox()
-				.addClickHandler(new ClickHandler() {
+		this.view.addRsResourceNameBoxClick(new ClickHandler() {
 
 					public void onClick(final ClickEvent event) {
 						getAvailableOperations();
@@ -916,8 +922,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				});
 
 		// assign a new rs to the policy
-		this.view.getResourceContentView().getAddResourceButton()
-				.addClickHandler(new ClickHandler() {
+		this.view.addRsResourceButtonClick(new ClickHandler() {
 					public void onClick(final ClickEvent event) {
 
 						/*
@@ -1006,8 +1011,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 				});
 
 		// delete an assignment
-		this.view.getResourceContentView().getDelButton()
-				.addClickHandler(new ClickHandler() {
+		this.view.addRsDelButtonClick(new ClickHandler() {
 					public void onClick(final ClickEvent event) {
 						if (view.getResourceContentView().getSelections()
 								.size() == 0) {
@@ -1088,6 +1092,61 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		 * @return the policy name
 		 */
 		HasValue<String> getPolicyName();
+
+		
+		/**
+		 * Adds the sb cancel button click handler.
+		 * 
+		 * @param clickHandler
+		 *            the click handler
+		 */
+		void addSbCancelButtonClickHandler(ClickHandler clickHandler);
+
+
+		/**
+		 * Adds the sb add button click handler.
+		 * 
+		 * @param clickHandler
+		 *            the click handler
+		 */
+		void addSbAddButtonClickHandler(ClickHandler clickHandler);
+
+
+		/**
+		 * Adds the sb del button click handler.
+		 * 
+		 * @param clickHandler
+		 *            the click handler
+		 */
+		void addSbDelButtonClickHandler(ClickHandler clickHandler);
+
+
+		/**
+		 * Adds the sb edit button click handler.
+		 * 
+		 * @param clickHandler
+		 *            the click handler
+		 */
+		void addSbEditButtonClickHandler(ClickHandler clickHandler);
+
+
+		/**
+		 * Adds the sb subject search button click handler.
+		 * 
+		 * @param clickHandler
+		 *            the click handler
+		 */
+		void addSbSubjectSearchButtonClickHandler(ClickHandler clickHandler);
+
+
+		/**
+		 * Adds the sb group search button click handler.
+		 * 
+		 * @param clickHandler
+		 *            the click handler
+		 */
+		void addSbGroupSearchButtonClickHandler(ClickHandler clickHandler);
+
 
 		/**
 		 * Gets the policy desc.
@@ -1331,6 +1390,81 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		 * @return true, if successful
 		 */
 		boolean validAllConditionFields();
+
+
+		/**
+		 * Adds the rs del button click.
+		 * 
+		 * @param clickHandler
+		 *            the click handler
+		 */
+		void addRsDelButtonClick(ClickHandler clickHandler);
+
+
+		/**
+		 * Adds the rs resource button click.
+		 * 
+		 * @param clickHandler
+		 *            the click handler
+		 */
+		void addRsResourceButtonClick(ClickHandler clickHandler);
+
+
+		/**
+		 * Adds the rs resource name box click.
+		 * 
+		 * @param clickHandler
+		 *            the click handler
+		 */
+		void addRsResourceNameBoxClick(ClickHandler clickHandler);
+
+
+		/**
+		 * Adds the rs resource type box change.
+		 * 
+		 * @param changeHandler
+		 *            the change handler
+		 */
+		void addRsResourceTypeBoxChange(ChangeHandler changeHandler);
+
+
+		/**
+		 * Adds the rs cancel resource button click.
+		 * 
+		 * @param clickHandler
+		 *            the click handler
+		 */
+		void addRsCancelResourceButtonClick(ClickHandler clickHandler);
+
+
+		/**
+		 * Adds the rs edit button click.
+		 * 
+		 * @param clickHandler
+		 *            the click handler
+		 */
+		void addRsEditButtonClick(ClickHandler clickHandler);
+
+
+		/**
+		 * Adds the rs resource level box change.
+		 * 
+		 * @param changeHandler
+		 *            the change handler
+		 */
+		void addRsResourceLevelBoxChange(ChangeHandler changeHandler);
+
+
+		/**
+		 * Adds the save button click handler.
+		 * 
+		 * @param clickHandler
+		 *            the click handler
+		 */
+		void addSaveButtonClickHandler(ClickHandler clickHandler);
+
+
+		void addCancelButtonClickHandler(ClickHandler clickHandler);
 	}
 
 	/**
@@ -1338,6 +1472,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	 */
 	public interface ResourcesContentDisplay extends Display {
 		
+
 		/**
 		 * Sets the user actions.
 		 * 
@@ -1824,7 +1959,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 	 */
 	public void bind() {
 
-		this.view.getCancelButton().addClickHandler(new ClickHandler() {
+		this.view.addCancelButtonClickHandler(new ClickHandler() {
 			public void onClick(final ClickEvent event) {
 				PolicyCreatePresenter.this.view.clear();
 
