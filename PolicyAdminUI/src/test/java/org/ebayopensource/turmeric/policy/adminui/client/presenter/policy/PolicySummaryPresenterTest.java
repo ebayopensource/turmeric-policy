@@ -8,20 +8,27 @@
  *    
  *******************************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.client.presenter.policy;
-
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.createMock;
+
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.easymock.EasyMock;
 import org.ebayopensource.turmeric.policy.adminui.client.SupportedService;
+import org.ebayopensource.turmeric.policy.adminui.client.model.DummyPolicyEnforcementServiceImpl;
+import org.ebayopensource.turmeric.policy.adminui.client.model.DummyPolicyQueryServiceImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
-import org.ebayopensource.turmeric.policy.adminui.client.model.policy.DummyPolicyQueryServiceImpl;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnforcementServiceImpl;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService;
+import org.ebayopensource.turmeric.policy.adminui.client.shared.AppUser;
 import org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicySummaryView;
 import org.ebayopensource.turmeric.policy.adminui.test.PolicyAdminUIGWTTestBase;
 import org.junit.After;
@@ -42,7 +49,10 @@ public class PolicySummaryPresenterTest extends PolicyAdminUIGWTTestBase {
 	@Before
 	public void setUp() {
 		eventBus = new HandlerManager(null);
-		serviceMap = null;
+		serviceMap = new HashMap<SupportedService, PolicyAdminUIService>();
+		serviceMap.put(SupportedService.POLICY_QUERY_SERVICE, new DummyPolicyQueryServiceImpl());
+		serviceMap.put(SupportedService.POLICY_ENFORCEMENT_SERVICE, new DummyPolicyEnforcementServiceImpl());
+
 		view = createMock(PolicySummaryView.class);
 	}
 
@@ -57,11 +67,12 @@ public class PolicySummaryPresenterTest extends PolicyAdminUIGWTTestBase {
 	public void testFetchResourcesByTypes() {
 		summaryPresenter = new PolicySummaryPresenter(this.eventBus, view,
 				serviceMap);
-		summaryPresenter.service = new DummyPolicyQueryServiceImpl();
+		summaryPresenter.service = (PolicyQueryService) serviceMap.get(SupportedService.POLICY_QUERY_SERVICE);
+		
 		view.setRsNames(new ArrayList<String>(Arrays.asList("ResourceSERVICE4",
 				"ResourceSERVICE5")));
 		view.setResourceNames();
-		EasyMock.replay(view);
+		replay(view);
 
 		GwtReflectionUtils.callPrivateMethod(summaryPresenter,
 				"fetchResourcesByType", "SERVICE");
@@ -69,21 +80,25 @@ public class PolicySummaryPresenterTest extends PolicyAdminUIGWTTestBase {
 	}
 
 
-//	@Test
-//	public void testFetchPoliciesByName() {
-//		summaryPresenter = new PolicySummaryPresenter(this.eventBus, view,
-//				serviceMap);
-//		summaryPresenter.service = new DummyPolicyQueryServiceImpl();
-//		List<GenericPolicy> policiesList = new ArrayList<GenericPolicy>(DummyPolicyQueryServiceImpl.tmpPolicies);
-//		List<GenericPolicy> policyList = new ArrayList<GenericPolicy>();
-//		policyList.add(policiesList.get(0));
-//		view.setPolicies(policyList);
-//		EasyMock.replay(view);
-//		
-//		GwtReflectionUtils.callPrivateMethod(summaryPresenter,
-//				"fetchPoliciesByName", "Policy_1", "BlackList", "");
-//		assertEquals(1, summaryPresenter.policies.size());
-//		assertEquals("Policy_1", summaryPresenter.policies.get(0).getName());
-//	}
+	@Test
+	public void testFetchPoliciesByName() {
+		summaryPresenter = new PolicySummaryPresenter(this.eventBus, view,
+				serviceMap);
+		summaryPresenter.service = (PolicyQueryService) serviceMap.get(SupportedService.POLICY_QUERY_SERVICE);
+		view.setPolicies((List<GenericPolicy>)EasyMock.anyObject());
+		
+		
+		AppUser user = AppUser.newAppUser("admin", "admin", "");
+		//expect( AppUser.getUser()).andReturn(user);
+		
+		
+		replay(view);
+		
+		
+		GwtReflectionUtils.callPrivateMethod(summaryPresenter,
+				"fetchPoliciesByName", "Policy_1", "BlackList", "");
+		assertEquals(1, summaryPresenter.policies.size());
+		assertEquals("Policy_1", summaryPresenter.policies.get(0).getName());
+	}
 
 }
