@@ -9,28 +9,14 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.test;
 
-import org.junit.Test;
-
 import com.octo.gwt.test.GwtTest;
 
 public class PolicyAdminUIGWTTestBase extends GwtTest {
 
-    
-	 /**
-     * Instantiates a new policy gwt test case.
-     */
-//    public PolicyAdminUIGWTTestBase() {
-//    	super();
-//    }
-   
 	@Override
 	public String getModuleName() {
-		System.out.println("Getting module..");
 		return "org.ebayopensource.turmeric.policy.adminui.PolicyAdminUI";
 	}
 	
-	@Test
-	public void testDoNothing(){
-		System.out.println("Starting Unit Tests with GWT-Test-Utils...");
-	}
+	
 }

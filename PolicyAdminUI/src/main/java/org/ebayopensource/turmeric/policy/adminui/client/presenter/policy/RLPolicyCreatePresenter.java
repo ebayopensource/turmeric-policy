@@ -119,7 +119,7 @@ public class RLPolicyCreatePresenter extends PolicyCreatePresenter {
 	public final void bind() {
 		super.bind();
 
-		this.view.getAddConditionButton().addClickHandler(new ClickHandler() {
+		this.view.addAddConditionButtonClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -134,7 +134,7 @@ public class RLPolicyCreatePresenter extends PolicyCreatePresenter {
 		});
 
 		// retrieve resource names based on selected type
-		this.view.getRsListBox().addChangeHandler(new ChangeHandler() {
+		this.view.addRsListBoxChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
@@ -235,7 +235,7 @@ public class RLPolicyCreatePresenter extends PolicyCreatePresenter {
 	@Override
 	protected void bindSaveButton() {
 		// fired on saved policy
-		this.view.getSaveButton().addClickHandler(new ClickHandler() {
+		this.view.addSaveButtonClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 
 				String ruleName = view.getPolicyName().getValue();

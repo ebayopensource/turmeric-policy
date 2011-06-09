@@ -1465,6 +1465,12 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 
 		void addCancelButtonClickHandler(ClickHandler clickHandler);
+
+
+		void addAddConditionButtonClickHandler(ClickHandler clickHandler);
+
+
+		void addRsListBoxChangeHandler(ChangeHandler changeHandler);
 	}
 
 	/**

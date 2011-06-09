@@ -1874,4 +1874,14 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		getSubjectContentView().getCancelButton()
 		.addClickHandler(clickHandler);		
 	}
+	
+	@Override
+	public void addAddConditionButtonClickHandler(ClickHandler clickHandler) {
+		//do nothing
+	}
+	
+	@Override
+	public void addRsListBoxChangeHandler(ChangeHandler changeHandler) {
+		//do nothing		
+	}
 }

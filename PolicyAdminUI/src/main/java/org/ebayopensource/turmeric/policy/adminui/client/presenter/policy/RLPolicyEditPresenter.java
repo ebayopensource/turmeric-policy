@@ -120,7 +120,7 @@ public class RLPolicyEditPresenter extends PolicyEditPresenter {
 	protected void bindSaveButton() {
 		{
 			// fired on saved policy
-			this.view.getSaveButton().addClickHandler(new ClickHandler() {
+			this.view.addSaveButtonClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
 					GWT.log("EDITION MODE:");
 					rules.clear();
@@ -279,7 +279,7 @@ public class RLPolicyEditPresenter extends PolicyEditPresenter {
 	public void bind() {
 		super.bind();
 
-		this.view.getAddConditionButton().addClickHandler(new ClickHandler() {
+		this.view.addAddConditionButtonClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -290,7 +290,7 @@ public class RLPolicyEditPresenter extends PolicyEditPresenter {
 		});
 
 		// retrieve resource names based on selected type
-		this.view.getRsListBox().addChangeHandler(new ChangeHandler() {
+		this.view.addRsListBoxChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {

@@ -91,7 +91,7 @@ public class AUTHZPolicyEditPresenter extends PolicyEditPresenter {
 	protected final void bindSaveButton() {
 		{
 			// fired on saved policy
-			this.view.getSaveButton().addClickHandler(new ClickHandler() {
+			this.view.addSaveButtonClickHandler(new ClickHandler() {
 				public void onClick(final ClickEvent event) {
 					GWT.log("EDITION MODE:");
 

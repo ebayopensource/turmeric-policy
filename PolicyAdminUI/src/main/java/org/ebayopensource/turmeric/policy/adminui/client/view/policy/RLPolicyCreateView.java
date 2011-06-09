@@ -17,6 +17,8 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ExtraField
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.RLPolicyCreatePresenter.RLPolicyCreateDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.util.PolicyExtraFieldsUtil;
 
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
@@ -191,5 +193,13 @@ public class RLPolicyCreateView extends PolicyCreateView implements
 		
 	}
 
-	
+	@Override
+	public void addAddConditionButtonClickHandler(ClickHandler clickHandler) {
+		getAddConditionButton().addClickHandler(clickHandler);
+	}
+
+	@Override
+	public void addRsListBoxChangeHandler(ChangeHandler changeHandler) {
+		getRsListBox().addChangeHandler(changeHandler);		
+	}
 }
