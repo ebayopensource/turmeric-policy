@@ -74,7 +74,6 @@ public class MainMenuWidget extends AbstractGenericView implements MenuDisplay {
 	}
 	
 	private void initMenuLinks() {
-		// TODO - transfer this to constants
 	    Label monitoringMainAccess = new Label("Console Monitoring");
 	    Label policyMainAccess = new Label("Policy Admin");
 		

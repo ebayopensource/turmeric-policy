@@ -264,13 +264,11 @@ public class PolicyViewPresenter extends AbstractGenericPresenter {
 
 					}
 
-					// TODO make it abstract and move its content to an specific
 					// RL policy
 					// View Presenter extends from PolicyViewPresenter
 					protected List<ExtraField> getExtraFieldView(
 							Collection<GenericPolicy> policies) {
 						List<ExtraField> rlExtraFields = new ArrayList<ExtraField>();
-						// TODO JOSE load from xml file from an Util class
 
 						if (policies.size() > 0) {
 							ArrayList<GenericPolicy> policyList = new ArrayList<GenericPolicy>(
@@ -293,9 +291,7 @@ public class PolicyViewPresenter extends AbstractGenericPresenter {
 											// Policy Based Email Address
 											ExtraField field_1 = new ExtraField();
 											field_1.setFieldType("Label");
-											// TODO JOSE I18N the extra fields
 											field_1.setLabelName("Policy Based Email Address:");
-											// TODO retrieve the email
 											field_1.setValue(attribute
 													.getValue());
 											field_1.setOrder(1);
@@ -308,10 +304,7 @@ public class PolicyViewPresenter extends AbstractGenericPresenter {
 											// / Subject Based Email Address:
 											ExtraField field_2 = new ExtraField();
 											field_2.setFieldType("CheckBox");
-											// TODO JOSE I18N the extra fields
 											field_2.setLabelName("Subject Based Email Address:");
-											// TODO retrieve the value of
-											// checkbox
 											field_2.setValue(String
 													.valueOf(attribute
 															.getValue()));
@@ -326,7 +319,6 @@ public class PolicyViewPresenter extends AbstractGenericPresenter {
 								// Effect Duration
 								ExtraField field_3 = new ExtraField();
 								field_3.setFieldType("Label");
-								// TODO JOSE I18N the extra fields
 								field_3.setValue(String.valueOf(rule
 										.getEffectDuration()));
 								field_3.setLabelName("Effect Duration: (secs)");
@@ -336,7 +328,6 @@ public class PolicyViewPresenter extends AbstractGenericPresenter {
 								// Rollover period
 								ExtraField field_4 = new ExtraField();
 								field_4.setFieldType("Label");
-								// TODO JOSE I18N the extra fields
 								field_4.setValue(String.valueOf(rule
 										.getRolloverPeriod()));
 								field_4.setLabelName("Rollover Period:");
@@ -346,7 +337,6 @@ public class PolicyViewPresenter extends AbstractGenericPresenter {
 								// priority
 								ExtraField field_5 = new ExtraField();
 								field_5.setFieldType("Label");
-								// TODO JOSE I18N the extra fields
 								field_5.setValue(String.valueOf(rule
 										.getPriority()));
 								field_5.setLabelName("Priority:");
@@ -356,7 +346,6 @@ public class PolicyViewPresenter extends AbstractGenericPresenter {
 								// Effect
 								ExtraField field_6 = new ExtraField();
 								field_6.setFieldType("Label");
-								// TODO JOSE I18N the extra fields
 								field_6.setValue(String.valueOf(rule
 										.getEffect()));
 								field_6.setLabelName("Effect:");
@@ -366,7 +355,6 @@ public class PolicyViewPresenter extends AbstractGenericPresenter {
 								// Condition
 								ExtraField field_7 = new ExtraField();
 								field_7.setFieldType("Label");
-								// TODO JOSE I18N the extra fields
 								StringBuilder conditions = new StringBuilder();
 
 								Condition condition = rule.getCondition();

@@ -45,7 +45,6 @@ public class WLPolicyCreateView extends PolicyCreateView {
      */
     @Override
     public String getAssociatedId() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -54,7 +53,6 @@ public class WLPolicyCreateView extends PolicyCreateView {
      */
     @Override
     public void setAssociatedId(String id) {
-        // TODO Auto-generated method stub
         
     }
 
@@ -63,7 +61,6 @@ public class WLPolicyCreateView extends PolicyCreateView {
 	 */
 	@Override
 	protected void initializeExtraFields() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -72,7 +69,6 @@ public class WLPolicyCreateView extends PolicyCreateView {
 	 */
 	@Override
 	public void setPolicyDesc(String policyDesc) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -81,7 +77,6 @@ public class WLPolicyCreateView extends PolicyCreateView {
 	 */
 	@Override
 	public void setPolicyName(String policyName) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -91,7 +86,6 @@ public class WLPolicyCreateView extends PolicyCreateView {
 	 */
 	@Override
 	public void setExtraFieldList(List<ExtraField> extraFieldList) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -100,7 +94,6 @@ public class WLPolicyCreateView extends PolicyCreateView {
 	 */
 	@Override
 	public void setStatusListboxEnabled(boolean enable) {
-		// TODO Auto-generated method stub
 		
 	}
 

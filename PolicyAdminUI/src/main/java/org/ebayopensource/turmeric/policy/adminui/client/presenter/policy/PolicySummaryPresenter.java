@@ -267,7 +267,6 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 					}
 				}
 				if (view.isPolicyCriteriaEnabled()) {
-					// TODO improve RL identification
 					if (view.getSelectedType() != null
 							&& "RL".equals(view.getSelectedType())) {
 						view.setRLEffectBoxVisible(true);
@@ -401,7 +400,6 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
 							GWT.log("EDIT POLICY:");
 							for (Map.Entry<GenericPolicy, UserAction> entry : pending
 									.entrySet()) {
-								// TODO improve this, do not HRDCODE
 								String policyType = String.valueOf(entry
 										.getKey().getType());
 								String subPresenter = null;
@@ -714,7 +712,6 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
         key.setType(type);
 
         QueryCondition condition = new QueryCondition();
-        // TODO improve this hardcoded RL
         if ("RL".equals(type) && effect != null) {
             condition.addQuery(new QueryCondition.Query(QueryCondition.EffectValue.valueOf(effect)));
         }
@@ -1019,7 +1016,6 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
             }
         }
 
-        // TODO - are credentials necessary?
         Map<String, String> credentials = new HashMap<String, String>();
         credentials.put("X-TURMERIC-SECURITY-PASSWORD", AppUser.getUser().getPassword());
         OperationKey opKey = new OperationKey();
@@ -1091,7 +1087,6 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
             }
         }
 
-        // TODO - are credentials necessary?
         Map<String, String> credentials = new HashMap<String, String>();
         credentials.put("X-TURMERIC-SECURITY-PASSWORD", AppUser.getUser().getPassword());
         OperationKey opKey = new OperationKey();

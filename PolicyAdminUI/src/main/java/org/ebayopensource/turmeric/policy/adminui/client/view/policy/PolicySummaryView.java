@@ -114,7 +114,6 @@ public class PolicySummaryView extends AbstractGenericView implements
 
 			final FlexTable flex = new FlexTable();
 			// Search for a Policy by: SubjectType + Name or PolicyType + Name
-			// TODO complete filter options
 			radioPanel = new FlowPanel();
 
 			policyCriteriaButton = new RadioButton("Criteria",

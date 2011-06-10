@@ -120,7 +120,6 @@ public class PolicyContainer extends ResizeComposite implements HasWidgets, Poli
 	 */
     @Override
     public void activate(Display view) {
-        // TODO Auto-generated method stub
         
     }
 

@@ -678,7 +678,6 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 					PolicyAdminUIUtil.policyAdminConstants.resourceName());
 
 			// operations
-			// TODO add operations name into table
 			Column<Resource, List<String>> resourceOpsCol = new Column<Resource, List<String>>(
 					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
 				public List<String> getValue(Resource resource) {

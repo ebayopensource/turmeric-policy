@@ -89,7 +89,6 @@ public class SplashPresenter implements Presenter {
 		});
 	}
 	
-	// TODO - need to handle this properly
 	/**
 	 * Handle login error view.
 	 */

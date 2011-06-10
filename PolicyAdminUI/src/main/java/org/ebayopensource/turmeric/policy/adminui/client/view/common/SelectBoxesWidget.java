@@ -213,7 +213,6 @@ public class SelectBoxesWidget extends Composite {
 
             @Override
             public String getValue(String arg0) {
-                // TODO Auto-generated method stub
                 return arg0;
             }
         };

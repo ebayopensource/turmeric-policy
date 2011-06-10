@@ -172,7 +172,7 @@ public class AppController implements Controller, ValueChangeHandler<String> {
         // login event handler
         this.eventBus.addHandler(LoginEvent.TYPE, new LoginEventHandler() {
             public void onLogin(LoginEvent event) {
-                // TODO there is no service to authenticate the username/password
+                // there is no service to authenticate the username/password
                 // This info has to be presented on every request, so the only
                 // time we find out if login/password is accepted is when we supply
                 // it on a request.

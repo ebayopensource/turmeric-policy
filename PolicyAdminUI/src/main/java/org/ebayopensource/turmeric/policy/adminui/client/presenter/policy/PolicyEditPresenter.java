@@ -162,7 +162,6 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 							view.setPolicyDesc(policy.getDescription());
 							view.setPolicyType(policy.getType());
 							view.setPolicyStatus(policy.getEnabled());
-							// TODO improve this
 							if ("RL".equalsIgnoreCase(policy.getType())) {
 								setExtraFieldView(policy);
 							}
@@ -174,8 +173,6 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 				});
 	}
 
-	// TODO make it abstract and move its content to an specific RL policy
-	// View Presenter extends from PolicyViewPresenter
 	/**
 	 * Sets the extra field view.
 	 * 
@@ -430,7 +427,6 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 	}
 
 	private void foreach(List<Subject> subjects) {
-		// TODO Auto-generated method stub
 		
 	}
 

@@ -242,7 +242,6 @@ public class PolicyViewView extends ResizeComposite implements
 		}
 
 		protected void setExtraFields() {
-			// TODO move this setting to a particular RL class
 			extraFieldList = PolicyExtraFieldsUtil.getRLExtraFields();
 			extraFieldsGrid = new Grid(extraFieldList.size() + 1, 3);
 			for (ExtraField extraField : extraFieldList) {
@@ -254,7 +253,6 @@ public class PolicyViewView extends ResizeComposite implements
 						&& "CheckBox".equalsIgnoreCase(extraField
 								.getFieldType())) {
 					final CheckBox chBox = new CheckBox();
-					// TODO set value
 					chBox.setEnabled(false);
 					extraField.setCheckBox(chBox);
 					extraFieldsGrid.setWidget(extraField.getOrder() - 1, 1,
@@ -340,7 +338,6 @@ public class PolicyViewView extends ResizeComposite implements
 					PolicyAdminUIUtil.policyAdminConstants.resourceName());
 
 			// operations
-			// TODO add operations name into table
 			Column<Resource, List<String>> resourceOpsCol = new Column<Resource, List<String>>(
 					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
 				public List<String> getValue(Resource resource) {
@@ -700,7 +697,6 @@ public class PolicyViewView extends ResizeComposite implements
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#setAssociatedId(java.lang.String)
 	 */
 	public void setAssociatedId(final String id) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -708,7 +704,6 @@ public class PolicyViewView extends ResizeComposite implements
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#getAssociatedId()
 	 */
 	public String getAssociatedId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

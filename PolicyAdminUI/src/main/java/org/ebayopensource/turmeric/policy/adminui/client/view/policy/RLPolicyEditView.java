@@ -135,7 +135,6 @@ public class RLPolicyEditView extends PolicyEditView  implements RLPolicyEditDis
      */
     @Override
     public String getAssociatedId() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -144,7 +143,6 @@ public class RLPolicyEditView extends PolicyEditView  implements RLPolicyEditDis
      */
     @Override
     public void setAssociatedId(String id) {
-        // TODO Auto-generated method stub
         
     }
 
@@ -153,7 +151,6 @@ public class RLPolicyEditView extends PolicyEditView  implements RLPolicyEditDis
 	 */
 	@Override
 	public void setExtraFieldList(List<ExtraField> extraFieldList) {
-		// TODO Auto-generated method stub
 		
 	}
 

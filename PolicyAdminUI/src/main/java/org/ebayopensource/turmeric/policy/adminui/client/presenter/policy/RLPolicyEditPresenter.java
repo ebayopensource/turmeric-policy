@@ -332,7 +332,6 @@ public class RLPolicyEditPresenter extends PolicyEditPresenter {
 				.getLogicOpSelected() + " ");
 
 		if (view.validAllConditionFields()) {
-			// TODO Need to be improved at dynamic extra fields implementation
 			view.setExtraFieldValue(7, conditionString.toString(), true);
 
 		}
@@ -341,7 +340,6 @@ public class RLPolicyEditPresenter extends PolicyEditPresenter {
 	private void fetchConditions() {
 		List<String> conditions = new ArrayList<String>();
 
-		// TODO fetch this conditions from server or any dynamically way
 		conditions.add("count");
 		conditions.add("ext");
 		conditions.add("hits");

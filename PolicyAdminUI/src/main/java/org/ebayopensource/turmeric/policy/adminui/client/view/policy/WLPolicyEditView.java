@@ -46,7 +46,6 @@ public class WLPolicyEditView extends PolicyEditView  {
      */
     @Override
     public String getAssociatedId() {
-        // TODO Auto-generated method stub
         return null;
     }
     /* (non-Javadoc)
@@ -54,7 +53,6 @@ public class WLPolicyEditView extends PolicyEditView  {
      */
     @Override
     public void setAssociatedId(String id) {
-        // TODO Auto-generated method stub
         
     }
 
@@ -64,7 +62,6 @@ public class WLPolicyEditView extends PolicyEditView  {
 	 */
 	@Override
 	protected void initializeExtraFields() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -74,7 +71,6 @@ public class WLPolicyEditView extends PolicyEditView  {
 	 */
 	@Override
 	public void setExtraFieldList(List<ExtraField> extraFieldList) {
-		// TODO Auto-generated method stub
 		
 	}
 
