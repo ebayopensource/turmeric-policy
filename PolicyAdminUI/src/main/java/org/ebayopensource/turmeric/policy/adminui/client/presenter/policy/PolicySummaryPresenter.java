@@ -233,311 +233,371 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
     /**
 	 * Bind.
 	 */
-    public void bind() {
+	public void bind() {
 
-        // The user wants to search by subject group type + name
-        this.view.addSubjectCriteriaButtonClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                view.setAvailableTypes(fetchSubjectTypes());
-            }
-        });
+		// The user wants to search by subject group type + name
+		this.view.addSubjectCriteriaButtonClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				view.setAvailableTypes(fetchSubjectTypes());
+			}
+		});
 
-        // the user wants to search by policy type and name
-        this.view.addPolicyCriteriaButtonClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                view.setAvailableTypes(fetchPolicyTypes());
-            }
-        });
+		// the user wants to search by policy type and name
+		this.view.addPolicyCriteriaButtonClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				view.setAvailableTypes(fetchPolicyTypes());
+			}
+		});
 
-        // the user wants to search by resource type
-        this.view.addResourceCriteriaButtonClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                view.setAvailableTypes(fetchResourceTypes());
-            }
-        });
+		// the user wants to search by resource type
+		this.view.addResourceCriteriaButtonClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				view.setAvailableTypes(fetchResourceTypes());
+			}
+		});
 
-        // the user wants to search by resource type
-        this.view.addAvailableTypesBoxChangeHandler(new ChangeHandler() {
+		// the user wants to search by resource type
+		this.view.addAvailableTypesBoxChangeHandler(new ChangeHandler() {
 
-            public void onChange(ChangeEvent event) {
-                if (view.isResourceCriteriaEnabled()) {
-                    if (view.getSelectedType() != null && !"".equals(view.getSelectedResource())) {
-                        fetchResourcesByType(view.getSelectedType());
-                    }
-                }
-                if (view.isPolicyCriteriaEnabled()) {
-                    // TODO improve RL identification
-                    if (view.getSelectedType() != null && "RL".equals(view.getSelectedType())) {
-                        view.setRLEffectBoxVisible(true);
-                        view.setRLEffectLabelVisible(true);
+			public void onChange(ChangeEvent event) {
+				if (view.isResourceCriteriaEnabled()) {
+					if (view.getSelectedType() != null
+							&& !"".equals(view.getSelectedResource())) {
+						fetchResourcesByType(view.getSelectedType());
+					}
+				}
+				if (view.isPolicyCriteriaEnabled()) {
+					// TODO improve RL identification
+					if (view.getSelectedType() != null
+							&& "RL".equals(view.getSelectedType())) {
+						view.setRLEffectBoxVisible(true);
+						view.setRLEffectLabelVisible(true);
 
-                    }
-                    else {
-                        view.setRLEffectBoxVisible(false);
-                        view.setRLEffectLabelVisible(false);
-                    }
-                }
-            }
-        });
+					} else {
+						view.setRLEffectBoxVisible(false);
+						view.setRLEffectLabelVisible(false);
+					}
+				}
+			}
+		});
 
-        // the user wants to search by rs name
-        this.view.addResourceNameBoxChangeHandler(new ChangeHandler() {
+		// the user wants to search by rs name
+		this.view.addResourceNameBoxChangeHandler(new ChangeHandler() {
 
-            public void onChange(ChangeEvent event) {
-                if (view.getSelectedType() != null && !"".equals(view.getSelectedResource())) {
+			public void onChange(ChangeEvent event) {
+				if (view.getSelectedType() != null
+						&& !"".equals(view.getSelectedResource())) {
 
-                    getOperationNamesByRs(view.getSelectedResource());
-                    PolicySummaryPresenter.this.view.setOperationNames();
-                }
-            }
-        });
+					getOperationNamesByRs(view.getSelectedResource());
+					PolicySummaryPresenter.this.view.setOperationNames();
+				}
+			}
+		});
 
-        // the user wants to search by SubjectGroup type and name
-        this.view.addSubjectGroupCriteriaButtonClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                view.setAvailableTypes(fetchSubjectTypes());
-            }
-        });
+		// the user wants to search by SubjectGroup type and name
+		this.view.addSubjectGroupCriteriaButtonClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				view.setAvailableTypes(fetchSubjectTypes());
+			}
+		});
 
-        this.view.addSearchButtonClickHandler(new ClickHandler() {
+		this.view.addSearchButtonClickHandler(new ClickHandler() {
 
-            public void onClick(ClickEvent event) {
-                if (PolicySummaryPresenter.this.view.isPolicyCriteriaEnabled()) {
-                    fetchPolicyTypes();
-                    fetchPoliciesByName(PolicySummaryPresenter.this.view.getSearchTerm(),
-                                    PolicySummaryPresenter.this.view.getSelectedType(),
-                                    PolicySummaryPresenter.this.view.getSelectedEffect());
-                }
-                else if (PolicySummaryPresenter.this.view.isResourceCriteriaEnabled()) {
-                    fetchPoliciesByResource(PolicySummaryPresenter.this.view.getSelectedType(),
-                                    PolicySummaryPresenter.this.view.getSelectedResource(),
-                                    PolicySummaryPresenter.this.view.getSelectedOperation());
+			public void onClick(ClickEvent event) {
+				if (PolicySummaryPresenter.this.view.isPolicyCriteriaEnabled()) {
+					fetchPolicyTypes();
+					fetchPoliciesByName(PolicySummaryPresenter.this.view
+							.getSearchTerm(), PolicySummaryPresenter.this.view
+							.getSelectedType(),
+							PolicySummaryPresenter.this.view
+									.getSelectedEffect());
+				} else if (PolicySummaryPresenter.this.view
+						.isResourceCriteriaEnabled()) {
+					fetchPoliciesByResource(PolicySummaryPresenter.this.view
+							.getSelectedType(),
+							PolicySummaryPresenter.this.view
+									.getSelectedResource(),
+							PolicySummaryPresenter.this.view
+									.getSelectedOperation());
 
-                }
-                else if (PolicySummaryPresenter.this.view.isSubjectCriteriaEnabled()) {
-                    fetchPoliciesBySubject(PolicySummaryPresenter.this.view.getSearchTerm(),
-                                    PolicySummaryPresenter.this.view.getSelectedType());
+				} else if (PolicySummaryPresenter.this.view
+						.isSubjectCriteriaEnabled()) {
+					fetchPoliciesBySubject(
+							PolicySummaryPresenter.this.view.getSearchTerm(),
+							PolicySummaryPresenter.this.view.getSelectedType());
 
-                }
-                else if (PolicySummaryPresenter.this.view.isSubjectGroupCriteriaEnabled()) {
-                    fetchPoliciesBySubjectGroupName(PolicySummaryPresenter.this.view.getSearchTerm(),
-                                    PolicySummaryPresenter.this.view.getSelectedType());
-                }
-                else {
-                    PolicySummaryPresenter.this.view.error(PolicyAdminUIUtil.policyAdminConstants
-                                    .searchCriteriaInvalid());
-                }
+				} else if (PolicySummaryPresenter.this.view
+						.isSubjectGroupCriteriaEnabled()) {
+					fetchPoliciesBySubjectGroupName(
+							PolicySummaryPresenter.this.view.getSearchTerm(),
+							PolicySummaryPresenter.this.view.getSelectedType());
+				} else {
+					PolicySummaryPresenter.this.view
+							.error(PolicyAdminUIUtil.policyAdminConstants
+									.searchCriteriaInvalid());
+				}
 
-                // fetchPolicies(view.isSearchCriteriaEnabled(),
-                // view.getSelectedType(), view.getSearchTerm());
-                // setPolicies();
-            }
-        });
+				// fetchPolicies(view.isSearchCriteriaEnabled(),
+				// view.getSelectedType(), view.getSearchTerm());
+				// setPolicies();
+			}
+		});
 
-        this.view.addActionButtonAboveClickHandler(new ClickHandler() {
+		this.view.addActionButtonAboveClickHandler(new ClickHandler() {
 
-            /* (non-Javadoc)
-             * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
-             */
-            public void onClick(ClickEvent event) {
-                Map<GenericPolicy, UserAction> pending = view.getPendingActions();
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * com.google.gwt.event.dom.client.ClickHandler#onClick(com.google
+			 * .gwt.event.dom.client.ClickEvent)
+			 */
+			public void onClick(ClickEvent event) {
+				Map<GenericPolicy, UserAction> pending = view
+						.getPendingActions();
 
-                if (pending.isEmpty()) {
-                    return;
-                }
+				if (pending.isEmpty()) {
+					return;
+				}
 
-                // Things that can be pending:
-                // 1. editing/viewing a SINGLE policy
-                // or
-                // 2. deleting multiple policies
-                // or
-                // 3. enabling/disabling multiple policies
-                // 4. export. must be in bulk
-                if (!pending.isEmpty()) {
-                    UserAction action = null;
-                    // all action should be same
-                    for (Map.Entry<GenericPolicy, UserAction> entry : pending.entrySet()) {
-                        action = entry.getValue();
-                        break;
-                    }
-                    switch (action) {
-                        case POLICY_VIEW: {
-                            GWT.log("VIEW POLICY:");
+				// Things that can be pending:
+				// 1. editing/viewing a SINGLE policy
+				// or
+				// 2. deleting multiple policies
+				// or
+				// 3. enabling/disabling multiple policies
+				// 4. export. must be in bulk
+				if (!pending.isEmpty()) {
+					UserAction action = null;
+					// all action should be same
+					for (Map.Entry<GenericPolicy, UserAction> entry : pending
+							.entrySet()) {
+						action = entry.getValue();
+						break;
+					}
+					if (action == null) {
+						return;
+					} else {
+						switch (action) {
+						case POLICY_VIEW: {
+							GWT.log("VIEW POLICY:");
 
-                            for (Map.Entry<GenericPolicy, UserAction> entry : pending.entrySet()) {
-                                HistoryToken token = makeToken(PolicyController.PRESENTER_ID,
-                                                PolicyViewPresenter.PRESENTER_ID, null);
-                                token.addValue(HistoryToken.SELECTED_POLICY_TOKEN_ID,
-                                                String.valueOf(entry.getKey().getId()));
-                                token.addValue(HistoryToken.SELECTED_POLICY_TOKEN_TYPE,
-                                                String.valueOf(entry.getKey().getType()));
-                                History.newItem(token.toString(), true);
-                            }
-                            break;
-                        }
-                        case POLICY_EDIT: {
-                            GWT.log("EDIT POLICY:");
-                            for (Map.Entry<GenericPolicy, UserAction> entry : pending.entrySet()) {
-                                // TODO improve this, do not HRDCODE
-                                String policyType = String.valueOf(entry.getKey().getType());
-                                String subPresenter = null;
+							for (Map.Entry<GenericPolicy, UserAction> entry : pending
+									.entrySet()) {
+								HistoryToken token = makeToken(
+										PolicyController.PRESENTER_ID,
+										PolicyViewPresenter.PRESENTER_ID, null);
+								token.addValue(
+										HistoryToken.SELECTED_POLICY_TOKEN_ID,
+										String.valueOf(entry.getKey().getId()));
+								token.addValue(
+										HistoryToken.SELECTED_POLICY_TOKEN_TYPE,
+										String.valueOf(entry.getKey().getType()));
+								History.newItem(token.toString(), true);
+							}
+							break;
+						}
+						case POLICY_EDIT: {
+							GWT.log("EDIT POLICY:");
+							for (Map.Entry<GenericPolicy, UserAction> entry : pending
+									.entrySet()) {
+								// TODO improve this, do not HRDCODE
+								String policyType = String.valueOf(entry
+										.getKey().getType());
+								String subPresenter = null;
 
-                                if ("BLACKLIST".equals(policyType)) {
-                                    subPresenter = BLPolicyEditPresenter.PRESENTER_ID;
-                                }
-                                else if ("WHITELIST".equals(policyType)) {
-                                    subPresenter = WLPolicyEditPresenter.PRESENTER_ID;
-                                }
-                                else if ("AUTHZ".equals(policyType)) {
-                                    subPresenter = AUTHZPolicyEditPresenter.PRESENTER_ID;
-                                }
-                                else if ("RL".equals(policyType)) {
-                                    subPresenter = RLPolicyEditPresenter.PRESENTER_ID;
-                                }
+								if ("BLACKLIST".equals(policyType)) {
+									subPresenter = BLPolicyEditPresenter.PRESENTER_ID;
+								} else if ("WHITELIST".equals(policyType)) {
+									subPresenter = WLPolicyEditPresenter.PRESENTER_ID;
+								} else if ("AUTHZ".equals(policyType)) {
+									subPresenter = AUTHZPolicyEditPresenter.PRESENTER_ID;
+								} else if ("RL".equals(policyType)) {
+									subPresenter = RLPolicyEditPresenter.PRESENTER_ID;
+								}
 
-                                HistoryToken token = makeToken(PolicyController.PRESENTER_ID, subPresenter, null);
-                                token.addValue(HistoryToken.SELECTED_POLICY_TOKEN_ID,
-                                                String.valueOf(entry.getKey().getId()));
-                                token.addValue(HistoryToken.SELECTED_POLICY_TOKEN_TYPE,
-                                                String.valueOf(entry.getKey().getType()));
+								HistoryToken token = makeToken(
+										PolicyController.PRESENTER_ID,
+										subPresenter, null);
+								token.addValue(
+										HistoryToken.SELECTED_POLICY_TOKEN_ID,
+										String.valueOf(entry.getKey().getId()));
+								token.addValue(
+										HistoryToken.SELECTED_POLICY_TOKEN_TYPE,
+										String.valueOf(entry.getKey().getType()));
 
-                                if ((entry.getKey().getEnabled()
-                                                && permissions.get(entry.getKey()).contains(UserAction.POLICY_DISABLE) || (!entry
-                                                .getKey().getEnabled() && permissions.get(entry.getKey()).contains(
-                                                UserAction.POLICY_ENABLE)))) {
-                                    token.addValue(HistoryToken.POLICY_STATUS_EDITABLE, "true");
-                                }
-                                else {
-                                    token.addValue(HistoryToken.POLICY_STATUS_EDITABLE, "false");
-                                }
+								if ((entry.getKey().getEnabled()
+										&& permissions
+												.get(entry.getKey())
+												.contains(
+														UserAction.POLICY_DISABLE) || (!entry
+										.getKey().getEnabled() && permissions
+										.get(entry.getKey()).contains(
+												UserAction.POLICY_ENABLE)))) {
+									token.addValue(
+											HistoryToken.POLICY_STATUS_EDITABLE,
+											"true");
+								} else {
+									token.addValue(
+											HistoryToken.POLICY_STATUS_EDITABLE,
+											"false");
+								}
 
-                                History.newItem(token.toString(), true);
-                            }
-                            break;
-                        }
-                        case POLICY_ENABLE: {
-                            for (Map.Entry<GenericPolicy, UserAction> entry : pending.entrySet()) {
-                                final GenericPolicy p = entry.getKey();
-                                final PolicyKey key = new PolicyKey();
-                                key.setId(entry.getKey().getId());
-                                key.setName(entry.getKey().getName());
-                                key.setType(entry.getKey().getType());
-                                GWT.log("Updating status for :" + entry.getKey().getType() + " - "
-                                                + entry.getKey().getName());
-                                service.enablePolicy(key, new AsyncCallback<EnablePolicyResponse>() {
-                                    public void onFailure(Throwable arg) {
-                                        if (arg.getLocalizedMessage().contains("500")) {
-                                            view.error(PolicyAdminUIUtil.messages
-                                                            .serverError(PolicyAdminUIUtil.policyAdminConstants
-                                                                            .genericErrorMessage()));
-                                        }
-                                        else {
-                                            view.error(PolicyAdminUIUtil.messages.serverError(arg.getLocalizedMessage()));
-                                        }
-                                        GWT.log("ERROR - Enabling fails");
-                                    }
+								History.newItem(token.toString(), true);
+							}
+							break;
+						}
+						case POLICY_ENABLE: {
+							for (Map.Entry<GenericPolicy, UserAction> entry : pending
+									.entrySet()) {
+								final GenericPolicy p = entry.getKey();
+								final PolicyKey key = new PolicyKey();
+								key.setId(entry.getKey().getId());
+								key.setName(entry.getKey().getName());
+								key.setType(entry.getKey().getType());
+								GWT.log("Updating status for :"
+										+ entry.getKey().getType() + " - "
+										+ entry.getKey().getName());
+								service.enablePolicy(
+										key,
+										new AsyncCallback<EnablePolicyResponse>() {
+											public void onFailure(Throwable arg) {
+												if (arg.getLocalizedMessage()
+														.contains("500")) {
+													view.error(PolicyAdminUIUtil.messages
+															.serverError(PolicyAdminUIUtil.policyAdminConstants
+																	.genericErrorMessage()));
+												} else {
+													view.error(PolicyAdminUIUtil.messages.serverError(arg
+															.getLocalizedMessage()));
+												}
+												GWT.log("ERROR - Enabling fails");
+											}
 
-                                    public void onSuccess(EnablePolicyResponse result) {
-                                        ((GenericPolicyImpl) p).setEnabled(true);
-                                        view.setPolicies(policies);
-                                    }
-                                });
-                            }
-                            break;
-                        }
-                        case POLICY_DISABLE: {
-                            for (Map.Entry<GenericPolicy, UserAction> entry : pending.entrySet()) {
-                                final GenericPolicy p = entry.getKey();
-                                final PolicyKey key = new PolicyKey();
-                                key.setId(entry.getKey().getId());
-                                key.setName(entry.getKey().getName());
-                                key.setType(entry.getKey().getType());
-                                GWT.log("Updating status for :" + entry.getKey().getType() + " - "
-                                                + entry.getKey().getName());
-                                service.disablePolicy(key, new AsyncCallback<DisablePolicyResponse>() {
-                                    public void onFailure(Throwable arg) {
-                                        if (arg.getLocalizedMessage().contains("500")) {
-                                            view.error(PolicyAdminUIUtil.messages
-                                                            .serverError(PolicyAdminUIUtil.policyAdminConstants
-                                                                            .genericErrorMessage()));
-                                        }
-                                        else {
-                                            view.error(PolicyAdminUIUtil.messages.serverError(arg.getLocalizedMessage()));
-                                        }
-                                    }
+											public void onSuccess(
+													EnablePolicyResponse result) {
+												((GenericPolicyImpl) p)
+														.setEnabled(true);
+												view.setPolicies(policies);
+											}
+										});
+							}
+							break;
+						}
+						case POLICY_DISABLE: {
+							for (Map.Entry<GenericPolicy, UserAction> entry : pending
+									.entrySet()) {
+								final GenericPolicy p = entry.getKey();
+								final PolicyKey key = new PolicyKey();
+								key.setId(entry.getKey().getId());
+								key.setName(entry.getKey().getName());
+								key.setType(entry.getKey().getType());
+								GWT.log("Updating status for :"
+										+ entry.getKey().getType() + " - "
+										+ entry.getKey().getName());
+								service.disablePolicy(
+										key,
+										new AsyncCallback<DisablePolicyResponse>() {
+											public void onFailure(Throwable arg) {
+												if (arg.getLocalizedMessage()
+														.contains("500")) {
+													view.error(PolicyAdminUIUtil.messages
+															.serverError(PolicyAdminUIUtil.policyAdminConstants
+																	.genericErrorMessage()));
+												} else {
+													view.error(PolicyAdminUIUtil.messages.serverError(arg
+															.getLocalizedMessage()));
+												}
+											}
 
-                                    public void onSuccess(DisablePolicyResponse result) {
-                                        ((GenericPolicyImpl) p).setEnabled(false);
-                                        view.setPolicies(policies);
-                                    }
-                                });
-                            }
-                            break;
-                        }
-                        case POLICY_DELETE: {
+											public void onSuccess(
+													DisablePolicyResponse result) {
+												((GenericPolicyImpl) p)
+														.setEnabled(false);
+												view.setPolicies(policies);
+											}
+										});
+							}
+							break;
+						}
+						case POLICY_DELETE: {
 
-                            if (Window.confirm(PolicyAdminUIUtil.policyAdminConstants.deleteSelected())) {
+							if (Window
+									.confirm(PolicyAdminUIUtil.policyAdminConstants
+											.deleteSelected())) {
 
-                                for (Map.Entry<GenericPolicy, UserAction> entry : pending.entrySet()) {
-                                    final PolicyKey key = new PolicyKey();
-                                    key.setType(entry.getKey().getType());
-                                    key.setName(entry.getKey().getName());
-                                    key.setId(entry.getKey().getId());
+								for (Map.Entry<GenericPolicy, UserAction> entry : pending
+										.entrySet()) {
+									final PolicyKey key = new PolicyKey();
+									key.setType(entry.getKey().getType());
+									key.setName(entry.getKey().getName());
+									key.setId(entry.getKey().getId());
 
-                                    service.deletePolicy(key, new AsyncCallback<DeletePolicyResponse>() {
+									service.deletePolicy(
+											key,
+											new AsyncCallback<DeletePolicyResponse>() {
 
-                                        public void onSuccess(DeletePolicyResponse result) {
-                                            ((Button) view.getSearchButton()).click();
-                                        }
+												public void onSuccess(
+														DeletePolicyResponse result) {
+													((Button) view
+															.getSearchButton())
+															.click();
+												}
 
-                                        public void onFailure(Throwable arg) {
-                                            if (arg.getLocalizedMessage().contains("500")) {
-                                                view.error(PolicyAdminUIUtil.messages
-                                                                .serverError(PolicyAdminUIUtil.policyAdminConstants
-                                                                                .genericErrorMessage()));
-                                            }
-                                            else {
-                                                view.error(PolicyAdminUIUtil.messages.serverError(arg
-                                                                .getLocalizedMessage()));
-                                            }
-                                        }
-                                    });
-                                }
-                            }
+												public void onFailure(
+														Throwable arg) {
+													if (arg.getLocalizedMessage()
+															.contains("500")) {
+														view.error(PolicyAdminUIUtil.messages
+																.serverError(PolicyAdminUIUtil.policyAdminConstants
+																		.genericErrorMessage()));
+													} else {
+														view.error(PolicyAdminUIUtil.messages
+																.serverError(arg
+																		.getLocalizedMessage()));
+													}
+												}
+											});
+								}
+							}
 
-                            break;
-                        }
-                        case POLICY_EXPORT: {
-                            GWT.log("EXPORT POLICY:");
-                            StringBuffer downloadUrl = new StringBuffer();
-                            downloadUrl.append("/xprtPlc/policy?");
+							break;
+						}
+						case POLICY_EXPORT: {
+							GWT.log("EXPORT POLICY:");
+							StringBuffer downloadUrl = new StringBuffer();
+							downloadUrl.append("/xprtPlc/policy?");
 
-                            int i = 0;
-                            for (Map.Entry<GenericPolicy, UserAction> entry : pending.entrySet()) {
-                                downloadUrl.append(entry.getKey().getId() + "&");
+							int i = 0;
+							for (Map.Entry<GenericPolicy, UserAction> entry : pending
+									.entrySet()) {
+								downloadUrl
+										.append(entry.getKey().getId() + "&");
 
-                                i++;
-                                if (i == pending.entrySet().size()) {
-                                    // all entries are same type
-                                    downloadUrl.append(entry.getKey().getType() + "&");
-                                    // user & pass
-                                    AppUser user = AppUser.getUser();
-                                    downloadUrl.append(user.getUsername() + "&");
-                                    downloadUrl.append(user.getPassword());
-                                }
-                            }
+								i++;
+								if (i == pending.entrySet().size()) {
+									// all entries are same type
+									downloadUrl.append(entry.getKey().getType()
+											+ "&");
+									// user & pass
+									AppUser user = AppUser.getUser();
+									downloadUrl.append(user.getUsername() + "&");
+									downloadUrl.append(user.getPassword());
+								}
+							}
 
-                            Window.open(downloadUrl.toString(), "_blank", "");
-                            break;
+							Window.open(downloadUrl.toString(), "_blank", "");
+							break;
 
-                        }
-                    }
+						}
+						}
+					}
 
-                }
+				}
 
-            }
-        });
-    }
+			}
+		});
+	}
 
     /**
 	 * Gets the resources.

@@ -139,50 +139,56 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 			final AsyncCallback<DeletePolicyResponse> callback) {
 		if (key == null) {
 			callback.onFailure(null);
-		}
-		
-		String url = BASE_POLICY_URL + "?"
-		+ getPartialUrl("deletePolicy", namespaces, RequestFormat.NV);
-	
-		url += (key.getId() == null ? "" : "&ns1:policyKey.ns1:policyId="
-				+ key.getId().toString());
-		url += (key.getName() == null ? "" : "&ns1:policyKey.ns1:policyName="
-				+ key.getName().trim());
-		url += (key.getType() == null ? "" : "&ns1:policyKey.ns1:policyType="
-				+ key.getType().toString().toUpperCase());
-	
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
-				URL.encode(url));
-		setSecurityHeaders(builder);
-		try {
-			builder.sendRequest(null, new RequestCallback() {
+		} else {
 
-				public void onError(Request request, Throwable err) {
-					callback.onFailure(err);
-				}
+			String url = BASE_POLICY_URL
+					+ "?"
+					+ getPartialUrl("deletePolicy", namespaces,
+							RequestFormat.NV);
 
-				public void onResponseReceived(Request request,
-						Response response) {
-					if (response.getStatusCode() != Response.SC_OK) {
-						callback.onFailure(new Throwable(PolicyAdminUIUtil.constants
-								.error() + " " + response.getStatusCode()));
-					} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
-						callback.onFailure(getErrorAsThrowable(
-								DeletePolicyResponseJS.NAME, response));
-					} else {
-						// convert response.getText() to JSON
-						DeletePolicyResponse deleteResponse = DeletePolicyResponseJS
-								.fromJSON(response.getText());
-						if (deleteResponse.isErrored())
+			url += (key.getId() == null ? "" : "&ns1:policyKey.ns1:policyId="
+					+ key.getId().toString());
+			url += (key.getName() == null ? ""
+					: "&ns1:policyKey.ns1:policyName=" + key.getName().trim());
+			url += (key.getType() == null ? ""
+					: "&ns1:policyKey.ns1:policyType="
+							+ key.getType().toString().toUpperCase());
+
+			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
+					URL.encode(url));
+			setSecurityHeaders(builder);
+			try {
+				builder.sendRequest(null, new RequestCallback() {
+
+					public void onError(Request request, Throwable err) {
+						callback.onFailure(err);
+					}
+
+					public void onResponseReceived(Request request,
+							Response response) {
+						if (response.getStatusCode() != Response.SC_OK) {
+							callback.onFailure(new Throwable(
+									PolicyAdminUIUtil.constants.error() + " "
+											+ response.getStatusCode()));
+						} else if (response.getHeader(ERROR_HEADER) != null
+								&& response.getHeader(ERROR_HEADER).length() > 0) {
 							callback.onFailure(getErrorAsThrowable(
 									DeletePolicyResponseJS.NAME, response));
-						else
-							callback.onSuccess(deleteResponse);
+						} else {
+							// convert response.getText() to JSON
+							DeletePolicyResponse deleteResponse = DeletePolicyResponseJS
+									.fromJSON(response.getText());
+							if (deleteResponse.isErrored())
+								callback.onFailure(getErrorAsThrowable(
+										DeletePolicyResponseJS.NAME, response));
+							else
+								callback.onSuccess(deleteResponse);
+						}
 					}
-				}
-			});
-		} catch (RequestException x) {
-			callback.onFailure(x);
+				});
+			} catch (RequestException x) {
+				callback.onFailure(x);
+			}
 		}
 	}
 
@@ -283,50 +289,56 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 			final AsyncCallback<DisablePolicyResponse> callback) {
 		if (key == null) {
 			callback.onFailure(null);
-		}
-		
-		String url = BASE_POLICY_URL + "?"
-		+ getPartialUrl("disablePolicy", namespaces, RequestFormat.NV);
+		} else {
 
-		url += (key.getId() == null ? "" : "&ns1:policyKey.ns1:policyId="
-				+ key.getId().toString());
-		url += (key.getName() == null ? "" : "&ns1:policyKey.ns1:policyName="
-				+ key.getName().trim());
-		url += (key.getType() == null ? "" : "&ns1:policyKey.ns1:policyType="
-				+ key.getType().toString().toUpperCase());
-	
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
-				URL.encode(url));
-		setSecurityHeaders(builder);
-		try {
-			builder.sendRequest(null, new RequestCallback() {
+			String url = BASE_POLICY_URL
+					+ "?"
+					+ getPartialUrl("disablePolicy", namespaces,
+							RequestFormat.NV);
 
-				public void onError(Request request, Throwable err) {
-					callback.onFailure(err);
-				}
+			url += (key.getId() == null ? "" : "&ns1:policyKey.ns1:policyId="
+					+ key.getId().toString());
+			url += (key.getName() == null ? ""
+					: "&ns1:policyKey.ns1:policyName=" + key.getName().trim());
+			url += (key.getType() == null ? ""
+					: "&ns1:policyKey.ns1:policyType="
+							+ key.getType().toString().toUpperCase());
 
-				public void onResponseReceived(Request request,
-						Response response) {
-					if (response.getStatusCode() != Response.SC_OK) {
-						callback.onFailure(new Throwable(PolicyAdminUIUtil.constants
-								.error() + " " + response.getStatusCode()));
-					} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
-						callback.onFailure(getErrorAsThrowable(
-								DisablePolicyResponseJS.NAME, response));
-					} else {
-						// convert response.getText() to JSON
-						DisablePolicyResponse enableResponse = DisablePolicyResponseJS
-								.fromJSON(response.getText());
-						if (enableResponse.isErrored())
+			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
+					URL.encode(url));
+			setSecurityHeaders(builder);
+			try {
+				builder.sendRequest(null, new RequestCallback() {
+
+					public void onError(Request request, Throwable err) {
+						callback.onFailure(err);
+					}
+
+					public void onResponseReceived(Request request,
+							Response response) {
+						if (response.getStatusCode() != Response.SC_OK) {
+							callback.onFailure(new Throwable(
+									PolicyAdminUIUtil.constants.error() + " "
+											+ response.getStatusCode()));
+						} else if (response.getHeader(ERROR_HEADER) != null
+								&& response.getHeader(ERROR_HEADER).length() > 0) {
 							callback.onFailure(getErrorAsThrowable(
 									DisablePolicyResponseJS.NAME, response));
-						else
-							callback.onSuccess(enableResponse);
+						} else {
+							// convert response.getText() to JSON
+							DisablePolicyResponse enableResponse = DisablePolicyResponseJS
+									.fromJSON(response.getText());
+							if (enableResponse.isErrored())
+								callback.onFailure(getErrorAsThrowable(
+										DisablePolicyResponseJS.NAME, response));
+							else
+								callback.onSuccess(enableResponse);
+						}
 					}
-				}
-			});
-		} catch (RequestException x) {
-			callback.onFailure(x);
+				});
+			} catch (RequestException x) {
+				callback.onFailure(x);
+			}
 		}
 	}
 
@@ -345,50 +357,56 @@ public class PolicyQueryServiceImpl extends AbstractPolicyAdminUIService impleme
 			final AsyncCallback<EnablePolicyResponse> callback) {
 		if (key == null) {
 			callback.onFailure(null);
-		}
-		
-		String url = BASE_POLICY_URL + "?"
-		+ getPartialUrl("enablePolicy", namespaces, RequestFormat.NV);
+		} else {
 
-		url += (key.getId() == null ? "" : "&ns1:policyKey.ns1:policyId="
-				+ key.getId().toString());
-		url += (key.getName() == null ? "" : "&ns1:policyKey.ns1:policyName="
-				+ key.getName().trim());
-		url += (key.getType() == null ? "" : "&ns1:policyKey.ns1:policyType="
-			+ key.getType().toString().toUpperCase());
+			String url = BASE_POLICY_URL
+					+ "?"
+					+ getPartialUrl("enablePolicy", namespaces,
+							RequestFormat.NV);
 
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
-				URL.encode(url));
-		setSecurityHeaders(builder);
-		try {
-			builder.sendRequest(null, new RequestCallback() {
+			url += (key.getId() == null ? "" : "&ns1:policyKey.ns1:policyId="
+					+ key.getId().toString());
+			url += (key.getName() == null ? ""
+					: "&ns1:policyKey.ns1:policyName=" + key.getName().trim());
+			url += (key.getType() == null ? ""
+					: "&ns1:policyKey.ns1:policyType="
+							+ key.getType().toString().toUpperCase());
 
-				public void onError(Request request, Throwable err) {
-					callback.onFailure(err);
-				}
+			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
+					URL.encode(url));
+			setSecurityHeaders(builder);
+			try {
+				builder.sendRequest(null, new RequestCallback() {
 
-				public void onResponseReceived(Request request,
-						Response response) {
-					if (response.getStatusCode() != Response.SC_OK) {
-						callback.onFailure(new Throwable(PolicyAdminUIUtil.constants
-								.error() + " " + response.getStatusCode()));
-					} else if (response.getHeader(ERROR_HEADER) != null && response.getHeader(ERROR_HEADER).length()>0) {
-						callback.onFailure(getErrorAsThrowable(
-								EnablePolicyResponseJS.NAME, response));
-					} else {
-						// convert response.getText() to JSON
-						EnablePolicyResponse enableResponse = EnablePolicyResponseJS
-								.fromJSON(response.getText());
-						if (enableResponse.isErrored())
+					public void onError(Request request, Throwable err) {
+						callback.onFailure(err);
+					}
+
+					public void onResponseReceived(Request request,
+							Response response) {
+						if (response.getStatusCode() != Response.SC_OK) {
+							callback.onFailure(new Throwable(
+									PolicyAdminUIUtil.constants.error() + " "
+											+ response.getStatusCode()));
+						} else if (response.getHeader(ERROR_HEADER) != null
+								&& response.getHeader(ERROR_HEADER).length() > 0) {
 							callback.onFailure(getErrorAsThrowable(
 									EnablePolicyResponseJS.NAME, response));
-						else
-							callback.onSuccess(enableResponse);
+						} else {
+							// convert response.getText() to JSON
+							EnablePolicyResponse enableResponse = EnablePolicyResponseJS
+									.fromJSON(response.getText());
+							if (enableResponse.isErrored())
+								callback.onFailure(getErrorAsThrowable(
+										EnablePolicyResponseJS.NAME, response));
+							else
+								callback.onSuccess(enableResponse);
+						}
 					}
-				}
-			});
-		} catch (RequestException x) {
-			callback.onFailure(x);
+				});
+			} catch (RequestException x) {
+				callback.onFailure(x);
+			}
 		}
 	}
 
