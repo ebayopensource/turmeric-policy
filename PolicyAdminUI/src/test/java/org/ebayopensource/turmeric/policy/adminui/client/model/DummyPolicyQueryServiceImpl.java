@@ -666,13 +666,11 @@ public class DummyPolicyQueryServiceImpl implements PolicyQueryService {
 
 			@Override
 			public boolean isErrored() {
-				// TODO Auto-generated method stub
 				return false;
 			}
 
 			@Override
 			public String getErrorMessage() {
-				// TODO Auto-generated method stub
 				return null;
 			}
     		
