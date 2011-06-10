@@ -131,8 +131,6 @@ public class CustomPermissionCheckboxCell<C, V> extends
 		boolean enterPressed = "keydown".equals(type)
 				&& event.getKeyCode() == KeyCodes.KEY_ENTER;
 		if ("change".equals(type) || enterPressed) {
-			InputElement input = parent.getFirstChild().cast();
-
 			if (valueUpdater != null) {
 				valueUpdater.update(value);
 			}

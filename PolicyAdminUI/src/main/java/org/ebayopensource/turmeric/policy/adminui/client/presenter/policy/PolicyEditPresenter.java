@@ -183,9 +183,6 @@ public abstract class PolicyEditPresenter extends PolicyCreatePresenter {
 	 *            the new extra field view
 	 */
 	protected void setExtraFieldView(GenericPolicy policy) {
-		List<ExtraField> rlExtraFields = new ArrayList<ExtraField>();
-		// TODO JOSE load from xml file from an Util class
-
 		if (policy.getRules() != null && policy.getRules().size() > 0) {
 			Rule rule = policy.getRules().get(0);
 

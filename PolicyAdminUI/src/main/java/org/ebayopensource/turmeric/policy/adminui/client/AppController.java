@@ -176,7 +176,7 @@ public class AppController implements Controller, ValueChangeHandler<String> {
                 // This info has to be presented on every request, so the only
                 // time we find out if login/password is accepted is when we supply
                 // it on a request.
-                AppUser user = AppUser.newAppUser(event.getLogin(), event.getPassword(), event.getDomain());
+                AppUser.newAppUser(event.getLogin(), event.getPassword(), event.getDomain());
                 Cookies.removeCookie(AppKeyUtil.COOKIE_SESSID_KEY);
 
                 Map<String, String> credentials = new HashMap<String, String>();

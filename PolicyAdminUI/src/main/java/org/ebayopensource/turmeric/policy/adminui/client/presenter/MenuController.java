@@ -162,9 +162,6 @@ public class MenuController implements Presenter, Controller {
 		
 		Presenter presenter = presenters.get(presenterId);
         if (presenter != null) {
-           
-            UserAction ua = getActionForPresenter(presenter);
-            
            //Pass in this view so that all presenter/view pairs are children
            //of the MenuController's view (get constant header/footer wrapping)
             presenter.go(view, token);
@@ -180,12 +177,4 @@ public class MenuController implements Presenter, Controller {
 		actionMap.put(UserAction.POLICY_MAIN, pp);
 	}
 
-	private UserAction getActionForPresenter (Presenter presenter) {
-	    UserAction ua = null;
-	    for (Map.Entry<UserAction, Presenter> e: actionMap.entrySet()) {
-	        if (e.getValue().getId().equals(presenter.getId()))
-	            ua = e.getKey();
-	    }
-	    return ua;
-	}
 }

@@ -781,13 +781,15 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
         List<String> opNames = new ArrayList<String>();
 
         if (resources != null && resources.size() > 0) {
-            List<Operation> operations = new ArrayList<Operation>();
+            List<Operation> operations = null;
             for (Resource rs : resources) {
                 if (rsName.equals(rs.getResourceName())) {
                     operations = rs.getOpList();
-                    for (Operation op : operations) {
-                        opNames.add(op.getOperationName());
-                    }
+					if (operations != null) {
+						for (Operation op : operations) {
+							opNames.add(op.getOperationName());
+						}
+					}
 
                     break;
                 }
