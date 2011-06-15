@@ -9,6 +9,8 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.test;
 
+import org.junit.Test;
+
 import com.octo.gwt.test.GwtTest;
 
 public class PolicyAdminUIGWTTestBase extends GwtTest {
@@ -18,5 +20,8 @@ public class PolicyAdminUIGWTTestBase extends GwtTest {
 		return "org.ebayopensource.turmeric.policy.adminui.PolicyAdminUI";
 	}
 	
-	
+	@Test
+	public void doNothing(){
+		
+	}
 }

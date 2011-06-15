@@ -79,4 +79,9 @@ public class PolicyKeysUtilTest {
 		assertEquals(4, PolicyKeysUtil.getAllSubjectKeyList().size());
 	}
 
+	@Test
+	public void testGetAllOperationKeyList() {
+		assertNotNull(PolicyKeysUtil.getAllOperationKeyList());
+		assertEquals(3, PolicyKeysUtil.getAllOperationKeyList().size());
+	}
 }
