@@ -201,13 +201,16 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 
 									public void onSuccess(
 											final FindSubjectGroupsResponse response) {
-										List<SubjectGroup> subjects = response
+										List<SubjectGroup> subjectGroups = response
 												.getGroups();
 										List<String> names = new ArrayList<String>();
-										if (subjects != null) {
-											for (SubjectGroup s : subjects) {
+										if (subjectGroups != null && subjectGroups.size() > 0) {
+											for (SubjectGroup s : subjectGroups) {
 												names.add(s.getName());
 											}
+										}else{
+											view.info(PolicyAdminUIUtil.policyAdminConstants
+								                    .noItemFoundMessage());
 										}
 										view.getSubjectContentView()
 												.setAvailableSubjectGroups(
@@ -259,10 +262,13 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 											List<Subject> subjects = response
 													.getSubjects();
 											List<String> names = new ArrayList<String>();
-											if (subjects != null) {
+											if (subjects != null && subjects.size() > 0) {
 												for (Subject s : subjects) {
 													names.add(s.getName());
 												}
+											}else{
+												view.info(PolicyAdminUIUtil.policyAdminConstants
+									                    .noItemFoundMessage());
 											}
 
 											view.getSubjectContentView()
@@ -310,7 +316,7 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 													final String newSubjectType = query
 															.getSubjectKeys()
 															.get(0).getType();
-													if (!newSubjectName
+													if (newSubjectName != null && !newSubjectName
 															.endsWith("%")) {
 														if (Window
 																.confirm(PolicyAdminUIUtil.policyAdminConstants
@@ -321,6 +327,9 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 															names.add(newSubjectName);
 
 														}
+													}else{ // not found and do not create it
+														view.info(PolicyAdminUIUtil.policyAdminConstants
+											                    .noItemFoundMessage());
 													}
 												}
 											}
@@ -1239,6 +1248,13 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		 *            the msg
 		 */
 		void error(String msg);
+
+		/**
+		 * Info.
+		 *
+		 * @param msg the msg
+		 */
+		void info(String msg);
 
 		/**
 		 * Sets the policy desc.

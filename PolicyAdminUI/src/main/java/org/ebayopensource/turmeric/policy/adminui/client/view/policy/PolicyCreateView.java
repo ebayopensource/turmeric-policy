@@ -26,6 +26,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.Policy
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.ResourcesContentDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.SubjectContentDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
+import org.ebayopensource.turmeric.policy.adminui.client.view.InfoDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.SelectBoxesWidget;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericPager;
@@ -1533,6 +1534,18 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		dialog.getDialog().center();
 		dialog.show();
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#info(java.lang.String)
+	 */
+	public void info(String msg) {
+		InfoDialog dialog = new InfoDialog(true);
+		dialog.setMessage(msg);
+		dialog.getDialog().center();
+		dialog.show();
+
+	}
+	
 
 	/* (non-Javadoc)
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#getExtraFieldValue(int)
