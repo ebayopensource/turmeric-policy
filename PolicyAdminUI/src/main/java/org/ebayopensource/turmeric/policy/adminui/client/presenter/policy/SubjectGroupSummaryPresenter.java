@@ -122,6 +122,8 @@ public class SubjectGroupSummaryPresenter extends AbstractGenericPresenter {
 
 		void error(String error);
 
+		void info(String error);
+
 		void clearDataContent();
 	}
 
@@ -409,6 +411,10 @@ public class SubjectGroupSummaryPresenter extends AbstractGenericPresenter {
 								}
 								fetchGroups(keys);
 							} else {
+								
+                                view.info(PolicyAdminUIUtil.policyAdminConstants
+                                            .noItemFoundMessage());
+                                
 								view.setGroups(null);
 							}
 						}
@@ -419,6 +425,8 @@ public class SubjectGroupSummaryPresenter extends AbstractGenericPresenter {
 	private void fetchGroups(final List<SubjectGroupKey> keys) {
 		view.clearDataContent();
 		if (keys == null || keys.isEmpty()) {
+			view.info(PolicyAdminUIUtil.policyAdminConstants
+                    .noItemFoundMessage());
 			return;
 		}
 		SubjectGroupQuery query = new SubjectGroupQuery();
@@ -441,7 +449,7 @@ public class SubjectGroupSummaryPresenter extends AbstractGenericPresenter {
 						List<SubjectGroup> results = response.getGroups();
 						groups = new ArrayList<SubjectGroup>();
 						permissions = new HashMap<SubjectGroup, List<UserAction>>();
-						if (results != null) {
+						if (results != null && results.size() > 0) {
 							for (SubjectGroup r : results) {
 								SubjectGroupImpl sgi = new SubjectGroupImpl(r);
 								if (!sgi.getName().startsWith(
@@ -471,6 +479,8 @@ public class SubjectGroupSummaryPresenter extends AbstractGenericPresenter {
 
 	private void fetchPoliciesForGroups() {
 		if (groups == null || groups.size() == 0) {
+			view.info(PolicyAdminUIUtil.policyAdminConstants
+                    .noItemFoundMessage());
 			return;
 		}
 
@@ -504,7 +514,7 @@ public class SubjectGroupSummaryPresenter extends AbstractGenericPresenter {
 					public void onSuccess(final GetPoliciesResponse result) {
 						Collection<GenericPolicy> policies = result
 								.getPolicies();
-						if (policies != null) {
+						if (policies != null && policies.size() > 0) {
 							for (GenericPolicy p : policies) {
 								updatePoliciesForSubjectGroups(groupMap, p);
 							}

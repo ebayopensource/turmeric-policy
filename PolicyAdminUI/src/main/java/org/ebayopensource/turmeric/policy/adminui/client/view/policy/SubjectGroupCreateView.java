@@ -16,6 +16,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupCreatePresenter.SubjectGroupCreateDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
+import org.ebayopensource.turmeric.policy.adminui.client.view.InfoDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -496,6 +497,20 @@ public class SubjectGroupCreateView extends AbstractGenericView implements Subje
         dialog.show();
     }
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.
+	 * SubjectGroupCreatePresenter
+	 * .SubjectGroupCreateDisplay#info(java.lang.String)
+	 */
+    public void info(String msg) {
+        InfoDialog dialog = new InfoDialog(true);
+        dialog.setMessage(msg);
+        dialog.getDialog().center();
+        dialog.show();
+    }
+    
     /*
      * (non-Javadoc)
      * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupCreatePresenter.

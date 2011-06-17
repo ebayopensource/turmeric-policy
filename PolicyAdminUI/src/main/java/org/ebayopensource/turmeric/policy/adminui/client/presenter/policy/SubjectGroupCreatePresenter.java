@@ -158,6 +158,13 @@ public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 		void error(String msg);
 		
 		/**
+		 * Info.
+		 *
+		 * @param msg the msg
+		 */
+		void info(String msg);
+		
+		/**
 		 * Sets the sg calculator map.
 		 * 
 		 * @param sgCalculatorMap
@@ -265,9 +272,12 @@ public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 									List<Subject> subjects = response
 											.getSubjects();
 									List<String> names = new ArrayList<String>();
-									if (subjects != null) {
+									if (subjects != null && subjects.size() > 0) {
 										for (Subject s : subjects)
 											names.add(s.getName());
+									}else{
+										view.info(PolicyAdminUIUtil.policyAdminConstants
+							                    .noItemFoundMessage());
 									}
 									view.setAvailableSubjects(names);
 
@@ -299,22 +309,24 @@ public class SubjectGroupCreatePresenter extends AbstractGenericPresenter {
 									List<Subject> subjects = response
 											.getSubjects();
 									List<String> names = new ArrayList<String>();
-									if (subjects != null) {
-										if(subjects.size() > 0){
-											for (Subject s : subjects){
-												names.add(s.getName());
+									if (subjects != null && subjects.size() > 0) {
+										for (Subject s : subjects){
+											names.add(s.getName());
+										}
+									}else {
+										final String newSubjectName = query.getSubjectKeys().get(0).getName();
+										final String newSubjectType  = query.getSubjectKeys().get(0).getType();
+										if(newSubjectName != null && !newSubjectName.endsWith("%")){ //create a new one
+											if(Window.confirm(PolicyAdminUIUtil.policyAdminConstants.createInternalSubjects())){
+												createInternalSubject(newSubjectName, newSubjectType);
+												names.add(newSubjectName);
 											}
-										}else {
-											final String newSubjectName = query.getSubjectKeys().get(0).getName();
-											final String newSubjectType  = query.getSubjectKeys().get(0).getType();
-											if(! newSubjectName.endsWith("%")){
-												if(Window.confirm(PolicyAdminUIUtil.policyAdminConstants.createInternalSubjects())){
-													createInternalSubject(newSubjectName, newSubjectType);
-													names.add(newSubjectName);
-												}
-											}
+										}else{ // not found and do not create it
+											view.info(PolicyAdminUIUtil.policyAdminConstants
+								                    .noItemFoundMessage());
 										}
 									}
+								
 									view.setAvailableSubjects(names);
 								}
 

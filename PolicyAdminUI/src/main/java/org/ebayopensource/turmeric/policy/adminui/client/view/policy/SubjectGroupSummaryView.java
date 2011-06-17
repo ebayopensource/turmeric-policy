@@ -22,6 +22,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGroup;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
+import org.ebayopensource.turmeric.policy.adminui.client.view.InfoDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericPager;
 
@@ -1008,6 +1009,18 @@ public class SubjectGroupSummaryView extends AbstractGenericView implements
 		dialog.show();
 	}
 
+	/**
+	 * Info alerts messages.
+	 *
+	 * @param msg the msg
+	 */
+	public void info(String msg) {
+		InfoDialog dialog = new InfoDialog(true);
+		dialog.setMessage(msg);
+		dialog.getDialog().center();
+		dialog.show();
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.SubjectGroupSummaryPresenter.SubjectGroupSummaryDisplay#clearDataContent()
 	 */

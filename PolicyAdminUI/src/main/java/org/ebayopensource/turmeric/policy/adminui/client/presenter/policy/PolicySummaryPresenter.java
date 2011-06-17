@@ -156,6 +156,8 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
         void setSubjectGroupCriteriaEnabled(boolean eanbled);
 
         void error(String msg);
+        
+        void info(String msg);
 
         List<String> getPolicyTypes();
 
@@ -736,8 +738,14 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
                             public void onSuccess(GetPoliciesResponse result) {
                                 PolicySummaryPresenter.this.policies = copyToWriteable(result.getPolicies());
                                 PolicySummaryPresenter.this.view.setPolicies(policies);
-                                for (GenericPolicy p : policies)
-                                    fetchAccess(p);
+                                if(policies.isEmpty()){
+                                    view.info(PolicyAdminUIUtil.policyAdminConstants
+                                            .noItemFoundMessage());
+                                }else{
+	                                for (GenericPolicy p : policies){
+	                                    fetchAccess(p);
+	                                }
+                                }
                             }
                         });
 
@@ -826,8 +834,14 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
                             public void onSuccess(GetPoliciesResponse result) {
                                 PolicySummaryPresenter.this.policies = copyToWriteable(result.getPolicies());
                                 PolicySummaryPresenter.this.view.setPolicies(policies);
-                                for (GenericPolicy p : policies)
-                                    fetchAccess(p);
+                                if(policies.isEmpty()){
+                                    view.info(PolicyAdminUIUtil.policyAdminConstants
+                                            .noItemFoundMessage());
+                                }else{
+	                                for (GenericPolicy p : policies){
+	                                    fetchAccess(p);
+	                                }
+                                }
                             }
                         });
 
@@ -859,8 +873,14 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
                             public void onSuccess(GetPoliciesResponse result) {
                                 PolicySummaryPresenter.this.policies = copyToWriteable(result.getPolicies());
                                 PolicySummaryPresenter.this.view.setPolicies(policies);
-                                for (GenericPolicy p : policies)
-                                    fetchAccess(p);
+                                if(policies.isEmpty()){
+                                    view.info(PolicyAdminUIUtil.policyAdminConstants
+                                            .noItemFoundMessage());
+                                }else{
+                                	for (GenericPolicy p : policies){
+                                		fetchAccess(p);
+                                	}
+                                }
                             }
                         });
     }
@@ -930,8 +950,14 @@ public class PolicySummaryPresenter extends AbstractGenericPresenter {
                             public void onSuccess(GetPoliciesResponse result) {
                                 PolicySummaryPresenter.this.policies = copyToWriteable(result.getPolicies());
                                 PolicySummaryPresenter.this.view.setPolicies(policies);
-                                for (GenericPolicy p : policies) {
-                                    fetchAccess(p);
+
+                                if(policies.isEmpty()){
+                                    view.info(PolicyAdminUIUtil.policyAdminConstants
+                                            .noItemFoundMessage());
+                                }else{
+                                    for (GenericPolicy p : policies) {
+	                                    fetchAccess(p);
+	                                }
                                 }
                             }
                         });

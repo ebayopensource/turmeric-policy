@@ -22,6 +22,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.GenericPolicy;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.view.ErrorDialog;
+import org.ebayopensource.turmeric.policy.adminui.client.view.InfoDialog;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.AbstractGenericView;
 import org.ebayopensource.turmeric.policy.adminui.client.view.common.TurmericPager;
 
@@ -1191,6 +1192,16 @@ public class PolicySummaryView extends AbstractGenericView implements
 	 */
 	public void error(String msg) {
 		ErrorDialog dialog = new ErrorDialog(true);
+		dialog.setMessage(msg);
+		dialog.getDialog().center();
+		dialog.show();
+	}
+	
+	/* Info alert messages 
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicySummaryPresenter.PolicySummaryDisplay#info(java.lang.String)
+	 */
+	public void info(String msg) {
+		InfoDialog dialog = new InfoDialog(true);
 		dialog.setMessage(msg);
 		dialog.getDialog().center();
 		dialog.show();

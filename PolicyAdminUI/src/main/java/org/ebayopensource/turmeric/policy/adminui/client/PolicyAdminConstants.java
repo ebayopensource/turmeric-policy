@@ -892,4 +892,10 @@ public interface PolicyAdminConstants extends Constants {
     @DefaultStringValue("Operation not valid. Please contact your site administrator.")
     String genericErrorMessage();
   
+    /**
+     * Generic message for no item found 
+     * @return the string
+	 */
+    @DefaultStringValue("No items found")
+    String noItemFoundMessage();
 }
