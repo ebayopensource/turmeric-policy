@@ -4,6 +4,9 @@
 /.project
 /.classpath
 /war/WEB-INF/classes
+/war/WEB-INF/deploy
+/war/WEB-INF/lib
 /war/META-INF
+/war/policyadminui
 /war/console
 *.swp

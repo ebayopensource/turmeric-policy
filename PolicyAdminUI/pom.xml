@@ -208,16 +208,6 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.ebayopensource.turmeric.security</groupId>
-			<artifactId>turmeric-security-provider</artifactId>
-			<version>${turmeric-security-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.ebayopensource.turmeric.security</groupId>
-			<artifactId>SecurityCommon</artifactId>
-			<version>${turmeric-security-version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.6.1</version>
