@@ -643,16 +643,7 @@ class BasePolicyServiceImpl
 		return subjectId;
     }
     
-	private void validateSubjectGroupCalculateor(SubjectGroup subjectGroup) throws ServiceException, PolicyProviderException
-	{
-		SubjectTypeProvider provider = PolicyServiceProviderFactory.
-			getSubjectTypeProvider(subjectGroup.getSubjectType());
-		
-		String calc = subjectGroup.getSubjectGroupCalculator();
-		GroupCalculatorInfo calcInfo = provider.getGroupCalculator(calc);
-		if (calcInfo == null)
-			throwInvalidInputException("calculator is not defined for: " + calc);		
-	}
+	
 	
 	/**
 	 * Gets the subject group calculateor.
@@ -808,20 +799,13 @@ class BasePolicyServiceImpl
 		subjectGroupEditObject.setSujectGroupId(subjectGroupId);
 		
 		List<SubjectKey> inputSubjectList = getSubjectKeyInfo(subjectGroup);
-		if (subjectGroup.getSubjectGroupCalculator() == null ||
-				subjectGroup.getSubjectGroupCalculator().isEmpty())
-		{
-			
-			validateAssignment(
+		
+		validateAssignment(
 					currSubjectList,  
 					inputSubjectList,  
 					subjectGroupEditObject.getAddSubjectList(),
 					subjectGroupEditObject.getRemoveSubjectList(),
 					updateMode);
-		} else {
-			validateSubjectGroupCalculateor(subjectGroup);
-		}
-		
 		return subjectGroupEditObject;
 	}
 	
