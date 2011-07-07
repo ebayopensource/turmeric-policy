@@ -27,11 +27,6 @@
   <dependencies>
     <dependency>
       <groupId>org.ebayopensource.turmeric.intf</groupId>
-      <artifactId>GroupMembershipService</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.ebayopensource.turmeric.intf</groupId>
       <artifactId>PolicyService</artifactId>
       <version>${project.version}</version>
     </dependency>
