@@ -113,6 +113,12 @@ public class PolicyServiceProviderConfigMapper {
 			provider.m_authnProviderClassName = authnProviderClassname;
 		}
 		
+		Element groupMembershipProviderConfig = DomParseUtils.getSingleElement(filename, policyServiceProvider, "group-membership-provider-config");
+		if (groupMembershipProviderConfig != null) { 
+			String groupMembershipProviderClassname = DomParseUtils.getElementText(filename, groupMembershipProviderConfig, "provider-impl-classname", true);
+			provider.m_groupMembershipProviderClassName = groupMembershipProviderClassname;
+		}
+		
 		return provider;
 	}
 

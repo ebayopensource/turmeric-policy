@@ -21,7 +21,8 @@ import java.util.Set;
 import javax.persistence.EntityManagerFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.ebayopensource.turmeric.groupmembershipservice.provider.CalculatedGroupMembershipProviderImpl;
+
+import org.ebayopensource.turmeric.common.v1.types.AckValue;
 import org.ebayopensource.turmeric.policyservice.exceptions.PolicyCreationException;
 import org.ebayopensource.turmeric.policyservice.exceptions.PolicyDeleteException;
 import org.ebayopensource.turmeric.policyservice.exceptions.PolicyFinderException;
@@ -34,6 +35,7 @@ import org.ebayopensource.turmeric.policyservice.model.SubjectDAO;
 import org.ebayopensource.turmeric.policyservice.model.SubjectDAOImpl;
 import org.ebayopensource.turmeric.policyservice.provider.common.SubjectGroupEditObject;
 import org.ebayopensource.turmeric.policyservice.provider.utils.PolicyServiceUtils;
+import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 import org.ebayopensource.turmeric.security.v1.services.EntityHistory;
 import org.ebayopensource.turmeric.security.v1.services.GroupCalculatorInfo;
 import org.ebayopensource.turmeric.security.v1.services.KeyValuePair;
@@ -43,6 +45,7 @@ import org.ebayopensource.turmeric.security.v1.services.SubjectGroupKey;
 import org.ebayopensource.turmeric.security.v1.services.SubjectGroupType;
 import org.ebayopensource.turmeric.security.v1.services.SubjectKey;
 import org.ebayopensource.turmeric.security.v1.services.SubjectTypeInfo;
+import org.ebayopensource.turmeric.services.policyservice.provider.config.PolicyServiceProviderFactory;
 import org.ebayopensource.turmeric.utils.jpa.JPAAroundAdvice;
 import org.ebayopensource.turmeric.utils.jpa.PersistenceContext;
 import org.ebayopensource.turmeric.utils.jpa.model.AuditContext;
@@ -78,9 +81,8 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 	private class SubjectBaseImpl implements SubjectTypeProvider {
 		private final SubjectDAO subjectDAO;
 		private final String subjectType;
-
-		private final CalculatedGroupMembershipProviderImpl calcProvider = CalculatedGroupMembershipProviderImpl
-				.getInstance();
+		
+		private  CalculatedGroupMembershipProvider calcProvider;
 
 		public SubjectBaseImpl(String subjectType) {
 			this.subjectType = subjectType;
@@ -398,15 +400,17 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 		public GroupCalculatorInfo getGroupCalculator(String calculator)
 				throws PolicyProviderException {
 			GroupCalculatorInfo calculatorInfo = null;
-			try {
-				calcProvider.initialize();
-			} catch (org.ebayopensource.turmeric.utils.config.exceptions.PolicyProviderException e) {
-				throw new PolicyFinderException(Category.SUBJECTGROUP,
-						getSubjectType(), "calculator initialization error ", e);
-			}
 			SubjectGroupType subjectGroupType = new SubjectGroupType();
 			subjectGroupType.setCalculator(calculator);
 			subjectGroupType.setDomain(getSubjectType());
+			
+			try {
+				calcProvider = PolicyServiceProviderFactory.getCalculatedGroupMembershipProvider();
+			} catch (Exception e) {
+				throw new PolicyFinderException(Category.SUBJECTGROUP,
+						getSubjectType(), "calculator initialization error ", e);
+			}
+			
 			SubjectGroupType calculatedSG = calcProvider
 					.getCalculatedSG(subjectGroupType);
 			if (calculatedSG != null
@@ -423,14 +427,24 @@ public abstract class SubjectBase implements SubjectTypeProvider {
 		public List<GroupCalculatorInfo> getGroupCalculators()
 				throws PolicyFinderException {
 			List<GroupCalculatorInfo> calcGroupInfos = new ArrayList<GroupCalculatorInfo>();
+			
 			try {
-				calcProvider.initialize();
-			} catch (org.ebayopensource.turmeric.utils.config.exceptions.PolicyProviderException e) {
+				calcProvider = PolicyServiceProviderFactory.getCalculatedGroupMembershipProvider();
+			} catch (Exception e) {
 				throw new PolicyFinderException(Category.SUBJECTGROUP,
 						getSubjectType(), "calculator initialization error ", e);
 			}
-			Collection<SubjectGroupType> allCalculatedSGs = calcProvider
+			
+			Collection<SubjectGroupType> allCalculatedSGs = null;
+			try{
+				allCalculatedSGs = calcProvider
 					.getAllCalculatedSGs();
+			}catch (PolicyProviderException e) {
+				throw new PolicyFinderException(Category.SUBJECTGROUP,
+						getSubjectType(), "error in provider ", e);
+			}
+		
+			
 			if (allCalculatedSGs != null && allCalculatedSGs.isEmpty() == false) {
 				for (SubjectGroupType subjectGroupType : allCalculatedSGs) {
 					if (subjectGroupType.getDomain().equalsIgnoreCase(

@@ -26,11 +26,6 @@
       <artifactId>PolicyServiceImpl</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.ebayopensource.turmeric.groupmembership</groupId>
-      <artifactId>GroupMembershipProviderInterface</artifactId>
-      <version>${project.version}</version>
-    </dependency>
     
     <dependency>
       <groupId>org.ebayopensource.turmeric.utils</groupId>

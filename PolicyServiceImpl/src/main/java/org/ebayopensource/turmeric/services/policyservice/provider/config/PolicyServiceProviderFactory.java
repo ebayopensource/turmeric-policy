@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import org.ebayopensource.turmeric.common.v1.types.CommonErrorData;
 import org.ebayopensource.turmeric.errorlibrary.turmericpolicy.ErrorConstants;
 import org.ebayopensource.turmeric.policyservice.provider.AuthenticationProvider;
+import org.ebayopensource.turmeric.policyservice.provider.CalculatedGroupMembershipProvider;
 import org.ebayopensource.turmeric.policyservice.provider.PolicyTypeProvider;
 import org.ebayopensource.turmeric.policyservice.provider.ResourceTypeProvider;
 import org.ebayopensource.turmeric.policyservice.provider.SubjectTypeProvider;
@@ -78,6 +79,9 @@ public class PolicyServiceProviderFactory {
 					ResourceTypeProvider.class, cl);
 			s_authnProvider = ReflectionUtils.createInstance(config.getAuthenticationProvider(provider), 
 					AuthenticationProvider.class, cl);
+			
+			s_groupMembershipProvider = ReflectionUtils.createInstance(config.getGroupMembershipProvider(provider), 
+					CalculatedGroupMembershipProvider.class, cl);
 		} catch (Exception ce) {
 			s_Logger.log(Level.SEVERE, "invalid configuration" , ce);
 			s_errorData = getConfigError("PolicyService", configMngr);
@@ -91,6 +95,8 @@ public class PolicyServiceProviderFactory {
 	private static Map<String, SubjectTypeProvider> s_subjectTypeProviderMap;
 	private static Map<String, ResourceTypeProvider> s_resourceTypeProviderMap;
 	private static AuthenticationProvider s_authnProvider;
+	private static CalculatedGroupMembershipProvider s_groupMembershipProvider;
+
 	
 	// disable creating instances
 	private PolicyServiceProviderFactory() {
@@ -234,6 +240,17 @@ public class PolicyServiceProviderFactory {
 		return s_authnProvider;
 	}
 	
+	public static CalculatedGroupMembershipProvider getCalculatedGroupMembershipProvider() throws ServiceException {
+		if (!isInitialized) {
+			throw new ServiceException("Factory is not initialized");
+		}
+		if (s_errorData != null){
+			throw new ServiceException(s_errorData);
+		}
+		
+		return s_groupMembershipProvider;
+	}
+
 	/**
 	 * Gets the subject types.
 	 * 

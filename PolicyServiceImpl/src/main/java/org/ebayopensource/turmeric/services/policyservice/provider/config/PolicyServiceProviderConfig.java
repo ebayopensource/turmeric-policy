@@ -45,6 +45,9 @@ public class PolicyServiceProviderConfig extends BaseConfigHolder {
 		
 		/** The m_authn provider class name. */
 		public String m_authnProviderClassName;
+		
+		/** The m_groupMembership provider class name. */
+		public String m_groupMembershipProviderClassName;
 	}
 
 	private static final char NL = '\n';
@@ -156,6 +159,25 @@ public class PolicyServiceProviderConfig extends BaseConfigHolder {
 		PolicyServiceProvider policyServiceProvider = m_configs.get(providerName);
 		if (policyServiceProvider == null) return null;
 		return policyServiceProvider.m_authnProviderClassName;
+	}
+	
+	/**
+	 * Gets the groupMembership provider.
+	 * 
+	 * @param providerName
+	 *            the provider name
+	 * @return the groupMembership provider
+	 */
+	public String getGroupMembershipProvider(String providerName) {
+		if (providerName == null){ // implies default
+			providerName = m_default;
+		}
+		PolicyServiceProvider policyServiceProvider = m_configs.get(providerName);
+		
+		if (policyServiceProvider == null){
+			return null;
+		}
+		return policyServiceProvider.m_groupMembershipProviderClassName;
 	}
 	
 

@@ -25,7 +25,6 @@
        </activation>
        <modules>
                 <module>PolicyTests</module>
-		<module>GroupMembershipTests</module>
        </modules>
     </profile>
   </profiles>
