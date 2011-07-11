@@ -78,10 +78,9 @@
 			</resource-entity-provider-config>
 			<authn-provider-config>
 				<provider-impl-classname>org.ebayopensource.turmeric.policyservice.provider.AuthenticationProviderImpl</provider-impl-classname>
-			</authn-provider-config>
-			
+			</authn-provider-config>	
 			<group-membership-provider-config>
-				<provider-impl-classname>org.ebayopensource.turmeric.policyservice.provider.CalculatedGroupMembershipProvider</provider-impl-classname>
+				<provider-impl-classname>org.ebayopensource.turmeric.policyservice.provider.CalculatedGroupMembershipProviderImpl</provider-impl-classname>
 			</group-membership-provider-config>
 		</provider-config>
 	</provider-config-list>
