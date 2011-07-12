@@ -63,6 +63,7 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ResizeComposite;
@@ -83,7 +84,8 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 public abstract class PolicyCreateView extends ResizeComposite implements
 		PolicyCreateDisplay {
 
-	private DockLayoutPanel mainPanel;
+	private Panel mainPanel;
+	private ScrollPanel scrollPanel;
 
 	/** The content view. */
 	protected Display contentView;
@@ -111,6 +113,11 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 	/** The extra fields grid. */
 	protected Grid extraFieldsGrid = new Grid(1, 1);
 
+	public native static String getUserAgent() /*-{
+		return navigator.userAgent.toLowerCase();
+	}-*/;
+
+	
 	private static interface GetRsValue<C> {
 		C getValue(Resource rs);
 	}
@@ -309,9 +316,11 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 	 * Instantiates a new policy create view.
 	 */
 	public PolicyCreateView() {
-		mainPanel = new DockLayoutPanel(Unit.EM);
-		initWidget(mainPanel);
-		mainPanel.setWidth("100%");
+
+		scrollPanel = new ScrollPanel();
+		mainPanel = new FlowPanel();
+		initWidget(scrollPanel);
+      
 		initialize();
 
 	}
@@ -360,11 +369,12 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		HorizontalPanel buttonsPannel = new HorizontalPanel();
 		buttonsPannel.add(saveButton);
 		buttonsPannel.add(cancelButton);
-		mainPanel.addSouth(buttonsPannel, 2);
 
-		ScrollPanel scroll = new ScrollPanel(policyContentPanel);
-		scroll.setHeight("95%");
-		mainPanel.add(scroll);
+		mainPanel.add(policyContentPanel);
+		mainPanel.add(buttonsPannel);
+		scrollPanel.setHeight("95%");
+		scrollPanel.add(mainPanel);
+		
 	}
 
 	/**
