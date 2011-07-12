@@ -316,20 +316,11 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 	 * Instantiates a new policy create view.
 	 */
 	public PolicyCreateView() {
-		/*
-		 * Issue GWT-4332: 	DockLayoutPanel fail in IE 8 (based on DockLayoutPanel)
-		 */
-		if(getUserAgent().contains("msie")){
-			scrollPanel = new ScrollPanel();
-			mainPanel = new FlowPanel();
-			initWidget(scrollPanel);
 
-		}else{
-			mainPanel = new DockLayoutPanel(Unit.EM);
-			initWidget(mainPanel);
-			mainPanel.setWidth("100%");
-		}
-        
+		scrollPanel = new ScrollPanel();
+		mainPanel = new FlowPanel();
+		initWidget(scrollPanel);
+      
 		initialize();
 
 	}
@@ -378,24 +369,11 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		HorizontalPanel buttonsPannel = new HorizontalPanel();
 		buttonsPannel.add(saveButton);
 		buttonsPannel.add(cancelButton);
-		
 
-		ScrollPanel scroll = new ScrollPanel(policyContentPanel);
-		scroll.setHeight("95%");
-		
-		/*
-		 * Issue GWT-4332: 	DockLayoutPanel fail in IE 8 (based on DockLayoutPanel)
-		 */
-		if(getUserAgent().contains("msie"))
-		{
-			mainPanel.add(policyContentPanel);
-			mainPanel.add(buttonsPannel);
-			scrollPanel.add(mainPanel);
-		}else{
-			((DockLayoutPanel) mainPanel).addSouth(buttonsPannel, 2);
-			mainPanel.add(scroll);
-		}
-		
+		mainPanel.add(policyContentPanel);
+		mainPanel.add(buttonsPannel);
+		scrollPanel.setHeight("95%");
+		scrollPanel.add(mainPanel);
 		
 	}
 
