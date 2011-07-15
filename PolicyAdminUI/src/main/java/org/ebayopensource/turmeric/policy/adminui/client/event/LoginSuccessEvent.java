@@ -30,6 +30,7 @@ public class LoginSuccessEvent extends GwtEvent<LoginSuccessEventHandler> {
 	 */
 	public LoginSuccessEvent(AppUser appUser) {
 		this.appUser = appUser;
+		
 	}
 	
 	/**

@@ -35,18 +35,25 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGro
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.MenuController;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.SplashPresenter;
+import org.ebayopensource.turmeric.policy.adminui.client.session.SessionInterface;
+import org.ebayopensource.turmeric.policy.adminui.client.session.SessionInterfaceAsync;
+import org.ebayopensource.turmeric.policy.adminui.client.session.SessionService;
 import org.ebayopensource.turmeric.policy.adminui.client.shared.AppUser;
 import org.ebayopensource.turmeric.policy.adminui.client.util.AppKeyUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.util.PresenterUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.view.SplashView;
 import org.ebayopensource.turmeric.policy.adminui.client.view.policy.ApplicationMenuView;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 /**
@@ -66,6 +73,19 @@ public class AppController implements Controller, ValueChangeHandler<String> {
     /** The service map. */
     protected Map<SupportedService, PolicyAdminUIService> serviceMap;
 
+    private Timer sessionTimeoutResponseTimer;
+    private SessionService sessionService;
+
+    /**
+     * Added to the first session timeout check to allow for startup time
+     */
+    private final int INITIAL_TIMEOUT_PAD = 30000;
+
+    /**
+     * Added to the session timeout check timer.
+     */
+    private final int TIMEOUT_PAD = 10000;
+    
     /**
      * Instantiates a new app controller.
      *
@@ -241,6 +261,7 @@ public class AppController implements Controller, ValueChangeHandler<String> {
                                                             }
                                                         });
 
+                                        //initSessionTimers();
                                         AppController.this.eventBus.fireEvent(new LoginSuccessEvent(AppUser.getUser()));
 
                                     }
@@ -250,6 +271,60 @@ public class AppController implements Controller, ValueChangeHandler<String> {
         });
     }
 
+    private void initSessionTimers()
+    {
+
+    	sessionService = new SessionService();
+
+        sessionService.getUserSessionTimeout(new AsyncCallback<Integer>()
+        {
+            public void onSuccess(Integer timeout)
+            {
+                sessionTimeoutResponseTimer = new Timer()
+                {
+                    @Override
+                    public void run()
+                    {
+                        checkUserSessionAlive();
+                    }
+                };
+                sessionTimeoutResponseTimer.schedule(timeout + INITIAL_TIMEOUT_PAD);
+            }
+
+            public void onFailure(Throwable caught)
+            {
+                displaySessionTimedOut();
+            }
+        });
+        
+    }
+
+    private void checkUserSessionAlive()
+    {
+    	sessionService.getUserSessionTimeout(new AsyncCallback<Integer>()
+        {
+            public void onSuccess(Integer timeout)
+            {
+                sessionTimeoutResponseTimer.cancel();
+                sessionTimeoutResponseTimer.schedule(timeout + TIMEOUT_PAD);
+            }
+
+            public void onFailure(Throwable caught)
+            {
+                displaySessionTimedOut();
+            }
+        });
+
+    }
+
+    private void displaySessionTimedOut()
+    {
+       Window.alert("Your session has timed out.");
+       Window.Location.reload();
+        
+    }
+
+    
     private void initPresenters() {
         Presenter presenter = null;
         // splash page

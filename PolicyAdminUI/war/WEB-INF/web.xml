@@ -62,7 +62,7 @@
 	     <url-pattern>/importPlc/policy</url-pattern>
 	     <url-pattern>/importPlc/sg</url-pattern>    
     </servlet-mapping>  
- 
+  
   <!--Proxy for the PolicyEnforcementService -->
   <servlet>
       <servlet-name>PolicyEnforcementServiceProxy</servlet-name>
@@ -79,6 +79,8 @@
       <servlet-name>PolicyEnforcementServiceProxy</servlet-name>
       <url-pattern>/policyadminui/policyEnforcement/*</url-pattern>
   </servlet-mapping>
+  
+
   
   <filter>
       <filter-name>ContinuationFilter</filter-name>
@@ -100,5 +102,10 @@
   <welcome-file-list>
     <welcome-file>Console.html</welcome-file>
   </welcome-file-list>
+
+  <!--  session timeout in minutes -->
+	<session-config>
+		<session-timeout>2</session-timeout>
+	</session-config>
 
 </web-app>
