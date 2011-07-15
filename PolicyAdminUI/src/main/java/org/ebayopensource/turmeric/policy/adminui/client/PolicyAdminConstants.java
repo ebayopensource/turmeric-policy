@@ -390,7 +390,7 @@ public interface PolicyAdminConstants extends Constants {
 	 * 
 	 * @return the string
 	 */
-	@DefaultStringValue("Summary")
+	@DefaultStringValue("Search")
 	String summary();
 	
 	/**

@@ -206,7 +206,7 @@ public interface PolicyAdminUIConstants extends Constants {
 	 * 
 	 * @return the string
 	 */
-	@DefaultStringValue("Summary")
+	@DefaultStringValue("Search")
 	public String summary();
 
 	/**
