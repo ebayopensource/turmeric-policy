@@ -13,5 +13,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
 public interface SessionInterface extends RemoteService {
 
     Integer getUserSessionTimeout();
+    Boolean isSessionAlive();
+    void refresh();
     
 }

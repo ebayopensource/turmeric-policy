@@ -13,4 +13,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface SessionInterfaceAsync  {
     
 	void getUserSessionTimeout(AsyncCallback<Integer> callback);
+	void isSessionAlive(AsyncCallback<Boolean> callback);
+	void refresh(AsyncCallback callback);
+
 }
+

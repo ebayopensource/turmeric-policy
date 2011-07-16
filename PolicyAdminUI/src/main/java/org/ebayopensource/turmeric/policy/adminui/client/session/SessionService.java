@@ -27,4 +27,14 @@ public class SessionService implements SessionInterfaceAsync {
 		service.getUserSessionTimeout(callback);
 	}
 
+	@Override
+	public void isSessionAlive(AsyncCallback<Boolean> callback) {
+		service.isSessionAlive(callback);
+	}
+
+	@Override
+	public void refresh(AsyncCallback callback) {
+		service.refresh(callback);
+	}
+	
 }

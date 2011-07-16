@@ -63,6 +63,19 @@
 	     <url-pattern>/importPlc/sg</url-pattern>    
     </servlet-mapping>  
   
+  
+   <servlet>
+    <servlet-name>SessionServiceServlet</servlet-name>
+    <servlet-class>org.ebayopensource.turmeric.policy.adminui.server.SessionServiceImpl</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>SessionServiceServlet</servlet-name>
+    <url-pattern>/policyadminui/sessionService</url-pattern>
+  </servlet-mapping>
+  
+  
+  
   <!--Proxy for the PolicyEnforcementService -->
   <servlet>
       <servlet-name>PolicyEnforcementServiceProxy</servlet-name>
@@ -105,7 +118,7 @@
 
   <!--  session timeout in minutes -->
 	<session-config>
-		<session-timeout>2</session-timeout>
+		<session-timeout>15</session-timeout>
 	</session-config>
 
 </web-app>

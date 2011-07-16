@@ -61,313 +61,398 @@ import com.google.gwt.user.client.ui.HasWidgets;
  */
 public class AppController implements Controller, ValueChangeHandler<String> {
 
-    /** The event bus. */
-    protected HandlerManager eventBus;
-    
-    /** The root container. */
-    protected HasWidgets rootContainer;
-    
-    /** The presenters. */
-    protected Map<String, Presenter> presenters = new HashMap<String, Presenter>();
-    
-    /** The service map. */
-    protected Map<SupportedService, PolicyAdminUIService> serviceMap;
+	/** The event bus. */
+	protected HandlerManager eventBus;
 
-    private Timer sessionTimeoutResponseTimer;
-    private SessionService sessionService;
+	/** The root container. */
+	protected HasWidgets rootContainer;
 
-    /**
-     * Added to the first session timeout check to allow for startup time
-     */
-    private final int INITIAL_TIMEOUT_PAD = 30000;
+	/** The presenters. */
+	protected Map<String, Presenter> presenters = new HashMap<String, Presenter>();
 
-    /**
-     * Added to the session timeout check timer.
-     */
-    private final int TIMEOUT_PAD = 10000;
-    
-    /**
-     * Instantiates a new app controller.
-     *
-     * @param eventBus the event bus
-     * @param rootContainer the root container
-     * @param serviceMap the service map
-     */
-    public AppController(HandlerManager eventBus, HasWidgets rootContainer,
-                    Map<SupportedService, PolicyAdminUIService> serviceMap) {
-        this.eventBus = eventBus;
-        this.rootContainer = rootContainer;
-        this.serviceMap = serviceMap;
+	/** The service map. */
+	protected Map<SupportedService, PolicyAdminUIService> serviceMap;
 
-        initPresenters();
-    }
+	private Timer sessionTimeoutResponseTimer;
+	private SessionService sessionService;
 
-    /**
-     * Start the application.
-     */
-    public void start() {
-        bind();
-        History.addValueChangeHandler(this);
-        final HistoryToken token = HistoryToken.newHistoryToken();
-        // See if a security cookie has been stored to identify the user
-        AppUser user = AppUser.fromCookie(Cookies.getCookie(AppKeyUtil.COOKIE_SESSID_KEY));
-        if (user != null) {
-            // the user has been identified take them to the last page they were on
-            // unless that was not saved
-            if (token == null || token.getPresenterId() == null) {
-                // no history, default landing page is dashboard
-                History.newItem(HistoryToken.newHistoryToken(MenuController.PRESENTER_ID, null).toString());
-            }
+	/**
+	 * Added to the first session timeout check to allow for startup time
+	 */
+	private final int INITIAL_TIMEOUT_PAD = 1000;
 
-            History.fireCurrentHistoryState();
-        }
-        else {
-            // user not identified, go to the "login" page
-            PresenterUtil.forceRedirectToPresenter(token, presenters.get(SplashPresenter.SPLASH_ID));
-        }
-    }
 
-    /* (non-Javadoc)
-     * @see com.google.gwt.event.logical.shared.ValueChangeHandler#onValueChange(com.google.gwt.event.logical.shared.ValueChangeEvent)
-     */
-    public void onValueChange(ValueChangeEvent<String> event) {
+	protected Integer timeoutCicle;
 
-        final HistoryToken token = HistoryToken.newHistoryToken(event.getValue());
+	/**
+	 * Instantiates a new app controller.
+	 * 
+	 * @param eventBus
+	 *            the event bus
+	 * @param rootContainer
+	 *            the root container
+	 * @param serviceMap
+	 *            the service map
+	 */
+	public AppController(HandlerManager eventBus, HasWidgets rootContainer,
+			Map<SupportedService, PolicyAdminUIService> serviceMap) {
+		this.eventBus = eventBus;
+		this.rootContainer = rootContainer;
+		this.serviceMap = serviceMap;
 
-        if (AppUser.getUser() != null) {
-            // identified
-            if (SplashPresenter.SPLASH_ID.equals(token.getPresenterId())) {
-                return;
-            }
-        }
-        else {
-            // not identified, force to the "login" page
-            if (!SplashPresenter.SPLASH_ID.equals(token.getPresenterId())) {
-                return;
-            }
-        }
+		sessionService = new SessionService();
+		initPresenters();
+	}
 
-        selectPresenter(token);
-    }
+	/**
+	 * Start the application.
+	 */
+	public void start() {
+		bind();
+		History.addValueChangeHandler(this);
+		final HistoryToken token = HistoryToken.newHistoryToken();
+		// See if a security cookie has been stored to identify the user
+		AppUser user = AppUser.fromCookie(Cookies
+				.getCookie(AppKeyUtil.COOKIE_SESSID_KEY));
+		if (user != null) {
+			// the user has been identified take them to the last page they were
+			// on
+			// unless that was not saved
+			if (token == null || token.getPresenterId() == null) {
+				// no history, default landing page is dashboard
+				History.newItem(HistoryToken.newHistoryToken(
+						MenuController.PRESENTER_ID, null).toString());
+			}
 
-    private void bind() {
-        // if login succeeded
-        this.eventBus.addHandler(LoginSuccessEvent.TYPE, new LoginSuccessEventHandler() {
-            public void onSuccess(AppUser arg) {
+			History.fireCurrentHistoryState();
+		} else {
+			// user not identified, go to the "login" page
+			PresenterUtil.forceRedirectToPresenter(token,
+					presenters.get(SplashPresenter.SPLASH_ID));
+		}
+	}
 
-                AppController.this.rootContainer.clear();
-                History.newItem(HistoryToken.newHistoryToken(MenuController.PRESENTER_ID, null).toString());
-            }
-        });
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.google.gwt.event.logical.shared.ValueChangeHandler#onValueChange(
+	 * com.google.gwt.event.logical.shared.ValueChangeEvent)
+	 */
+	public void onValueChange(ValueChangeEvent<String> event) {
 
-        // if login failed
-        this.eventBus.addHandler(LoginFailureEvent.TYPE, new LoginFailureEventHandler() {
-            public void onFailure() {
-                SplashPresenter concreteSplashPresenter = (SplashPresenter) presenters.get(SplashPresenter.SPLASH_ID);
-                concreteSplashPresenter.handleLoginErrorView();
-            }
-        });
+		final HistoryToken token = HistoryToken.newHistoryToken(event
+				.getValue());
 
-        // logout
-        this.eventBus.addHandler(LogoutEvent.TYPE, new LogoutEventHandler() {
-            public void onLogout(LogoutEvent event) {
+		if (AppUser.getUser() != null) {
+			// identified
+			if (SplashPresenter.SPLASH_ID.equals(token.getPresenterId())) {
+				return;
+			}
+		} else {
+			// not identified, force to the "login" page
+			if (!SplashPresenter.SPLASH_ID.equals(token.getPresenterId())) {
+				return;
+			}
+		}
 
-                Cookies.removeCookie(AppKeyUtil.COOKIE_SESSID_KEY);
-                AppUser.logout();
+		selectPresenter(token);
+	}
 
-                // Clean up
-                cleanup();
+	private void bind() {
+		// if login succeeded
+		this.eventBus.addHandler(LoginSuccessEvent.TYPE,
+				new LoginSuccessEventHandler() {
+					public void onSuccess(AppUser arg) {
 
-                initPresenters();
+						AppController.this.rootContainer.clear();
+						History.newItem(HistoryToken.newHistoryToken(
+								MenuController.PRESENTER_ID, null).toString());
+					}
+				});
 
-                // Go back to the splash screen
-                HistoryToken token = HistoryToken.newHistoryToken();
-                PresenterUtil.forceRedirectToPresenter(token, presenters.get(SplashPresenter.SPLASH_ID));
+		// if login failed
+		this.eventBus.addHandler(LoginFailureEvent.TYPE,
+				new LoginFailureEventHandler() {
+					public void onFailure() {
+						SplashPresenter concreteSplashPresenter = (SplashPresenter) presenters
+								.get(SplashPresenter.SPLASH_ID);
+						concreteSplashPresenter.handleLoginErrorView();
+					}
+				});
 
-                SplashPresenter concreteSplashPresenter = (SplashPresenter) presenters.get(SplashPresenter.SPLASH_ID);
-                concreteSplashPresenter.handleLogoutSuccessView();
-            }
-        });
+		// logout
+		this.eventBus.addHandler(LogoutEvent.TYPE, new LogoutEventHandler() {
+			public void onLogout(LogoutEvent event) {
 
-        // login event handler
-        this.eventBus.addHandler(LoginEvent.TYPE, new LoginEventHandler() {
-            public void onLogin(LoginEvent event) {
-                // there is no service to authenticate the username/password
-                // This info has to be presented on every request, so the only
-                // time we find out if login/password is accepted is when we supply
-                // it on a request.
-                AppUser.newAppUser(event.getLogin(), event.getPassword(), event.getDomain());
-                Cookies.removeCookie(AppKeyUtil.COOKIE_SESSID_KEY);
+				Cookies.removeCookie(AppKeyUtil.COOKIE_SESSID_KEY);
+				AppUser.logout();
 
-                Map<String, String> credentials = new HashMap<String, String>();
-                credentials.put("X-TURMERIC-SECURITY-PASSWORD", AppUser.getUser().getPassword());
-                OperationKey opKey = new OperationKey();
+				// Clean up
+				cleanup();
 
-                opKey.setResourceName(PolicyEnforcementService.POLICY_SERVICE_NAME);
-                opKey.setOperationName("");
-                opKey.setResourceType("OBJECT");
+				initPresenters();
 
-                List<String> policyTypes = Collections.singletonList("AUTHZ");
+				// Go back to the splash screen
+				HistoryToken token = HistoryToken.newHistoryToken();
+				PresenterUtil.forceRedirectToPresenter(token,
+						presenters.get(SplashPresenter.SPLASH_ID));
 
-                String[] subjectType = { "USER", AppUser.getUser().getUsername() };
-                List<String[]> subjectTypes = Collections.singletonList(subjectType);
+				SplashPresenter concreteSplashPresenter = (SplashPresenter) presenters
+						.get(SplashPresenter.SPLASH_ID);
+				concreteSplashPresenter.handleLogoutSuccessView();
+			}
+		});
 
-                PolicyEnforcementService enforcementService = (PolicyEnforcementService) serviceMap
-                                .get(SupportedService.POLICY_ENFORCEMENT_SERVICE);
+		// login event handler
+		this.eventBus.addHandler(LoginEvent.TYPE, new LoginEventHandler() {
+			public void onLogin(LoginEvent event) {
+				// there is no service to authenticate the username/password
+				// This info has to be presented on every request, so the only
+				// time we find out if login/password is accepted is when we
+				// supply
+				// it on a request.
+				AppUser.newAppUser(event.getLogin(), event.getPassword(),
+						event.getDomain());
+				Cookies.removeCookie(AppKeyUtil.COOKIE_SESSID_KEY);
 
-                enforcementService.verify(opKey, policyTypes, credentials, subjectTypes, null, null, null,
-                                new AsyncCallback<VerifyAccessResponse>() {
+				Map<String, String> credentials = new HashMap<String, String>();
+				credentials.put("X-TURMERIC-SECURITY-PASSWORD", AppUser
+						.getUser().getPassword());
+				OperationKey opKey = new OperationKey();
 
-                                    public void onFailure(Throwable arg) {
-                                        AppController.this.eventBus.fireEvent(new LoginFailureEvent());
-                                    }
+				opKey.setResourceName(PolicyEnforcementService.POLICY_SERVICE_NAME);
+				opKey.setOperationName("");
+				opKey.setResourceType("OBJECT");
 
-                                    public void onSuccess(VerifyAccessResponse response) {
-                                        PolicyQueryService policyService = (PolicyQueryService) serviceMap
-                                                        .get(SupportedService.POLICY_QUERY_SERVICE);
-                                        SubjectGroupQuery query = new SubjectGroupQuery();
-                                        SubjectGroupKey key = new SubjectGroupKey();
-                                        key.setType("USER");
-                                        key.setName("Admin_Policy_SuperPolicy");
-                                        query.setGroupKeys(Arrays.asList(key));
-                                        query.setIncludeSubjects(true);
-                                        policyService.findSubjectGroups(
-                                                        query,
-                                                        new AsyncCallback<PolicyQueryService.FindSubjectGroupsResponse>() {
+				List<String> policyTypes = Collections.singletonList("AUTHZ");
 
-                                                            @Override
-                                                            public void onSuccess(FindSubjectGroupsResponse arg0) {
-                                                                // arg0.getGroups().
-                                                                boolean isAdmin = false;
-                                                                if (arg0.getGroups() != null
-                                                                                && !arg0.getGroups().isEmpty()) {
-                                                                    SubjectGroup sgSuperPolicy = arg0.getGroups()
-                                                                                    .get(0);
-                                                                    if (sgSuperPolicy.getSubjects() != null
-                                                                                    && !sgSuperPolicy.getSubjects()
-                                                                                                    .isEmpty()) {
-                                                                        isAdmin = sgSuperPolicy.getSubjects()
-                                                                                        .contains(AppUser.getUser()
-                                                                                                        .getUsername());
-                                                                    }
-                                                                }
+				String[] subjectType = { "USER",
+						AppUser.getUser().getUsername() };
+				List<String[]> subjectTypes = Collections
+						.singletonList(subjectType);
 
-                                                                AppUser.getUser().setAdminUser(isAdmin);
-                                                            }
+				PolicyEnforcementService enforcementService = (PolicyEnforcementService) serviceMap
+						.get(SupportedService.POLICY_ENFORCEMENT_SERVICE);
 
-                                                            @Override
-                                                            public void onFailure(Throwable arg0) {
-                                                                AppUser.getUser().setAdminUser(false);
-                                                            }
-                                                        });
+				enforcementService.verify(opKey, policyTypes, credentials,
+						subjectTypes, null, null, null,
+						new AsyncCallback<VerifyAccessResponse>() {
 
-                                        //initSessionTimers();
-                                        AppController.this.eventBus.fireEvent(new LoginSuccessEvent(AppUser.getUser()));
+							public void onFailure(Throwable arg) {
+								AppController.this.eventBus
+										.fireEvent(new LoginFailureEvent());
+							}
 
-                                    }
-                                });
+							public void onSuccess(VerifyAccessResponse response) {
+								PolicyQueryService policyService = (PolicyQueryService) serviceMap
+										.get(SupportedService.POLICY_QUERY_SERVICE);
+								SubjectGroupQuery query = new SubjectGroupQuery();
+								SubjectGroupKey key = new SubjectGroupKey();
+								key.setType("USER");
+								key.setName("Admin_Policy_SuperPolicy");
+								query.setGroupKeys(Arrays.asList(key));
+								query.setIncludeSubjects(true);
+								policyService
+										.findSubjectGroups(
+												query,
+												new AsyncCallback<PolicyQueryService.FindSubjectGroupsResponse>() {
 
-            }
-        });
-    }
+													@Override
+													public void onSuccess(
+															FindSubjectGroupsResponse arg0) {
+														// arg0.getGroups().
+														boolean isAdmin = false;
+														if (arg0.getGroups() != null
+																&& !arg0.getGroups()
+																		.isEmpty()) {
+															SubjectGroup sgSuperPolicy = arg0
+																	.getGroups()
+																	.get(0);
+															if (sgSuperPolicy
+																	.getSubjects() != null
+																	&& !sgSuperPolicy
+																			.getSubjects()
+																			.isEmpty()) {
+																isAdmin = sgSuperPolicy
+																		.getSubjects()
+																		.contains(
+																				AppUser.getUser()
+																						.getUsername());
+															}
+														}
 
-    private void initSessionTimers()
-    {
+														AppUser.getUser()
+																.setAdminUser(
+																		isAdmin);
+													}
 
-    	sessionService = new SessionService();
+													@Override
+													public void onFailure(
+															Throwable arg0) {
+														AppUser.getUser()
+																.setAdminUser(
+																		false);
+													}
+												});
 
-        sessionService.getUserSessionTimeout(new AsyncCallback<Integer>()
-        {
-            public void onSuccess(Integer timeout)
-            {
-                sessionTimeoutResponseTimer = new Timer()
-                {
-                    @Override
-                    public void run()
-                    {
-                        checkUserSessionAlive();
-                    }
-                };
-                sessionTimeoutResponseTimer.schedule(timeout + INITIAL_TIMEOUT_PAD);
-            }
+								initSessionTimers();
+								AppController.this.eventBus
+										.fireEvent(new LoginSuccessEvent(
+												AppUser.getUser()));
 
-            public void onFailure(Throwable caught)
-            {
-                displaySessionTimedOut();
-            }
-        });
-        
-    }
+							}
+						});
 
-    private void checkUserSessionAlive()
-    {
-    	sessionService.getUserSessionTimeout(new AsyncCallback<Integer>()
-        {
-            public void onSuccess(Integer timeout)
-            {
-                sessionTimeoutResponseTimer.cancel();
-                sessionTimeoutResponseTimer.schedule(timeout + TIMEOUT_PAD);
-            }
+			}
+		});
+	}
 
-            public void onFailure(Throwable caught)
-            {
-                displaySessionTimedOut();
-            }
-        });
+	private void initSessionTimers() {
 
-    }
+		
 
-    private void displaySessionTimedOut()
-    {
-       Window.alert("Your session has timed out.");
-       Window.Location.reload();
-        
-    }
+		sessionService.getUserSessionTimeout(new AsyncCallback<Integer>() {
+			public void onSuccess(Integer timeout) {
+				timeoutCicle = timeout;
+				sessionTimeoutResponseTimer = new Timer() {
+					@Override
+					public void run() {
+						isSessionAlive();
+					}
+				};
+				sessionTimeoutResponseTimer.schedule(timeout
+						+ INITIAL_TIMEOUT_PAD);
+			}
 
-    
-    private void initPresenters() {
-        Presenter presenter = null;
-        // splash page
-        presenter = new SplashPresenter(this.eventBus, new SplashView());
-        addPresenter(presenter.getId(), presenter);
-        // main page
-        presenter = new MenuController(this.eventBus, rootContainer, new ApplicationMenuView(), serviceMap);
-        addPresenter(presenter.getId(), presenter);
-    }
+			public void onFailure(Throwable caught) {
+				if (caught.getLocalizedMessage().contains("500")) {
+					Window.alert(PolicyAdminUIUtil.messages
+							.serverError(PolicyAdminUIUtil.policyAdminConstants
+									.genericErrorMessage()));
+				} else {
+					Window.alert(PolicyAdminUIUtil.messages.serverError(caught
+							.getLocalizedMessage()));
+				}
+			}
+		});
 
-    private void cleanup() {
-        this.rootContainer.clear(); // get rid of whatever is being displayed
-        this.presenters.clear();
-    }
+	}
 
-    /* (non-Javadoc)
-     * @see org.ebayopensource.turmeric.policy.adminui.client.Controller#addPresenter(java.lang.String, org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter)
-     */
-    public void addPresenter(String id, Presenter p) {
-        this.presenters.put(id, p);
-    }
+	private void isSessionAlive() {
+		sessionService.isSessionAlive(new AsyncCallback<Boolean>() {
+			public void onSuccess(Boolean alive) {
+				if (alive.booleanValue()) {
+					sessionTimeoutResponseTimer.cancel();
+					sessionTimeoutResponseTimer.scheduleRepeating(timeoutCicle);
+				} else {
+					displaySessionTimedOut();
+				}
 
-    /* (non-Javadoc)
-     * @see org.ebayopensource.turmeric.policy.adminui.client.Controller#getPresenter(java.lang.String)
-     */
-    public Presenter getPresenter(String id) {
-        return this.presenters.get(id);
-    }
+			}
 
-    /* (non-Javadoc)
-     * @see org.ebayopensource.turmeric.policy.adminui.client.Controller#selectPresenter(org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
-     */
-    public void selectPresenter(HistoryToken token) {
-        String presenterId = token != null ? token.getPresenterId() : null;
-        Presenter presenter = null;
-        presenter = this.presenters.get(presenterId);
-        if (presenter != null) {
-            presenter.go(this.rootContainer, token);
-        }
-        else {
-            presenter = presenters.get(MenuController.PRESENTER_ID);
-            if (presenter != null)
-                presenter.go(this.rootContainer, token);
-        }
-    }
+			public void onFailure(Throwable caught) {
+				if (caught.getLocalizedMessage().contains("500")) {
+					Window.alert(PolicyAdminUIUtil.messages
+							.serverError(PolicyAdminUIUtil.policyAdminConstants
+									.genericErrorMessage()));
+				} else {
+					Window.alert(PolicyAdminUIUtil.messages.serverError(caught
+							.getLocalizedMessage()));
+				}
+			}
+		});
+
+	}
+
+	private void displaySessionTimedOut() {
+		Window.alert(PolicyAdminUIUtil.messages
+				.expiredSession());
+		Window.Location.reload();
+
+	}
+
+	
+	private void updateSessionLastAccessedTime() {
+		sessionService.refresh(new AsyncCallback<Object>() {
+			public void onSuccess(Object paramT) {
+				//do nothing
+			}
+
+			public void onFailure(Throwable caught) {
+				if (caught.getLocalizedMessage().contains("500")) {
+					Window.alert(PolicyAdminUIUtil.messages
+							.serverError(PolicyAdminUIUtil.policyAdminConstants
+									.genericErrorMessage()));
+				} else {
+					Window.alert(PolicyAdminUIUtil.messages.serverError(caught
+							.getLocalizedMessage()));
+				}
+			}
+
+		});
+
+	}
+	
+	private void initPresenters() {
+		Presenter presenter = null;
+		// splash page
+		presenter = new SplashPresenter(this.eventBus, new SplashView());
+		addPresenter(presenter.getId(), presenter);
+		// main page
+		presenter = new MenuController(this.eventBus, rootContainer,
+				new ApplicationMenuView(), serviceMap);
+		addPresenter(presenter.getId(), presenter);
+	}
+
+	private void cleanup() {
+		this.rootContainer.clear(); // get rid of whatever is being displayed
+		this.presenters.clear();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.ebayopensource.turmeric.policy.adminui.client.Controller#addPresenter
+	 * (java.lang.String,
+	 * org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter)
+	 */
+	public void addPresenter(String id, Presenter p) {
+		this.presenters.put(id, p);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.ebayopensource.turmeric.policy.adminui.client.Controller#getPresenter
+	 * (java.lang.String)
+	 */
+	public Presenter getPresenter(String id) {
+		return this.presenters.get(id);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.ebayopensource.turmeric.policy.adminui.client.Controller#selectPresenter
+	 * (org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken)
+	 */
+	public void selectPresenter(HistoryToken token) {
+		String presenterId = token != null ? token.getPresenterId() : null;
+		Presenter presenter = null;
+		presenter = this.presenters.get(presenterId);
+		if (presenter != null) {
+			presenter.go(this.rootContainer, token);
+		} else {
+			presenter = presenters.get(MenuController.PRESENTER_ID);
+			if (presenter != null)
+				presenter.go(this.rootContainer, token);
+		}
+		
+		this.updateSessionLastAccessedTime();
+		
+	}
 }

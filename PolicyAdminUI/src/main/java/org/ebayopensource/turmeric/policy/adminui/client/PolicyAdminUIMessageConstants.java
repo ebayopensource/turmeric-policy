@@ -67,4 +67,12 @@ public interface PolicyAdminUIMessageConstants extends Messages
     @DefaultMessage("You have been logged out successfully")
     public String logoutSuccessful();
     
+    /**
+     * Expired session.
+     *
+     * @return the string
+     */
+    @DefaultMessage("Your session has expired")
+    public String expiredSession();
+    
 }
