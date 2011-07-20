@@ -14,7 +14,7 @@ public interface SessionInterfaceAsync  {
     
 	void getUserSessionTimeout(AsyncCallback<Integer> callback);
 	void isSessionAlive(AsyncCallback<Boolean> callback);
-	void refresh(AsyncCallback callback);
+	void ping(AsyncCallback callback);
 
 }
 

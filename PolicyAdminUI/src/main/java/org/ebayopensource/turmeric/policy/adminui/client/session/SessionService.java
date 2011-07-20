@@ -33,8 +33,8 @@ public class SessionService implements SessionInterfaceAsync {
 	}
 
 	@Override
-	public void refresh(AsyncCallback callback) {
-		service.refresh(callback);
+	public void ping(AsyncCallback callback) {
+		service.ping(callback);
 	}
 	
 }

@@ -374,7 +374,7 @@ public class AppController implements Controller, ValueChangeHandler<String> {
 
 	
 	private void updateSessionLastAccessedTime() {
-		sessionService.refresh(new AsyncCallback<Object>() {
+		sessionService.ping(new AsyncCallback<Object>() {
 			public void onSuccess(Object paramT) {
 				//do nothing
 			}

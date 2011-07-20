@@ -18,33 +18,24 @@ public class SessionServiceImpl extends RemoteServiceServlet implements
 	private static final long serialVersionUID = 1L;
 
 	private int timeout;
-	private long lastAccessedTime = 0L;
 
 	@Override
 	public Integer getUserSessionTimeout() {
 
 		timeout = getThreadLocalRequest().getSession().getMaxInactiveInterval() * 1000;
-
-		lastAccessedTime = System.currentTimeMillis();
-
 		return timeout;
 	}
 
 	@Override
 	public Boolean isSessionAlive() {
-
-		if (getThreadLocalRequest().getSession()
-				.getLastAccessedTime() > lastAccessedTime){
-			lastAccessedTime = getThreadLocalRequest().getSession()
-				.getLastAccessedTime();  
-		}
-				
-		return new Boolean((System.currentTimeMillis() - lastAccessedTime) < timeout);
+		
+		return new Boolean((System.currentTimeMillis() - getThreadLocalRequest().getSession()
+				.getLastAccessedTime()) < timeout);
 	}
 
 	@Override
-	public void refresh() {
-		lastAccessedTime = System.currentTimeMillis();
+	public void ping() {
+
 	}
 
 }

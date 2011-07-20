@@ -14,6 +14,6 @@ public interface SessionInterface extends RemoteService {
 
     Integer getUserSessionTimeout();
     Boolean isSessionAlive();
-    void refresh();
+    void ping();
     
 }
