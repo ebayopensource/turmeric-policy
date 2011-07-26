@@ -8,7 +8,9 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.policy.adminui.server;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,13 +20,19 @@ import java.util.Enumeration;
 import java.util.TimeZone;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
+import org.apache.xerces.jaxp.validation.XMLSchemaFactory;
 import org.eclipse.jetty.client.ContentExchange;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.continuation.Continuation;
@@ -34,6 +42,7 @@ import org.eclipse.jetty.http.HttpSchemes;
 import org.eclipse.jetty.http.HttpURI;
 import org.eclipse.jetty.http.MimeTypes;
 import org.eclipse.jetty.io.Buffer;
+import org.xml.sax.SAXException;
 
 import com.google.gwt.core.client.GWT;
 
@@ -95,7 +104,9 @@ public class PlcExportServlet extends HttpServlet {
 		HttpServletResponse response = (HttpServletResponse) res;
 		String result = (String) request.getAttribute("RESULT");
 		Boolean error = (Boolean) request.getAttribute("ERROR");
+		String error_msg = (String) request.getAttribute("INVALID_FORMAT");
 
+		
 		if (result == null && error == null) {
 
 			final Continuation continuation = ContinuationSupport
@@ -142,6 +153,12 @@ public class PlcExportServlet extends HttpServlet {
 
 		if (error != null) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		} else if (error_msg != null){
+			final String filename = "turmeric_export_error.xml";
+			response.setContentType(MimeTypes.TEXT_HTML);
+			response.setHeader("Content-disposition", "attachment; filename="
+					+ filename);
+			response.getOutputStream().write(error_msg.getBytes());
 		} else {
 			final String filename = getFileName(exportedEntity);
 			response.setContentType(MimeTypes.TEXT_HTML);
@@ -261,31 +278,41 @@ public class PlcExportServlet extends HttpServlet {
 					request.setAttribute("ERROR", Boolean.TRUE);
 				} else {
 
-					//TODO validate it against XSD
-					
-//					try {
-//
-//						final ServletContext context = getServletContext();
-//
-//						String schemaLang = "http://www.w3.org/2001/XMLSchema";
-//						// get validation driver:
-//						SchemaFactory factory = XMLSchemaFactory
-//								.newInstance(schemaLang);
-//						// create schema by reading it from an XSD file:
-//						final InputStream importexportAsStream = context
-//								.getResourceAsStream("/importexport.xsd");
-//
-//						final StreamSource importExportSource = new StreamSource(
-//								importexportAsStream);
-//						final Schema schema = factory
-//								.newSchema(importExportSource);
-//						Validator validator = schema.newValidator();
-//						validator.validate(new StreamSource(content));
+					try {
+
+						final ServletContext context = getServletContext();
+
+						String schemaLang = "http://www.w3.org/2001/XMLSchema";
+						// get validation driver:
+						SchemaFactory factory = XMLSchemaFactory
+								.newInstance(schemaLang);
+						// create schema by reading it from an XSD file:
+						final InputStream importexportAsStream = context
+								.getResourceAsStream("/importexport.xsd");
+
+						final StreamSource importExportSource = new StreamSource(
+								importexportAsStream);
+						final Schema schema = factory
+								.newSchema(importExportSource);
+						Validator validator = schema.newValidator();
+						
+						byte[] xmlBytes = content.getBytes("UTF-8");
+						
+						StreamSource streamSource = new StreamSource(new ByteArrayInputStream(xmlBytes));
+						
+						try {
+							validator.validate(streamSource);
+				        }
+				        catch (SAXException ex) {
+				        	request.setAttribute("INVALID_FORMAT", ex.getMessage());
+				        }  
+						
 						request.setAttribute("RESULT", content);
-//					} catch (Exception e) {
-//						System.out.println(e);
-//						request.setAttribute("ERROR", Boolean.TRUE);
-//					}
+						
+						
+					} catch (Exception e) {
+						request.setAttribute("ERROR", Boolean.TRUE);
+					}
 				}
 
 				continuation.resume();
