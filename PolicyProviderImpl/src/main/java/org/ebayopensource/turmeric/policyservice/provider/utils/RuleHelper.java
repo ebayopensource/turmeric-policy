@@ -59,7 +59,7 @@ public class RuleHelper {
     	rule.setRolloverPeriod(jpaRule.getRolloverPeriod());
     	rule.setRuleId(jpaRule.getId());
     	rule.setPriority(jpaRule.getPriority());
-    	rule.setRuleName(rule.getRuleName());
+    	rule.setRuleName(jpaRule.getRuleName());
     	KeyValuePair kvpEmails = new KeyValuePair();
     	kvpEmails.setKey("NotifyEmails");
     	kvpEmails.setValue(jpaRule.getNotifyEmails());
