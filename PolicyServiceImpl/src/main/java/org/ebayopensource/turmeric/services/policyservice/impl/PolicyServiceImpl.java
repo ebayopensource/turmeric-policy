@@ -762,12 +762,13 @@ public class PolicyServiceImpl extends SelfProvisioningPolicy
 		}
 		
 		PolicySet policySet = new PolicySet();
+		policySet.setPolicySetId("urn:oasis:names:tc:xacml:1.0");
 		policySet
         .setPolicyCombiningAlgId("urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable");
 		policySet.setLastModified(response.getTimestamp());
 		response.setPolicySet(policySet);
 		response.getPolicySet().getPolicy().addAll(policyList);	
-		
+	 	
 		return response;
 	}
 
