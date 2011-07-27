@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*********************************************************************
  * Copyright (c) 2006-2010 eBay Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -6,26 +6,44 @@
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *******************************************************************************/
-package org.ebayopensource.turmeric.policy.adminui.client.util;
+package org.ebayopensource.turmeric.policy.adminui.server;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 import javax.wsdl.Definition;
+import javax.wsdl.Service;
 import javax.wsdl.Types;
 import javax.wsdl.WSDLException;
 import javax.wsdl.factory.WSDLFactory;
 import javax.wsdl.xml.WSDLReader;
+import javax.xml.namespace.QName;
 
-import com.google.gwt.core.client.GWT;
+import org.ebayopensource.turmeric.policy.adminui.client.WSDL.WSDLReaderInterface;
 
-/**
- * The Class WsdlReader.
- */
-public class WsdlReader {
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-	/** The wsdl instance. */
-	private static Definition wsdlInstance;
-	
-	static {
+public class WSDLReaderServiceImpl extends RemoteServiceServlet implements
+		WSDLReaderInterface {
+
+	private static final long serialVersionUID = 1L;
+
+	private  Definition wsdlInstance;
+	private String wsdlPolicyServiceURL;
+
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+
+		if (config.getInitParameter("PolicyServiceURL") != null) {
+			wsdlPolicyServiceURL = config.getInitParameter("PolicyServiceURL")
+					+ "?wsdl";
+		}
+
 		// get hold the WSDLFactory
 		WSDLFactory factory;
 		try {
@@ -34,28 +52,24 @@ public class WsdlReader {
 			// create an object to read the WSDL file
 			WSDLReader reader = factory.newWSDLReader();
 
-			// pass the URL to the reader for parsing and get back a WSDL
+			// pass the URL to the reader for parsing and get back a WSDL 
 			// definiton
+			wsdlInstance = reader.readWSDL(wsdlPolicyServiceURL);
+			System.out.println(wsdlInstance.getTypes());
 
-			String policyServiceWSDLURL = GWT.getModuleBaseURL()
-					+ "/PolicyService.wsdl";
-
-			wsdlInstance = reader.readWSDL(policyServiceWSDLURL);
 		} catch (WSDLException e) {
-			// TODO Auto-generated catch block
+			// TODO Jose Send the error to Browser
 			e.printStackTrace();
 		}
 
 	}
-
 	
-
 	/**
 	 * Gets the messages.
 	 * 
 	 * @return the messages
 	 */
-	public static Map getMessages() {
+	public Map getMessages() {
 		if (wsdlInstance != null) {
 			return wsdlInstance.getMessages();
 		} else {
@@ -68,7 +82,7 @@ public class WsdlReader {
 	 * 
 	 * @return the port types
 	 */
-	public static Map getPortTypes() {
+	public  Map getPortTypes() {
 		if (wsdlInstance != null) {
 			return wsdlInstance.getPortTypes();
 		} else {
@@ -81,7 +95,7 @@ public class WsdlReader {
 	 * 
 	 * @return the bindings
 	 */
-	public static Map getBindings() {
+	public  Map getBindings() {
 		if (wsdlInstance != null) {
 			return wsdlInstance.getBindings();
 		} else {
@@ -94,7 +108,7 @@ public class WsdlReader {
 	 * 
 	 * @return the types
 	 */
-	public static Types getTypes() {
+	public  Types getTypes() {
 		if (wsdlInstance != null) {
 			return wsdlInstance.getTypes();
 		} else {
@@ -107,12 +121,18 @@ public class WsdlReader {
 	 * 
 	 * @return the services
 	 */
-	public static Map getServices() {
+	public  Map getServices() {
 		if (wsdlInstance != null) {
 			return wsdlInstance.getServices();
 		} else {
 			return null;
 		}
+	}
+
+
+	public List<String> getEffectTypes() {
+		System.out.println(wsdlInstance.getTypes());
+		return null;
 	}
 
 }

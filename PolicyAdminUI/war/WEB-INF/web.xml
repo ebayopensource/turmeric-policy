@@ -75,6 +75,19 @@
   </servlet-mapping>
   
   
+   <servlet>
+    <servlet-name>WSDLReaderServiceServlet</servlet-name>
+    <servlet-class>org.ebayopensource.turmeric.policy.adminui.server.WSDLReaderServiceImpl</servlet-class>
+  	<!--  use non HTTPS -->
+  	<init-param>
+        <param-name>PolicyServiceURL</param-name><param-value>http://localhost:8080/security/PolicyServiceV1</param-value>
+     </init-param>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>WSDLReaderServiceServlet</servlet-name>
+    <url-pattern>/policyadminui/wsdlReaderService</url-pattern>
+  </servlet-mapping>
   
   <!--Proxy for the PolicyEnforcementService -->
   <servlet>
