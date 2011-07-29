@@ -85,6 +85,7 @@ public class PolicyExtraFieldsUtil {
 		// Effect
 		final ExtraField field_6 = new ExtraField();
 		field_6.setFieldType("ListBox");
+		field_6.setListBox(new ListBox());
 		field_6.setLabelName("Effect:");
 		field_6.setOrder(6);
 		field_6.setLenghtBox("80px");
