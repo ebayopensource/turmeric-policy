@@ -25,6 +25,7 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.ibm.wsdl.xml.WSDLReaderImpl;
 
 
 /**
