@@ -12,7 +12,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public interface WSDLReaderInterfaceAsync  {
+public interface WSDLMetadataReaderInterfaceAsync  {
     
 	void getEffectTypes(AsyncCallback<List<String>> callback);
 }

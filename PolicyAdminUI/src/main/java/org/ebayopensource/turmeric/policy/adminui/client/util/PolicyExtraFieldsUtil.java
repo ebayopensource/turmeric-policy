@@ -11,12 +11,8 @@ package org.ebayopensource.turmeric.policy.adminui.client.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
-import org.ebayopensource.turmeric.policy.adminui.client.WSDL.WSDLReaderService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ExtraField;
 
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.ListBox;
 
 /**
@@ -26,7 +22,7 @@ public class PolicyExtraFieldsUtil {
 	// TODO move it to specific RL policy Presenter extends from PolicyCreate
 	// Presenter
 	private static List<ExtraField> rlExtraFields;
-	private static WSDLReaderService wsdlService;
+
 
 	/**
 	 * Gets the rL extra fields.
@@ -35,15 +31,10 @@ public class PolicyExtraFieldsUtil {
 	 */
 	public static List<ExtraField> getRLExtraFields() {
 
-		wsdlService = new WSDLReaderService();
-
 		rlExtraFields = new ArrayList<ExtraField>();
-		// TODO JOSE load from xml file from an Util class
-
 		// Policy Based Email Address:
 		ExtraField field_1 = new ExtraField();
 		field_1.setFieldType("TextBox");
-		// TODO JOSE I18N the extra fields
 		field_1.setLabelName("Policy Based Email Address:");
 		field_1.setOrder(1);
 		field_1.setLenghtBox("300px");
@@ -52,7 +43,6 @@ public class PolicyExtraFieldsUtil {
 		// Subject Based Email Address:
 		ExtraField field_2 = new ExtraField();
 		field_2.setFieldType("CheckBox");
-		// TODO JOSE I18N the extra fields
 		field_2.setLabelName("Subject Based Email Address:");
 		field_2.setOrder(2);
 		rlExtraFields.add(field_2);
@@ -60,7 +50,6 @@ public class PolicyExtraFieldsUtil {
 		// Effect Duration
 		ExtraField field_3 = new ExtraField();
 		field_3.setFieldType("TextBox");
-		// TODO JOSE I18N the extra fields
 		field_3.setLabelName("Effect Duration: (secs)");
 		field_3.setOrder(3);
 		field_3.setLenghtBox("80px");
@@ -69,7 +58,6 @@ public class PolicyExtraFieldsUtil {
 		// Rollover period
 		ExtraField field_4 = new ExtraField();
 		field_4.setFieldType("ListBox");
-		// TODO JOSE I18N the extra fields
 		ListBox rollover = new ListBox();
 		rollover.addItem("3600");
 		rollover.addItem("86400");
@@ -93,38 +81,10 @@ public class PolicyExtraFieldsUtil {
 		field_5.setLenghtBox("80px");
 		rlExtraFields.add(field_5);
 
+		// move to the 1st cause it is async call
 		// Effect
-		ExtraField field_6 = new ExtraField();
+		final ExtraField field_6 = new ExtraField();
 		field_6.setFieldType("ListBox");
-		// TODO JOSE I18N the extra fields
-		final ListBox effect = new ListBox();
-
-		wsdlService.getEffectTypes(new AsyncCallback<List<String>>() {
-
-			@Override
-			public void onSuccess(List<String> effectTypes) {
-
-				for (String effectType : effectTypes) {
-					effect.addItem(effectType);
-				}
-
-			}
-
-			@Override
-			public void onFailure(Throwable arg0) {
-				if (arg0.getLocalizedMessage().contains("500")) {
-					Window.alert(PolicyAdminUIUtil.messages
-							.serverError(PolicyAdminUIUtil.policyAdminConstants
-									.genericErrorMessage()));
-				} else {
-					Window.alert(PolicyAdminUIUtil.messages.serverError(arg0
-							.getLocalizedMessage()));
-				}
-
-			}
-		});
-
-		field_6.setListBox(effect);
 		field_6.setLabelName("Effect:");
 		field_6.setOrder(6);
 		field_6.setLenghtBox("80px");
@@ -133,7 +93,6 @@ public class PolicyExtraFieldsUtil {
 		// condition
 		ExtraField field_7 = new ExtraField();
 		field_7.setFieldType("TextArea");
-		// TODO JOSE I18N the extra fields
 		field_7.setLabelName("Condition:");
 		field_7.setOrder(7);
 		field_7.setLenghtBox("580px");

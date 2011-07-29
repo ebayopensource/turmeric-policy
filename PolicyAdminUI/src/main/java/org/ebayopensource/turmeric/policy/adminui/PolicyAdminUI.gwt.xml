@@ -28,7 +28,7 @@
   <entry-point class='org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUI'/>
   
   <servlet path="/sessionService" class="org.ebayopensource.turmeric.policy.adminui.server.SessionServiceImpl"/>  
-  <servlet path="/wsdlReaderService" class="org.ebayopensource.turmeric.policy.adminui.server.WSDLReaderServiceImpl"/>  
+  <servlet path="/wsdlMetadataReaderService" class="org.ebayopensource.turmeric.policy.adminui.server.WSDLMetadataReaderServiceImpl"/>  
   	
   
   <!-- Specify the paths for translatable code                    -->

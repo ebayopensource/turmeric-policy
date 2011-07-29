@@ -12,7 +12,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 
-public interface WSDLReaderInterface extends RemoteService {
+public interface WSDLMetadataReaderInterface extends RemoteService {
 
     List<String> getEffectTypes();
     

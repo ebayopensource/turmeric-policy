@@ -14,14 +14,14 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
-public class WSDLReaderService implements WSDLReaderInterfaceAsync {
+public class WSDLMetadataReaderService implements WSDLMetadataReaderInterfaceAsync {
 	
-	WSDLReaderInterfaceAsync service = (WSDLReaderInterfaceAsync) GWT.create(WSDLReaderInterface.class);
+	WSDLMetadataReaderInterfaceAsync service = (WSDLMetadataReaderInterfaceAsync) GWT.create(WSDLMetadataReaderInterface.class);
 	ServiceDefTarget endpoint = (ServiceDefTarget) service;
 
-	public WSDLReaderService()
+	public WSDLMetadataReaderService()
 	{
-		endpoint.setServiceEntryPoint(GWT.getModuleBaseURL() + "wsdlReaderService");
+		endpoint.setServiceEntryPoint(GWT.getModuleBaseURL() + "wsdlMetadataReaderService");
 	}
 	
 	@Override
