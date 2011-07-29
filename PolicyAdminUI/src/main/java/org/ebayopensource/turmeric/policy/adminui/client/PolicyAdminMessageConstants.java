@@ -90,6 +90,14 @@ public interface PolicyAdminMessageConstants extends Messages {
 	String deletePoliciesConfirmMessage();
 	
 	/**
+	 * No effect types loaded.
+	 *
+	 * @return the string
+	 */
+	@DefaultMessage("No Effect Types found! Please contact your server administrator")
+	String noEffectTypesLoaded();
+	
+	/**
 	 * Export policies confirm message.
 	 * 
 	 * @return the string

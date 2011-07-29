@@ -12,12 +12,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.Controller;
+import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.PolicyDashboard;
 import org.ebayopensource.turmeric.policy.adminui.client.SupportedService;
-import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken;
+import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyQueryService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyType;
@@ -112,6 +112,7 @@ public class PolicyController implements Presenter, Controller {
 	private void initMetaData() {
 		PolicyQueryService policyService = (PolicyQueryService) serviceMap
 				.get(SupportedService.POLICY_QUERY_SERVICE);
+		
 		SubjectType.init(policyService, new AsyncCallback<List<String>>() {
 
 			public void onFailure(final Throwable arg) {
@@ -163,6 +164,7 @@ public class PolicyController implements Presenter, Controller {
 				// nothing to do, the PolicyTypes have been loaded
 			}
 		});
+		
 	}
 
 	private void initPresenters() {
