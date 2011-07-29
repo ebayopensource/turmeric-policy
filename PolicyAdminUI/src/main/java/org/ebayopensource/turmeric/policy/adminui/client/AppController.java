@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ebayopensource.turmeric.policy.adminui.client.WSDL.WSDLMetadataReaderService;
 import org.ebayopensource.turmeric.policy.adminui.client.event.LoginEvent;
 import org.ebayopensource.turmeric.policy.adminui.client.event.LoginEventHandler;
 import org.ebayopensource.turmeric.policy.adminui.client.event.LoginFailureEvent;
@@ -24,6 +25,7 @@ import org.ebayopensource.turmeric.policy.adminui.client.event.LogoutEvent;
 import org.ebayopensource.turmeric.policy.adminui.client.event.LogoutEventHandler;
 import org.ebayopensource.turmeric.policy.adminui.client.model.HistoryToken;
 import org.ebayopensource.turmeric.policy.adminui.client.model.PolicyAdminUIService;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.EffectType;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.OperationKey;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnforcementService;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.PolicyEnforcementService.VerifyAccessResponse;
@@ -35,8 +37,6 @@ import org.ebayopensource.turmeric.policy.adminui.client.model.policy.SubjectGro
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.MenuController;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.Presenter;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.SplashPresenter;
-import org.ebayopensource.turmeric.policy.adminui.client.session.SessionInterface;
-import org.ebayopensource.turmeric.policy.adminui.client.session.SessionInterfaceAsync;
 import org.ebayopensource.turmeric.policy.adminui.client.session.SessionService;
 import org.ebayopensource.turmeric.policy.adminui.client.shared.AppUser;
 import org.ebayopensource.turmeric.policy.adminui.client.util.AppKeyUtil;
@@ -44,7 +44,6 @@ import org.ebayopensource.turmeric.policy.adminui.client.util.PresenterUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.view.SplashView;
 import org.ebayopensource.turmeric.policy.adminui.client.view.policy.ApplicationMenuView;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -53,7 +52,6 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 /**
@@ -75,6 +73,7 @@ public class AppController implements Controller, ValueChangeHandler<String> {
 
 	private Timer sessionTimeoutResponseTimer;
 	private SessionService sessionService;
+	private WSDLMetadataReaderService wsdlMetadataReaderService;
 
 	/**
 	 * Added to the first session timeout check to allow for startup time
@@ -99,9 +98,11 @@ public class AppController implements Controller, ValueChangeHandler<String> {
 		this.eventBus = eventBus;
 		this.rootContainer = rootContainer;
 		this.serviceMap = serviceMap;
-
 		sessionService = new SessionService();
-		initPresenters();
+		wsdlMetadataReaderService = new WSDLMetadataReaderService();
+		fetchWSDLMetadata();
+		initPresenters();		
+		
 	}
 
 	/**
@@ -190,9 +191,8 @@ public class AppController implements Controller, ValueChangeHandler<String> {
 
 				// Clean up
 				cleanup();
-
 				initPresenters();
-
+				
 				// Go back to the splash screen
 				HistoryToken token = HistoryToken.newHistoryToken();
 				PresenterUtil.forceRedirectToPresenter(token,
@@ -202,6 +202,7 @@ public class AppController implements Controller, ValueChangeHandler<String> {
 						.get(SplashPresenter.SPLASH_ID);
 				concreteSplashPresenter.handleLogoutSuccessView();
 			}
+
 		});
 
 		// login event handler
@@ -308,10 +309,27 @@ public class AppController implements Controller, ValueChangeHandler<String> {
 		});
 	}
 
+	private void fetchWSDLMetadata() {
+
+		EffectType.init(wsdlMetadataReaderService,  new AsyncCallback<List<String>>() {
+			public void onFailure(final Throwable arg) {
+				if (arg.getLocalizedMessage().contains("500")) {
+					Window.alert(PolicyAdminUIUtil.messages
+							.serverError(PolicyAdminUIUtil.policyAdminConstants
+									.genericErrorMessage()));
+				} else {
+					Window.alert(PolicyAdminUIUtil.messages.serverError(arg
+							.getLocalizedMessage()));
+				}
+			}
+
+			public void onSuccess(List<String> arg0) {
+				// nothing to do, the EffectTypes have been loaded
+			}
+		});
+	}
+	
 	private void initSessionTimers() {
-
-		
-
 		sessionService.getUserSessionTimeout(new AsyncCallback<Integer>() {
 			public void onSuccess(Integer timeout) {
 				timeoutCicle = timeout;
@@ -396,6 +414,7 @@ public class AppController implements Controller, ValueChangeHandler<String> {
 	
 	private void initPresenters() {
 		Presenter presenter = null;
+		
 		// splash page
 		presenter = new SplashPresenter(this.eventBus, new SplashView());
 		addPresenter(presenter.getId(), presenter);

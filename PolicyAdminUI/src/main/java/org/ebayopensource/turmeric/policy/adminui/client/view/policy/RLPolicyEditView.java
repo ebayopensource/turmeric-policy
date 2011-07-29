@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.ebayopensource.turmeric.policy.adminui.client.PolicyAdminUIUtil;
 import org.ebayopensource.turmeric.policy.adminui.client.model.UserAction;
+import org.ebayopensource.turmeric.policy.adminui.client.model.policy.EffectType;
 import org.ebayopensource.turmeric.policy.adminui.client.model.policy.ExtraField;
 import org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.RLPolicyEditPresenter.RLPolicyEditDisplay;
 import org.ebayopensource.turmeric.policy.adminui.client.util.PolicyExtraFieldsUtil;
@@ -101,6 +102,23 @@ public class RLPolicyEditView extends PolicyEditView  implements RLPolicyEditDis
 		}
     }
 
+	/* (non-Javadoc)
+	 * @see org.ebayopensource.turmeric.policy.adminui.client.Display#activate()
+	 */
+	@Override
+	public void activate() {
+		contentView.activate();
+		//setting effect values
+		ListBox list = (ListBox) extraFieldsGrid.getWidget(6, 1);
+		if(list.getItemCount() == 0){
+			for (String effectType: EffectType.getValues()) {
+				list.addItem(effectType);
+			}	
+		}
+				
+			
+		this.setVisible(true);
+	}
 
 	/* (non-Javadoc)
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.view.policy.PolicyCreateView#clear()
