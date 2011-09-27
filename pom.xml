@@ -8,8 +8,7 @@
 	  <parent>
 	    <groupId>org.ebayopensource.turmeric</groupId>
 	    <artifactId>turmeric-project</artifactId>
-	    <version>1.1.0.2-SNAPSHOT</version>
-	    <relativePath>../turmeric-project/pom.xml</relativePath>
+	    <version>1.1.0.3</version>
 	  </parent>
 	<groupId>org.ebayopensource.turmeric.policy</groupId>
 	<artifactId>turmeric-policy-parent</artifactId>
@@ -22,10 +21,11 @@
 		<turmeric-security-version>1.0.0-Beta</turmeric-security-version>
         </properties>
 
-        <scm>
-          <connection>scm:svn:http://www.ebayopensource.org/svn/turmeric/soa-platform/trunk/policy</connection>
-          <developerConnection>scm:svn:http://www.ebayopensource.org/svn/turmeric/soa-platform/trunk/policy</developerConnection>
-       </scm>
+	  <scm>
+	    <connection>scm:git:git@github.com:ebayopensource/turmeric-policy.git</connection>
+	    <developerConnection>scm:git:git@github.com:ebayopensource/turmeric-policy.git</developerConnection>
+	    <url>scm:git:git@github.com:ebayopensource/turmeric-policy.git</url>
+	  </scm>
 
 	<modules>
                 <module>PolicyProvider</module>
