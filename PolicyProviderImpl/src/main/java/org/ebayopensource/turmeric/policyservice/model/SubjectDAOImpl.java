@@ -317,7 +317,9 @@ public class SubjectDAOImpl extends AbstractDAO implements SubjectDAO {
 		result.setApplyToEach(jpaSubjectGroup.getApplyToEach());
 		result.setApplyToAll(jpaSubjectGroup.getApplyToAll());
 		result.setDescription(jpaSubjectGroup.getDescription());
-
+		for(Subject subject : jpaSubjectGroup.getSubjects()){
+			result.getSubject().add(convert(subject));
+		}
 		AuditInfo auditInfo = jpaSubjectGroup.getAuditInfo();
 		result.setCreatedBy(auditInfo.getCreatedBy());
 		result.setLastModifiedBy(auditInfo.getUpdatedBy());
@@ -354,21 +356,6 @@ public class SubjectDAOImpl extends AbstractDAO implements SubjectDAO {
 				subjectGroup.isApplyToEach(), subjectGroup.isApplyToAll(),
 				subjectGroup.getDescription());
 	}
-
-	//
-	// public static
-	// org.ebayopensource.turmeric.security.v1.services.GroupCalculatorInfo
-	// convert(GroupCalculator jpaGroupCalculator) {
-	// org.ebayopensource.turmeric.security.v1.services.GroupCalculatorInfo
-	// result =
-	// new
-	// org.ebayopensource.turmeric.security.v1.services.GroupCalculatorInfo();
-	// result.setName(jpaGroupCalculator.getName());
-	// result.setSubjectTypeName(jpaGroupCalculator.getSubjectTypeName());
-	// result.setDescription(jpaGroupCalculator.getDescription());
-	//
-	// return result;
-	// }
 
 	/* (non-Javadoc)
 	 * @see org.ebayopensource.turmeric.policyservice.model.SubjectDAO#findExternalSubjects()
