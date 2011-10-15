@@ -392,6 +392,7 @@ class BasePolicyServiceImpl
 				UpdateMode.REPLACE
 				);
 		inputPolicy.setActive(Boolean.FALSE);
+		inputPolicy.getRule().clear(); //rule goes at policyEditObject
 		PolicyKey policyKey = provider.createPolicy(
 				inputPolicy, 
 				policyEditObject,
