@@ -1083,10 +1083,6 @@ public abstract class ListPolicyBase  implements PolicyTypeProvider {
 							if (rule.getRuleId() != null) {
 								jpaRule = ruleDAO
 										.findRuleById(rule.getRuleId());
-							} else if (rule.getRuleName() != null
-									&& rule.getRuleName().trim().length() != 0) {
-								jpaRule = ruleDAO.findRuleByName(rule
-										.getRuleName());
 							} else {
 								jpaRule = RuleHelper.convert(rule);
 							}
