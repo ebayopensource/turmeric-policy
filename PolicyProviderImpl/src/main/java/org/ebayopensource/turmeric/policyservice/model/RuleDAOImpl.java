@@ -183,17 +183,46 @@ public class RuleDAOImpl extends AbstractDAO implements RuleDAO {
 						.getType() != null 
 				&& (rule.getRuleName() != null || rule.getRuleName().length() != 0)
 				){
-			valid = isValidCondition(rule.getCondition().getExpression().getPrimitiveValue().getValue());
-		   	
+			String conditionRule = rule.getCondition().getExpression().getPrimitiveValue().getValue();
+			valid = isValidStructure(conditionRule);
+			
 		}
 			
 		return valid;
 	}
-	private boolean isValidCondition(String value) {
+
+	private boolean isValidStructure(final String conditionRule) {
+		boolean flag = true;
+		if (conditionRule != null) {
+	
+			String[] operators = { "||", "&&" };
+			String[] operands;
+			for (String operator : operators) {
+				if (conditionRule == null) {
+					flag = false;
+					break;
+				}
+				if (conditionRule.contains(operator)) {
+					operands = conditionRule.split(operator);
+
+					for (String operand : operands) {
+						if (!operand.contains(".hits")	|| operand.contains(".count")|| operand.contains("HITS")) {
+							return false;
+						}
+						if (!isValidCondition(operand)) {
+							return false;
+						}
+					}
+				}
+			}
+
+		}
+		return flag;
+	}
+	
+	private boolean isValidCondition(final String value) {
 		boolean flag =false;
 		if( value!=null ){
-			//FIXME should not be Hardcoded retrieve me from some where
-			//if((value.contains(".hits") || value.contains(".count") || value.contains("HITS"))){
 				String[] expression = {">","<" ,"==" ,"=>",">=","<=","=<"};
 				String[] words;
 				for(String val:expression){
@@ -213,16 +242,13 @@ public class RuleDAOImpl extends AbstractDAO implements RuleDAO {
 								flag = true;
 							}catch (NumberFormatException e) {
 								try{
-									
 									 Integer.valueOf(words[1].trim());
 									 flag = true;
 								}catch (NumberFormatException e1) {
-//									e1.printStackTrace();
 								}
 							}
 						}
 				}
-//			}
 		}
 		return flag;
 	}

@@ -221,8 +221,8 @@ public class RLPolicyCreatePresenter extends PolicyCreatePresenter {
 		List<String> conditions = new ArrayList<String>();
 
 		conditions.add("count");
-		conditions.add("ext");
 		conditions.add("hits");
+		conditions.add("HITS");
 
 		view.setConditionNames(conditions);
 	}

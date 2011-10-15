@@ -200,8 +200,8 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 		private void setLogicOpListBoxValues() {
 			logicOpListBox.addItem("");
-			logicOpListBox.addItem(" AND ");
-			logicOpListBox.addItem(" OR ");
+			logicOpListBox.addItem(" && ");
+			logicOpListBox.addItem(" || ");
 		}
 
 		public void clearConditionBuilder() {
