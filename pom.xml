@@ -36,5 +36,6 @@
 		<module>PolicyProviderImpl</module>
 		<module>PolicyAdminUI</module>
 		<module>policy-adminui-dist</module>
+                <module>policy-war</module>
 	</modules>
 </project>
