@@ -194,28 +194,29 @@ public class RuleDAOImpl extends AbstractDAO implements RuleDAO {
 	private boolean isValidStructure(final String conditionRule) {
 		boolean flag = true;
 		if (conditionRule != null) {
-	
-			String[] operators = { "||", "&&" };
 			String[] operands;
-			for (String operator : operators) {
-				if (conditionRule == null) {
-					flag = false;
-					break;
-				}
-				if (conditionRule.contains(operator)) {
-					operands = conditionRule.split(operator);
+
+				if (conditionRule.contains("||")) {
+					operands = conditionRule.split("\\|\\|");
 
 					for (String operand : operands) {
-						if (!operand.contains(".hits")	|| operand.contains(".count")|| operand.contains("HITS")) {
-							return false;
-						}
-						if (!isValidCondition(operand)) {
+						if ( ! (operand.contains(":hits")	|| operand.contains(".count")|| operand.contains("HITS")) || ! isValidCondition(operand)) {
 							return false;
 						}
 					}
-				}
-			}
+				}else{
+					if (conditionRule.contains("&&")) {
+						operands = conditionRule.split("\\&\\&");
 
+						for (String operand : operands) {
+							if ( ! (operand.contains(":hits")	|| operand.contains(".count")|| operand.contains("HITS")) || ! isValidCondition(operand)) {
+								return false;
+							}
+						}
+					}else if ( ! (conditionRule.contains(":hits")	|| conditionRule.contains(".count")|| conditionRule.contains("HITS")) || ! isValidCondition(conditionRule)) {
+						return true;
+					}
+				}
 		}
 		return flag;
 	}
