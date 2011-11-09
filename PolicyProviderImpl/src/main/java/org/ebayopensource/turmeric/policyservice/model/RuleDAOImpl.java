@@ -200,22 +200,40 @@ public class RuleDAOImpl extends AbstractDAO implements RuleDAO {
 					operands = conditionRule.split("\\|\\|");
 
 					for (String operand : operands) {
-						if ( ! (operand.contains(":hits")	|| operand.contains(".count")|| operand.contains("HITS")) || ! isValidCondition(operand)) {
+						operand = operand.trim();
+						if ( ! (operand.trim().matches("\\w+:\\w+.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
+								operand.trim().matches("\\w+:\\w+.SubjectGroup.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
+								operand.trim().matches("\\w+:\\w+.SubjectGroup.Subject.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
+								operand.trim().matches("\\w+:hits[>,<,==,=>,>=,<=,=<][0-9]+")	|| 
+								operand.trim().matches("HITS[>,<,==,=>,>=,<=,=<][0-9]+")) || 
+								! isValidCondition(operand)) {
 							return false;
 						}
 					}
 				}else{
 					if (conditionRule.contains("&&")) {
 						operands = conditionRule.split("\\&\\&");
-
+						
 						for (String operand : operands) {
-							if ( ! (operand.contains(":hits")	|| operand.contains(".count")|| operand.contains("HITS")) || ! isValidCondition(operand)) {
+							operand = operand.trim();
+							if ( ! (operand.trim().matches("\\w+:\\w+.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
+									operand.trim().matches("\\w+:\\w+.SubjectGroup.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
+									operand.trim().matches("\\w+:\\w+.SubjectGroup.Subject.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
+									operand.trim().matches("\\w+:hits[>,<,==,=>,>=,<=,=<][0-9]+")	|| 
+									operand.trim().matches("HITS[>,<,==,=>,>=,<=,=<][0-9]+")) || 
+									! isValidCondition(operand)) {
 								return false;
 							}
 						}
-					}else if ( ! (conditionRule.contains(":hits")	|| conditionRule.contains(".count")|| conditionRule.contains("HITS")) || ! isValidCondition(conditionRule)) {
-						return true;
-					}
+					}else if ( ! (conditionRule.trim().matches("\\w+:\\w+.count[>,<,==,=>,>=,<=,=<][0-9]+") ||   
+								conditionRule.trim().matches("\\w+:\\w+.SubjectGroup.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
+								conditionRule.trim().matches("\\w+:\\w+.SubjectGroup.Subject.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
+								conditionRule.trim().matches("\\w+:hits[>,<,==,=>,>=,<=,=<][0-9]+")	|| 
+								conditionRule.trim().matches("HITS[>,<,==,=>,>=,<=,=<][0-9]+")) || 
+								! isValidCondition(conditionRule)) {
+							return false;
+						}
+					
 				}
 		}
 		return flag;

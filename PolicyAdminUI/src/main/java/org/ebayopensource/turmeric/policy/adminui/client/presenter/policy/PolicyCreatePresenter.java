@@ -1351,6 +1351,13 @@ public abstract class PolicyCreatePresenter extends AbstractGenericPresenter {
 		String getConditionSelected();
 
 		/**
+		 * Gets the subject or sg selected.
+		 *
+		 * @return the subject or sg selected
+		 */
+		String getSubjectOrSGSelected();
+		
+		/**
 		 * Gets the quantity box.
 		 * 
 		 * @return the quantity box

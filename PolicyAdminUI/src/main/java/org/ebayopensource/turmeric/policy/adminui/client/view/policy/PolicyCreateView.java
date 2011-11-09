@@ -146,6 +146,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 		private ListBox rsListBox;
 		private ListBox opListBox;
+		private ListBox subjectOrSGListBox;
 		private ListBox conditionListBox;
 		private ListBox aritmSignListBox;
 		private ListBox logicOpListBox;
@@ -153,7 +154,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		public PolicyConditionWidget() {
 			mainPanel = new FlowPanel();
 
-			final Grid grid = new Grid(3, 7);
+			final Grid grid = new Grid(3, 8);
 
 			rsLabel = new Label(
 					PolicyAdminUIUtil.policyAdminConstants.service());
@@ -162,10 +163,13 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 
 			rsListBox = new ListBox(false);
 			opListBox = new ListBox(false);
+			subjectOrSGListBox = new ListBox(false);
 			conditionListBox = new ListBox(false);
 			aritmSignListBox = new ListBox(false);
-			setAritmSignListBoxValues();
 			logicOpListBox = new ListBox(false);
+			
+			setSubjectOrSGListBox();
+			setAritmSignListBoxValues();
 			setLogicOpListBoxValues();
 
 			quantityBox = new TextBox();
@@ -179,10 +183,11 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			grid.setWidget(1, 0, rsListBox);
 			grid.setWidget(1, 1, new Label(":"));
 			grid.setWidget(1, 2, opListBox);
-			grid.setWidget(1, 3, conditionListBox);
-			grid.setWidget(1, 4, aritmSignListBox);
-			grid.setWidget(1, 5, quantityBox);
-			grid.setWidget(1, 6, logicOpListBox);
+			grid.setWidget(1, 3, subjectOrSGListBox);
+			grid.setWidget(1, 4, conditionListBox);
+			grid.setWidget(1, 5, aritmSignListBox);
+			grid.setWidget(1, 6, quantityBox);
+			grid.setWidget(1, 7, logicOpListBox);
 
 			grid.setWidget(2, 4, addConditionButton);
 
@@ -198,6 +203,12 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			aritmSignListBox.addItem("=");
 		}
 
+		private void setSubjectOrSGListBox(){
+			subjectOrSGListBox.addItem("");
+			subjectOrSGListBox.addItem("SubjectGroup");
+			subjectOrSGListBox.addItem("SubjectGroup.Subject");
+		}
+		
 		private void setLogicOpListBoxValues() {
 			logicOpListBox.addItem("");
 			logicOpListBox.addItem(" && ");
@@ -208,6 +219,7 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			// select nothing
 			rsListBox.setSelectedIndex(-1);
 			opListBox.setSelectedIndex(-1);
+			subjectOrSGListBox.setSelectedIndex(-1);
 			conditionListBox.setSelectedIndex(-1);
 			aritmSignListBox.setSelectedIndex(-1);
 			logicOpListBox.setSelectedIndex(-1);
@@ -279,6 +291,14 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 			if (logicOpListBox.getSelectedIndex() >= 0)
 				return logicOpListBox.getItemText(logicOpListBox
 						.getSelectedIndex());
+			else
+				return null;
+		}
+		
+		public String getSubjectOrSGSelected() {
+			if (subjectOrSGListBox.getSelectedIndex() > 0)
+				return ".".concat(subjectOrSGListBox.getItemText(subjectOrSGListBox
+						.getSelectedIndex()));
 			else
 				return null;
 		}
@@ -1677,6 +1697,11 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 		return ((ContentView) contentView).conditionWidget.getLogicOpSelected();
 	}
 
+	@Override
+	public String getSubjectOrSGSelected() {
+		return ((ContentView) contentView).conditionWidget.getSubjectOrSGSelected();
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.ebayopensource.turmeric.policy.adminui.client.presenter.policy.PolicyCreatePresenter.PolicyCreateDisplay#setRsNames(java.util.List)
 	 */

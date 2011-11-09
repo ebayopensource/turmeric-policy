@@ -168,6 +168,7 @@ public class RLPolicyCreatePresenter extends PolicyCreatePresenter {
 				view.getRsNameSelected());
 		conditionString.append(":");
 		conditionString.append(view.getOpNameSelected());
+		conditionString.append(view.getSubjectOrSGSelected());
 		conditionString.append(".");
 		conditionString.append(view.getConditionSelected());
 		conditionString.append(view.getAritmSignSelected());
