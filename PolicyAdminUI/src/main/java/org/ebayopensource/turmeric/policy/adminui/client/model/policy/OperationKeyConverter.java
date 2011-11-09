@@ -49,7 +49,7 @@ public class OperationKeyConverter {
         String url = "";
         if (opKey != null) {
             url += (opKey.getOperationId() == null? "":"&ns1:operationKey("+i+").ns1:operationId="+opKey.getOperationId());
-            url += (opKey.getOperationName() == null || "".equals(opKey.getOperationName().trim())? "":"&ns1:operationKey("+i+").ns1:operationName="+opKey.getOperationName());
+            url += (opKey.getOperationName() == null? "":"&ns1:operationKey("+i+").ns1:operationName="+opKey.getOperationName());
             url += (opKey.getResourceName() == null || "".equals(opKey.getResourceName().trim())? "":"&ns1:operationKey("+i+").ns1:resourceName="+opKey.getResourceName());
             url += (opKey.getResourceType() == null || "".equals(opKey.getResourceType().trim())? "":"&ns1:operationKey("+i+").ns1:resourceType="+opKey.getResourceType());
         }
