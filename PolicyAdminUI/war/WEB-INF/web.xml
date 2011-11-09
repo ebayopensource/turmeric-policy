@@ -100,6 +100,7 @@
         <param-name>ProxyTo</param-name><param-value>https://localhost:8443/security/PolicyEnforcementServiceV1</param-value>
       </init-param>
       <load-on-startup>1</load-on-startup> 
+      <async-supported>true</async-supported>
   </servlet>
     <servlet-mapping>
       <servlet-name>PolicyEnforcementServiceProxy</servlet-name>
@@ -111,6 +112,7 @@
   <filter>
       <filter-name>ContinuationFilter</filter-name>
       <filter-class>org.eclipse.jetty.continuation.ContinuationFilter</filter-class>
+      <async-supported>true</async-supported>
   </filter>
 
   <filter-mapping>
