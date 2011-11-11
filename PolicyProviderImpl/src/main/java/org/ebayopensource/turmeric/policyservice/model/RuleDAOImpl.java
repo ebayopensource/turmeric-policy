@@ -201,7 +201,7 @@ public class RuleDAOImpl extends AbstractDAO implements RuleDAO {
 
 					for (String operand : operands) {
 						operand = operand.trim();
-						if ( ! (operand.trim().matches("\\w+:\\w+.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
+						if ( ! (operand.trim().matches("\\w+(:\\w+)?.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
 								operand.trim().matches("\\w+:\\w+.SubjectGroup.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
 								operand.trim().matches("\\w+:\\w+.SubjectGroup.Subject.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
 								operand.trim().matches("\\w+:hits[>,<,==,=>,>=,<=,=<][0-9]+")	|| 
@@ -216,7 +216,7 @@ public class RuleDAOImpl extends AbstractDAO implements RuleDAO {
 						
 						for (String operand : operands) {
 							operand = operand.trim();
-							if ( ! (operand.trim().matches("\\w+:\\w+.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
+							if ( ! (operand.trim().matches("\\w+(:\\w+)?.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
 									operand.trim().matches("\\w+:\\w+.SubjectGroup.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
 									operand.trim().matches("\\w+:\\w+.SubjectGroup.Subject.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
 									operand.trim().matches("\\w+:hits[>,<,==,=>,>=,<=,=<][0-9]+")	|| 
@@ -225,7 +225,7 @@ public class RuleDAOImpl extends AbstractDAO implements RuleDAO {
 								return false;
 							}
 						}
-					}else if ( ! (conditionRule.trim().matches("\\w+:\\w+.count[>,<,==,=>,>=,<=,=<][0-9]+") ||   
+					}else if ( ! (conditionRule.trim().matches("\\w+(:\\w+)?.count[>,<,==,=>,>=,<=,=<][0-9]+") ||   
 								conditionRule.trim().matches("\\w+:\\w+.SubjectGroup.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
 								conditionRule.trim().matches("\\w+:\\w+.SubjectGroup.Subject.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
 								conditionRule.trim().matches("\\w+:hits[>,<,==,=>,>=,<=,=<][0-9]+")	|| 
