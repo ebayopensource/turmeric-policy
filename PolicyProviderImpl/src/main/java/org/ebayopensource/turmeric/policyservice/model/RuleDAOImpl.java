@@ -201,11 +201,11 @@ public class RuleDAOImpl extends AbstractDAO implements RuleDAO {
 
 					for (String operand : operands) {
 						operand = operand.trim();
-						if ( ! (operand.trim().matches("\\w+(:\\w+)?.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
-								operand.trim().matches("\\w+:\\w+.SubjectGroup.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
-								operand.trim().matches("\\w+:\\w+.SubjectGroup.Subject.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
-								operand.trim().matches("\\w+:hits[>,<,==,=>,>=,<=,=<][0-9]+")	|| 
-								operand.trim().matches("HITS[>,<,==,=>,>=,<=,=<][0-9]+")) || 
+						if ( ! (operand.trim().matches("\\w+(:\\w+)?.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||
+								operand.trim().matches("\\w+:\\w+.SubjectGroup.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||
+								operand.trim().matches("\\w+:\\w+.SubjectGroup.Subject.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||
+								operand.trim().matches("\\w+:hits(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+")	|| 
+								operand.trim().matches("HITS(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+")) || 
 								! isValidCondition(operand)) {
 							return false;
 						}
@@ -216,20 +216,20 @@ public class RuleDAOImpl extends AbstractDAO implements RuleDAO {
 						
 						for (String operand : operands) {
 							operand = operand.trim();
-							if ( ! (operand.trim().matches("\\w+(:\\w+)?.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
-									operand.trim().matches("\\w+:\\w+.SubjectGroup.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
-									operand.trim().matches("\\w+:\\w+.SubjectGroup.Subject.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
-									operand.trim().matches("\\w+:hits[>,<,==,=>,>=,<=,=<][0-9]+")	|| 
-									operand.trim().matches("HITS[>,<,==,=>,>=,<=,=<][0-9]+")) || 
+							if ( ! (operand.trim().matches("\\w+(:\\w+)?.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||
+									operand.trim().matches("\\w+:\\w+.SubjectGroup.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||
+									operand.trim().matches("\\w+:\\w+.SubjectGroup.Subject.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||
+									operand.trim().matches("\\w+:hits(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+")	|| 
+									operand.trim().matches("HITS(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+")) || 
 									! isValidCondition(operand)) {
 								return false;
 							}
 						}
-					}else if ( ! (conditionRule.trim().matches("\\w+(:\\w+)?.count[>,<,==,=>,>=,<=,=<][0-9]+") ||   
-								conditionRule.trim().matches("\\w+:\\w+.SubjectGroup.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
-								conditionRule.trim().matches("\\w+:\\w+.SubjectGroup.Subject.count[>,<,==,=>,>=,<=,=<][0-9]+") ||
-								conditionRule.trim().matches("\\w+:hits[>,<,==,=>,>=,<=,=<][0-9]+")	|| 
-								conditionRule.trim().matches("HITS[>,<,==,=>,>=,<=,=<][0-9]+")) || 
+					}else if ( ! (conditionRule.trim().matches("\\w+(:\\w+)?.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||   
+								conditionRule.trim().matches("\\w+:\\w+.SubjectGroup.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||
+								conditionRule.trim().matches("\\w+:\\w+.SubjectGroup.Subject.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||
+								conditionRule.trim().matches("\\w+:hits(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+")	|| 
+								conditionRule.trim().matches("HITS(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+")) || 
 								! isValidCondition(conditionRule)) {
 							return false;
 						}
