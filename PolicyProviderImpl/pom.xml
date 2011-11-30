@@ -13,7 +13,7 @@
   <parent>
     <groupId>org.ebayopensource.turmeric.policy</groupId>
     <artifactId>turmeric-policy-parent</artifactId>
-    <version>1.0.0.4-SNAPSHOT</version>
+    <version>1.0.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <groupId>org.ebayopensource.turmeric.policy</groupId>
