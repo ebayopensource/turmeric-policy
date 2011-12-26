@@ -45,7 +45,7 @@ import org.ebayopensource.turmeric.services.policyservice.provider.config.Policy
 
 	private FindPolicyRequestHelper m_request;
 	private Policy m_policy;
-	private Map<Long, Resource> resourceMap = new HashMap<Long, Resource>();
+	private Map<Long, Resource> resourceMap = null;
 	private PolicyBuilderObject m_builderObject = new PolicyBuilderObject();
 	
 	 /**
@@ -82,7 +82,9 @@ import org.ebayopensource.turmeric.services.policyservice.provider.config.Policy
 	}
 
 	private void buildPolicy() throws ServiceException {
-		addToPolicyTarget(m_builderObject.getResources().values());
+		if(m_builderObject.getResources() != null &&  ! (m_builderObject.getResources().isEmpty())) {
+			addToPolicyTarget(m_builderObject.getResources().values());
+		}
 		
 		// add inclusion subjects
 		Map<Long, Subject> inclusionSubjects = m_builderObject.getInclusionSubjects();
@@ -240,11 +242,13 @@ import org.ebayopensource.turmeric.services.policyservice.provider.config.Policy
 	}
 
 	private void addResourcesToPolicy() throws ServiceException,  PolicyProviderException {
-		
+		resourceMap = null;
 		PolicyTypeProvider policyProvider = getPolicyProvider();
 		// first get the resources, 
 		Map<Long, Resource> resources = policyProvider.getResourceAssignmentOfPolicy(m_policy.getPolicyId(), m_request.getQueryCondition());
-		if (resources != null) {
+		
+		if (resources != null && ! resources.isEmpty()) {
+			resourceMap =  new HashMap<Long, Resource>();
 			for (Map.Entry<Long, Resource> entry : resources.entrySet()) {
 				Resource resource = entry.getValue();
 				resource.setResourceId(entry.getKey());
@@ -261,12 +265,12 @@ import org.ebayopensource.turmeric.services.policyservice.provider.config.Policy
 		// Get the associated operations 
 		Map<Long, Operation> operations = policyProvider.getOperationAssignmentOfPolicy(m_policy.getPolicyId(), m_request.getQueryCondition());
 		Long resourceId = null;
-		if (operations != null) {
+		if (operations != null && !operations.isEmpty()) {
 			for (Map.Entry<Long, Operation> entry : operations.entrySet()) {
 				Operation operation = entry.getValue();
 				operation.setOperationId(entry.getKey());
 				resourceId = operation.getResourceId(); //unmasked resource id
-				if (resourceMap.containsKey(operation.getResourceId())) {
+				if (resourceMap != null && resourceMap.containsKey(operation.getResourceId())) {
 					// only add if not expanded already
 					if (!m_request.isTargetExpandResourcesSpecified()) {
 						// add to the operations list
@@ -285,6 +289,9 @@ import org.ebayopensource.turmeric.services.policyservice.provider.config.Policy
 						if (resource != null)
 						{
 							resource.getOperation().add(operation);
+							if(resourceMap == null){
+								resourceMap  =  new HashMap<Long, Resource>();
+							}
 							resourceMap.put(resource.getResourceId(), resource);
 							break;
 						}
@@ -292,7 +299,9 @@ import org.ebayopensource.turmeric.services.policyservice.provider.config.Policy
 				}	
 			}
 		}
-		m_builderObject.setResources(resourceMap);
+		if(resourceMap != null){
+			m_builderObject.setResources(resourceMap);
+		}
 	}
 
 	private void addToPolicyTarget(Collection<Resource> resources) {
@@ -301,7 +310,7 @@ import org.ebayopensource.turmeric.services.policyservice.provider.config.Policy
 			m_policy.setTarget(new Target());
 		}
 		Target target = m_policy.getTarget();
-		if (target.getResources() == null) {
+		if (resources != null && target.getResources() == null) {
 			target.setResources(new Resources());
 		}
 		

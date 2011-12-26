@@ -50,7 +50,7 @@ public class PolicyBuilderObject {
 	/**
 	 * Map to store the resources. Key is the resource unique ID.
 	 */
-	private Map<Long, Resource> m_resources = new HashMap<Long, Resource>();
+	private Map<Long, Resource> m_resources = null;
 	/**
 	 * Map to store the rules. Key is the rule unique ID.
 	 */
