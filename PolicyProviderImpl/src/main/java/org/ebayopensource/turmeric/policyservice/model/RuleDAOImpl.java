@@ -18,6 +18,7 @@ import org.ebayopensource.turmeric.utils.jpa.AbstractDAO;
  */
 public class RuleDAOImpl extends AbstractDAO implements RuleDAO {
 
+	public static final String IP_REG_EXPRESSION = "^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})";
 	/* (non-Javadoc)
 	 * @see org.ebayopensource.turmeric.policyservice.model.RuleDAO#persistRule(org.ebayopensource.turmeric.policyservice.model.Rule)
 	 */
@@ -201,12 +202,7 @@ public class RuleDAOImpl extends AbstractDAO implements RuleDAO {
 
 					for (String operand : operands) {
 						operand = operand.trim();
-						if ( ! (operand.trim().matches("\\w+(:\\w+)?.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||
-								operand.trim().matches("\\w+:\\w+.SubjectGroup.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||
-								operand.trim().matches("\\w+:\\w+.SubjectGroup.Subject.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||
-								operand.trim().matches("\\w+:hits(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+")	|| 
-								operand.trim().matches("HITS(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+")) || 
-								! isValidCondition(operand)) {
+						if ( validateWithRegExpr(operand)) {
 							return false;
 						}
 					}
@@ -216,27 +212,27 @@ public class RuleDAOImpl extends AbstractDAO implements RuleDAO {
 						
 						for (String operand : operands) {
 							operand = operand.trim();
-							if ( ! (operand.trim().matches("\\w+(:\\w+)?.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||
-									operand.trim().matches("\\w+:\\w+.SubjectGroup.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||
-									operand.trim().matches("\\w+:\\w+.SubjectGroup.Subject.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||
-									operand.trim().matches("\\w+:hits(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+")	|| 
-									operand.trim().matches("HITS(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+")) || 
-									! isValidCondition(operand)) {
+							if ( validateWithRegExpr(operand)) {
 								return false;
 							}
 						}
-					}else if ( ! (conditionRule.trim().matches("\\w+(:\\w+)?.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||   
-								conditionRule.trim().matches("\\w+:\\w+.SubjectGroup.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||
-								conditionRule.trim().matches("\\w+:\\w+.SubjectGroup.Subject.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||
-								conditionRule.trim().matches("\\w+:hits(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+")	|| 
-								conditionRule.trim().matches("HITS(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+")) || 
-								! isValidCondition(conditionRule)) {
+					}else if ( validateWithRegExpr(conditionRule)) {
 							return false;
 						}
 					
 				}
 		}
 		return flag;
+	}
+
+	private boolean validateWithRegExpr(final String conditionRule) {
+		return ! (conditionRule.trim().matches("\\w+(:\\w+)?.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||   
+					conditionRule.trim().matches("\\w+:\\w+.SubjectGroup.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||
+					conditionRule.trim().matches("\\w+:\\w+.SubjectGroup.Subject.count(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+") ||
+					conditionRule.trim().matches("\\w+:hits(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+")	|| 
+					conditionRule.trim().matches(IP_REG_EXPRESSION  + ":hits(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+")	||
+					conditionRule.trim().matches("HITS(\\s)?(>=|==|<|=>|>|<=|=<)(\\s)?[0-9]+")) || 
+					! isValidCondition(conditionRule);
 	}
 	
 	private boolean isValidCondition(final String value) {
