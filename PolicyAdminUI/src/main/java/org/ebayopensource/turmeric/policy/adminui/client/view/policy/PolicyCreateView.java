@@ -1763,9 +1763,12 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 				}
 			};
 
-			cellTable.addColumn(exclusionSubjectNamesCol,
-					PolicyAdminUIUtil.policyAdminConstants.exclusionSubjects());
-
+		
+			if(cellTable.getColumnCount() < 6){
+				cellTable.addColumn(exclusionSubjectNamesCol,
+						PolicyAdminUIUtil.policyAdminConstants.exclusionSubjects());
+			}
+			
 			// text column for Exclusion Subject Group names
 			Column<PolicySubjectAssignment, List<String>> exclusionSGNamesCol = new Column<PolicySubjectAssignment, List<String>>(
 					new CustomListCell(MIN_SCROLLBAR_SIZE)) {
@@ -1784,10 +1787,13 @@ public abstract class PolicyCreateView extends ResizeComposite implements
 					return namesList;
 				}
 			};
-			cellTable.addColumn(exclusionSGNamesCol,
-					PolicyAdminUIUtil.policyAdminConstants
-							.exclusionSubjectGroups());
-
+			
+			if(cellTable.getColumnCount() < 6){
+				cellTable.addColumn(exclusionSGNamesCol,
+						PolicyAdminUIUtil.policyAdminConstants
+						.exclusionSubjectGroups());
+			}
+				
 		}
 		this.policyType.setText(policyType);
 	}
